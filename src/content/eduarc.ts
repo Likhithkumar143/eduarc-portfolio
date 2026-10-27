@@ -26,47 +26,63 @@ const str = z.string().max(2000);
 const iconItem = z.object({ icon: z.enum(iconNames), title: str, body: str });
 const textItem = z.object({ title: str, body: str });
 
-export const mentorAreaSchema = z.object({
+export const mentorGuideStepSchema = z.object({
   title: z.string().max(200),
-  icon: z.string().max(50).default("laptop"),
-  topics: z.array(z.string().max(200)),
+  description: z.string().max(1000),
 });
 
-export const mentorEducationSchema = z.object({
-  degree: z.string().max(200),
-  year: z.string().max(100),
-  institution: z.string().max(250),
-  note: z.string().max(300).nullable().optional(),
+export const mentorReasonSchema = z.object({
+  title: z.string().max(200),
+  description: z.string().max(1000),
 });
 
-export const mentorHighlightSchema = z.object({
+export const mentorBeneficiarySchema = z.object({
+  target: z.string().max(200),
+  benefit: z.string().max(1000),
+});
+
+export const mentorImpactMetricSchema = z.object({
+  label: z.string().max(200),
   value: z.string().max(100),
-  label: z.string().max(150),
-  icon: z.string().max(50).default("star"),
+});
+
+export const mentorCardStatSchema = z.object({
+  label: z.string().max(50),
+  value: z.string().max(50),
 });
 
 export const mentorProfileSchema = z.object({
   id: z.string().max(100),
   name: z.string().max(200),
-  role: z.string().max(150).default("Academic Mentor"),
-  designation: z.string().max(200),
-  qualification: z.string().max(200),
-  experience: z.string().max(100),
+  role: z.string().max(200).default("Career Guidance & Student Counselling Mentor"),
+  designation: z.string().max(250),
   location: z.string().max(200),
   email: z.string().max(200),
   imageUrl: z.string().max(500).default(""),
-  bio: z.string().max(3000),
-  quote: z.string().max(2000),
-  highlights: z.array(mentorHighlightSchema),
-  mentorshipAreas: z.array(mentorAreaSchema),
-  researchInterests: z.array(z.string().max(150)),
-  education: z.array(mentorEducationSchema),
+  shortBio: z.string().max(400).default(""),
+  cardStats: z.array(mentorCardStatSchema).default([]),
+  about: z.string().max(5000),
+  howICanGuide: z.array(mentorGuideStepSchema).default([]),
+  whyConnect: z.array(mentorReasonSchema).default([]),
+  whoCanBenefit: z.array(mentorBeneficiarySchema).default([]),
+  impactNotice: z
+    .string()
+    .max(500)
+    .default("Verified EDUARC activity metrics can be added as the programme grows."),
+  impactMetrics: z.array(mentorImpactMetricSchema).default([]),
+  message: z.string().max(5000),
+  tagline: z
+    .string()
+    .max(300)
+    .default("Learn with direction. Grow with confidence. Build your future with EDUARC."),
 });
 
 export type MentorProfile = z.infer<typeof mentorProfileSchema>;
-export type MentorArea = z.infer<typeof mentorAreaSchema>;
-export type MentorEducation = z.infer<typeof mentorEducationSchema>;
-export type MentorHighlight = z.infer<typeof mentorHighlightSchema>;
+export type MentorGuideStep = z.infer<typeof mentorGuideStepSchema>;
+export type MentorReason = z.infer<typeof mentorReasonSchema>;
+export type MentorBeneficiary = z.infer<typeof mentorBeneficiarySchema>;
+export type MentorImpactMetric = z.infer<typeof mentorImpactMetricSchema>;
+export type MentorCardStat = z.infer<typeof mentorCardStatSchema>;
 
 export const siteContentSchema = z.object({
   brand: z.object({ tagline: str, footerBlurb: str }),
@@ -330,108 +346,106 @@ export const defaultContent: SiteContent = {
     {
       id: "dr-gayathri-g-n",
       name: "Dr. Gayathri G N",
-      role: "Academic Mentor",
-      designation: "Associate Professor",
-      qualification: "Ph.D. in Computer Science & Engineering",
-      experience: "7+ Years",
+      role: "Career Guidance & Student Counselling Mentor",
+      designation: "Associate Professor · Ph.D. in Computer Science & Engineering",
       location: "Tumkur, Karnataka, India",
       email: "gaytri.infosea@gmail.com",
       imageUrl: "",
-      bio: "Experienced academician and researcher with over 7 years of teaching, mentoring, and research experience. Specializes in cloud security, cryptography, machine learning, and neural networks. Passionate about guiding students in building strong technical foundations and exploring career and research opportunities in emerging technology domains.",
-      quote:
-        "Technology offers countless opportunities, but choosing the right learning path can be challenging. My goal is to help you build a stronger understanding of technical subjects, explore your interests, and make informed decisions about your academic and professional development.",
-      highlights: [
-        { value: "7+ Years", label: "Academic Experience", icon: "graduation" },
-        { value: "6 Publications", label: "Research Papers", icon: "file" },
-        { value: "40+ Programmes", label: "FDPs, Webinars & Conferences", icon: "layers" },
-        { value: "Ph.D. (2026)", label: "CSE", icon: "star" },
+      shortBio:
+        "Helping students move from confusion to clarity with informed academic choices and future career roadmaps.",
+      cardStats: [
+        { label: "Experience", value: "7+ Yrs" },
+        { label: "Research", value: "6 Pubs" },
+        { label: "Education", value: "Ph.D." },
       ],
-      mentorshipAreas: [
+      about:
+        "Choosing the right career path after Class 10 or Class 12 can be challenging for students and parents. With so many courses, streams, and career opportunities available, finding the right direction can make all the difference.\n\nDr. Gayathri G N is an experienced academician with over 7 years of experience in teaching, student mentoring, academic assessment, and research guidance.\n\nThrough EDUARC, she aims to help students discover their interests, explore suitable career options, make informed academic decisions, and build a clear roadmap for their future.\n\nWith her academic and research background, she brings an informed perspective to higher education, emerging career opportunities, and long-term academic planning.\n\nHer goal is simple: to help students move from confusion to clarity and make confident decisions about their future, with parents feeling informed and supported throughout the journey.",
+      howICanGuide: [
         {
-          title: "Computer Science & Engineering",
-          icon: "laptop",
-          topics: [
-            "Computer Networks",
-            "Cloud Computing",
-            "Software Engineering",
-            "Data Mining",
-            "Information Security",
-          ],
+          title: "Discover Your Career",
+          description:
+            "Understand your interests, recognise your strengths, and explore career options that align with your aspirations.",
         },
         {
-          title: "Artificial Intelligence & Machine Learning",
-          icon: "brain",
-          topics: [
-            "Machine Learning Fundamentals",
-            "Neural Networks",
-            "Deep Learning",
-            "Convolutional Neural Networks",
-            "AI Research Applications",
-          ],
+          title: "Choose the Right Stream",
+          description:
+            "Explore Science, Commerce, and Humanities after Class 10 and understand which pathways may suit your interests and future goals.",
         },
         {
-          title: "Cybersecurity & Cloud Security",
-          icon: "shield",
-          topics: [
-            "Cloud Security Fundamentals",
-            "Cryptography",
-            "Secure Cloud Storage",
-            "Data Protection & Access Control",
-            "Privacy-Preserving Technologies",
-          ],
+          title: "Find the Right Course",
+          description:
+            "Discover degree programmes, college options, and educational pathways after Class 12.",
         },
         {
-          title: "Research & Higher Education",
-          icon: "book",
-          topics: [
-            "Research Topic Exploration",
-            "Student Project Guidance",
-            "Postgraduate Dissertation Guidance",
-            "Research Paper Preparation",
-            "Academic Development",
-          ],
+          title: "Build Your Career Roadmap",
+          description:
+            "Get a clearer plan for your next academic steps, skill development, and future career exploration.",
         },
         {
-          title: "Career & Academic Guidance",
-          icon: "compass",
-          topics: [
-            "Exploring Computer Science Careers",
-            "Identifying Technical Learning Paths",
-            "Understanding Emerging Domains",
-            "Planning Academic & Research Goals",
-          ],
+          title: "Explore Future Opportunities",
+          description:
+            "Discover emerging careers, new industries, and opportunities beyond the options you already know.",
+        },
+        {
+          title: "Guidance for Students & Parents",
+          description:
+            "Make informed education decisions through supportive discussions about academic choices, career possibilities, and future goals.",
         },
       ],
-      researchInterests: [
-        "Cloud Security",
-        "Data Protection",
-        "Cryptography",
-        "Privacy-Preserving Access Control",
-        "Neural Networks",
-        "Computer Networks",
-        "Mobile Ad-hoc Networks (MANET)",
-        "Brain Tumor Classification",
-      ],
-      education: [
+      whyConnect: [
         {
-          degree: "Ph.D., Computer Science & Engineering",
-          year: "2026",
-          institution: "Sri Siddhartha Academy of Higher Education (SSAHE), Tumkur",
-          note: "Research: Neural networks for brain tumor classification",
+          title: "7+ Years of Academic Experience",
+          description: "Teaching, student mentoring, and academic guidance.",
         },
         {
-          degree: "M.Tech., Computer Science",
-          year: "2014 – 2017",
-          institution: "SIET, VTU",
-          note: null,
+          title: "Ph.D. in Computer Science & Engineering",
+          description: "A strong academic foundation and understanding of higher education.",
         },
         {
-          degree: "B.E., Information Science",
-          year: "2010 – 2014",
-          institution: "SIET, VTU",
-          note: null,
+          title: "Research Experience",
+          description:
+            "6 research publications across cloud security, cryptography, computer networks, and machine learning.",
+        },
+        {
+          title: "Student-Focused Guidance",
+          description:
+            "Support for exploring interests, evaluating options, and planning future learning.",
+        },
+        {
+          title: "A Wider View of Opportunities",
+          description:
+            "Academic and research experience that helps introduce students to emerging technology fields and higher education possibilities.",
         },
       ],
+      whoCanBenefit: [
+        {
+          target: "Class 10 Students",
+          benefit: "Explore streams and plan the next stage of education.",
+        },
+        {
+          target: "Class 12 Students",
+          benefit: "Understand undergraduate courses and future career pathways.",
+        },
+        {
+          target: "Parents",
+          benefit: "Gain clarity about available academic options and support their children's decisions.",
+        },
+        {
+          target: "Students Exploring Their Future",
+          benefit: "Discover opportunities, set goals, and identify useful next steps.",
+        },
+      ],
+      impactNotice: "Verified EDUARC activity metrics can be added as the programme grows.",
+      impactMetrics: [
+        { label: "Students counselled", value: "To be updated" },
+        { label: "Counselling sessions completed", value: "To be updated" },
+        { label: "Career awareness workshops conducted", value: "To be updated" },
+        { label: "Schools associated", value: "To be updated" },
+        { label: "Colleges associated", value: "To be updated" },
+      ],
+      message:
+        "Every student has different interests, strengths, and dreams. Choosing a career should not be about following the crowd, but about understanding the possibilities and making informed decisions.\n\nMy aim is to help students explore their options, identify a suitable direction, and approach their academic journey with greater clarity and confidence. I also believe parents play an important role in this process, and the right guidance can help families make decisions together.\n\nThrough EDUARC, let us turn career confusion into clarity and possibilities into purposeful action.",
+      tagline: "Learn with direction. Grow with confidence. Build your future with EDUARC.",
     },
   ],
 };
@@ -447,7 +461,15 @@ export function mergeContent(saved: unknown): SiteContent {
       Array.isArray(def) || typeof def !== "object" ? value : { ...def, ...(value as object) };
   }
   const parsed = siteContentSchema.safeParse(merged);
-  return parsed.success ? parsed.data : defaultContent;
+  if (parsed.success) return parsed.data;
+
+  // If saved mentors failed validation due to old schema, fall back to updated default mentors
+  if (merged.mentors) {
+    const fallback = { ...merged, mentors: defaultContent.mentors };
+    const retry = siteContentSchema.safeParse(fallback);
+    if (retry.success) return retry.data;
+  }
+  return defaultContent;
 }
 
 export const phoneHref = (phone: string) => `tel:${phone.replace(/[^\d+]/g, "")}`;

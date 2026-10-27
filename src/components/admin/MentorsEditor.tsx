@@ -2,24 +2,27 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   AlertCircle,
+  Award,
   BookOpen,
-  Briefcase,
   Check,
+  Compass,
   Copy,
   Edit3,
   ExternalLink,
-  Eye,
   GraduationCap,
-  Layers,
-  MapPin,
+  HeartHandshake,
   Mail,
+  MapPin,
   MoveDown,
   MoveUp,
   Plus,
+  Quote,
   RotateCcw,
+  ShieldCheck,
   Sparkles,
-  Star,
+  Target,
   Trash2,
+  TrendingUp,
   User,
   Users,
 } from "lucide-react";
@@ -27,10 +30,11 @@ import { toast } from "sonner";
 import {
   defaultContent,
   initials,
-  type MentorArea,
-  type MentorEducation,
-  type MentorHighlight,
+  type MentorBeneficiary,
+  type MentorGuideStep,
+  type MentorImpactMetric,
   type MentorProfile,
+  type MentorReason,
 } from "@/content/eduarc";
 import type { EditorProps } from "./editors";
 import { Button } from "@/components/ui/button";
@@ -60,48 +64,106 @@ function createDefaultMentor(): MentorProfile {
   return {
     id: `mentor-${Date.now()}`,
     name: "",
-    role: "Academic Mentor",
-    designation: "Associate Professor",
-    qualification: "Ph.D. in Computer Science & Engineering",
-    experience: "7+ Years",
-    location: "Karnataka, India",
+    role: "Career Guidance & Student Counselling Mentor",
+    designation: "Associate Professor · Ph.D. in Computer Science & Engineering",
+    location: "Tumkur, Karnataka, India",
     email: "",
     imageUrl: "",
-    bio: "",
-    quote: "",
-    highlights: [
-      { value: "7+ Years", label: "Academic Experience", icon: "graduation" },
-      { value: "6 Publications", label: "Research Papers", icon: "file" },
-      { value: "40+ Programmes", label: "FDPs, Webinars & Conferences", icon: "layers" },
-      { value: "Ph.D.", label: "Specialization", icon: "star" },
+    shortBio:
+      "Helping students move from confusion to clarity with informed academic choices and future career roadmaps.",
+    cardStats: [
+      { label: "Experience", value: "7+ Yrs" },
+      { label: "Research", value: "6 Pubs" },
+      { label: "Education", value: "Ph.D." },
     ],
-    mentorshipAreas: [
+    about:
+      "Choosing the right career path after Class 10 or Class 12 can be challenging for students and parents. With so many courses, streams, and career opportunities available, finding the right direction can make all the difference.\n\nDr. Gayathri G N is an experienced academician with over 7 years of experience in teaching, student mentoring, academic assessment, and research guidance.\n\nThrough EDUARC, she aims to help students discover their interests, explore suitable career options, make informed academic decisions, and build a clear roadmap for their future.\n\nWith her academic and research background, she brings an informed perspective to higher education, emerging career opportunities, and long-term academic planning.\n\nHer goal is simple: to help students move from confusion to clarity and make confident decisions about their future, with parents feeling informed and supported throughout the journey.",
+    howICanGuide: [
       {
-        title: "Computer Science & Engineering",
-        icon: "laptop",
-        topics: ["Computer Networks", "Cloud Computing", "Software Engineering", "Information Security"],
+        title: "Discover Your Career",
+        description:
+          "Understand your interests, recognise your strengths, and explore career options that align with your aspirations.",
       },
       {
-        title: "Artificial Intelligence & Machine Learning",
-        icon: "brain",
-        topics: ["Machine Learning Fundamentals", "Neural Networks", "Deep Learning"],
+        title: "Choose the Right Stream",
+        description:
+          "Explore Science, Commerce, and Humanities after Class 10 and understand which pathways may suit your interests and future goals.",
+      },
+      {
+        title: "Find the Right Course",
+        description:
+          "Discover degree programmes, college options, and educational pathways after Class 12.",
+      },
+      {
+        title: "Build Your Career Roadmap",
+        description:
+          "Get a clearer plan for your next academic steps, skill development, and future career exploration.",
+      },
+      {
+        title: "Explore Future Opportunities",
+        description:
+          "Discover emerging careers, new industries, and opportunities beyond the options you already know.",
+      },
+      {
+        title: "Guidance for Students & Parents",
+        description:
+          "Make informed education decisions through supportive discussions about academic choices, career possibilities, and future goals.",
       },
     ],
-    researchInterests: ["Cloud Security", "Machine Learning", "Data Protection", "Cryptography"],
-    education: [
+    whyConnect: [
       {
-        degree: "Ph.D., Computer Science & Engineering",
-        year: "2024",
-        institution: "State University / Institute",
-        note: null,
+        title: "7+ Years of Academic Experience",
+        description: "Teaching, student mentoring, and academic guidance.",
       },
       {
-        degree: "M.Tech., Computer Science",
-        year: "2017",
-        institution: "Technical University",
-        note: null,
+        title: "Ph.D. in Computer Science & Engineering",
+        description: "A strong academic foundation and understanding of higher education.",
+      },
+      {
+        title: "Research Experience",
+        description:
+          "6 research publications across cloud security, cryptography, computer networks, and machine learning.",
+      },
+      {
+        title: "Student-Focused Guidance",
+        description:
+          "Support for exploring interests, evaluating options, and planning future learning.",
+      },
+      {
+        title: "A Wider View of Opportunities",
+        description:
+          "Academic and research experience that helps introduce students to emerging technology fields and higher education possibilities.",
       },
     ],
+    whoCanBenefit: [
+      {
+        target: "Class 10 Students",
+        benefit: "Explore streams and plan the next stage of education.",
+      },
+      {
+        target: "Class 12 Students",
+        benefit: "Understand undergraduate courses and future career pathways.",
+      },
+      {
+        target: "Parents",
+        benefit: "Gain clarity about available academic options and support their children's decisions.",
+      },
+      {
+        target: "Students Exploring Their Future",
+        benefit: "Discover opportunities, set goals, and identify useful next steps.",
+      },
+    ],
+    impactNotice: "Verified EDUARC activity metrics can be added as the programme grows.",
+    impactMetrics: [
+      { label: "Students counselled", value: "To be updated" },
+      { label: "Counselling sessions completed", value: "To be updated" },
+      { label: "Career awareness workshops conducted", value: "To be updated" },
+      { label: "Schools associated", value: "To be updated" },
+      { label: "Colleges associated", value: "To be updated" },
+    ],
+    message:
+      "Every student has different interests, strengths, and dreams. Choosing a career should not be about following the crowd, but about understanding the possibilities and making informed decisions.\n\nMy aim is to help students explore their options, identify a suitable direction, and approach their academic journey with greater clarity and confidence. I also believe parents play an important role in this process, and the right guidance can help families make decisions together.\n\nThrough EDUARC, let us turn career confusion into clarity and possibilities into purposeful action.",
+    tagline: "Learn with direction. Grow with confidence. Build your future with EDUARC.",
   };
 }
 
@@ -142,38 +204,45 @@ export function MentorsEditor({ draft, update }: EditorProps) {
       ...currentMentor,
       name: currentMentor.name.trim(),
       id: currentMentor.id.trim() || slugify(currentMentor.name) || `mentor-${Date.now()}`,
-      role: currentMentor.role.trim() || "Academic Mentor",
+      role: currentMentor.role.trim() || "Career Guidance & Student Counselling Mentor",
       designation: currentMentor.designation.trim(),
-      qualification: currentMentor.qualification.trim(),
-      experience: currentMentor.experience.trim(),
       location: currentMentor.location.trim(),
       email: currentMentor.email.trim(),
       imageUrl: currentMentor.imageUrl.trim(),
-      bio: currentMentor.bio.trim(),
-      quote: currentMentor.quote.trim(),
-      researchInterests: currentMentor.researchInterests.filter((t) => t.trim().length > 0),
-      mentorshipAreas: currentMentor.mentorshipAreas.map((area) => ({
-        ...area,
-        topics: area.topics.filter((t) => t.trim().length > 0),
+      shortBio: (currentMentor.shortBio || "").trim(),
+      cardStats: (currentMentor.cardStats || []).map((s) => ({
+        label: s.label.trim(),
+        value: s.value.trim(),
       })),
-      education: currentMentor.education.map((edu) => ({
-        ...edu,
-        degree: edu.degree.trim(),
-        year: edu.year.trim(),
-        institution: edu.institution.trim(),
-        note: edu.note?.trim() || null,
+      about: currentMentor.about.trim(),
+      message: currentMentor.message.trim(),
+      tagline: currentMentor.tagline.trim(),
+      impactNotice: currentMentor.impactNotice.trim(),
+      howICanGuide: currentMentor.howICanGuide.map((step) => ({
+        title: step.title.trim(),
+        description: step.description.trim(),
+      })),
+      whyConnect: currentMentor.whyConnect.map((reason) => ({
+        title: reason.title.trim(),
+        description: reason.description.trim(),
+      })),
+      whoCanBenefit: currentMentor.whoCanBenefit.map((item) => ({
+        target: item.target.trim(),
+        benefit: item.benefit.trim(),
+      })),
+      impactMetrics: currentMentor.impactMetrics.map((metric) => ({
+        label: metric.label.trim(),
+        value: metric.value.trim(),
       })),
     };
 
     let next: MentorProfile[];
     if (editingIndex === null) {
-      // Add new
       next = [...mentors, cleaned];
-      toast.success(`Mentor "${cleaned.name}" added! Don't forget to click "Save changes".`);
+      toast.success(`Mentor "${cleaned.name}" added! Click "Save changes" at the top to apply.`);
     } else {
-      // Update existing
       next = mentors.map((m, i) => (i === editingIndex ? cleaned : m));
-      toast.success(`Mentor "${cleaned.name}" updated! Don't forget to click "Save changes".`);
+      toast.success(`Mentor "${cleaned.name}" updated! Click "Save changes" at the top to apply.`);
     }
 
     update("mentors", next);
@@ -214,7 +283,7 @@ export function MentorsEditor({ draft, update }: EditorProps) {
 
   function handleRestoreDefault() {
     update("mentors", defaultContent.mentors);
-    toast.success("Restored default mentor profiles.");
+    toast.success("Restored default mentor profile.");
   }
 
   return (
@@ -224,7 +293,7 @@ export function MentorsEditor({ draft, update }: EditorProps) {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-brand/10 text-brand dark:text-brand-light">
+              <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-brand/10 text-brand">
                 <GraduationCap className="h-4 w-4" />
               </span>
               <h2 className="text-[19px] font-semibold tracking-tight text-foreground">
@@ -235,20 +304,27 @@ export function MentorsEditor({ draft, update }: EditorProps) {
               </span>
             </div>
             <p className="mt-1 text-[14px] text-muted-foreground">
-              Add, update, or remove mentors and advisors displayed on the public{" "}
-              <Link to="/mentors" target="_blank" className="text-brand underline inline-flex items-center gap-0.5">
+              Add, update, or remove mentors displayed on the public{" "}
+              <Link
+                to="/mentors"
+                target="_blank"
+                className="text-brand underline inline-flex items-center gap-0.5"
+              >
                 Mentors page <ExternalLink className="h-3 w-3" />
               </Link>
-              .
+              . Standardized for Career Guidance, Stream & Course Planning, and Student Counselling.
             </p>
           </div>
           <div className="flex items-center gap-2">
-            {mentors.length === 0 && (
-              <Button variant="outline" size="sm" onClick={handleRestoreDefault} className="rounded-xl">
-                <RotateCcw className="h-4 w-4 mr-1.5" />
-                Restore default
-              </Button>
-            )}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleRestoreDefault}
+              className="rounded-xl text-xs"
+            >
+              <RotateCcw className="h-4 w-4 mr-1.5" />
+              Reset to Default Profile
+            </Button>
             <Button
               variant="default"
               size="sm"
@@ -267,9 +343,9 @@ export function MentorsEditor({ draft, update }: EditorProps) {
         {mentors.length === 0 ? (
           <div className="glass rounded-3xl p-12 text-center">
             <Users className="mx-auto h-10 w-10 text-muted-foreground/60" strokeWidth={1.5} />
-            <h3 className="mt-3 text-lg font-semibold text-foreground">No mentors added yet</h3>
+            <h3 className="mt-3 text-lg font-semibold text-foreground">No mentors configured</h3>
             <p className="mt-1 text-sm text-muted-foreground max-w-md mx-auto">
-              Add your first mentor profile or restore the default mentor to showcase academic and industry experts to students.
+              Add a mentor profile to showcase academic and student counselling guidance to students and parents.
             </p>
             <div className="mt-6 flex justify-center gap-3">
               <Button onClick={handleRestoreDefault} variant="outline" className="rounded-xl">
@@ -313,42 +389,42 @@ export function MentorsEditor({ draft, update }: EditorProps) {
 
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-2">
-                        <h3 className="text-lg font-bold text-foreground truncate">{mentor.name || "Untitled Mentor"}</h3>
+                        <h3 className="text-lg font-bold text-foreground truncate">
+                          {mentor.name || "Untitled Mentor"}
+                        </h3>
                         <span className="rounded-full bg-brand/10 px-2.5 py-0.5 text-xs font-semibold text-brand">
-                          {mentor.role || "Academic Mentor"}
+                          {mentor.role || "Career Guidance & Student Counselling Mentor"}
                         </span>
-                        {mentor.experience && (
-                          <span className="rounded-full bg-accent px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
-                            {mentor.experience} Exp
-                          </span>
-                        )}
                       </div>
 
                       <p className="mt-1 text-sm font-medium text-foreground/80 truncate">
-                        {mentor.designation || "Faculty / Advisor"}
-                        {mentor.qualification ? ` · ${mentor.qualification}` : ""}
+                        {mentor.designation || "Associate Professor"}
                       </p>
 
                       <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
                         {mentor.location && (
                           <span className="flex items-center gap-1">
-                            <MapPin className="h-3.5 w-3.5 text-muted-foreground/70" />
+                            <MapPin className="h-3.5 w-3.5 text-rose-500" />
                             {mentor.location}
                           </span>
                         )}
                         {mentor.email && (
                           <span className="flex items-center gap-1">
-                            <Mail className="h-3.5 w-3.5 text-muted-foreground/70" />
+                            <Mail className="h-3.5 w-3.5 text-sky-600" />
                             {mentor.email}
                           </span>
                         )}
-                        <span className="flex items-center gap-1">
-                          <BookOpen className="h-3.5 w-3.5 text-muted-foreground/70" />
-                          {mentor.mentorshipAreas?.length || 0} Domain(s)
+                        <span className="flex items-center gap-1 text-slate-600 font-medium">
+                          <Compass className="h-3.5 w-3.5 text-brand" />
+                          {mentor.howICanGuide?.length || 0} Guide Areas
                         </span>
-                        <span className="flex items-center gap-1">
-                          <Sparkles className="h-3.5 w-3.5 text-muted-foreground/70" />
-                          {mentor.researchInterests?.length || 0} Research Tags
+                        <span className="flex items-center gap-1 text-slate-600 font-medium">
+                          <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
+                          {mentor.whyConnect?.length || 0} Credentials
+                        </span>
+                        <span className="flex items-center gap-1 text-slate-600 font-medium">
+                          <Target className="h-3.5 w-3.5 text-purple-600" />
+                          {mentor.whoCanBenefit?.length || 0} Audiences
                         </span>
                       </div>
                     </div>
@@ -413,7 +489,7 @@ export function MentorsEditor({ draft, update }: EditorProps) {
 
       {/* EDIT / ADD MODAL */}
       <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto rounded-3xl p-6 sm:p-8">
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl p-6 sm:p-8">
           <DialogHeader>
             <div className="flex items-center gap-2">
               <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand/10 text-brand">
@@ -421,34 +497,36 @@ export function MentorsEditor({ draft, update }: EditorProps) {
               </span>
               <div>
                 <DialogTitle className="text-xl font-bold">
-                  {editingIndex === null ? "Add New Mentor Profile" : `Edit Mentor — ${currentMentor.name || "Untitled"}`}
+                  {editingIndex === null
+                    ? "Add New Mentor Profile"
+                    : `Edit Mentor — ${currentMentor.name || "Untitled"}`}
                 </DialogTitle>
                 <DialogDescription className="text-xs text-muted-foreground mt-0.5">
-                  Configure mentor details, biography, expertise areas, highlights, and academic qualifications.
+                  Update mentor identity, career guidance offerings, credentials, beneficiaries, and mentorship impact.
                 </DialogDescription>
               </div>
             </div>
           </DialogHeader>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-4">
-            <TabsList className="grid grid-cols-3 sm:grid-cols-6 h-auto p-1 bg-muted/60 rounded-xl gap-1">
+            <TabsList className="grid grid-cols-2 sm:grid-cols-6 h-auto p-1 bg-muted/60 rounded-xl gap-1">
               <TabsTrigger value="overview" className="rounded-lg text-xs py-2">
                 Overview
               </TabsTrigger>
-              <TabsTrigger value="bio" className="rounded-lg text-xs py-2">
-                Bio & Quote
+              <TabsTrigger value="about" className="rounded-lg text-xs py-2">
+                About & Message
               </TabsTrigger>
-              <TabsTrigger value="highlights" className="rounded-lg text-xs py-2">
-                Highlights
+              <TabsTrigger value="guide" className="rounded-lg text-xs py-2">
+                How I Guide
               </TabsTrigger>
-              <TabsTrigger value="domains" className="rounded-lg text-xs py-2">
-                Domains
+              <TabsTrigger value="credentials" className="rounded-lg text-xs py-2">
+                Why Connect
               </TabsTrigger>
-              <TabsTrigger value="research" className="rounded-lg text-xs py-2">
-                Research
+              <TabsTrigger value="beneficiaries" className="rounded-lg text-xs py-2">
+                Who Benefits
               </TabsTrigger>
-              <TabsTrigger value="education" className="rounded-lg text-xs py-2">
-                Education
+              <TabsTrigger value="impact" className="rounded-lg text-xs py-2">
+                Impact Metrics
               </TabsTrigger>
             </TabsList>
 
@@ -459,55 +537,31 @@ export function MentorsEditor({ draft, update }: EditorProps) {
                   <Label className="text-xs font-medium">Full Name & Salutation *</Label>
                   <Input
                     value={currentMentor.name}
-                    onChange={(e) =>
-                      setCurrentMentor({
-                        ...currentMentor,
-                        name: e.target.value,
-                        id: currentMentor.id || slugify(e.target.value),
-                      })
-                    }
+                    onChange={(e) => setCurrentMentor({ ...currentMentor, name: e.target.value })}
                     placeholder="e.g. Dr. Gayathri G N"
-                    className="rounded-xl h-11"
+                    className="rounded-xl"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label className="text-xs font-medium">Role Badge</Label>
+                  <Label className="text-xs font-medium">Role / Position Title</Label>
                   <Input
                     value={currentMentor.role}
                     onChange={(e) => setCurrentMentor({ ...currentMentor, role: e.target.value })}
-                    placeholder="e.g. Academic Mentor, Industry Mentor"
-                    className="rounded-xl h-11"
+                    placeholder="e.g. Career Guidance & Student Counselling Mentor"
+                    className="rounded-xl"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label className="text-xs font-medium">Designation / Title</Label>
+                  <Label className="text-xs font-medium">Designation & Credentials</Label>
                   <Input
                     value={currentMentor.designation}
-                    onChange={(e) => setCurrentMentor({ ...currentMentor, designation: e.target.value })}
-                    placeholder="e.g. Associate Professor"
-                    className="rounded-xl h-11"
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <Label className="text-xs font-medium">Highest Qualification</Label>
-                  <Input
-                    value={currentMentor.qualification}
-                    onChange={(e) => setCurrentMentor({ ...currentMentor, qualification: e.target.value })}
-                    placeholder="e.g. Ph.D. in Computer Science & Engineering"
-                    className="rounded-xl h-11"
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <Label className="text-xs font-medium">Total Experience</Label>
-                  <Input
-                    value={currentMentor.experience}
-                    onChange={(e) => setCurrentMentor({ ...currentMentor, experience: e.target.value })}
-                    placeholder="e.g. 7+ Years"
-                    className="rounded-xl h-11"
+                    onChange={(e) =>
+                      setCurrentMentor({ ...currentMentor, designation: e.target.value })
+                    }
+                    placeholder="e.g. Associate Professor · Ph.D. in Computer Science & Engineering"
+                    className="rounded-xl"
                   />
                 </div>
 
@@ -515,9 +569,11 @@ export function MentorsEditor({ draft, update }: EditorProps) {
                   <Label className="text-xs font-medium">Location</Label>
                   <Input
                     value={currentMentor.location}
-                    onChange={(e) => setCurrentMentor({ ...currentMentor, location: e.target.value })}
+                    onChange={(e) =>
+                      setCurrentMentor({ ...currentMentor, location: e.target.value })
+                    }
                     placeholder="e.g. Tumkur, Karnataka, India"
-                    className="rounded-xl h-11"
+                    className="rounded-xl"
                   />
                 </div>
 
@@ -528,7 +584,7 @@ export function MentorsEditor({ draft, update }: EditorProps) {
                     value={currentMentor.email}
                     onChange={(e) => setCurrentMentor({ ...currentMentor, email: e.target.value })}
                     placeholder="e.g. gaytri.infosea@gmail.com"
-                    className="rounded-xl h-11"
+                    className="rounded-xl"
                   />
                 </div>
 
@@ -536,105 +592,471 @@ export function MentorsEditor({ draft, update }: EditorProps) {
                   <Label className="text-xs font-medium">Profile Image URL (Optional)</Label>
                   <Input
                     value={currentMentor.imageUrl}
-                    onChange={(e) => setCurrentMentor({ ...currentMentor, imageUrl: e.target.value })}
-                    placeholder="e.g. /assets/mentor-gayathri.jpg or https://..."
-                    className="rounded-xl h-11"
+                    onChange={(e) =>
+                      setCurrentMentor({ ...currentMentor, imageUrl: e.target.value })
+                    }
+                    placeholder="https://... or leave blank for default image/avatar"
+                    className="rounded-xl"
                   />
                   <p className="text-[11px] text-muted-foreground">
-                    Leave blank to show custom styled monogram initials or default mentor portrait.
+                    Leave blank to use the built-in mentor photograph or initials placeholder.
                   </p>
+                </div>
+
+                <div className="space-y-1.5 sm:col-span-2">
+                  <Label className="text-xs font-medium">Card Short Bio (Shown on Profile Card)</Label>
+                  <Textarea
+                    value={currentMentor.shortBio || ""}
+                    onChange={(e) =>
+                      setCurrentMentor({ ...currentMentor, shortBio: e.target.value })
+                    }
+                    placeholder="Helping students move from confusion to clarity with informed academic choices and future career roadmaps."
+                    rows={2}
+                    className="rounded-xl text-xs"
+                  />
+                  <p className="text-[11px] text-muted-foreground">
+                    1–2 concise sentences displayed directly on the mentor's profile card in the gallery.
+                  </p>
+                </div>
+
+                <div className="space-y-2 sm:col-span-2 border-t border-hairline pt-3">
+                  <div className="flex items-center justify-between">
+                    <Label className="text-xs font-medium">Profile Card Quick Stats (3 Columns)</Label>
+                    <span className="text-[11px] text-muted-foreground">e.g. 7+ Yrs / Experience, 6 Pubs / Research</span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    {[0, 1, 2].map((idx) => {
+                      const stat = (currentMentor.cardStats || [])[idx] || { label: "", value: "" };
+                      return (
+                        <div key={idx} className="p-2.5 rounded-xl border border-hairline bg-surface/40 space-y-1.5">
+                          <div>
+                            <span className="text-[10px] uppercase font-bold text-muted-foreground">Stat #{idx + 1} Value</span>
+                            <Input
+                              value={stat.value}
+                              onChange={(e) => {
+                                const stats = [...(currentMentor.cardStats || [])];
+                                while (stats.length <= idx) stats.push({ label: "", value: "" });
+                                stats[idx] = { ...stats[idx], value: e.target.value, label: stats[idx]?.label || "" };
+                                setCurrentMentor({ ...currentMentor, cardStats: stats });
+                              }}
+                              placeholder={idx === 0 ? "7+ Yrs" : idx === 1 ? "6 Pubs" : "Ph.D."}
+                              className="rounded-lg h-8 text-xs font-bold"
+                            />
+                          </div>
+                          <div>
+                            <span className="text-[10px] uppercase font-bold text-muted-foreground">Stat #{idx + 1} Label</span>
+                            <Input
+                              value={stat.label}
+                              onChange={(e) => {
+                                const stats = [...(currentMentor.cardStats || [])];
+                                while (stats.length <= idx) stats.push({ label: "", value: "" });
+                                stats[idx] = { ...stats[idx], label: e.target.value, value: stats[idx]?.value || "" };
+                                setCurrentMentor({ ...currentMentor, cardStats: stats });
+                              }}
+                              placeholder={idx === 0 ? "Experience" : idx === 1 ? "Research" : "Education"}
+                              className="rounded-lg h-8 text-xs"
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="space-y-1.5 sm:col-span-2">
+                  <Label className="text-xs font-medium">Footer Tagline</Label>
+                  <Input
+                    value={currentMentor.tagline}
+                    onChange={(e) =>
+                      setCurrentMentor({ ...currentMentor, tagline: e.target.value })
+                    }
+                    placeholder="Learn with direction. Grow with confidence. Build your future with EDUARC."
+                    className="rounded-xl"
+                  />
                 </div>
               </div>
             </TabsContent>
 
-            {/* TAB 2: BIO & QUOTE */}
-            <TabsContent value="bio" className="space-y-4 pt-4">
-              <div className="space-y-2">
-                <Label className="text-xs font-medium">About the Mentor (Detailed Bio)</Label>
+            {/* TAB 2: ABOUT & MESSAGE */}
+            <TabsContent value="about" className="space-y-5 pt-4">
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <Label className="text-xs font-medium">About the Mentor (Paragraphs)</Label>
+                  <span className="text-[11px] text-muted-foreground">
+                    Separate paragraphs with a blank line
+                  </span>
+                </div>
                 <Textarea
-                  value={currentMentor.bio}
-                  onChange={(e) => setCurrentMentor({ ...currentMentor, bio: e.target.value })}
-                  placeholder="Overview of mentor's career, teaching experience, research specializations and mentorship passion..."
-                  rows={6}
-                  className="rounded-xl resize-y text-sm"
+                  value={currentMentor.about}
+                  onChange={(e) => setCurrentMentor({ ...currentMentor, about: e.target.value })}
+                  placeholder="Choosing the right career path after Class 10 or Class 12 can be challenging..."
+                  rows={8}
+                  className="rounded-xl font-normal leading-relaxed text-xs sm:text-sm"
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label className="text-xs font-medium">Message to Students / Philosophy Quote</Label>
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <Label className="text-xs font-medium">
+                    A Message to Students & Parents
+                  </Label>
+                  <span className="text-[11px] text-muted-foreground">
+                    Separate paragraphs with a blank line
+                  </span>
+                </div>
                 <Textarea
-                  value={currentMentor.quote}
-                  onChange={(e) => setCurrentMentor({ ...currentMentor, quote: e.target.value })}
-                  placeholder="Personal quote or words of encouragement for students..."
-                  rows={4}
-                  className="rounded-xl resize-y text-sm"
+                  value={currentMentor.message}
+                  onChange={(e) => setCurrentMentor({ ...currentMentor, message: e.target.value })}
+                  placeholder="Every student has different interests, strengths, and dreams..."
+                  rows={6}
+                  className="rounded-xl font-normal leading-relaxed text-xs sm:text-sm"
                 />
               </div>
             </TabsContent>
 
-            {/* TAB 3: HIGHLIGHTS */}
-            <TabsContent value="highlights" className="space-y-4 pt-4">
+            {/* TAB 3: HOW I CAN GUIDE YOU */}
+            <TabsContent value="guide" className="space-y-4 pt-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="text-sm font-semibold text-foreground">Key Highlights & Metrics</h4>
-                  <p className="text-xs text-muted-foreground">Up to 4 quick statistic badges shown at the top of the profile.</p>
+                  <h4 className="text-sm font-semibold text-foreground">
+                    Guidance Offerings ({currentMentor.howICanGuide.length})
+                  </h4>
+                  <p className="text-xs text-muted-foreground">
+                    Step-by-step guidance pathways shown on the mentor profile
+                  </p>
                 </div>
                 <Button
                   type="button"
-                  variant="outline"
                   size="sm"
-                  className="rounded-xl"
+                  variant="outline"
+                  className="rounded-xl text-xs"
                   onClick={() => {
                     setCurrentMentor({
                       ...currentMentor,
-                      highlights: [
-                        ...currentMentor.highlights,
-                        { value: "New Metric", label: "Description", icon: "star" },
+                      howICanGuide: [
+                        ...currentMentor.howICanGuide,
+                        { title: "New Guidance Area", description: "Description of what this guidance covers." },
                       ],
                     });
                   }}
                 >
-                  <Plus className="h-3.5 w-3.5 mr-1" /> Add Highlight
+                  <Plus className="h-3.5 w-3.5 mr-1" /> Add Guidance Area
                 </Button>
               </div>
 
               <div className="space-y-3">
-                {currentMentor.highlights.map((h, i) => (
-                  <div key={i} className="flex items-center gap-3 bg-muted/40 p-3 rounded-2xl border border-hairline">
-                    <div className="w-1/3">
-                      <Label className="text-[11px] text-muted-foreground">Metric / Value</Label>
-                      <Input
-                        value={h.value}
-                        onChange={(e) => {
-                          const nextH = [...currentMentor.highlights];
-                          nextH[i] = { ...nextH[i]!, value: e.target.value };
-                          setCurrentMentor({ ...currentMentor, highlights: nextH });
+                {currentMentor.howICanGuide.map((step, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 rounded-2xl border border-hairline bg-surface/50 space-y-3 relative group"
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-xs font-bold text-brand uppercase tracking-wider">
+                        Guidance #{idx + 1}
+                      </span>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="h-7 w-7 rounded-lg text-destructive hover:bg-destructive/10"
+                        onClick={() => {
+                          const next = currentMentor.howICanGuide.filter((_, i) => i !== idx);
+                          setCurrentMentor({ ...currentMentor, howICanGuide: next });
                         }}
-                        placeholder="7+ Years"
-                        className="rounded-lg h-9 text-xs"
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </Button>
+                    </div>
+
+                    <div className="grid gap-2 sm:grid-cols-3">
+                      <div className="sm:col-span-1">
+                        <Label className="text-[11px] font-medium">Title</Label>
+                        <Input
+                          value={step.title}
+                          onChange={(e) => {
+                            const next = [...currentMentor.howICanGuide];
+                            next[idx] = { ...step, title: e.target.value };
+                            setCurrentMentor({ ...currentMentor, howICanGuide: next });
+                          }}
+                          placeholder="e.g. Discover Your Career"
+                          className="rounded-xl mt-1 text-xs"
+                        />
+                      </div>
+                      <div className="sm:col-span-2">
+                        <Label className="text-[11px] font-medium">Guidance Details</Label>
+                        <Input
+                          value={step.description}
+                          onChange={(e) => {
+                            const next = [...currentMentor.howICanGuide];
+                            next[idx] = { ...step, description: e.target.value };
+                            setCurrentMentor({ ...currentMentor, howICanGuide: next });
+                          }}
+                          placeholder="Explain what the student and parent will explore and achieve..."
+                          className="rounded-xl mt-1 text-xs"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </TabsContent>
+
+            {/* TAB 4: WHY CONNECT WITH THIS MENTOR */}
+            <TabsContent value="credentials" className="space-y-4 pt-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="text-sm font-semibold text-foreground">
+                    Why Connect Credentials ({currentMentor.whyConnect.length})
+                  </h4>
+                  <p className="text-xs text-muted-foreground">
+                    Academic experience, degrees, publications, and student guidance record
+                  </p>
+                </div>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  className="rounded-xl text-xs"
+                  onClick={() => {
+                    setCurrentMentor({
+                      ...currentMentor,
+                      whyConnect: [
+                        ...currentMentor.whyConnect,
+                        { title: "Specialized Credential", description: "Details about this credential or experience." },
+                      ],
+                    });
+                  }}
+                >
+                  <Plus className="h-3.5 w-3.5 mr-1" /> Add Reason
+                </Button>
+              </div>
+
+              <div className="space-y-3">
+                {currentMentor.whyConnect.map((reason, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 rounded-2xl border border-hairline bg-surface/50 space-y-3"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">
+                        Credential #{idx + 1}
+                      </span>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="h-7 w-7 rounded-lg text-destructive hover:bg-destructive/10"
+                        onClick={() => {
+                          const next = currentMentor.whyConnect.filter((_, i) => i !== idx);
+                          setCurrentMentor({ ...currentMentor, whyConnect: next });
+                        }}
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </Button>
+                    </div>
+
+                    <div className="grid gap-2 sm:grid-cols-3">
+                      <div className="sm:col-span-1">
+                        <Label className="text-[11px] font-medium">Highlight Title</Label>
+                        <Input
+                          value={reason.title}
+                          onChange={(e) => {
+                            const next = [...currentMentor.whyConnect];
+                            next[idx] = { ...reason, title: e.target.value };
+                            setCurrentMentor({ ...currentMentor, whyConnect: next });
+                          }}
+                          placeholder="e.g. 7+ Years of Academic Experience"
+                          className="rounded-xl mt-1 text-xs"
+                        />
+                      </div>
+                      <div className="sm:col-span-2">
+                        <Label className="text-[11px] font-medium">Elaboration</Label>
+                        <Input
+                          value={reason.description}
+                          onChange={(e) => {
+                            const next = [...currentMentor.whyConnect];
+                            next[idx] = { ...reason, description: e.target.value };
+                            setCurrentMentor({ ...currentMentor, whyConnect: next });
+                          }}
+                          placeholder="Teaching, student mentoring, and academic guidance..."
+                          className="rounded-xl mt-1 text-xs"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </TabsContent>
+
+            {/* TAB 5: WHO CAN BENEFIT */}
+            <TabsContent value="beneficiaries" className="space-y-4 pt-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="text-sm font-semibold text-foreground">
+                    Target Audiences ({currentMentor.whoCanBenefit.length})
+                  </h4>
+                  <p className="text-xs text-muted-foreground">
+                    Groups that benefit most (Class 10, Class 12, Parents, etc.)
+                  </p>
+                </div>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  className="rounded-xl text-xs"
+                  onClick={() => {
+                    setCurrentMentor({
+                      ...currentMentor,
+                      whoCanBenefit: [
+                        ...currentMentor.whoCanBenefit,
+                        { target: "New Target Audience", benefit: "How they benefit from guidance." },
+                      ],
+                    });
+                  }}
+                >
+                  <Plus className="h-3.5 w-3.5 mr-1" /> Add Audience
+                </Button>
+              </div>
+
+              <div className="space-y-3">
+                {currentMentor.whoCanBenefit.map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 rounded-2xl border border-hairline bg-surface/50 space-y-3"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-purple-700 uppercase tracking-wider">
+                        Target Group #{idx + 1}
+                      </span>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="h-7 w-7 rounded-lg text-destructive hover:bg-destructive/10"
+                        onClick={() => {
+                          const next = currentMentor.whoCanBenefit.filter((_, i) => i !== idx);
+                          setCurrentMentor({ ...currentMentor, whoCanBenefit: next });
+                        }}
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </Button>
+                    </div>
+
+                    <div className="grid gap-2 sm:grid-cols-3">
+                      <div className="sm:col-span-1">
+                        <Label className="text-[11px] font-medium">Audience</Label>
+                        <Input
+                          value={item.target}
+                          onChange={(e) => {
+                            const next = [...currentMentor.whoCanBenefit];
+                            next[idx] = { ...item, target: e.target.value };
+                            setCurrentMentor({ ...currentMentor, whoCanBenefit: next });
+                          }}
+                          placeholder="e.g. Class 10 Students"
+                          className="rounded-xl mt-1 text-xs"
+                        />
+                      </div>
+                      <div className="sm:col-span-2">
+                        <Label className="text-[11px] font-medium">Specific Benefit</Label>
+                        <Input
+                          value={item.benefit}
+                          onChange={(e) => {
+                            const next = [...currentMentor.whoCanBenefit];
+                            next[idx] = { ...item, benefit: e.target.value };
+                            setCurrentMentor({ ...currentMentor, whoCanBenefit: next });
+                          }}
+                          placeholder="Explore streams and plan the next stage of education..."
+                          className="rounded-xl mt-1 text-xs"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </TabsContent>
+
+            {/* TAB 6: MENTORSHIP IMPACT */}
+            <TabsContent value="impact" className="space-y-4 pt-4">
+              <div className="space-y-1.5">
+                <Label className="text-xs font-medium">Impact Disclaimer / Notice</Label>
+                <Input
+                  value={currentMentor.impactNotice}
+                  onChange={(e) =>
+                    setCurrentMentor({ ...currentMentor, impactNotice: e.target.value })
+                  }
+                  placeholder="Verified EDUARC activity metrics can be added as the programme grows."
+                  className="rounded-xl text-xs"
+                />
+              </div>
+
+              <div className="flex items-center justify-between pt-2">
+                <div>
+                  <h4 className="text-sm font-semibold text-foreground">
+                    Activity Metrics ({currentMentor.impactMetrics.length})
+                  </h4>
+                  <p className="text-xs text-muted-foreground">
+                    Students counselled, sessions completed, workshops, and associations
+                  </p>
+                </div>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  className="rounded-xl text-xs"
+                  onClick={() => {
+                    setCurrentMentor({
+                      ...currentMentor,
+                      impactMetrics: [
+                        ...currentMentor.impactMetrics,
+                        { label: "New Metric", value: "To be updated" },
+                      ],
+                    });
+                  }}
+                >
+                  <Plus className="h-3.5 w-3.5 mr-1" /> Add Metric
+                </Button>
+              </div>
+
+              <div className="space-y-3">
+                {currentMentor.impactMetrics.map((metric, idx) => (
+                  <div
+                    key={idx}
+                    className="p-3.5 rounded-2xl border border-hairline bg-surface/50 flex flex-col sm:flex-row sm:items-center gap-3"
+                  >
+                    <div className="flex-1">
+                      <Label className="text-[11px] font-medium">Metric Label</Label>
+                      <Input
+                        value={metric.label}
+                        onChange={(e) => {
+                          const next = [...currentMentor.impactMetrics];
+                          next[idx] = { ...metric, label: e.target.value };
+                          setCurrentMentor({ ...currentMentor, impactMetrics: next });
+                        }}
+                        placeholder="e.g. Students counselled"
+                        className="rounded-xl mt-1 text-xs"
                       />
                     </div>
-                    <div className="flex-1">
-                      <Label className="text-[11px] text-muted-foreground">Label</Label>
+                    <div className="w-full sm:w-48">
+                      <Label className="text-[11px] font-medium">Value / Status</Label>
                       <Input
-                        value={h.label}
+                        value={metric.value}
                         onChange={(e) => {
-                          const nextH = [...currentMentor.highlights];
-                          nextH[i] = { ...nextH[i]!, label: e.target.value };
-                          setCurrentMentor({ ...currentMentor, highlights: nextH });
+                          const next = [...currentMentor.impactMetrics];
+                          next[idx] = { ...metric, value: e.target.value };
+                          setCurrentMentor({ ...currentMentor, impactMetrics: next });
                         }}
-                        placeholder="Academic Experience"
-                        className="rounded-lg h-9 text-xs"
+                        placeholder="To be updated"
+                        className="rounded-xl mt-1 text-xs font-semibold"
                       />
                     </div>
                     <Button
                       type="button"
                       variant="ghost"
                       size="icon"
-                      className="h-8 w-8 text-destructive self-end mb-0.5"
+                      className="h-8 w-8 self-end sm:self-center shrink-0 rounded-lg text-destructive hover:bg-destructive/10 sm:mt-5"
                       onClick={() => {
-                        const nextH = currentMentor.highlights.filter((_, idx) => idx !== i);
-                        setCurrentMentor({ ...currentMentor, highlights: nextH });
+                        const next = currentMentor.impactMetrics.filter((_, i) => i !== idx);
+                        setCurrentMentor({ ...currentMentor, impactMetrics: next });
                       }}
                     >
                       <Trash2 className="h-3.5 w-3.5" />
@@ -643,285 +1065,63 @@ export function MentorsEditor({ draft, update }: EditorProps) {
                 ))}
               </div>
             </TabsContent>
-
-            {/* TAB 4: MENTORSHIP AREAS */}
-            <TabsContent value="domains" className="space-y-4 pt-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h4 className="text-sm font-semibold text-foreground">Mentorship Domains</h4>
-                  <p className="text-xs text-muted-foreground">Areas of guidance offered to students with specific sub-topics.</p>
-                </div>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="rounded-xl"
-                  onClick={() => {
-                    setCurrentMentor({
-                      ...currentMentor,
-                      mentorshipAreas: [
-                        ...currentMentor.mentorshipAreas,
-                        {
-                          title: "New Domain",
-                          icon: "laptop",
-                          topics: ["Topic 1", "Topic 2", "Topic 3"],
-                        },
-                      ],
-                    });
-                  }}
-                >
-                  <Plus className="h-3.5 w-3.5 mr-1" /> Add Domain
-                </Button>
-              </div>
-
-              <div className="space-y-4">
-                {currentMentor.mentorshipAreas.map((area, i) => (
-                  <div key={i} className="p-4 rounded-2xl border border-hairline bg-muted/30 space-y-3">
-                    <div className="flex items-center justify-between gap-3">
-                      <div className="flex-1">
-                        <Label className="text-[11px] text-muted-foreground">Domain Title</Label>
-                        <Input
-                          value={area.title}
-                          onChange={(e) => {
-                            const nextA = [...currentMentor.mentorshipAreas];
-                            nextA[i] = { ...nextA[i]!, title: e.target.value };
-                            setCurrentMentor({ ...currentMentor, mentorshipAreas: nextA });
-                          }}
-                          placeholder="e.g. Cloud Computing & Security"
-                          className="rounded-lg h-9 font-medium text-xs"
-                        />
-                      </div>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8 text-destructive self-end mb-0.5"
-                        onClick={() => {
-                          const nextA = currentMentor.mentorshipAreas.filter((_, idx) => idx !== i);
-                          setCurrentMentor({ ...currentMentor, mentorshipAreas: nextA });
-                        }}
-                      >
-                        <Trash2 className="h-3.5 w-3.5" />
-                      </Button>
-                    </div>
-
-                    <div>
-                      <Label className="text-[11px] text-muted-foreground">Topics (Comma separated)</Label>
-                      <Input
-                        value={area.topics.join(", ")}
-                        onChange={(e) => {
-                          const topics = e.target.value
-                            .split(",")
-                            .map((t) => t.trim())
-                            .filter(Boolean);
-                          const nextA = [...currentMentor.mentorshipAreas];
-                          nextA[i] = { ...nextA[i]!, topics };
-                          setCurrentMentor({ ...currentMentor, mentorshipAreas: nextA });
-                        }}
-                        placeholder="e.g. Cloud Security, Cryptography, Data Protection"
-                        className="rounded-lg h-9 text-xs"
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </TabsContent>
-
-            {/* TAB 5: RESEARCH */}
-            <TabsContent value="research" className="space-y-4 pt-4">
-              <div>
-                <h4 className="text-sm font-semibold text-foreground">Research Interests & Focus Areas</h4>
-                <p className="text-xs text-muted-foreground">Keywords displayed as interactive skill and topic tags.</p>
-              </div>
-
-              <div className="space-y-2">
-                <Label className="text-xs font-medium">Interests (Comma separated)</Label>
-                <Textarea
-                  value={currentMentor.researchInterests.join(", ")}
-                  onChange={(e) => {
-                    const list = e.target.value
-                      .split(",")
-                      .map((t) => t.trim())
-                      .filter(Boolean);
-                    setCurrentMentor({ ...currentMentor, researchInterests: list });
-                  }}
-                  placeholder="Cloud Security, Neural Networks, Cryptography, Machine Learning, Brain Tumor Classification"
-                  rows={4}
-                  className="rounded-xl resize-y text-xs"
-                />
-              </div>
-
-              <div className="flex flex-wrap gap-2 pt-2">
-                {currentMentor.researchInterests.map((tag, idx) => (
-                  <span
-                    key={idx}
-                    className="rounded-lg bg-brand/10 text-brand px-2.5 py-1 text-xs font-medium border border-brand/20 flex items-center gap-1.5"
-                  >
-                    {tag}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const next = currentMentor.researchInterests.filter((_, i) => i !== idx);
-                        setCurrentMentor({ ...currentMentor, researchInterests: next });
-                      }}
-                      className="text-brand/60 hover:text-brand"
-                    >
-                      ×
-                    </button>
-                  </span>
-                ))}
-              </div>
-            </TabsContent>
-
-            {/* TAB 6: EDUCATION */}
-            <TabsContent value="education" className="space-y-4 pt-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h4 className="text-sm font-semibold text-foreground">Education Timeline</h4>
-                  <p className="text-xs text-muted-foreground">Degrees, diplomas, and institutions attended.</p>
-                </div>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="rounded-xl"
-                  onClick={() => {
-                    setCurrentMentor({
-                      ...currentMentor,
-                      education: [
-                        ...currentMentor.education,
-                        {
-                          degree: "Degree / Qualification",
-                          year: "2024",
-                          institution: "University Name",
-                          note: null,
-                        },
-                      ],
-                    });
-                  }}
-                >
-                  <Plus className="h-3.5 w-3.5 mr-1" /> Add Degree
-                </Button>
-              </div>
-
-              <div className="space-y-3">
-                {currentMentor.education.map((edu, i) => (
-                  <div key={i} className="p-4 rounded-2xl border border-hairline bg-muted/30 space-y-3">
-                    <div className="grid gap-3 sm:grid-cols-2">
-                      <div>
-                        <Label className="text-[11px] text-muted-foreground">Degree / Programme</Label>
-                        <Input
-                          value={edu.degree}
-                          onChange={(e) => {
-                            const nextE = [...currentMentor.education];
-                            nextE[i] = { ...nextE[i]!, degree: e.target.value };
-                            setCurrentMentor({ ...currentMentor, education: nextE });
-                          }}
-                          placeholder="e.g. Ph.D., Computer Science & Engineering"
-                          className="rounded-lg h-9 text-xs font-medium"
-                        />
-                      </div>
-                      <div>
-                        <Label className="text-[11px] text-muted-foreground">Year / Period</Label>
-                        <Input
-                          value={edu.year}
-                          onChange={(e) => {
-                            const nextE = [...currentMentor.education];
-                            nextE[i] = { ...nextE[i]!, year: e.target.value };
-                            setCurrentMentor({ ...currentMentor, education: nextE });
-                          }}
-                          placeholder="e.g. 2026 or 2014 – 2017"
-                          className="rounded-lg h-9 text-xs"
-                        />
-                      </div>
-                      <div className="sm:col-span-2">
-                        <Label className="text-[11px] text-muted-foreground">Institution / University</Label>
-                        <Input
-                          value={edu.institution}
-                          onChange={(e) => {
-                            const nextE = [...currentMentor.education];
-                            nextE[i] = { ...nextE[i]!, institution: e.target.value };
-                            setCurrentMentor({ ...currentMentor, education: nextE });
-                          }}
-                          placeholder="e.g. Sri Siddhartha Academy of Higher Education (SSAHE), Tumkur"
-                          className="rounded-lg h-9 text-xs"
-                        />
-                      </div>
-                      <div className="sm:col-span-2 flex items-center gap-3">
-                        <div className="flex-1">
-                          <Label className="text-[11px] text-muted-foreground">Research / Specialization Note (Optional)</Label>
-                          <Input
-                            value={edu.note || ""}
-                            onChange={(e) => {
-                              const nextE = [...currentMentor.education];
-                              nextE[i] = { ...nextE[i]!, note: e.target.value };
-                              setCurrentMentor({ ...currentMentor, education: nextE });
-                            }}
-                            placeholder="e.g. Research: Neural networks for brain tumor classification"
-                            className="rounded-lg h-9 text-xs"
-                          />
-                        </div>
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 text-destructive self-end mb-0.5"
-                          onClick={() => {
-                            const nextE = currentMentor.education.filter((_, idx) => idx !== i);
-                            setCurrentMentor({ ...currentMentor, education: nextE });
-                          }}
-                        >
-                          <Trash2 className="h-3.5 w-3.5" />
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </TabsContent>
           </Tabs>
 
-          <DialogFooter className="mt-6 flex flex-row items-center justify-end gap-2 border-t border-hairline pt-4">
-            <Button type="button" variant="ghost" onClick={() => setModalOpen(false)} className="rounded-xl">
-              Cancel
-            </Button>
-            <Button
-              type="button"
-              onClick={handleSaveCurrent}
-              className="rounded-xl bg-brand text-brand-contrast hover:bg-brand/90 font-medium"
-            >
-              {editingIndex === null ? "Add Mentor" : "Apply Changes"}
-            </Button>
+          <DialogFooter className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-2 border-t border-hairline pt-4">
+            <span className="text-xs text-muted-foreground order-2 sm:order-1">
+              * Remember to click <strong>Save changes</strong> at the top of the admin page after saving here.
+            </span>
+            <div className="flex items-center gap-2 order-1 sm:order-2 w-full sm:w-auto justify-end">
+              <Button
+                variant="outline"
+                className="rounded-xl"
+                onClick={() => setModalOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="default"
+                className="rounded-xl bg-brand text-brand-contrast hover:bg-brand/90 font-medium"
+                onClick={handleSaveCurrent}
+              >
+                Apply Changes
+              </Button>
+            </div>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
-      {/* DELETE CONFIRMATION MODAL */}
-      <Dialog open={deleteIndex !== null} onOpenChange={(open) => !open && setDeleteIndex(null)}>
+      {/* DELETE CONFIRMATION DIALOG */}
+      <Dialog
+        open={deleteIndex !== null}
+        onOpenChange={(open) => !open && setDeleteIndex(null)}
+      >
         <DialogContent className="max-w-md rounded-3xl p-6">
           <DialogHeader>
             <div className="flex items-center gap-2 text-destructive">
               <AlertCircle className="h-5 w-5" />
-              <DialogTitle className="text-lg font-bold">Delete Mentor Profile</DialogTitle>
+              <DialogTitle>Delete Mentor Profile?</DialogTitle>
             </div>
-            <DialogDescription className="text-sm text-muted-foreground mt-2">
+            <DialogDescription className="text-xs text-muted-foreground mt-2">
               Are you sure you want to delete{" "}
-              <strong className="text-foreground">
-                {deleteIndex !== null && mentors[deleteIndex]?.name ? `"${mentors[deleteIndex]?.name}"` : "this mentor"}
-              </strong>
-              ? This action removes them from the website once you save changes.
+              <strong>{deleteIndex !== null ? mentors[deleteIndex]?.name : "this mentor"}</strong>?
+              This action removes their profile from the site once you click Save Changes.
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter className="mt-6 flex items-center justify-end gap-2">
-            <Button variant="ghost" onClick={() => setDeleteIndex(null)} className="rounded-xl">
+          <DialogFooter className="mt-4 flex justify-end gap-2">
+            <Button
+              variant="outline"
+              className="rounded-xl"
+              onClick={() => setDeleteIndex(null)}
+            >
               Cancel
             </Button>
             <Button
               variant="destructive"
-              onClick={() => deleteIndex !== null && handleDelete(deleteIndex)}
               className="rounded-xl"
+              onClick={() => deleteIndex !== null && handleDelete(deleteIndex)}
             >
-              Delete Mentor
+              Delete
             </Button>
           </DialogFooter>
         </DialogContent>

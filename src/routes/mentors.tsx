@@ -2,12 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   GraduationCap,
-  FileText,
   Users,
-  Laptop,
-  Brain,
-  ShieldCheck,
-  BookOpen,
   Compass,
   MapPin,
   Mail,
@@ -15,12 +10,21 @@ import {
   Quote,
   Check,
   Copy,
-  Layers,
   Sparkles,
-  FlaskConical,
-  Briefcase,
-  Star,
+  Award,
   CheckCircle2,
+  BookOpen,
+  Route as RouteIcon,
+  Lightbulb,
+  HeartHandshake,
+  TrendingUp,
+  GitFork,
+  Target,
+  Bookmark,
+  X,
+  ExternalLink,
+  ShieldCheck,
+  Eye,
   type LucideIcon,
 } from "lucide-react";
 import mentorImg from "@/assets/mentor-gayathri.jpg";
@@ -29,470 +33,573 @@ import { defaultContent, initials, type MentorProfile } from "@/content/eduarc";
 import { useSiteContent } from "@/lib/site-content";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export const Route = createFileRoute("/mentors")({
   head: () => ({
     meta: [
-      { title: "Academic Mentors & Advisors | EduArc" },
+      { title: "Academic Mentors & Student Guidance | EduArc" },
       {
         name: "description",
         content:
-          "Meet EduArc's academic and industry mentors guiding students in Computer Science, Cloud Security, AI, Machine Learning, and career roadmaps.",
+          "Connect with experienced academic mentors at EduArc. Get clear guidance on stream selection after 10th, course choices after 12th, and career roadmap planning.",
       },
-      { property: "og:title", content: "Academic Mentors & Advisors | EduArc" },
+      { property: "og:title", content: "Academic Mentors & Student Guidance | EduArc" },
       {
         property: "og:description",
         content:
-          "Connect with experienced mentors and research supervisors for technical guidance and career roadmaps.",
+          "Personalized student counselling, career stream selection, and academic roadmap guidance with experienced mentors.",
       },
     ],
   }),
   component: MentorProfilePage,
 });
 
-const domainIconMap: Record<string, LucideIcon> = {
-  laptop: Laptop,
-  brain: Brain,
-  shield: ShieldCheck,
-  book: BookOpen,
-  compass: Compass,
-  graduation: GraduationCap,
-  layers: Layers,
-  sparkles: Sparkles,
-  file: FileText,
-};
-
-const domainStyles = [
-  { iconColor: "bg-blue-600 text-white", borderColor: "hover:border-blue-300" },
-  { iconColor: "bg-purple-600 text-white", borderColor: "hover:border-purple-300" },
-  { iconColor: "bg-teal-600 text-white", borderColor: "hover:border-teal-300" },
-  { iconColor: "bg-amber-600 text-white", borderColor: "hover:border-amber-300" },
-  { iconColor: "bg-indigo-600 text-white", borderColor: "hover:border-indigo-300" },
-  { iconColor: "bg-rose-600 text-white", borderColor: "hover:border-rose-300" },
+// Guide cards visual accent mappings
+const guideIcons: LucideIcon[] = [
+  Compass,
+  GitFork,
+  GraduationCap,
+  RouteIcon,
+  Lightbulb,
+  HeartHandshake,
 ];
 
-const highlightStyles = [
-  { icon: GraduationCap, bgColor: "bg-blue-50 text-blue-600" },
-  { icon: FileText, bgColor: "bg-emerald-50 text-emerald-600" },
-  { icon: Layers, bgColor: "bg-purple-50 text-purple-600" },
-  { icon: Star, bgColor: "bg-amber-50 text-amber-600" },
+const guideColors = [
+  { badge: "bg-blue-50 text-blue-700 border-blue-200/80", iconBg: "bg-blue-600 text-white" },
+  { badge: "bg-purple-50 text-purple-700 border-purple-200/80", iconBg: "bg-purple-600 text-white" },
+  { badge: "bg-teal-50 text-teal-700 border-teal-200/80", iconBg: "bg-teal-600 text-white" },
+  { badge: "bg-amber-50 text-amber-700 border-amber-200/80", iconBg: "bg-amber-600 text-white" },
+  { badge: "bg-rose-50 text-rose-700 border-rose-200/80", iconBg: "bg-rose-600 text-white" },
+  { badge: "bg-emerald-50 text-emerald-700 border-emerald-200/80", iconBg: "bg-emerald-600 text-white" },
 ];
 
-const educationDotColors = [
-  "bg-emerald-500 ring-emerald-100",
-  "bg-blue-500 ring-blue-100",
-  "bg-purple-500 ring-purple-100",
-  "bg-amber-500 ring-amber-100",
-  "bg-teal-500 ring-teal-100",
+const whyConnectIcons: LucideIcon[] = [
+  Award,
+  GraduationCap,
+  BookOpen,
+  Target,
+  Sparkles,
+];
+
+const benefitIcons: LucideIcon[] = [
+  Compass,
+  GraduationCap,
+  HeartHandshake,
+  Sparkles,
 ];
 
 function MentorProfilePage() {
   const content = useSiteContent();
-  const mentors = content.mentors && content.mentors.length > 0 ? content.mentors : defaultContent.mentors;
+  const mentors =
+    content.mentors && content.mentors.length > 0 ? content.mentors : defaultContent.mentors;
 
-  const [selectedId, setSelectedId] = useState<string>(mentors[0]?.id || "dr-gayathri-g-n");
+  // Selected mentor for full detail modal
+  const [selectedMentor, setSelectedMentor] = useState<MentorProfile | null>(null);
   const [copied, setCopied] = useState(false);
+  const [bookmarkedIds, setBookmarkedIds] = useState<Record<string, boolean>>({});
 
-  const activeMentor: MentorProfile =
-    mentors.find((m) => m.id === selectedId) || mentors[0] || defaultContent.mentors[0]!;
+  const toggleBookmark = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setBookmarkedIds((prev) => {
+      const next = !prev[id];
+      if (next) {
+        toast.success("Mentor bookmarked to your list!");
+      } else {
+        toast.info("Bookmark removed");
+      }
+      return { ...prev, [id]: next };
+    });
+  };
 
-  const isGayathri =
-    activeMentor.id === "dr-gayathri-g-n" ||
-    activeMentor.name.toLowerCase().includes("gayathri");
-
-  const avatarSrc = activeMentor.imageUrl?.trim()
-    ? activeMentor.imageUrl
-    : isGayathri
-      ? mentorImg
-      : null;
-
-  const copyEmail = () => {
-    if (!activeMentor.email) return;
-    navigator.clipboard.writeText(activeMentor.email);
+  const copyEmail = (email?: string) => {
+    if (!email) return;
+    navigator.clipboard.writeText(email);
     setCopied(true);
     toast.success("Email address copied to clipboard!");
     setTimeout(() => setCopied(false), 2500);
   };
 
   return (
-    <div className="relative isolate overflow-hidden bg-slate-50/60 pb-24 pt-6 md:pb-32">
+    <div className="relative isolate overflow-hidden bg-slate-50/70 pb-24 pt-8 md:pb-32">
       <AmbientBlobs />
 
       <div className="container-wide">
         {/* Breadcrumb / Top Bar */}
-        <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <nav className="flex items-center gap-2 text-xs text-muted-foreground" aria-label="Breadcrumb">
             <Link to="/" className="transition-colors hover:text-foreground">
               Home
             </Link>
             <span>/</span>
-            <span className="font-medium text-foreground">Mentors</span>
-            <span>/</span>
-            <span className="text-foreground/70">{activeMentor.name}</span>
+            <span className="font-semibold text-foreground">Mentors & Advisors</span>
           </nav>
 
-          {/* Multiple Mentors Switcher */}
-          {mentors.length > 1 && (
-            <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-2xl bg-white/80 border border-slate-200/80 shadow-xs backdrop-blur-sm">
-              <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider px-2">
-                Mentors:
-              </span>
-              {mentors.map((m) => {
-                const isActive = m.id === activeMentor.id;
-                return (
-                  <button
-                    key={m.id}
-                    type="button"
-                    onClick={() => setSelectedId(m.id)}
-                    className={cn(
-                      "px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer",
-                      isActive
-                        ? "bg-brand text-brand-contrast shadow-sm"
-                        : "text-slate-600 hover:text-slate-900 hover:bg-slate-100",
-                    )}
-                  >
-                    {m.name}
-                  </button>
-                );
-              })}
-            </div>
-          )}
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 px-3 py-1 text-xs font-semibold text-emerald-800">
+              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+              Verified EduArc Mentors
+            </span>
+          </div>
         </div>
 
-        {/* HERO PROFILE BANNER */}
-        <div className="relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white/95 p-6 shadow-sm backdrop-blur-md sm:p-8 lg:p-10">
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-            {/* Left: Avatar & Bio */}
-            <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
-              <div className="relative shrink-0">
-                {avatarSrc ? (
+        {/* Header Section */}
+        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-brand/20 bg-brand/5 px-3.5 py-1 text-xs font-semibold text-brand">
+            <GraduationCap className="h-3.5 w-3.5" />
+            Academic Mentorship Network
+          </span>
+          <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl md:text-5xl">
+            Meet Our Expert Mentors
+          </h1>
+          <p className="mt-3 text-sm text-slate-600 sm:text-base leading-relaxed">
+            Personalized guidance from experienced academicians and research supervisors. Click on any
+            mentor card to view their complete academic background, guidance roadmap, and connect directly.
+          </p>
+        </div>
+
+        {/* ============================================================ */}
+        {/* MENTOR PROFILE CARDS GRID (Matches user screenshot)          */}
+        {/* ============================================================ */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center max-w-6xl mx-auto">
+          {mentors.map((mentor) => {
+            const isGayathri =
+              mentor.id === "dr-gayathri-g-n" || mentor.name.toLowerCase().includes("gayathri");
+            const photoUrl = mentor.imageUrl?.trim()
+              ? mentor.imageUrl
+              : isGayathri
+                ? mentorImg
+                : null;
+            const isBookmarked = Boolean(bookmarkedIds[mentor.id]);
+
+            // Stats defaults
+            const stats =
+              mentor.cardStats && mentor.cardStats.length >= 3
+                ? mentor.cardStats.slice(0, 3)
+                : [
+                    { label: "Experience", value: "7+ Yrs" },
+                    { label: "Research", value: "6 Pubs" },
+                    { label: "Education", value: "Ph.D." },
+                  ];
+
+            const shortDescription =
+              mentor.shortBio?.trim() ||
+              (mentor.about
+                ? mentor.about.split("\n")[0]?.slice(0, 115) + "..."
+                : "Helping students move from confusion to clarity with personalized roadmaps and career guidance.");
+
+            return (
+              <div
+                key={mentor.id}
+                onClick={() => setSelectedMentor(mentor)}
+                className="group relative w-full max-w-[360px] aspect-[1/1.5] rounded-[36px] overflow-hidden border-[5px] border-white bg-slate-900 shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.4)] cursor-pointer select-none"
+              >
+                {/* Background Image / Placeholder */}
+                {photoUrl ? (
                   <img
-                    src={avatarSrc}
-                    alt={activeMentor.name}
-                    className="h-32 w-32 rounded-2xl object-cover shadow-md ring-4 ring-white sm:h-40 sm:w-40 md:h-44 md:w-44"
-                    onError={(e) => {
-                      (e.target as HTMLElement).style.display = "none";
-                    }}
+                    src={photoUrl}
+                    alt={mentor.name}
+                    className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                   />
                 ) : (
-                  <div className="h-32 w-32 sm:h-40 sm:w-40 md:h-44 md:w-44 rounded-2xl bg-gradient-to-br from-brand/20 via-sky-100 to-brand-teal/20 text-brand flex items-center justify-center font-bold text-3xl shadow-md ring-4 ring-white">
-                    {initials(activeMentor.name || "Mentor")}
-                  </div>
-                )}
-                <span className="absolute -bottom-2 -right-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500 text-white shadow ring-2 ring-white">
-                  <CheckCircle2 className="h-4 w-4" />
-                </span>
-              </div>
-
-              <div className="flex-1">
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-sky-200/80 bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-700">
-                  <GraduationCap className="h-3.5 w-3.5" />
-                  {activeMentor.role || "Academic Mentor"}
-                </span>
-
-                <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl md:text-4xl">
-                  {activeMentor.name}
-                </h1>
-
-                <p className="mt-1 text-sm font-medium text-slate-600 sm:text-base">
-                  {activeMentor.designation || "Mentor"}
-                  {activeMentor.qualification ? (
-                    <>
-                      <span className="mx-2 text-slate-300 font-light">|</span>
-                      <span>{activeMentor.qualification}</span>
-                    </>
-                  ) : null}
-                </p>
-
-                <div className="mt-3 flex flex-wrap items-center gap-y-2 gap-x-5 text-xs text-slate-500 sm:text-sm">
-                  {activeMentor.location && (
-                    <span className="inline-flex items-center gap-1.5 font-medium text-slate-600">
-                      <MapPin className="h-4 w-4 text-slate-400" />
-                      {activeMentor.location}
+                  <div className="absolute inset-0 h-full w-full bg-gradient-to-br from-slate-800 via-slate-900 to-brand flex items-center justify-center">
+                    <span className="text-6xl font-black text-white/20 tracking-wider">
+                      {initials(mentor.name)}
                     </span>
-                  )}
-                  {activeMentor.email && (
-                    <button
-                      onClick={copyEmail}
-                      className="inline-flex items-center gap-1.5 font-medium text-sky-700 hover:text-sky-800 transition-colors cursor-pointer"
-                      title="Click to copy email"
-                    >
-                      <Mail className="h-4 w-4 text-sky-600" />
-                      {activeMentor.email}
-                      {copied ? (
-                        <Check className="h-3.5 w-3.5 text-emerald-600" />
-                      ) : (
-                        <Copy className="h-3 w-3 text-slate-400" />
-                      )}
-                    </button>
-                  )}
-                </div>
-
-                {activeMentor.bio && (
-                  <p className="mt-4 max-w-2xl text-xs leading-relaxed text-slate-600 sm:text-sm">
-                    {activeMentor.bio}
-                  </p>
+                  </div>
                 )}
-              </div>
-            </div>
 
-            {/* Right: Quote Box */}
-            {activeMentor.quote && (
-              <div className="relative flex flex-col justify-between rounded-2xl border border-sky-100 bg-gradient-to-br from-sky-50/70 via-blue-50/40 to-white p-6 shadow-xs lg:w-[360px] lg:shrink-0">
-                <Quote className="h-7 w-7 text-sky-500/80 mb-2" />
-                <blockquote className="text-xs italic leading-relaxed text-slate-700 sm:text-sm">
-                  “{activeMentor.quote}”
-                </blockquote>
-                <div className="mt-4 text-right">
-                  <span className="text-xs font-bold text-slate-900">— {activeMentor.name}</span>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
+                {/* Dark Vignette / Gradient Scrim (Exactly like screenshot) */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 via-45% to-transparent" />
 
-        {/* STATS HIGHLIGHTS STRIP */}
-        {activeMentor.highlights && activeMentor.highlights.length > 0 && (
-          <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
-            {activeMentor.highlights.map((item, index) => {
-              const style = highlightStyles[index % highlightStyles.length]!;
-              const Icon = domainIconMap[item.icon] || style.icon;
-              return (
-                <div
-                  key={index}
-                  className="hover-lift flex items-center gap-4 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs"
-                >
-                  <div
-                    className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${style.bgColor}`}
-                  >
-                    <Icon className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <h2 className="text-lg font-bold text-slate-900 sm:text-xl">{item.value}</h2>
-                    <p className="text-xs text-slate-500 font-medium">{item.label}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-
-        {/* MAIN 2-COLUMN SECTION */}
-        <div className="mt-8 grid gap-8 lg:grid-cols-12">
-          {/* LEFT COLUMN: Mentorship Areas & Research Interests */}
-          <div className="space-y-8 lg:col-span-8">
-            {/* Mentorship Areas */}
-            {activeMentor.mentorshipAreas && activeMentor.mentorshipAreas.length > 0 && (
-              <div className="rounded-3xl border border-slate-200/80 bg-white p-6 shadow-sm sm:p-8">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-brand">
-                    <Users className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h2 className="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">
-                      Mentorship Areas
-                    </h2>
-                    <p className="text-xs text-slate-500 sm:text-sm">
-                      Expert guidance across key domains and specialized engineering curricula
-                    </p>
-                  </div>
+                {/* Top Floating Badge */}
+                <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/15 px-3 py-1 text-[11px] font-semibold text-white/90">
+                    <Sparkles className="h-3 w-3 text-sky-400" />
+                    {mentor.location || "EduArc Mentor"}
+                  </span>
+                  <span className="inline-flex items-center gap-1 rounded-full bg-white/20 backdrop-blur-md px-2.5 py-1 text-[11px] font-semibold text-white">
+                    <Eye className="h-3 w-3" /> Details
+                  </span>
                 </div>
 
-                {/* Grid of Areas */}
-                <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {activeMentor.mentorshipAreas.map((area, idx) => {
-                    const style = domainStyles[idx % domainStyles.length]!;
-                    const Icon = domainIconMap[area.icon] || Laptop;
-                    return (
+                {/* Bottom Content Area */}
+                <div className="absolute inset-x-0 bottom-0 p-6 flex flex-col justify-end text-white">
+                  {/* Name + Blue Verified Checkmark Badge */}
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white drop-shadow-sm">
+                      {mentor.name}
+                    </h3>
+                    <span
+                      className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#3b82f6] text-white shadow-sm ring-2 ring-white/20"
+                      title="Verified EduArc Mentor"
+                    >
+                      <Check className="h-3.5 w-3.5 stroke-[3]" />
+                    </span>
+                  </div>
+
+                  {/* Short Bio Description */}
+                  <p className="mt-2 text-xs sm:text-[13px] text-white/85 leading-relaxed line-clamp-2">
+                    {shortDescription}
+                  </p>
+
+                  {/* 3 Stats Row with Dividers */}
+                  <div className="mt-4 pt-3 border-t border-white/15 grid grid-cols-3 items-center text-center">
+                    {stats.map((s, idx) => (
                       <div
                         key={idx}
-                        className={`hover-lift flex flex-col justify-between rounded-2xl border border-slate-100 bg-slate-50/50 p-5 transition-all ${style.borderColor}`}
-                      >
-                        <div>
-                          <div
-                            className={`inline-flex h-9 w-9 items-center justify-center rounded-xl ${style.iconColor} shadow-xs mb-3`}
-                          >
-                            <Icon className="h-5 w-5" />
-                          </div>
-                          <h3 className="text-sm font-bold leading-tight text-slate-900">
-                            {area.title}
-                          </h3>
-                          <ul className="mt-3.5 space-y-2">
-                            {area.topics.map((topic, tIdx) => (
-                              <li
-                                key={tIdx}
-                                className="flex items-start gap-2 text-xs leading-snug text-slate-600"
-                              >
-                                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-400" />
-                                <span>{topic}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {/* Research Interests */}
-            {activeMentor.researchInterests && activeMentor.researchInterests.length > 0 && (
-              <div className="rounded-3xl border border-slate-200/80 bg-white p-6 shadow-sm sm:p-8">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-50 text-sky-700">
-                    <FlaskConical className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h2 className="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">
-                      Research Interests
-                    </h2>
-                    <p className="text-xs text-slate-500 sm:text-sm">
-                      Specialized research domains and emerging technology applications
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-6 flex flex-wrap gap-2.5">
-                  {activeMentor.researchInterests.map((tag, i) => (
-                    <span
-                      key={i}
-                      className="inline-flex items-center rounded-full border border-sky-200/80 bg-sky-50/70 px-4 py-2 text-xs font-medium text-sky-900 transition-colors hover:bg-sky-100"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <p className="mt-5 text-xs text-slate-600 sm:text-sm leading-relaxed">
-                  Academic guidance and student research mentorship bridge foundational theory with practical
-                  applications, empowering students to explore technical innovations and prepare for competitive careers.
-                </p>
-              </div>
-            )}
-          </div>
-
-          {/* RIGHT COLUMN: Sidebar (Quick Info & Education) */}
-          <div className="space-y-6 lg:col-span-4">
-            {/* Quick Info Card */}
-            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 shadow-sm sm:p-7">
-              <div className="flex items-center gap-2.5 border-b border-slate-100 pb-4">
-                <Sparkles className="h-5 w-5 text-brand" />
-                <h2 className="text-base font-bold text-slate-900">Quick Info</h2>
-              </div>
-
-              <div className="mt-4 space-y-3.5 text-xs sm:text-sm">
-                {activeMentor.experience && (
-                  <div className="flex items-start justify-between gap-3">
-                    <span className="inline-flex items-center gap-2 text-slate-500">
-                      <Briefcase className="h-4 w-4 text-slate-400" />
-                      Experience
-                    </span>
-                    <span className="font-semibold text-slate-900 text-right">
-                      {activeMentor.experience}
-                    </span>
-                  </div>
-                )}
-
-                {activeMentor.qualification && (
-                  <div className="flex items-start justify-between gap-3">
-                    <span className="inline-flex items-center gap-2 text-slate-500">
-                      <GraduationCap className="h-4 w-4 text-slate-400" />
-                      Qualification
-                    </span>
-                    <span className="font-semibold text-slate-900 text-right">
-                      {activeMentor.qualification}
-                    </span>
-                  </div>
-                )}
-
-                {activeMentor.location && (
-                  <div className="flex items-start justify-between gap-3">
-                    <span className="inline-flex items-center gap-2 text-slate-500">
-                      <MapPin className="h-4 w-4 text-slate-400" />
-                      Location
-                    </span>
-                    <span className="font-semibold text-slate-900 text-right">
-                      {activeMentor.location}
-                    </span>
-                  </div>
-                )}
-
-                {activeMentor.email && (
-                  <div className="flex items-start justify-between gap-3">
-                    <span className="inline-flex items-center gap-2 text-slate-500">
-                      <Mail className="h-4 w-4 text-slate-400" />
-                      Email
-                    </span>
-                    <a
-                      href={`mailto:${activeMentor.email}`}
-                      className="font-medium text-sky-700 hover:underline text-right break-all"
-                    >
-                      {activeMentor.email}
-                    </a>
-                  </div>
-                )}
-              </div>
-
-              {/* Embedded CTA Box */}
-              <div className="mt-6 rounded-2xl border border-sky-200/80 bg-gradient-to-br from-sky-50 via-blue-50/50 to-white p-5 text-center">
-                <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-2xl bg-brand text-white shadow-sm">
-                  <Send className="h-5 w-5" />
-                </div>
-                <h3 className="mt-3 text-sm font-bold text-slate-900">
-                  Let's build your future together
-                </h3>
-                <p className="mt-1 text-xs text-slate-600 leading-relaxed">
-                  Get personalized guidance from experienced mentors.
-                </p>
-
-                <Link
-                  to="/partner"
-                  className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand py-2.5 px-4 text-xs font-semibold text-white shadow-xs transition-all hover:bg-brand/90 hover:shadow"
-                >
-                  Request Mentorship
-                  <span aria-hidden="true">→</span>
-                </Link>
-              </div>
-            </div>
-
-            {/* Education Timeline */}
-            {activeMentor.education && activeMentor.education.length > 0 && (
-              <div className="rounded-3xl border border-slate-200/80 bg-white p-6 shadow-sm sm:p-7">
-                <div className="flex items-center gap-2.5 border-b border-slate-100 pb-4">
-                  <GraduationCap className="h-5 w-5 text-brand" />
-                  <h2 className="text-base font-bold text-slate-900">Education</h2>
-                </div>
-
-                <div className="relative mt-5 ml-2.5 border-l-2 border-slate-200/90 pl-5 space-y-6">
-                  {activeMentor.education.map((edu, idx) => {
-                    const dotColor = educationDotColors[idx % educationDotColors.length];
-                    return (
-                      <div key={idx} className="relative">
-                        <span
-                          className={`absolute -left-[27px] top-1 h-3.5 w-3.5 rounded-full ring-4 ${dotColor}`}
-                        />
-                        <div className="flex flex-wrap items-baseline justify-between gap-1">
-                          <h3 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug">
-                            {edu.degree}
-                          </h3>
-                          <span className="text-[11px] font-semibold text-slate-400">{edu.year}</span>
-                        </div>
-                        <p className="text-xs text-slate-500 mt-0.5">{edu.institution}</p>
-                        {edu.note && (
-                          <p className="mt-1.5 inline-block rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-medium text-emerald-800 border border-emerald-200/60">
-                            {edu.note}
-                          </p>
+                        className={cn(
+                          "px-1",
+                          idx > 0 && "border-l border-white/20",
                         )}
+                      >
+                        <div className="text-sm sm:text-base font-bold text-white tracking-tight flex items-center justify-center gap-1">
+                          {s.value}
+                          {idx === 0 && <span className="text-amber-400 text-xs">★</span>}
+                        </div>
+                        <div className="text-[10px] sm:text-[11px] font-medium text-white/60 uppercase tracking-wider mt-0.5">
+                          {s.label}
+                        </div>
                       </div>
-                    );
-                  })}
+                    ))}
+                  </div>
+
+                  {/* Buttons Action Row (Exactly like screenshot) */}
+                  <div className="mt-5 flex items-center gap-2.5">
+                    {/* Primary Button */}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedMentor(mentor);
+                      }}
+                      className="flex-1 rounded-full bg-white py-3 px-4 text-xs sm:text-sm font-bold text-slate-950 flex items-center justify-center gap-2 shadow-lg transition-all hover:bg-slate-100 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                    >
+                      <Mail className="h-4 w-4 text-slate-900" />
+                      Get In Touch
+                    </button>
+
+                    {/* Bookmark / Save Icon Button */}
+                    <button
+                      type="button"
+                      onClick={(e) => toggleBookmark(mentor.id, e)}
+                      title={isBookmarked ? "Remove Bookmark" : "Bookmark Mentor"}
+                      className={cn(
+                        "h-11 w-11 shrink-0 rounded-full flex items-center justify-center backdrop-blur-md border transition-all cursor-pointer",
+                        isBookmarked
+                          ? "bg-brand text-white border-brand shadow-md"
+                          : "bg-white/15 hover:bg-white/25 border-white/20 text-white",
+                      )}
+                    >
+                      <Bookmark
+                        className={cn(
+                          "h-4 w-4",
+                          isBookmarked && "fill-current text-white",
+                        )}
+                      />
+                    </button>
+                  </div>
                 </div>
               </div>
-            )}
-          </div>
+            );
+          })}
+        </div>
+
+        {/* Quick Helper Banner */}
+        <div className="mt-12 text-center text-xs text-slate-500">
+          Click on any mentor profile card above to explore their full roadmap, guidance sessions, and student testimonials.
         </div>
       </div>
+
+      {/* ============================================================ */}
+      {/* FULL DETAILS MODAL DIALOG (Opens when profile card is clicked) */}
+      {/* ============================================================ */}
+      <Dialog
+        open={selectedMentor !== null}
+        onOpenChange={(open) => {
+          if (!open) setSelectedMentor(null);
+        }}
+      >
+        <DialogContent className="max-w-4xl max-h-[92vh] overflow-y-auto rounded-3xl p-6 sm:p-8 lg:p-10 border-slate-200/80 shadow-2xl">
+          {selectedMentor && (
+            <div className="space-y-8">
+              {/* Modal Header: Hero Profile */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-6 border-b border-slate-100">
+                <div className="flex items-center gap-5">
+                  <div className="relative shrink-0">
+                    {selectedMentor.imageUrl?.trim() ||
+                    selectedMentor.id === "dr-gayathri-g-n" ||
+                    selectedMentor.name.toLowerCase().includes("gayathri") ? (
+                      <img
+                        src={selectedMentor.imageUrl?.trim() || mentorImg}
+                        alt={selectedMentor.name}
+                        className="h-24 w-24 sm:h-28 sm:w-28 rounded-2xl object-cover shadow-md ring-4 ring-slate-100"
+                      />
+                    ) : (
+                      <div className="h-24 w-24 sm:h-28 sm:w-28 rounded-2xl bg-gradient-to-br from-brand/20 to-brand-teal/20 text-brand flex items-center justify-center font-bold text-2xl shadow-md ring-4 ring-slate-100">
+                        {initials(selectedMentor.name)}
+                      </div>
+                    )}
+                    <span
+                      className="absolute -bottom-1 -right-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#3b82f6] text-white shadow ring-2 ring-white"
+                      title="Verified Mentor"
+                    >
+                      <Check className="h-3.5 w-3.5 stroke-[3]" />
+                    </span>
+                  </div>
+
+                  <div>
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-sky-200 bg-sky-50 px-3 py-0.5 text-xs font-semibold text-sky-800">
+                      <Sparkles className="h-3 w-3 text-sky-600" />
+                      {selectedMentor.role || "Career Guidance & Student Counselling Mentor"}
+                    </span>
+                    <h2 className="mt-1.5 text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                      {selectedMentor.name}
+                    </h2>
+                    <p className="mt-0.5 text-xs sm:text-sm font-semibold text-slate-600">
+                      {selectedMentor.designation}
+                    </p>
+                    <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500">
+                      {selectedMentor.location && (
+                        <span className="flex items-center gap-1 font-medium text-slate-600">
+                          <MapPin className="h-3.5 w-3.5 text-rose-500" />
+                          {selectedMentor.location}
+                        </span>
+                      )}
+                      {selectedMentor.email && (
+                        <button
+                          type="button"
+                          onClick={() => copyEmail(selectedMentor.email)}
+                          className="flex items-center gap-1 font-medium text-sky-700 hover:text-sky-900 cursor-pointer"
+                        >
+                          <Mail className="h-3.5 w-3.5 text-sky-600" />
+                          {selectedMentor.email}
+                          {copied ? (
+                            <Check className="h-3 w-3 text-emerald-600 ml-0.5" />
+                          ) : (
+                            <Copy className="h-3 w-3 text-slate-400 ml-0.5" />
+                          )}
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 self-stretch sm:self-auto">
+                  <Link
+                    to="/partner"
+                    onClick={() => setSelectedMentor(null)}
+                    className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 rounded-xl bg-brand px-5 py-2.5 text-xs font-semibold text-white shadow-sm hover:bg-brand/90 transition-all"
+                  >
+                    <Send className="h-3.5 w-3.5" />
+                    Request Guidance
+                  </Link>
+                </div>
+              </div>
+
+              {/* 1. About the Mentor */}
+              {selectedMentor.about && (
+                <div className="rounded-2xl border border-slate-200/80 bg-slate-50/50 p-6">
+                  <div className="flex items-center gap-2.5 mb-3 text-slate-900 font-bold text-base sm:text-lg">
+                    <BookOpen className="h-5 w-5 text-brand" />
+                    About the Mentor
+                  </div>
+                  <div className="space-y-3 text-xs sm:text-sm leading-relaxed text-slate-700">
+                    {selectedMentor.about
+                      .split("\n\n")
+                      .map((p) => p.trim())
+                      .filter(Boolean)
+                      .map((para, i) => (
+                        <p key={i}>{para}</p>
+                      ))}
+                  </div>
+                </div>
+              )}
+
+              {/* 2. How I Can Guide You (6 Steps) */}
+              {selectedMentor.howICanGuide && selectedMentor.howICanGuide.length > 0 && (
+                <div>
+                  <div className="flex items-center gap-2.5 mb-4 text-slate-900 font-bold text-base sm:text-lg">
+                    <Compass className="h-5 w-5 text-brand" />
+                    How I Can Guide You
+                  </div>
+                  <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
+                    {selectedMentor.howICanGuide.map((step, idx) => {
+                      const IconComp = guideIcons[idx % guideIcons.length] || Compass;
+                      const theme = guideColors[idx % guideColors.length]!;
+
+                      return (
+                        <div
+                          key={idx}
+                          className="rounded-2xl border border-slate-200/80 bg-white p-4.5 shadow-2xs hover:border-slate-300 transition-all flex flex-col justify-between"
+                        >
+                          <div>
+                            <div className="mb-3">
+                              <div
+                                className={cn(
+                                  "flex h-8 w-8 items-center justify-center rounded-lg shadow-xs",
+                                  theme.iconBg,
+                                )}
+                              >
+                                <IconComp className="h-4 w-4" />
+                              </div>
+                            </div>
+                            <h4 className="text-sm font-bold text-slate-900">{step.title}</h4>
+                            <p className="mt-1.5 text-xs text-slate-600 leading-relaxed">
+                              {step.description}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* 3. Why Connect & Who Can Benefit Grid */}
+              <div className="grid gap-6 lg:grid-cols-12">
+                {/* Left: Why Connect With This Mentor */}
+                {selectedMentor.whyConnect && selectedMentor.whyConnect.length > 0 && (
+                  <div className="lg:col-span-7 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xs">
+                    <div className="flex items-center gap-2 mb-4 text-slate-900 font-bold text-sm sm:text-base">
+                      <ShieldCheck className="h-4 w-4 text-emerald-600" />
+                      Why Connect With This Mentor?
+                    </div>
+                    <div className="space-y-3">
+                      {selectedMentor.whyConnect.map((reason, idx) => {
+                        const IconComp = whyConnectIcons[idx % whyConnectIcons.length] || Award;
+                        return (
+                          <div
+                            key={idx}
+                            className="flex items-start gap-3 rounded-xl border border-slate-100 bg-slate-50/60 p-3"
+                          >
+                            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white border border-slate-200/80 text-brand">
+                              <IconComp className="h-4 w-4" />
+                            </div>
+                            <div>
+                              <h5 className="text-xs sm:text-sm font-bold text-slate-900">
+                                {reason.title}
+                              </h5>
+                              <p className="mt-0.5 text-xs text-slate-600 leading-relaxed">
+                                {reason.description}
+                              </p>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Right: Who Can Benefit? */}
+                {selectedMentor.whoCanBenefit && selectedMentor.whoCanBenefit.length > 0 && (
+                  <div className="lg:col-span-5 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xs">
+                    <div className="flex items-center gap-2 mb-4 text-slate-900 font-bold text-sm sm:text-base">
+                      <Target className="h-4 w-4 text-purple-600" />
+                      Who Can Benefit?
+                    </div>
+                    <div className="space-y-3">
+                      {selectedMentor.whoCanBenefit.map((item, idx) => (
+                        <div
+                          key={idx}
+                          className="rounded-xl border border-purple-100/80 bg-gradient-to-br from-purple-50/40 via-white to-slate-50/40 p-3.5"
+                        >
+                          <h5 className="text-xs font-bold text-slate-900">{item.target}</h5>
+                          <p className="mt-1 text-xs text-slate-600 leading-relaxed">
+                            {item.benefit}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* 4. EDUARC Mentorship Impact */}
+              {selectedMentor.impactMetrics && selectedMentor.impactMetrics.length > 0 && (
+                <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xs">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4 pb-3 border-b border-slate-100">
+                    <div className="flex items-center gap-2 text-slate-900 font-bold text-sm sm:text-base">
+                      <TrendingUp className="h-4 w-4 text-teal-600" />
+                      EDUARC Mentorship Impact
+                    </div>
+                    {selectedMentor.impactNotice && (
+                      <span className="text-[11px] text-slate-500 italic">
+                        {selectedMentor.impactNotice}
+                      </span>
+                    )}
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                    {selectedMentor.impactMetrics.map((m, idx) => (
+                      <div
+                        key={idx}
+                        className="rounded-xl border border-slate-100 bg-slate-50/70 p-3 flex flex-col justify-between"
+                      >
+                        <span className="text-[11px] text-slate-500 font-medium">{m.label}</span>
+                        <span className="mt-2 text-xs sm:text-sm font-bold text-slate-900">
+                          {m.value}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* 5. A Message to Students & Parents */}
+              {selectedMentor.message && (
+                <div className="rounded-2xl border border-sky-100 bg-gradient-to-br from-sky-50/80 via-blue-50/30 to-white p-6">
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-sky-800 mb-3">
+                    <Quote className="h-4 w-4 text-sky-600" />
+                    A Message to Students & Parents
+                  </div>
+                  <div className="border-l-2 border-sky-400 pl-4 space-y-2 text-xs sm:text-sm italic text-slate-700 leading-relaxed">
+                    {selectedMentor.message
+                      .split("\n\n")
+                      .map((p) => p.trim())
+                      .filter(Boolean)
+                      .map((para, i) => (
+                        <p key={i}>“{para}”</p>
+                      ))}
+                  </div>
+                  <div className="mt-4 pt-3 border-t border-sky-100 flex items-center justify-between text-xs text-slate-600">
+                    <span className="font-bold text-slate-900">— {selectedMentor.name}</span>
+                    <span>{selectedMentor.designation}</span>
+                  </div>
+                </div>
+              )}
+
+              {/* 6. Connect CTA Footer */}
+              <div className="rounded-2xl bg-gradient-to-br from-brand via-slate-900 to-brand text-white p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div>
+                  <h4 className="text-base font-bold text-white">Connect With the Mentor</h4>
+                  <p className="mt-1 text-xs text-white/80 max-w-lg">
+                    {selectedMentor.tagline ||
+                      "Learn with direction. Grow with confidence. Build your future with EDUARC."}
+                  </p>
+                  <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-white/80">
+                    {selectedMentor.email && <span>Email: {selectedMentor.email}</span>}
+                    {selectedMentor.location && <span>Location: {selectedMentor.location}</span>}
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 self-stretch sm:self-auto">
+                  <Link
+                    to="/partner"
+                    onClick={() => setSelectedMentor(null)}
+                    className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 rounded-xl bg-white px-5 py-2.5 text-xs font-bold text-brand shadow-sm hover:bg-slate-100 transition-colors"
+                  >
+                    Request Guidance →
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
