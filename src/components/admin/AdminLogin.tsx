@@ -45,8 +45,10 @@ export function AdminLogin({
         return;
       }
       await queryClient.invalidateQueries({ queryKey: statusKey });
-    } catch {
-      setError("Couldn't sign in right now. Please try again.");
+    } catch (err) {
+      console.error("Admin login error:", err);
+      const msg = err instanceof Error ? err.message : "";
+      setError(msg || "Couldn't sign in right now. Please check server configuration and try again.");
     } finally {
       setBusy(false);
     }

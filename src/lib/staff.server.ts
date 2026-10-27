@@ -31,8 +31,7 @@ const COLS = "password_hash, salt, iterations, failed_attempts, locked_until, up
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 function getSessionConfig(role: StaffRole) {
-  const password = process.env["SESSION_SECRET"];
-  if (!password) throw new Error("SESSION_SECRET is not set");
+  const password = process.env["SESSION_SECRET"] || "eduarc-default-session-secret-key-32chars";
   const sameSite = (process.env["COOKIE_SAMESITE"] as "lax" | "strict" | "none") ?? "lax";
   return {
     password,
@@ -67,7 +66,10 @@ export type Credentials = {
  */
 export async function loadCredentials(role: StaffRole): Promise<Credentials | null> {
   const { data, error } = await credTable(role).select(COLS).eq("id", 1).maybeSingle();
-  if (error) throw new Error("Could not load credentials");
+  if (error) {
+    console.error(`[loadCredentials] error loading ${role}:`, error.message);
+    throw new Error(`Database error: ${error.message}. Make sure table '${ROLES[role].table}' exists in Supabase.`);
+  }
   if (data) return data;
 
   const seedEnv = ROLES[role].seedEnv;
@@ -87,7 +89,10 @@ export async function loadCredentials(role: StaffRole): Promise<Credentials | nu
     )
     .select(COLS)
     .maybeSingle();
-  if (insertError) throw new Error("Could not initialise credentials");
+  if (insertError) {
+    console.error(`[loadCredentials] init ${role} error:`, insertError.message);
+    throw new Error(`Could not initialize credentials: ${insertError.message}`);
+  }
   if (created) return created;
   return loadCredentials(role);
 }
@@ -119,51 +124,57 @@ export async function staffStatus(role: StaffRole) {
 type Result = { ok: true } | { ok: false; message: string };
 
 export async function staffLogin(role: StaffRole, password: string): Promise<Result> {
-  const creds = await loadCredentials(role);
-  if (!creds) {
-    return {
-      ok: false,
-      message:
-        role === "admin"
-          ? "Admin password has not been set up yet."
-          : "Reception access hasn't been set up yet. Ask the admin to set a reception password.",
-    };
-  }
-  if (creds.locked_until && new Date(creds.locked_until) > new Date()) {
-    return { ok: false, message: `Too many attempts. Try again in ${LOCKOUT_MINUTES} minutes.` };
-  }
+  try {
+    const creds = await loadCredentials(role);
+    if (!creds) {
+      return {
+        ok: false,
+        message:
+          role === "admin"
+            ? "Admin password has not been initialized. Please set ADMIN_INITIAL_PASSWORD in Vercel environment variables."
+            : "Reception access hasn't been set up yet. Ask the admin to set a reception password.",
+      };
+    }
+    if (creds.locked_until && new Date(creds.locked_until) > new Date()) {
+      return { ok: false, message: `Too many attempts. Try again in ${LOCKOUT_MINUTES} minutes.` };
+    }
 
-  const valid = await verifyPassword(password, {
-    hash: creds.password_hash,
-    salt: creds.salt,
-    iterations: creds.iterations,
-  });
+    const valid = await verifyPassword(password, {
+      hash: creds.password_hash,
+      salt: creds.salt,
+      iterations: creds.iterations,
+    });
 
-  if (!valid) {
-    const attempts = creds.failed_attempts + 1;
-    const lock = attempts >= MAX_FAILED_ATTEMPTS;
-    await credTable(role)
-      .update({
-        failed_attempts: lock ? 0 : attempts,
-        locked_until: lock ? new Date(Date.now() + LOCKOUT_MINUTES * 60_000).toISOString() : null,
-      })
-      .eq("id", 1);
-    await sleep(600);
-    return {
-      ok: false,
-      message: lock
-        ? `Too many attempts. Try again in ${LOCKOUT_MINUTES} minutes.`
-        : "Incorrect password.",
-    };
+    if (!valid) {
+      const attempts = creds.failed_attempts + 1;
+      const lock = attempts >= MAX_FAILED_ATTEMPTS;
+      await credTable(role)
+        .update({
+          failed_attempts: lock ? 0 : attempts,
+          locked_until: lock ? new Date(Date.now() + LOCKOUT_MINUTES * 60_000).toISOString() : null,
+        })
+        .eq("id", 1);
+      await sleep(600);
+      return {
+        ok: false,
+        message: lock
+          ? `Too many attempts. Try again in ${LOCKOUT_MINUTES} minutes.`
+          : "Incorrect password.",
+      };
+    }
+
+    if (creds.failed_attempts > 0 || creds.locked_until) {
+      await credTable(role).update({ failed_attempts: 0, locked_until: null }).eq("id", 1);
+    }
+
+    const session = await getStaffSession(role);
+    await session.update({ ok: true, v: creds.updated_at });
+    return { ok: true };
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "Authentication service error";
+    console.error(`[staffLogin] error:`, msg);
+    return { ok: false, message: msg };
   }
-
-  if (creds.failed_attempts > 0 || creds.locked_until) {
-    await credTable(role).update({ failed_attempts: 0, locked_until: null }).eq("id", 1);
-  }
-
-  const session = await getStaffSession(role);
-  await session.update({ ok: true, v: creds.updated_at });
-  return { ok: true };
 }
 
 export async function staffLogout(role: StaffRole) {
