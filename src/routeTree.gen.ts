@@ -15,6 +15,8 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FeaturesRouteImport } from './routes/features'
 import { Route as ImpactRouteImport } from './routes/impact'
+import { Route as MentorRouteImport } from './routes/mentor'
+import { Route as MentorsRouteImport } from './routes/mentors'
 import { Route as PartnerRouteImport } from './routes/partner'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as ProgramsRouteImport } from './routes/programs'
@@ -50,6 +52,16 @@ const ImpactRoute = ImpactRouteImport.update({
   path: '/impact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MentorRoute = MentorRouteImport.update({
+  id: '/mentor',
+  path: '/mentor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MentorsRoute = MentorsRouteImport.update({
+  id: '/mentors',
+  path: '/mentors',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PartnerRoute = PartnerRouteImport.update({
   id: '/partner',
   path: '/partner',
@@ -78,6 +90,8 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/features': typeof FeaturesRoute
   '/impact': typeof ImpactRoute
+  '/mentor': typeof MentorRoute
+  '/mentors': typeof MentorsRoute
   '/partner': typeof PartnerRoute
   '/pricing': typeof PricingRoute
   '/programs': typeof ProgramsRoute
@@ -90,6 +104,8 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/features': typeof FeaturesRoute
   '/impact': typeof ImpactRoute
+  '/mentor': typeof MentorRoute
+  '/mentors': typeof MentorsRoute
   '/partner': typeof PartnerRoute
   '/pricing': typeof PricingRoute
   '/programs': typeof ProgramsRoute
@@ -103,6 +119,8 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/features': typeof FeaturesRoute
   '/impact': typeof ImpactRoute
+  '/mentor': typeof MentorRoute
+  '/mentors': typeof MentorsRoute
   '/partner': typeof PartnerRoute
   '/pricing': typeof PricingRoute
   '/programs': typeof ProgramsRoute
@@ -117,6 +135,8 @@ export interface FileRouteTypes {
     | '/contact'
     | '/features'
     | '/impact'
+    | '/mentor'
+    | '/mentors'
     | '/partner'
     | '/pricing'
     | '/programs'
@@ -129,6 +149,8 @@ export interface FileRouteTypes {
     | '/contact'
     | '/features'
     | '/impact'
+    | '/mentor'
+    | '/mentors'
     | '/partner'
     | '/pricing'
     | '/programs'
@@ -141,6 +163,8 @@ export interface FileRouteTypes {
     | '/contact'
     | '/features'
     | '/impact'
+    | '/mentor'
+    | '/mentors'
     | '/partner'
     | '/pricing'
     | '/programs'
@@ -154,6 +178,8 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   FeaturesRoute: typeof FeaturesRoute
   ImpactRoute: typeof ImpactRoute
+  MentorRoute: typeof MentorRoute
+  MentorsRoute: typeof MentorsRoute
   PartnerRoute: typeof PartnerRoute
   PricingRoute: typeof PricingRoute
   ProgramsRoute: typeof ProgramsRoute
@@ -204,6 +230,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ImpactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mentor': {
+      id: '/mentor'
+      path: '/mentor'
+      fullPath: '/mentor'
+      preLoaderRoute: typeof MentorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mentors': {
+      id: '/mentors'
+      path: '/mentors'
+      fullPath: '/mentors'
+      preLoaderRoute: typeof MentorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/partner': {
       id: '/partner'
       path: '/partner'
@@ -242,6 +282,8 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   FeaturesRoute: FeaturesRoute,
   ImpactRoute: ImpactRoute,
+  MentorRoute: MentorRoute,
+  MentorsRoute: MentorsRoute,
   PartnerRoute: PartnerRoute,
   PricingRoute: PricingRoute,
   ProgramsRoute: ProgramsRoute,
