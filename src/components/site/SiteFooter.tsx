@@ -8,6 +8,7 @@ const columns = [
     title: "Explore",
     links: [
       { to: "/", label: "Overview" },
+      { to: "/mentors", label: "Mentors & Advisors" },
       { to: "/about", label: "About EduArc" },
       { to: "/features", label: "Platform Features" },
     ],
@@ -25,22 +26,24 @@ const columns = [
 export function SiteFooter() {
   const { contact, brand } = useSiteContent();
   return (
-    <footer className="bg-surface text-[12px] text-muted-foreground">
-      <div className="container-apple py-12">
-        <div className="grid gap-10 border-b border-hairline pb-10 md:grid-cols-4">
+    <footer className="bg-surface text-[11px] text-muted-foreground border-t border-hairline/60">
+      <div className="container-apple py-6 sm:py-8">
+        <div className="grid gap-6 border-b border-hairline pb-6 md:grid-cols-4">
           <div className="md:col-span-2">
-            <BrandLogo />
-            <p className="mt-3 max-w-xs text-[13px]">
+            <BrandLogo className="scale-95 origin-left" />
+            <p className="mt-1.5 max-w-xs text-[11px] leading-relaxed">
               {brand.tagline}. {brand.footerBlurb}
             </p>
           </div>
           {columns.map((col) => (
             <div key={col.title}>
-              <h3 className="mb-3 text-[12px] font-semibold text-foreground">{col.title}</h3>
-              <ul className="space-y-2">
+              <h3 className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-foreground">
+                {col.title}
+              </h3>
+              <ul className="space-y-1.5">
                 {col.links.map((l) => (
                   <li key={l.to}>
-                    <Link to={l.to} className="hover:text-foreground hover:underline">
+                    <Link to={l.to} className="hover:text-foreground hover:underline transition-colors">
                       {l.label}
                     </Link>
                   </li>
@@ -49,7 +52,7 @@ export function SiteFooter() {
             </div>
           ))}
         </div>
-        <div className="flex flex-col gap-3 pt-6 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-2.5 pt-4 text-[11px] md:flex-row md:items-center md:justify-between">
           <p>
             Copyright © {new Date().getFullYear()} EduArc. All rights reserved.
             <span className="mx-2 text-hairline">|</span>
@@ -61,14 +64,14 @@ export function SiteFooter() {
               Reception
             </Link>
           </p>
-          <div className="flex flex-wrap gap-x-5 gap-y-2">
-            <a href={`mailto:${contact.email}`} className="hover:text-foreground">
+          <div className="flex flex-wrap gap-x-4 gap-y-1">
+            <a href={`mailto:${contact.email}`} className="hover:text-foreground transition-colors">
               {contact.email}
             </a>
-            <a href={phoneHref(contact.phone)} className="hover:text-foreground">
+            <a href={phoneHref(contact.phone)} className="hover:text-foreground transition-colors">
               {contact.phone}
             </a>
-            <a href={websiteHref(contact.website)} className="hover:text-foreground">
+            <a href={websiteHref(contact.website)} className="hover:text-foreground transition-colors">
               {contact.website}
             </a>
           </div>
