@@ -1,0 +1,24 @@
+User-agent: Googlebot
+Allow: /
+Disallow: /admin
+Disallow: /reception
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin
+Disallow: /reception
+
+User-agent: Twitterbot
+Allow: /
+Disallow: /admin
+Disallow: /reception
+
+User-agent: facebookexternalhit
+Allow: /
+Disallow: /admin
+Disallow: /reception
+
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /reception
