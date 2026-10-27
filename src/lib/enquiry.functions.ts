@@ -24,7 +24,7 @@ export type EnquiryRow = {
 
 /** Public: anyone can submit the "Partner with us" form. Input is fully re-validated here. */
 export const submitEnquiry = createServerFn({ method: "POST" })
-  .inputValidator((d) => enquirySchema.extend({ website: z.string().max(200).optional() }).parse(d))
+  .validator((d) => enquirySchema.extend({ website: z.string().max(200).optional() }).parse(d))
   .handler(async ({ data }) => {
     // Honeypot: bots fill the hidden "website" field; pretend success and store nothing.
     if (data.website) return { ok: true as const };
@@ -49,7 +49,7 @@ export const getReceptionStatus = createServerFn({ method: "GET" }).handler(() =
 );
 
 export const receptionLogin = createServerFn({ method: "POST" })
-  .inputValidator((d) => z.object({ password: z.string().min(1).max(200) }).parse(d))
+  .validator((d) => z.object({ password: z.string().min(1).max(200) }).parse(d))
   .handler(({ data }) => staffLogin("reception", data.password));
 
 export const receptionLogout = createServerFn({ method: "POST" }).handler(async () => {
@@ -58,7 +58,7 @@ export const receptionLogout = createServerFn({ method: "POST" }).handler(async 
 });
 
 export const changeReceptionPassword = createServerFn({ method: "POST" })
-  .inputValidator((d) =>
+  .validator((d) =>
     z
       .object({ currentPassword: z.string().min(1).max(200), newPassword: z.string().max(200) })
       .parse(d),
@@ -80,7 +80,7 @@ export const listEnquiries = createServerFn({ method: "GET" }).handler(async () 
 });
 
 export const updateEnquiryStatus = createServerFn({ method: "POST" })
-  .inputValidator((d) => statusUpdateSchema.parse(d))
+  .validator((d) => statusUpdateSchema.parse(d))
   .handler(async ({ data }) => {
     await requireReception();
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");

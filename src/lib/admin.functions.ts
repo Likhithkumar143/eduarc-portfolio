@@ -20,7 +20,7 @@ const changeInput = z.object({
 export const getAdminStatus = createServerFn({ method: "GET" }).handler(() => staffStatus("admin"));
 
 export const adminLogin = createServerFn({ method: "POST" })
-  .inputValidator((d) => passwordInput.parse(d))
+  .validator((d) => passwordInput.parse(d))
   .handler(({ data }) => staffLogin("admin", data.password));
 
 export const adminLogout = createServerFn({ method: "POST" }).handler(async () => {
@@ -29,7 +29,7 @@ export const adminLogout = createServerFn({ method: "POST" }).handler(async () =
 });
 
 export const saveSiteContent = createServerFn({ method: "POST" })
-  .inputValidator((d) => siteContentSchema.parse(d))
+  .validator((d) => siteContentSchema.parse(d))
   .handler(async ({ data }) => {
     await requireAdmin();
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -41,7 +41,7 @@ export const saveSiteContent = createServerFn({ method: "POST" })
   });
 
 export const changeAdminPassword = createServerFn({ method: "POST" })
-  .inputValidator((d) => changeInput.parse(d))
+  .validator((d) => changeInput.parse(d))
   .handler(({ data }) => changeOwnPassword("admin", data.currentPassword, data.newPassword));
 
 export const getReceptionAccess = createServerFn({ method: "GET" }).handler(() =>
@@ -49,5 +49,5 @@ export const getReceptionAccess = createServerFn({ method: "GET" }).handler(() =
 );
 
 export const adminSetReceptionPassword = createServerFn({ method: "POST" })
-  .inputValidator((d) => z.object({ newPassword: z.string().max(200) }).parse(d))
+  .validator((d) => z.object({ newPassword: z.string().max(200) }).parse(d))
   .handler(({ data }) => setReceptionPassword(data.newPassword));

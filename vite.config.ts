@@ -13,6 +13,9 @@ export default defineConfig({
     server: { entry: "server" },
   },
   vite: {
+    build: {
+      chunkSizeWarningLimit: 1000,
+    },
     // Pre-bundle UI deps up front so Vite never re-optimizes mid-session, which can leave
     // an open tab with two React copies ("Cannot read properties of null (reading 'useState')").
     optimizeDeps: {
