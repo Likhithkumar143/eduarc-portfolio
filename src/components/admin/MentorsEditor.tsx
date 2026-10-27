@@ -13,6 +13,7 @@ import {
   GraduationCap,
   HeartHandshake,
   Image as ImageIcon,
+  Loader2,
   Mail,
   MapPin,
   MoveDown,
@@ -65,7 +66,7 @@ function slugify(text: string): string {
 }
 
 async function compressImage(file: File): Promise<string> {
-  if (!file.type.startsWith("image/")) {
+  if (file.type && !file.type.startsWith("image/")) {
     throw new Error("Please select a valid image file (PNG, JPG, or WEBP).");
   }
   return new Promise((resolve, reject) => {
@@ -73,7 +74,7 @@ async function compressImage(file: File): Promise<string> {
     reader.onload = (e) => {
       const img = new Image();
       img.onload = () => {
-        const maxDim = 800;
+        const maxDim = 640;
         let w = img.width;
         let h = img.height;
         if (w > maxDim || h > maxDim) {
@@ -94,7 +95,7 @@ async function compressImage(file: File): Promise<string> {
           return;
         }
         ctx.drawImage(img, 0, 0, w, h);
-        const dataUrl = canvas.toDataURL("image/jpeg", 0.88);
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.82);
         resolve(dataUrl);
       };
       img.onerror = () => reject(new Error("Could not decode image."));
@@ -212,7 +213,7 @@ function createDefaultMentor(): MentorProfile {
   };
 }
 
-export function MentorsEditor({ draft, update }: EditorProps) {
+export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) {
   const mentors = draft.mentors ?? [];
 
   // Edit / Add modal state
@@ -233,7 +234,9 @@ export function MentorsEditor({ draft, update }: EditorProps) {
       toast.loading("Processing photo...", { id: "mentor-photo" });
       const dataUrl = await compressImage(file);
       setCurrentMentor((prev) => ({ ...prev, imageUrl: dataUrl }));
-      toast.success("Photo uploaded successfully!", { id: "mentor-photo" });
+      toast.success("Photo uploaded! Click 'Apply & Publish Now' below to make it live.", {
+        id: "mentor-photo",
+      });
     } catch (err: any) {
       toast.error(err.message || "Failed to process photo.", { id: "mentor-photo" });
     } finally {
@@ -252,10 +255,11 @@ export function MentorsEditor({ draft, update }: EditorProps) {
       if (next[targetIdx]) {
         next[targetIdx] = { ...next[targetIdx], imageUrl: dataUrl };
         update("mentors", next);
-        toast.success(
-          `Photo updated for "${next[targetIdx].name}"! Click "Save changes" at the top to apply.`,
-          { id: "mentor-quick-photo" },
-        );
+        toast.success(`Photo updated for "${next[targetIdx].name}"!`, {
+          id: "mentor-quick-photo",
+          description: "Click 'Save & publish' below or the top button to publish live.",
+          action: onSave ? { label: "Publish Now", onClick: () => onSave() } : undefined,
+        });
       }
     } catch (err: any) {
       toast.error(err.message || "Failed to process photo.", { id: "mentor-quick-photo" });
@@ -297,7 +301,7 @@ export function MentorsEditor({ draft, update }: EditorProps) {
       designation: currentMentor.designation.trim(),
       location: currentMentor.location.trim(),
       email: currentMentor.email.trim(),
-      imageUrl: currentMentor.imageUrl.trim(),
+      imageUrl: currentMentor.imageUrl.trim().replace(/^["']|["']$/g, ""),
       shortBio: (currentMentor.shortBio || "").trim(),
       cardStats: (currentMentor.cardStats || []).map((s) => ({
         label: s.label.trim(),
@@ -328,10 +332,14 @@ export function MentorsEditor({ draft, update }: EditorProps) {
     let next: MentorProfile[];
     if (editingIndex === null) {
       next = [...mentors, cleaned];
-      toast.success(`Mentor "${cleaned.name}" added! Click "Save changes" at the top to apply.`);
+      toast.success(`Mentor "${cleaned.name}" added! Click 'Save & publish' below to make it live.`, {
+        action: onSave ? { label: "Publish Now", onClick: () => onSave() } : undefined,
+      });
     } else {
       next = mentors.map((m, i) => (i === editingIndex ? cleaned : m));
-      toast.success(`Mentor "${cleaned.name}" updated! Click "Save changes" at the top to apply.`);
+      toast.success(`Mentor "${cleaned.name}" updated! Click 'Save & publish' below to make it live.`, {
+        action: onSave ? { label: "Publish Now", onClick: () => onSave() } : undefined,
+      });
     }
 
     update("mentors", next);
@@ -404,7 +412,7 @@ export function MentorsEditor({ draft, update }: EditorProps) {
               . Standardized for Career Guidance, Stream & Course Planning, and Student Counselling.
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <Button
               variant="outline"
               size="sm"
@@ -423,6 +431,22 @@ export function MentorsEditor({ draft, update }: EditorProps) {
               <Plus className="h-4 w-4 mr-1.5" />
               Add Mentor
             </Button>
+            {onSave && (
+              <Button
+                variant="default"
+                size="sm"
+                onClick={() => onSave()}
+                disabled={isSaving}
+                className="rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-medium shadow-sm"
+              >
+                {isSaving ? (
+                  <Loader2 className="h-4 w-4 mr-1.5 animate-spin" />
+                ) : (
+                  <Check className="h-4 w-4 mr-1.5" />
+                )}
+                Save & Publish
+              </Button>
+            )}
           </div>
         </div>
       </section>
@@ -479,7 +503,9 @@ export function MentorsEditor({ draft, update }: EditorProps) {
                           alt={mentor.name}
                           className="h-16 w-16 md:h-18 md:w-18 rounded-2xl object-cover ring-2 ring-brand/10 shadow-sm"
                           onError={(e) => {
-                            (e.target as HTMLElement).style.display = "none";
+                            if (isGayathri && e.currentTarget.src !== mentorImg) {
+                              e.currentTarget.src = mentorImg;
+                            }
                           }}
                         />
                       ) : (
@@ -1250,25 +1276,43 @@ export function MentorsEditor({ draft, update }: EditorProps) {
             </TabsContent>
           </Tabs>
 
-          <DialogFooter className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-2 border-t border-hairline pt-4">
+          <DialogFooter className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-hairline pt-4">
             <span className="text-xs text-muted-foreground order-2 sm:order-1">
-              * Remember to click <strong>Save changes</strong> at the top of the admin page after saving here.
+              * Click <strong>Apply & Publish Now</strong> or click <strong>Save & publish</strong> on the dashboard to make changes live.
             </span>
-            <div className="flex items-center gap-2 order-1 sm:order-2 w-full sm:w-auto justify-end">
+            <div className="flex flex-wrap items-center gap-2 order-1 sm:order-2 w-full sm:w-auto justify-end">
               <Button
                 variant="outline"
-                className="rounded-xl"
+                className="rounded-xl text-xs"
                 onClick={() => setModalOpen(false)}
               >
                 Cancel
               </Button>
               <Button
-                variant="default"
-                className="rounded-xl bg-brand text-brand-contrast hover:bg-brand/90 font-medium"
+                variant="outline"
+                className="rounded-xl border-brand/30 text-brand hover:bg-brand/10 font-medium text-xs"
                 onClick={handleSaveCurrent}
               >
                 Apply Changes
               </Button>
+              {onSave && (
+                <Button
+                  variant="default"
+                  className="rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs shadow-sm"
+                  onClick={async () => {
+                    handleSaveCurrent();
+                    setTimeout(() => onSave(), 80);
+                  }}
+                  disabled={isSaving}
+                >
+                  {isSaving ? (
+                    <Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin" />
+                  ) : (
+                    <Check className="h-3.5 w-3.5 mr-1.5" />
+                  )}
+                  Apply & Publish Now
+                </Button>
+              )}
             </div>
           </DialogFooter>
         </DialogContent>

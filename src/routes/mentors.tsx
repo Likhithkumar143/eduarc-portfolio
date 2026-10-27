@@ -30,7 +30,7 @@ import {
 import mentorImg from "@/assets/mentor-gayathri.jpg";
 import { AmbientBlobs } from "@/components/site/Section";
 import { defaultContent, initials, type MentorProfile } from "@/content/eduarc";
-import { useSiteContent } from "@/lib/site-content";
+import { siteContentQuery, useSiteContent } from "@/lib/site-content";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import {
@@ -41,6 +41,9 @@ import {
 } from "@/components/ui/dialog";
 
 export const Route = createFileRoute("/mentors")({
+  loader: async ({ context }) => {
+    await context.queryClient.fetchQuery({ ...siteContentQuery, staleTime: 0 });
+  },
   head: () => ({
     meta: [
       { title: "Academic Mentors & Student Guidance | EduArc" },
@@ -170,11 +173,8 @@ function MentorProfilePage() {
           {mentors.map((mentor) => {
             const isGayathri =
               mentor.id === "dr-gayathri-g-n" || mentor.name.toLowerCase().includes("gayathri");
-            const photoUrl = mentor.imageUrl?.trim()
-              ? mentor.imageUrl
-              : isGayathri
-                ? mentorImg
-                : null;
+            const rawUrl = (mentor.imageUrl || "").trim().replace(/^["']|["']$/g, "");
+            const photoUrl = rawUrl ? rawUrl : isGayathri ? mentorImg : null;
             const isBookmarked = Boolean(bookmarkedIds[mentor.id]);
 
             // Stats defaults
@@ -205,6 +205,11 @@ function MentorProfilePage() {
                     src={photoUrl}
                     alt={mentor.name}
                     className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                    onError={(e) => {
+                      if (isGayathri && e.currentTarget.src !== mentorImg) {
+                        e.currentTarget.src = mentorImg;
+                      }
+                    }}
                   />
                 ) : (
                   <div className="absolute inset-0 h-full w-full bg-gradient-to-br from-slate-800 via-slate-900 to-brand flex items-center justify-center">
@@ -332,19 +337,36 @@ function MentorProfilePage() {
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-6 border-b border-slate-100">
                 <div className="flex items-center gap-5">
                   <div className="relative shrink-0">
-                    {selectedMentor.imageUrl?.trim() ||
-                    selectedMentor.id === "dr-gayathri-g-n" ||
-                    selectedMentor.name.toLowerCase().includes("gayathri") ? (
-                      <img
-                        src={selectedMentor.imageUrl?.trim() || mentorImg}
-                        alt={selectedMentor.name}
-                        className="h-24 w-24 sm:h-28 sm:w-28 rounded-2xl object-cover shadow-md ring-4 ring-slate-100"
-                      />
-                    ) : (
-                      <div className="h-24 w-24 sm:h-28 sm:w-28 rounded-2xl bg-gradient-to-br from-brand/20 to-brand-teal/20 text-brand flex items-center justify-center font-bold text-2xl shadow-md ring-4 ring-slate-100">
-                        {initials(selectedMentor.name)}
-                      </div>
-                    )}
+                    {(() => {
+                      const isGayathriModal =
+                        selectedMentor.id === "dr-gayathri-g-n" ||
+                        selectedMentor.name.toLowerCase().includes("gayathri");
+                      const rawModalUrl = (selectedMentor.imageUrl || "")
+                        .trim()
+                        .replace(/^["']|["']$/g, "");
+                      const modalPhotoUrl = rawModalUrl
+                        ? rawModalUrl
+                        : isGayathriModal
+                          ? mentorImg
+                          : null;
+
+                      return modalPhotoUrl ? (
+                        <img
+                          src={modalPhotoUrl}
+                          alt={selectedMentor.name}
+                          className="h-24 w-24 sm:h-28 sm:w-28 rounded-2xl object-cover shadow-md ring-4 ring-slate-100"
+                          onError={(e) => {
+                            if (isGayathriModal && e.currentTarget.src !== mentorImg) {
+                              e.currentTarget.src = mentorImg;
+                            }
+                          }}
+                        />
+                      ) : (
+                        <div className="h-24 w-24 sm:h-28 sm:w-28 rounded-2xl bg-gradient-to-br from-brand/20 to-brand-teal/20 text-brand flex items-center justify-center font-bold text-2xl shadow-md ring-4 ring-slate-100">
+                          {initials(selectedMentor.name)}
+                        </div>
+                      );
+                    })()}
                     <span
                       className="absolute -bottom-1 -right-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#3b82f6] text-white shadow ring-2 ring-white"
                       title="Verified Mentor"

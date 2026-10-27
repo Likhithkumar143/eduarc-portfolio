@@ -3,7 +3,12 @@ import type { SiteContent } from "@/content/eduarc";
 import { IconSelect, ListEditor, ObjectFields, Panel, StringList, TextField } from "./fields";
 
 type Update = <K extends keyof SiteContent>(key: K, value: SiteContent[K]) => void;
-export type EditorProps = { draft: SiteContent; update: Update };
+export type EditorProps = {
+  draft: SiteContent;
+  update: Update;
+  onSave?: () => Promise<void>;
+  isSaving?: boolean;
+};
 
 type IconItem = SiteContent["features"][number];
 type TextItem = SiteContent["steps"][number];

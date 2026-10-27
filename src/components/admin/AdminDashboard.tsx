@@ -248,7 +248,7 @@ export function AdminDashboard() {
           </div>
           {Editor ? (
             <EditorStack>
-              <Editor draft={draft} update={update} />
+              <Editor draft={draft} update={update} onSave={onSave} isSaving={saving} />
             </EditorStack>
           ) : Custom ? (
             <Custom />
