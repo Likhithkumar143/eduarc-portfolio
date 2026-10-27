@@ -58,7 +58,7 @@ export const mentorProfileSchema = z.object({
   designation: z.string().max(250),
   location: z.string().max(200),
   email: z.string().max(200),
-  imageUrl: z.string().max(500).default(""),
+  imageUrl: z.string().max(2_000_000).default(""),
   shortBio: z.string().max(400).default(""),
   cardStats: z.array(mentorCardStatSchema).default([]),
   about: z.string().max(5000),

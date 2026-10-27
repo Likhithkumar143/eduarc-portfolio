@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   AlertCircle,
   Award,
   BookOpen,
+  Camera,
   Check,
   Compass,
   Copy,
@@ -11,6 +12,7 @@ import {
   ExternalLink,
   GraduationCap,
   HeartHandshake,
+  Image as ImageIcon,
   Mail,
   MapPin,
   MoveDown,
@@ -23,9 +25,11 @@ import {
   Target,
   Trash2,
   TrendingUp,
+  Upload,
   User,
   Users,
 } from "lucide-react";
+import mentorImg from "@/assets/mentor-gayathri.jpg";
 import { toast } from "sonner";
 import {
   defaultContent,
@@ -58,6 +62,47 @@ function slugify(text: string): string {
     .replace(/[^\w\s-]/g, "")
     .trim()
     .replace(/\s+/g, "-");
+}
+
+async function compressImage(file: File): Promise<string> {
+  if (!file.type.startsWith("image/")) {
+    throw new Error("Please select a valid image file (PNG, JPG, or WEBP).");
+  }
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const maxDim = 800;
+        let w = img.width;
+        let h = img.height;
+        if (w > maxDim || h > maxDim) {
+          if (w > h) {
+            h = Math.round((h * maxDim) / w);
+            w = maxDim;
+          } else {
+            w = Math.round((w * maxDim) / h);
+            h = maxDim;
+          }
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) {
+          resolve(e.target?.result as string);
+          return;
+        }
+        ctx.drawImage(img, 0, 0, w, h);
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.88);
+        resolve(dataUrl);
+      };
+      img.onerror = () => reject(new Error("Could not decode image."));
+      img.src = e.target?.result as string;
+    };
+    reader.onerror = () => reject(new Error("Could not read image file."));
+    reader.readAsDataURL(file);
+  });
 }
 
 function createDefaultMentor(): MentorProfile {
@@ -175,6 +220,50 @@ export function MentorsEditor({ draft, update }: EditorProps) {
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [currentMentor, setCurrentMentor] = useState<MentorProfile>(createDefaultMentor());
   const [activeTab, setActiveTab] = useState("overview");
+
+  // File upload refs
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const quickFileInputRef = useRef<HTMLInputElement>(null);
+  const quickUploadIndexRef = useRef<number | null>(null);
+
+  async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      toast.loading("Processing photo...", { id: "mentor-photo" });
+      const dataUrl = await compressImage(file);
+      setCurrentMentor((prev) => ({ ...prev, imageUrl: dataUrl }));
+      toast.success("Photo uploaded successfully!", { id: "mentor-photo" });
+    } catch (err: any) {
+      toast.error(err.message || "Failed to process photo.", { id: "mentor-photo" });
+    } finally {
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  }
+
+  async function handleQuickFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    const targetIdx = quickUploadIndexRef.current;
+    if (!file || targetIdx === null) return;
+    try {
+      toast.loading("Processing photo...", { id: "mentor-quick-photo" });
+      const dataUrl = await compressImage(file);
+      const next = [...mentors];
+      if (next[targetIdx]) {
+        next[targetIdx] = { ...next[targetIdx], imageUrl: dataUrl };
+        update("mentors", next);
+        toast.success(
+          `Photo updated for "${next[targetIdx].name}"! Click "Save changes" at the top to apply.`,
+          { id: "mentor-quick-photo" },
+        );
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Failed to process photo.", { id: "mentor-quick-photo" });
+    } finally {
+      quickUploadIndexRef.current = null;
+      if (quickFileInputRef.current) quickFileInputRef.current.value = "";
+    }
+  }
 
   // Delete confirmation modal state
   const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
@@ -340,6 +429,15 @@ export function MentorsEditor({ draft, update }: EditorProps) {
 
       {/* Mentors Cards List */}
       <div className="space-y-4">
+        {/* Hidden file input for quick photo uploads */}
+        <input
+          ref={quickFileInputRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={handleQuickFileUpload}
+        />
+
         {mentors.length === 0 ? (
           <div className="glass rounded-3xl p-12 text-center">
             <Users className="mx-auto h-10 w-10 text-muted-foreground/60" strokeWidth={1.5} />
@@ -358,7 +456,14 @@ export function MentorsEditor({ draft, update }: EditorProps) {
           </div>
         ) : (
           mentors.map((mentor, index) => {
-            const hasPhoto = Boolean(mentor.imageUrl?.trim());
+            const isGayathri =
+              mentor.id === "dr-gayathri-g-n" || mentor.name.toLowerCase().includes("gayathri");
+            const photoSrc = mentor.imageUrl?.trim()
+              ? mentor.imageUrl
+              : isGayathri
+                ? mentorImg
+                : null;
+
             return (
               <div
                 key={mentor.id || index}
@@ -367,10 +472,10 @@ export function MentorsEditor({ draft, update }: EditorProps) {
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
                   {/* Left: Avatar & Info */}
                   <div className="flex items-start gap-4 min-w-0">
-                    <div className="relative shrink-0">
-                      {hasPhoto ? (
+                    <div className="relative shrink-0 group/photo">
+                      {photoSrc ? (
                         <img
-                          src={mentor.imageUrl}
+                          src={photoSrc}
                           alt={mentor.name}
                           className="h-16 w-16 md:h-18 md:w-18 rounded-2xl object-cover ring-2 ring-brand/10 shadow-sm"
                           onError={(e) => {
@@ -382,9 +487,18 @@ export function MentorsEditor({ draft, update }: EditorProps) {
                           {initials(mentor.name || "Mentor")}
                         </div>
                       )}
-                      <span className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-white text-[10px] ring-2 ring-surface">
-                        <Check className="h-3 w-3" />
-                      </span>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          quickUploadIndexRef.current = index;
+                          quickFileInputRef.current?.click();
+                        }}
+                        className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-brand text-white shadow-sm ring-2 ring-surface hover:bg-brand/90 hover:scale-110 transition-transform cursor-pointer"
+                        title="Upload / Change Photo"
+                      >
+                        <Camera className="h-3 w-3" />
+                      </button>
                     </div>
 
                     <div className="min-w-0 flex-1">
@@ -588,19 +702,88 @@ export function MentorsEditor({ draft, update }: EditorProps) {
                   />
                 </div>
 
-                <div className="space-y-1.5 sm:col-span-2">
-                  <Label className="text-xs font-medium">Profile Image URL (Optional)</Label>
-                  <Input
-                    value={currentMentor.imageUrl}
-                    onChange={(e) =>
-                      setCurrentMentor({ ...currentMentor, imageUrl: e.target.value })
-                    }
-                    placeholder="https://... or leave blank for default image/avatar"
-                    className="rounded-xl"
+                {/* Profile Photo Uploader & Preview */}
+                <div className="sm:col-span-2 rounded-2xl border border-hairline bg-surface/50 p-4 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <Label className="text-xs font-semibold text-foreground flex items-center gap-1.5">
+                      <Camera className="h-3.5 w-3.5 text-brand" />
+                      Mentor Profile Photo
+                    </Label>
+                    {currentMentor.imageUrl?.trim() && (
+                      <span className="text-[11px] text-emerald-700 font-medium flex items-center gap-1">
+                        <Check className="h-3 w-3 text-emerald-600" /> Custom photo active
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Hidden file input for modal uploads */}
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleFileUpload}
                   />
-                  <p className="text-[11px] text-muted-foreground">
-                    Leave blank to use the built-in mentor photograph or initials placeholder.
-                  </p>
+
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                    {/* Photo preview thumbnail */}
+                    <div className="relative shrink-0">
+                      {currentMentor.imageUrl?.trim() ||
+                      currentMentor.id === "dr-gayathri-g-n" ||
+                      currentMentor.name.toLowerCase().includes("gayathri") ? (
+                        <img
+                          src={currentMentor.imageUrl?.trim() || mentorImg}
+                          alt={currentMentor.name || "Preview"}
+                          className="h-20 w-20 rounded-2xl object-cover ring-2 ring-brand/20 shadow-sm"
+                        />
+                      ) : (
+                        <div className="h-20 w-20 rounded-2xl bg-gradient-to-br from-brand/20 to-brand-teal/20 text-brand flex items-center justify-center font-bold text-2xl ring-2 ring-brand/10">
+                          {initials(currentMentor.name || "Mentor")}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Actions and inputs */}
+                    <div className="flex-1 space-y-2.5">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <Button
+                          type="button"
+                          variant="default"
+                          size="sm"
+                          onClick={() => fileInputRef.current?.click()}
+                          className="rounded-xl bg-brand text-brand-contrast hover:bg-brand/90 text-xs font-medium cursor-pointer"
+                        >
+                          <Upload className="h-3.5 w-3.5 mr-1.5" /> Upload from Computer
+                        </Button>
+
+                        {currentMentor.imageUrl?.trim() && (
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setCurrentMentor({ ...currentMentor, imageUrl: "" })}
+                            className="rounded-xl text-xs text-destructive hover:bg-destructive/10 border-destructive/30 cursor-pointer"
+                          >
+                            <Trash2 className="h-3.5 w-3.5 mr-1.5" /> Remove Custom Photo
+                          </Button>
+                        )}
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <Input
+                          value={currentMentor.imageUrl}
+                          onChange={(e) =>
+                            setCurrentMentor({ ...currentMentor, imageUrl: e.target.value })
+                          }
+                          placeholder="Or paste direct image URL (https://...)"
+                          className="rounded-xl h-8 text-xs font-normal"
+                        />
+                      </div>
+                      <p className="text-[11px] text-muted-foreground">
+                        Upload a PNG, JPG, or WEBP portrait from your device. Auto-resized and optimized for fast loading.
+                      </p>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="space-y-1.5 sm:col-span-2">
