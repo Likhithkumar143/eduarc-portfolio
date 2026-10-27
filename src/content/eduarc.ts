@@ -26,6 +26,48 @@ const str = z.string().max(2000);
 const iconItem = z.object({ icon: z.enum(iconNames), title: str, body: str });
 const textItem = z.object({ title: str, body: str });
 
+export const mentorAreaSchema = z.object({
+  title: z.string().max(200),
+  icon: z.string().max(50).default("laptop"),
+  topics: z.array(z.string().max(200)),
+});
+
+export const mentorEducationSchema = z.object({
+  degree: z.string().max(200),
+  year: z.string().max(100),
+  institution: z.string().max(250),
+  note: z.string().max(300).nullable().optional(),
+});
+
+export const mentorHighlightSchema = z.object({
+  value: z.string().max(100),
+  label: z.string().max(150),
+  icon: z.string().max(50).default("star"),
+});
+
+export const mentorProfileSchema = z.object({
+  id: z.string().max(100),
+  name: z.string().max(200),
+  role: z.string().max(150).default("Academic Mentor"),
+  designation: z.string().max(200),
+  qualification: z.string().max(200),
+  experience: z.string().max(100),
+  location: z.string().max(200),
+  email: z.string().max(200),
+  imageUrl: z.string().max(500).default(""),
+  bio: z.string().max(3000),
+  quote: z.string().max(2000),
+  highlights: z.array(mentorHighlightSchema),
+  mentorshipAreas: z.array(mentorAreaSchema),
+  researchInterests: z.array(z.string().max(150)),
+  education: z.array(mentorEducationSchema),
+});
+
+export type MentorProfile = z.infer<typeof mentorProfileSchema>;
+export type MentorArea = z.infer<typeof mentorAreaSchema>;
+export type MentorEducation = z.infer<typeof mentorEducationSchema>;
+export type MentorHighlight = z.infer<typeof mentorHighlightSchema>;
+
 export const siteContentSchema = z.object({
   brand: z.object({ tagline: str, footerBlurb: str }),
   contact: z.object({ email: str, phone: str, website: str }),
@@ -74,6 +116,7 @@ export const siteContentSchema = z.object({
   testimonials: z.array(z.object({ quote: str, name: str, role: str })).max(12),
   contactPage: z.object({ title: str, titleHighlight: str, lead: str, thankYou: str }),
   cta: z.object({ title: str, lead: str }),
+  mentors: z.array(mentorProfileSchema).default([]),
 });
 
 export type SiteContent = z.infer<typeof siteContentSchema>;
@@ -283,6 +326,114 @@ export const defaultContent: SiteContent = {
     title: "Let's build a brighter future together.",
     lead: "Partner with EduArc and give your students the guidance, mentorship and opportunities they deserve.",
   },
+  mentors: [
+    {
+      id: "dr-gayathri-g-n",
+      name: "Dr. Gayathri G N",
+      role: "Academic Mentor",
+      designation: "Associate Professor",
+      qualification: "Ph.D. in Computer Science & Engineering",
+      experience: "7+ Years",
+      location: "Tumkur, Karnataka, India",
+      email: "gaytri.infosea@gmail.com",
+      imageUrl: "",
+      bio: "Experienced academician and researcher with over 7 years of teaching, mentoring, and research experience. Specializes in cloud security, cryptography, machine learning, and neural networks. Passionate about guiding students in building strong technical foundations and exploring career and research opportunities in emerging technology domains.",
+      quote:
+        "Technology offers countless opportunities, but choosing the right learning path can be challenging. My goal is to help you build a stronger understanding of technical subjects, explore your interests, and make informed decisions about your academic and professional development.",
+      highlights: [
+        { value: "7+ Years", label: "Academic Experience", icon: "graduation" },
+        { value: "6 Publications", label: "Research Papers", icon: "file" },
+        { value: "40+ Programmes", label: "FDPs, Webinars & Conferences", icon: "layers" },
+        { value: "Ph.D. (2026)", label: "CSE", icon: "star" },
+      ],
+      mentorshipAreas: [
+        {
+          title: "Computer Science & Engineering",
+          icon: "laptop",
+          topics: [
+            "Computer Networks",
+            "Cloud Computing",
+            "Software Engineering",
+            "Data Mining",
+            "Information Security",
+          ],
+        },
+        {
+          title: "Artificial Intelligence & Machine Learning",
+          icon: "brain",
+          topics: [
+            "Machine Learning Fundamentals",
+            "Neural Networks",
+            "Deep Learning",
+            "Convolutional Neural Networks",
+            "AI Research Applications",
+          ],
+        },
+        {
+          title: "Cybersecurity & Cloud Security",
+          icon: "shield",
+          topics: [
+            "Cloud Security Fundamentals",
+            "Cryptography",
+            "Secure Cloud Storage",
+            "Data Protection & Access Control",
+            "Privacy-Preserving Technologies",
+          ],
+        },
+        {
+          title: "Research & Higher Education",
+          icon: "book",
+          topics: [
+            "Research Topic Exploration",
+            "Student Project Guidance",
+            "Postgraduate Dissertation Guidance",
+            "Research Paper Preparation",
+            "Academic Development",
+          ],
+        },
+        {
+          title: "Career & Academic Guidance",
+          icon: "compass",
+          topics: [
+            "Exploring Computer Science Careers",
+            "Identifying Technical Learning Paths",
+            "Understanding Emerging Domains",
+            "Planning Academic & Research Goals",
+          ],
+        },
+      ],
+      researchInterests: [
+        "Cloud Security",
+        "Data Protection",
+        "Cryptography",
+        "Privacy-Preserving Access Control",
+        "Neural Networks",
+        "Computer Networks",
+        "Mobile Ad-hoc Networks (MANET)",
+        "Brain Tumor Classification",
+      ],
+      education: [
+        {
+          degree: "Ph.D., Computer Science & Engineering",
+          year: "2026",
+          institution: "Sri Siddhartha Academy of Higher Education (SSAHE), Tumkur",
+          note: "Research: Neural networks for brain tumor classification",
+        },
+        {
+          degree: "M.Tech., Computer Science",
+          year: "2014 – 2017",
+          institution: "SIET, VTU",
+          note: null,
+        },
+        {
+          degree: "B.E., Information Science",
+          year: "2010 – 2014",
+          institution: "SIET, VTU",
+          note: null,
+        },
+      ],
+    },
+  ],
 };
 
 /** Saved data is layered over defaults per section so new fields always have a value. */

@@ -4,6 +4,8 @@ import { useServerFn } from "@tanstack/react-start";
 import {
   Building2,
   CalendarClock,
+  Download,
+  FileSpreadsheet,
   GraduationCap,
   KeyRound,
   LogOut,
@@ -29,6 +31,7 @@ import {
   whatsappHref,
   type CounsellingStatus,
 } from "@/lib/enquiry";
+import { exportStudentsToExcel } from "@/lib/export-excel";
 import { AmbientBlobs } from "@/components/site/Section";
 import { BrandLogo } from "@/components/site/BrandLogo";
 import { PasswordPanel } from "@/components/admin/PasswordPanel";
@@ -112,6 +115,27 @@ export function ReceptionDashboard() {
     await queryClient.invalidateQueries({ queryKey: receptionStatusQuery.queryKey });
   }
 
+  function handleExportExcel() {
+    if (rows.length === 0) {
+      toast.error("No student inquiries available to download.");
+      return;
+    }
+    const toExport =
+      visible.length > 0 && (filter !== "all" || query.trim().length > 0) ? visible : rows;
+    const isFiltered = toExport.length !== rows.length;
+    exportStudentsToExcel(
+      toExport,
+      isFiltered
+        ? `EduArc_Students_${filter}_${new Date().toISOString().split("T")[0]}.xls`
+        : undefined,
+    );
+    toast.success(
+      isFiltered
+        ? `Exported ${toExport.length} filtered student record(s) to Excel`
+        : `Exported all ${rows.length} student record(s) to Excel`,
+    );
+  }
+
   return (
     <div className="relative isolate min-h-screen overflow-hidden bg-surface">
       <AmbientBlobs className="fixed opacity-50" />
@@ -125,6 +149,17 @@ export function ReceptionDashboard() {
             </span>
           </div>
           <div className="flex items-center gap-1.5 md:gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full border-emerald-600/30 bg-emerald-500/10 text-emerald-700 hover:bg-emerald-500/20 font-medium dark:text-emerald-300"
+              onClick={handleExportExcel}
+              disabled={rows.length === 0}
+              title="Download students list in formatted Excel file"
+            >
+              <FileSpreadsheet className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+              <span className="hidden sm:inline">Download Excel</span>
+            </Button>
             <Button
               variant="ghost"
               size="sm"
@@ -151,12 +186,24 @@ export function ReceptionDashboard() {
       </header>
 
       <main className="mx-auto max-w-7xl px-4 pb-24 pt-8 md:px-6 md:pt-12">
-        <div className="animate-rise">
-          <p className="type-eyebrow">Reception desk</p>
-          <h1 className="type-headline mt-1 text-foreground">Student enquiries</h1>
-          <p className="mt-2 text-[15px] text-muted-foreground">
-            Everyone who filled in “Partner with us”. Set the counselling status after each call.
-          </p>
+        <div className="animate-rise flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+          <div>
+            <p className="type-eyebrow">Reception desk</p>
+            <h1 className="type-headline mt-1 text-foreground">Student enquiries</h1>
+            <p className="mt-2 text-[15px] text-muted-foreground">
+              Everyone who filled in “Partner with us”. Set the counselling status after each call.
+            </p>
+          </div>
+          <Button
+            variant="default"
+            size="sm"
+            className="rounded-full bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm flex items-center gap-2 self-start sm:self-auto shrink-0"
+            onClick={handleExportExcel}
+            disabled={rows.length === 0}
+          >
+            <Download className="h-4 w-4" />
+            <span>Export to Excel ({visible.length})</span>
+          </Button>
         </div>
 
         {/* Filters with counts */}

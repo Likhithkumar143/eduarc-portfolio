@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import {
   Check,
   ExternalLink,
+  GraduationCap,
   House,
   Info,
   KeyRound,
@@ -35,6 +36,7 @@ import {
   GeneralEditor,
   HomeEditor,
   ImpactEditor,
+  MentorsEditor,
   ProgramsEditor,
   type EditorProps,
 } from "./editors";
@@ -64,6 +66,13 @@ const sections: Section[] = [
     icon: Info,
     description: "Your story and advantages.",
     Editor: AboutEditor,
+  },
+  {
+    id: "mentors",
+    label: "Mentors",
+    icon: GraduationCap,
+    description: "Add, edit and manage mentor profiles.",
+    Editor: MentorsEditor,
   },
   {
     id: "features",

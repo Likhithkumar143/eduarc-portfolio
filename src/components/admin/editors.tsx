@@ -356,3 +356,5 @@ export function ContactEditor({ draft, update }: EditorProps) {
 export function EditorStack({ children }: { children: ReactNode }) {
   return <div className="space-y-6">{children}</div>;
 }
+
+export { MentorsEditor } from "./MentorsEditor";
