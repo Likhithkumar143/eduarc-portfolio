@@ -13,17 +13,13 @@ import { Reveal } from "@/components/site/Reveal";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useSiteContent } from "@/lib/site-content";
+import {
+  conductedPrograms,
+  type ProgramSessionData,
+  type ProgramSessionData as ConductedProgram,
+} from "@/content/programs-data";
 
-// Campus Program Images cropped from official event portfolio
-import imgSriVenkateshwara from "@/assets/programs/program-sri-venkateshwara.jpg";
-import imgStMarys from "@/assets/programs/program-st-marys.jpg";
-import imgKendriyaVidyalaya from "@/assets/programs/program-kendriya-vidyalaya.jpg";
-import imgDavPublic from "@/assets/programs/program-dav-public.jpg";
-import imgPsgCollege from "@/assets/programs/program-psg-college.jpg";
-import imgSriChaitanya from "@/assets/programs/program-sri-chaitanya.jpg";
-import imgChinmayaVidyalaya from "@/assets/programs/program-chinmaya-vidyalaya.jpg";
-import imgVitVellore from "@/assets/programs/program-vit-vellore.jpg";
-import imgBishopHeber from "@/assets/programs/program-bishop-heber.jpg";
+export type { ConductedProgram };
 
 export const Route = createFileRoute("/programs")({
   head: () => ({
@@ -45,110 +41,6 @@ export const Route = createFileRoute("/programs")({
   }),
   component: ProgramsPage,
 });
-
-export interface ConductedProgram {
-  id: string;
-  institution: string;
-  title: string;
-  date: string;
-  location: string;
-  image: string;
-  type: "school" | "college";
-  tag: string;
-}
-
-const conductedPrograms: ConductedProgram[] = [
-  {
-    id: "sri-venkateshwara",
-    institution: "Sri Venkateshwara Higher Secondary School",
-    title: "Career Options After 10th – Discover Your Path",
-    date: "15 Oct 2025",
-    location: "Coimbatore, Tamil Nadu",
-    image: imgSriVenkateshwara,
-    type: "school",
-    tag: "Higher Secondary",
-  },
-  {
-    id: "st-marys",
-    institution: "St. Mary's College",
-    title: "Building a Successful Career in Science",
-    date: "12 Aug 2025",
-    location: "Tiruchirappalli, Tamil Nadu",
-    image: imgStMarys,
-    type: "college",
-    tag: "Undergraduate",
-  },
-  {
-    id: "kendriya-vidyalaya",
-    institution: "Kendriya Vidyalaya",
-    title: "Higher Education & Future Opportunities",
-    date: "20 Jul 2025",
-    location: "Bengaluru, Karnataka",
-    image: imgKendriyaVidyalaya,
-    type: "school",
-    tag: "Senior School",
-  },
-  {
-    id: "dav-public",
-    institution: "DAV Public School",
-    title: "Personality Development & Life Skills Workshop",
-    date: "10 Jun 2025",
-    location: "Mysuru, Karnataka",
-    image: imgDavPublic,
-    type: "school",
-    tag: "Life Skills",
-  },
-  {
-    id: "psg-college",
-    institution: "PSG College of Arts & Science",
-    title: "Stream Selection Guidance (Session 1)",
-    date: "25 Apr 2025",
-    location: "Coimbatore, Tamil Nadu",
-    image: imgPsgCollege,
-    type: "college",
-    tag: "Degree College",
-  },
-  {
-    id: "sri-chaitanya",
-    institution: "Sri Chaitanya Junior College",
-    title: "Resume Building & Interview Preparation",
-    date: "15 Mar 2025",
-    location: "Hyderabad, Telangana",
-    image: imgSriChaitanya,
-    type: "college",
-    tag: "Junior College",
-  },
-  {
-    id: "chinmaya-vidyalaya",
-    institution: "Chinmaya Vidyalaya",
-    title: "Career Guidance Session for Class 12 Students",
-    date: "22 Feb 2025",
-    location: "Ernakulam, Kerala",
-    image: imgChinmayaVidyalaya,
-    type: "school",
-    tag: "Class 12 Focus",
-  },
-  {
-    id: "vit-vellore",
-    institution: "VIT Vellore",
-    title: "Career Guidance & Goal Setting Workshop",
-    date: "18 Jan 2025",
-    location: "Vellore, Tamil Nadu",
-    image: imgVitVellore,
-    type: "college",
-    tag: "University",
-  },
-  {
-    id: "bishop-heber",
-    institution: "Bishop Heber College",
-    title: "Higher Education Pathways and Career Choices",
-    date: "12 Dec 2024",
-    location: "Tiruchirappalli, Tamil Nadu",
-    image: imgBishopHeber,
-    type: "college",
-    tag: "Higher Education",
-  },
-];
 
 type FilterType = "all" | "school" | "college";
 
@@ -232,55 +124,61 @@ function ProgramsPage() {
           <div className="grid gap-6 sm:gap-7 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {filteredPrograms.map((program, idx) => (
               <Reveal key={program.id} delay={Math.min(idx * 60, 300)}>
-                <article className="group flex h-full flex-col justify-between overflow-hidden rounded-2xl sm:rounded-3xl border border-hairline/90 bg-white p-3.5 sm:p-4 shadow-xs hover-lift transition-all hover:border-brand-gold/40 hover:shadow-card">
-                  <div>
-                    {/* Campus Image Frame */}
-                    <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl sm:rounded-2xl bg-surface">
-                      <img
-                        src={program.image}
-                        alt={`${program.institution} - ${program.title}`}
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        loading={idx < 3 ? "eager" : "lazy"}
-                      />
-                      <div className="absolute top-2.5 right-2.5">
-                        <Badge
-                          variant="gold"
-                          className="bg-white/95 text-[10px] font-semibold tracking-wide backdrop-blur-xs shadow-xs"
-                        >
-                          {program.tag}
-                        </Badge>
+                <Link
+                  to="/programs/$sessionId"
+                  params={{ sessionId: program.id }}
+                  className="group flex h-full flex-col justify-between overflow-hidden rounded-2xl sm:rounded-3xl border border-hairline/90 bg-white p-3.5 sm:p-4 shadow-xs hover-lift transition-all hover:border-brand-gold/40 hover:shadow-card cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/50 block text-left"
+                >
+                  <article className="flex h-full flex-col justify-between">
+                    <div>
+                      {/* Campus Image Frame */}
+                      <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl sm:rounded-2xl bg-surface">
+                        <img
+                          src={program.image}
+                          alt={`${program.institution} - ${program.title}`}
+                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          loading={idx < 3 ? "eager" : "lazy"}
+                        />
+                        <div className="absolute top-2.5 right-2.5">
+                          <Badge
+                            variant="gold"
+                            className="bg-white/95 text-[10px] font-semibold tracking-wide backdrop-blur-xs shadow-xs"
+                          >
+                            {program.tag}
+                          </Badge>
+                        </div>
+                      </div>
+
+                      {/* Institution Name */}
+                      <div className="mt-3.5 flex items-center gap-1.5 px-1">
+                        <Landmark className="h-3.5 w-3.5 text-brand-gold shrink-0" />
+                        <span className="text-xs sm:text-[13px] font-semibold text-brand-navy/85 truncate">
+                          {program.institution}
+                        </span>
+                      </div>
+
+                      {/* Program Title */}
+                      <h2 className="mt-2 px-1 text-base sm:text-lg font-bold text-brand-navy tracking-tight leading-snug line-clamp-2 min-h-[3rem] group-hover:text-brand-gold transition-colors">
+                        {program.title}
+                      </h2>
+                    </div>
+
+                    {/* Metadata Row: Date & Location */}
+                    <div className="mt-4 px-1 pt-3 border-t border-hairline/80 flex items-center justify-between text-xs text-muted-foreground">
+                      <div className="inline-flex items-center gap-1.5">
+                        <Calendar className="h-3.5 w-3.5 text-muted-foreground/75 shrink-0" />
+                        <span className="font-medium text-foreground/75">{program.date}</span>
+                      </div>
+
+                      <div className="inline-flex items-center gap-1.5 max-w-[55%]">
+                        <MapPin className="h-3.5 w-3.5 text-muted-foreground/75 shrink-0" />
+                        <span className="truncate" title={program.location}>
+                          {program.location}
+                        </span>
                       </div>
                     </div>
-
-                    {/* Institution Name */}
-                    <div className="mt-3.5 flex items-center gap-1.5 px-1">
-                      <Landmark className="h-3.5 w-3.5 text-brand-gold shrink-0" />
-                      <span className="text-xs sm:text-[13px] font-semibold text-brand-navy/85 truncate">
-                        {program.institution}
-                      </span>
-                    </div>
-
-                    {/* Program Title */}
-                    <h2 className="mt-2 px-1 text-base sm:text-lg font-bold text-brand-navy tracking-tight leading-snug line-clamp-2 min-h-[3rem] group-hover:text-brand-gold transition-colors">
-                      {program.title}
-                    </h2>
-                  </div>
-
-                  {/* Metadata Row: Date & Location */}
-                  <div className="mt-4 px-1 pt-3 border-t border-hairline/80 flex items-center justify-between text-xs text-muted-foreground">
-                    <div className="inline-flex items-center gap-1.5">
-                      <Calendar className="h-3.5 w-3.5 text-muted-foreground/75 shrink-0" />
-                      <span className="font-medium text-foreground/75">{program.date}</span>
-                    </div>
-
-                    <div className="inline-flex items-center gap-1.5 max-w-[55%]">
-                      <MapPin className="h-3.5 w-3.5 text-muted-foreground/75 shrink-0" />
-                      <span className="truncate" title={program.location}>
-                        {program.location}
-                      </span>
-                    </div>
-                  </div>
-                </article>
+                  </article>
+                </Link>
               </Reveal>
             ))}
           </div>

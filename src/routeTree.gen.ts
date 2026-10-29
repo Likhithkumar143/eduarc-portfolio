@@ -22,6 +22,7 @@ import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as ProgramsRouteImport } from './routes/programs'
 import { Route as ReceptionRouteImport } from './routes/reception'
+import { Route as ProgramsSessionIdRouteImport } from './routes/programs_.$sessionId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -88,6 +89,11 @@ const ReceptionRoute = ReceptionRouteImport.update({
   path: '/reception',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProgramsSessionIdRoute = ProgramsSessionIdRouteImport.update({
+  id: '/programs_/$sessionId',
+  path: '/programs/$sessionId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -103,6 +109,7 @@ export interface FileRoutesByFullPath {
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/programs': typeof ProgramsRoute
   '/reception': typeof ReceptionRoute
+  '/programs/$sessionId': typeof ProgramsSessionIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -118,6 +125,7 @@ export interface FileRoutesByTo {
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/programs': typeof ProgramsRoute
   '/reception': typeof ReceptionRoute
+  '/programs/$sessionId': typeof ProgramsSessionIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -134,6 +142,7 @@ export interface FileRoutesById {
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/programs': typeof ProgramsRoute
   '/reception': typeof ReceptionRoute
+  '/programs_/$sessionId': typeof ProgramsSessionIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -151,6 +160,7 @@ export interface FileRouteTypes {
     | '/privacy-policy'
     | '/programs'
     | '/reception'
+    | '/programs/$sessionId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -166,6 +176,7 @@ export interface FileRouteTypes {
     | '/privacy-policy'
     | '/programs'
     | '/reception'
+    | '/programs/$sessionId'
   id:
     | '__root__'
     | '/'
@@ -181,6 +192,7 @@ export interface FileRouteTypes {
     | '/privacy-policy'
     | '/programs'
     | '/reception'
+    | '/programs_/$sessionId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -197,6 +209,7 @@ export interface RootRouteChildren {
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ProgramsRoute: typeof ProgramsRoute
   ReceptionRoute: typeof ReceptionRoute
+  ProgramsSessionIdRoute: typeof ProgramsSessionIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -292,6 +305,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReceptionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/programs_/$sessionId': {
+      id: '/programs_/$sessionId'
+      path: '/programs/$sessionId'
+      fullPath: '/programs/$sessionId'
+      preLoaderRoute: typeof ProgramsSessionIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -309,6 +329,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   ProgramsRoute: ProgramsRoute,
   ReceptionRoute: ReceptionRoute,
+  ProgramsSessionIdRoute: ProgramsSessionIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
