@@ -51,8 +51,8 @@ describe("SiteHeader & Mobile Navigation Drawer", () => {
     expect(navItems.map((item) => item.to)).toEqual([
       "/about",
       "/mentors",
-      "/features",
       "/programs",
+      "/features",
       "/impact",
       "/contact",
     ]);

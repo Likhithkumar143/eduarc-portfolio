@@ -292,9 +292,9 @@ export const defaultContent: SiteContent = {
     },
   ],
   featuresPage: {
-    title: "A complete ecosystem.",
-    titleHighlight: "For every student.",
-    lead: "Designed to guide, support and empower students — and give institutions full visibility.",
+    title: "Features for schools & colleges.",
+    titleHighlight: "For every institution.",
+    lead: "We offer flexible partnership models designed to meet the unique needs of your institution.",
     devicesTitle: "Accessible on all devices.",
     devicesLead:
       "Desktop, tablet and mobile — students and staff stay connected wherever they are.",
@@ -328,8 +328,8 @@ export const defaultContent: SiteContent = {
     },
   ],
   programsPage: {
-    title: "Features for schools & colleges.",
-    lead: "We offer flexible partnership models designed to meet the unique needs of your institution.",
+    title: "A complete ecosystem.",
+    lead: "Designed to guide, support and empower students — and give institutions full visibility.",
     idealForTitle: "Every stage of the student journey.",
     processTitle: "Implementation process.",
     processLead: "Get started quickly with our simple 4‑step process.",
