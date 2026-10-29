@@ -89,8 +89,14 @@ function ProgramSessionDetailPage() {
             {/* Left Column: Session Details */}
             <div className="lg:col-span-7">
               <Reveal>
-                <div className="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100 shadow-2xs mb-4">
-                  <span>{session.category}</span>
+                <div className="flex flex-wrap items-center gap-2 mb-4">
+                  <div className="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100 shadow-2xs">
+                    <span>{session.category}</span>
+                  </div>
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white text-brand-navy border border-hairline shadow-2xs">
+                    <Landmark className="h-3.5 w-3.5 text-brand-gold" />
+                    <span>{session.institution}</span>
+                  </div>
                 </div>
 
                 <h1 className="text-2xl sm:text-3xl lg:text-[34px] font-bold text-brand-navy tracking-tight leading-tight">
@@ -165,56 +171,9 @@ function ProgramSessionDetailPage() {
           </div>
         </section>
 
-        {/* 3. Card 1: Session Photos Gallery */}
+        {/* 3. Card 1: Institution Details (Moved to Top Side) */}
         <section className="mb-7 md:mb-8">
           <Reveal delay={150}>
-            <div className="rounded-2xl sm:rounded-3xl border border-hairline/90 bg-white p-6 sm:p-8 shadow-xs">
-              <div className="flex items-center justify-between pb-4 border-b border-hairline/70">
-                <div className="flex items-center gap-2.5">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
-                    <Camera className="h-4 w-4" />
-                  </div>
-                  <h2 className="text-lg font-bold text-brand-navy tracking-tight">Session Photos</h2>
-                </div>
-                <span className="text-xs font-semibold text-muted-foreground">5 Photos</span>
-              </div>
-
-              {/* Gallery Grid: 1 large on left, 2x2 grid on right */}
-              <div className="mt-6 grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-5 items-stretch">
-                {/* Large Main Photo */}
-                <div className="md:col-span-6 overflow-hidden rounded-xl sm:rounded-2xl border border-hairline shadow-2xs aspect-[4/3] md:aspect-auto md:h-full">
-                  <img
-                    src={session.gallery[0]}
-                    alt={`${session.institution} Main Presentation`}
-                    className="h-full w-full object-cover transition-transform duration-500 hover:scale-102"
-                    loading="lazy"
-                  />
-                </div>
-
-                {/* 2x2 Smaller Photo Grid */}
-                <div className="md:col-span-6 grid grid-cols-2 gap-3.5 sm:gap-4">
-                  {session.gallery.slice(1, 5).map((photo, pIdx) => (
-                    <div
-                      key={pIdx}
-                      className="overflow-hidden rounded-xl border border-hairline shadow-2xs aspect-[16/10]"
-                    >
-                      <img
-                        src={photo}
-                        alt={`${session.institution} Session Photo ${pIdx + 2}`}
-                        className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
-                        loading="lazy"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </Reveal>
-        </section>
-
-        {/* 4. Card 2: Institution Details */}
-        <section className="mb-7 md:mb-8">
-          <Reveal delay={200}>
             <div className="rounded-2xl sm:rounded-3xl border border-hairline/90 bg-white p-6 sm:p-8 shadow-xs">
               <div className="flex items-center gap-2.5 pb-4 border-b border-hairline/70 mb-6">
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
@@ -280,6 +239,53 @@ function ProgramSessionDetailPage() {
                       </span>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </section>
+
+        {/* 4. Card 2: Session Photos Gallery */}
+        <section className="mb-7 md:mb-8">
+          <Reveal delay={200}>
+            <div className="rounded-2xl sm:rounded-3xl border border-hairline/90 bg-white p-6 sm:p-8 shadow-xs">
+              <div className="flex items-center justify-between pb-4 border-b border-hairline/70">
+                <div className="flex items-center gap-2.5">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+                    <Camera className="h-4 w-4" />
+                  </div>
+                  <h2 className="text-lg font-bold text-brand-navy tracking-tight">Session Photos</h2>
+                </div>
+                <span className="text-xs font-semibold text-muted-foreground">5 Photos</span>
+              </div>
+
+              {/* Gallery Grid: 1 large on left, 2x2 grid on right */}
+              <div className="mt-6 grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-5 items-stretch">
+                {/* Large Main Photo */}
+                <div className="md:col-span-6 overflow-hidden rounded-xl sm:rounded-2xl border border-hairline shadow-2xs aspect-[4/3] md:aspect-auto md:h-full">
+                  <img
+                    src={session.gallery[0]}
+                    alt={`${session.institution} Main Presentation`}
+                    className="h-full w-full object-cover transition-transform duration-500 hover:scale-102"
+                    loading="lazy"
+                  />
+                </div>
+
+                {/* 2x2 Smaller Photo Grid */}
+                <div className="md:col-span-6 grid grid-cols-2 gap-3.5 sm:gap-4">
+                  {session.gallery.slice(1, 5).map((photo, pIdx) => (
+                    <div
+                      key={pIdx}
+                      className="overflow-hidden rounded-xl border border-hairline shadow-2xs aspect-[16/10]"
+                    >
+                      <img
+                        src={photo}
+                        alt={`${session.institution} Session Photo ${pIdx + 2}`}
+                        className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                        loading="lazy"
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
