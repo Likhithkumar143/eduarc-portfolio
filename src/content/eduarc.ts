@@ -328,7 +328,7 @@ export const defaultContent: SiteContent = {
     },
   ],
   programsPage: {
-    title: "Programs for schools & colleges.",
+    title: "Features for schools & colleges.",
     lead: "We offer flexible partnership models designed to meet the unique needs of your institution.",
     idealForTitle: "Every stage of the student journey.",
     processTitle: "Implementation process.",
@@ -338,7 +338,7 @@ export const defaultContent: SiteContent = {
     {
       icon: "graduation",
       title: "Student Access",
-      body: "All enrolled students get access to EduArc's full suite of features.",
+      body: "All enrolled students get access to EduArc's full suite of programs.",
     },
     {
       icon: "chart",

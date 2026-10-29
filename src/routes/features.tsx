@@ -22,17 +22,17 @@ import { useSiteContent } from "@/lib/site-content";
 export const Route = createFileRoute("/features")({
   head: () => ({
     meta: [
-      { title: "Platform Capabilities — EDUARC Connect" },
+      { title: "Programs — EDUARC Connect" },
       {
         name: "description",
         content:
-          "Explore EDUARC's actual guidance capabilities: Stream & Degree Exploration, 1-on-1 Academic Mentorship, Institutional Reception & Tracking, and Student Roadmaps.",
+          "Explore EDUARC's actual guidance programs: Stream & Degree Exploration, 1-on-1 Academic Mentorship, Institutional Reception & Tracking, and Student Roadmaps.",
       },
-      { property: "og:title", content: "EDUARC Platform Capabilities" },
+      { property: "og:title", content: "EDUARC Guidance Programs" },
       {
         property: "og:description",
         content:
-          "Authentic career guidance tools built for students, parents, and academic institutions.",
+          "Authentic career guidance programs built for students, parents, and academic institutions.",
       },
     ],
     links: [{ rel: "canonical", href: "https://eduarc-connect.in/features" }],
@@ -104,8 +104,8 @@ function FeaturesPage() {
     <>
       {/* 1. Page Intro */}
       <PageIntro
-        eyebrow="Platform Capabilities"
-        title="Tools built for authentic guidance, not guesswork."
+        eyebrow="Guidance Programs"
+        title="Programs built for authentic guidance, not guesswork."
         lead={
           c.featuresPage.lead ||
           "A transparent ecosystem engineered to give students clarity, parents confidence, and institutions a structured guidance framework."
@@ -124,8 +124,8 @@ function FeaturesPage() {
         <div className="container-apple">
           <SectionHeading
             eyebrow="Inside EDUARC"
-            title="Core guidance tools available today."
-            lead="Every capability described here is actively supported in the EDUARC platform and ready for student and institutional use."
+            title="Core guidance programs available today."
+            lead="Every program described here is actively supported in the EDUARC platform and ready for student and institutional use."
           />
 
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

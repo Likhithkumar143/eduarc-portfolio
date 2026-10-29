@@ -92,7 +92,7 @@ const audiencePathways = [
     title: "Institutional Guidance Hub",
     description:
       "Equip your institution with systematic career guidance workshops, mentor sessions, and structured tracking for every student batch.",
-    cta: "Explore Programs",
+    cta: "Explore Features",
     href: "/programs",
     highlight: "Partner Onboarding",
   },
@@ -146,7 +146,7 @@ function Index() {
               className="w-full sm:w-auto justify-center"
             >
               <Link to="/features" className="gap-2 justify-center">
-                <span>Explore How It Works</span>
+                <span>Explore Programs</span>
                 <ArrowRight className="h-4 w-4 text-brand-gold" />
               </Link>
             </Button>
@@ -408,7 +408,7 @@ function Index() {
                 size="pill"
                 className="w-full sm:w-auto justify-center"
               >
-                <Link to="/programs">Explore Institutional Programs</Link>
+                <Link to="/programs">Explore Institutional Features</Link>
               </Button>
               <Button
                 asChild

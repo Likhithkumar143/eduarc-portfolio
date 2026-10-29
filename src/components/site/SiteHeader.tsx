@@ -9,8 +9,8 @@ import { cn } from "@/lib/utils";
 export const navItems = [
   { to: "/about", label: "About" },
   { to: "/mentors", label: "Mentors" },
-  { to: "/features", label: "Features" },
-  { to: "/programs", label: "Programs" },
+  { to: "/features", label: "Programs" },
+  { to: "/programs", label: "Features" },
   { to: "/impact", label: "Impact" },
   { to: "/contact", label: "Contact" },
 ] as const;

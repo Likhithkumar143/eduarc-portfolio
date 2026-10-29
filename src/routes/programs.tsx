@@ -19,17 +19,17 @@ import { useSiteContent } from "@/lib/site-content";
 export const Route = createFileRoute("/programs")({
   head: () => ({
     meta: [
-      { title: "Programs for Schools & Colleges — EDUARC Institutional Guidance" },
+      { title: "Features for Schools & Colleges — EDUARC Institutional Guidance" },
       {
         name: "description",
         content:
-          "Institutional career guidance partnerships for High Schools, PU Colleges, and Degree Institutions. Structured seminars, student roadmaps, and mentor sessions.",
+          "Institutional career guidance features for High Schools, PU Colleges, and Degree Institutions. Structured seminars, student roadmaps, and mentor sessions.",
       },
-      { property: "og:title", content: "EDUARC Institutional Guidance Programs" },
+      { property: "og:title", content: "EDUARC Institutional Guidance Features" },
       {
         property: "og:description",
         content:
-          "Structured partnership models for schools, PU colleges, and higher education institutions.",
+          "Structured partnership features for schools, PU colleges, and higher education institutions.",
       },
     ],
     links: [{ rel: "canonical", href: "https://eduarc-connect.in/programs" }],
@@ -114,8 +114,8 @@ function ProgramsPage() {
     <>
       {/* 1. Page Intro */}
       <PageIntro
-        eyebrow="Institutional Offerings"
-        title="Structured guidance for schools and colleges."
+        eyebrow="Institutional Features"
+        title="Structured features for schools and colleges."
         lead={
           c.programsPage.lead ||
           "Equip your institution with systematic career guidance workshops, mentor sessions, and actionable student roadmaps led by verified academicians."
@@ -135,9 +135,9 @@ function ProgramsPage() {
       <section className="bg-background py-20 md:py-28">
         <div className="container-apple">
           <SectionHeading
-            eyebrow="Program Levels"
+            eyebrow="Feature Levels"
             title="Designed for every critical academic transition."
-            lead="Our programs are calibrated to the exact developmental and academic stage of your student body."
+            lead="Our features are calibrated to the exact developmental and academic stage of your student body."
           />
 
           <div className="mt-14 grid gap-8 lg:grid-cols-3">
