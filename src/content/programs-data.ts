@@ -18,6 +18,27 @@ import sessionGallery3 from "@/assets/programs/session/session-gallery-3.jpg";
 import sessionGallery4 from "@/assets/programs/session/session-gallery-4.jpg";
 import sessionGallery5 from "@/assets/programs/session/session-gallery-5.jpg";
 
+export const SUPABASE_STORAGE_URL =
+  "https://lionurqqysgonxrpzovv.supabase.co/storage/v1/object/public/programs";
+
+export const supabaseProgramImages = {
+  sriVenkateshwara: `${SUPABASE_STORAGE_URL}/program-sri-venkateshwara.jpg`,
+  stMarys: `${SUPABASE_STORAGE_URL}/program-st-marys.jpg`,
+  kendriyaVidyalaya: `${SUPABASE_STORAGE_URL}/program-kendriya-vidyalaya.jpg`,
+  davPublic: `${SUPABASE_STORAGE_URL}/program-dav-public.jpg`,
+  psgCollege: `${SUPABASE_STORAGE_URL}/program-psg-college.jpg`,
+  sriChaitanya: `${SUPABASE_STORAGE_URL}/program-sri-chaitanya.jpg`,
+  chinmayaVidyalaya: `${SUPABASE_STORAGE_URL}/program-chinmaya-vidyalaya.jpg`,
+  vitVellore: `${SUPABASE_STORAGE_URL}/program-vit-vellore.jpg`,
+  bishopHeber: `${SUPABASE_STORAGE_URL}/program-bishop-heber.jpg`,
+  sessionHero: `${SUPABASE_STORAGE_URL}/session/session-hero.jpg`,
+  sessionGallery1: `${SUPABASE_STORAGE_URL}/session/session-gallery-1.jpg`,
+  sessionGallery2: `${SUPABASE_STORAGE_URL}/session/session-gallery-2.jpg`,
+  sessionGallery3: `${SUPABASE_STORAGE_URL}/session/session-gallery-3.jpg`,
+  sessionGallery4: `${SUPABASE_STORAGE_URL}/session/session-gallery-4.jpg`,
+  sessionGallery5: `${SUPABASE_STORAGE_URL}/session/session-gallery-5.jpg`,
+};
+
 export interface ProgramSessionReview {
   quote: string;
   author: string;
@@ -58,11 +79,11 @@ export interface ProgramSessionData {
 }
 
 export const defaultSessionGallery = [
-  sessionGallery1,
-  sessionGallery2,
-  sessionGallery3,
-  sessionGallery4,
-  sessionGallery5,
+  supabaseProgramImages.sessionGallery1,
+  supabaseProgramImages.sessionGallery2,
+  supabaseProgramImages.sessionGallery3,
+  supabaseProgramImages.sessionGallery4,
+  supabaseProgramImages.sessionGallery5,
 ];
 
 export const conductedPrograms: ProgramSessionData[] = [
@@ -73,8 +94,8 @@ export const conductedPrograms: ProgramSessionData[] = [
     date: "15 Oct 2025",
     duration: "2 Hours",
     location: "Sri Venkateshwara Higher Secondary School, Coimbatore",
-    image: imgSriVenkateshwara,
-    heroImage: sessionHeroImg,
+    image: supabaseProgramImages.sriVenkateshwara,
+    heroImage: supabaseProgramImages.sessionHero,
     gallery: defaultSessionGallery,
     type: "school",
     tag: "Higher Secondary",
@@ -122,8 +143,8 @@ export const conductedPrograms: ProgramSessionData[] = [
     date: "12 Aug 2025",
     duration: "2.5 Hours",
     location: "St. Mary's College Auditorium, Tiruchirappalli, Tamil Nadu",
-    image: imgStMarys,
-    heroImage: sessionHeroImg,
+    image: supabaseProgramImages.stMarys,
+    heroImage: supabaseProgramImages.sessionHero,
     gallery: defaultSessionGallery,
     type: "college",
     tag: "Undergraduate",
@@ -170,8 +191,8 @@ export const conductedPrograms: ProgramSessionData[] = [
     date: "20 Jul 2025",
     duration: "2 Hours",
     location: "Kendriya Vidyalaya Main Auditorium, Bengaluru, Karnataka",
-    image: imgKendriyaVidyalaya,
-    heroImage: sessionHeroImg,
+    image: supabaseProgramImages.kendriyaVidyalaya,
+    heroImage: supabaseProgramImages.sessionHero,
     gallery: defaultSessionGallery,
     type: "school",
     tag: "Senior School",
@@ -217,8 +238,8 @@ export const conductedPrograms: ProgramSessionData[] = [
     date: "10 Jun 2025",
     duration: "3 Hours",
     location: "DAV Public School Campus, Mysuru, Karnataka",
-    image: imgDavPublic,
-    heroImage: sessionHeroImg,
+    image: supabaseProgramImages.davPublic,
+    heroImage: supabaseProgramImages.sessionHero,
     gallery: defaultSessionGallery,
     type: "school",
     tag: "Life Skills",
@@ -264,8 +285,8 @@ export const conductedPrograms: ProgramSessionData[] = [
     date: "25 Apr 2025",
     duration: "2 Hours",
     location: "PSG CAS Seminar Hall, Coimbatore, Tamil Nadu",
-    image: imgPsgCollege,
-    heroImage: sessionHeroImg,
+    image: supabaseProgramImages.psgCollege,
+    heroImage: supabaseProgramImages.sessionHero,
     gallery: defaultSessionGallery,
     type: "college",
     tag: "Degree College",
@@ -312,8 +333,8 @@ export const conductedPrograms: ProgramSessionData[] = [
     date: "15 Mar 2025",
     duration: "2.5 Hours",
     location: "Sri Chaitanya Campus, Hyderabad, Telangana",
-    image: imgSriChaitanya,
-    heroImage: sessionHeroImg,
+    image: supabaseProgramImages.sriChaitanya,
+    heroImage: supabaseProgramImages.sessionHero,
     gallery: defaultSessionGallery,
     type: "college",
     tag: "Junior College",
@@ -359,8 +380,8 @@ export const conductedPrograms: ProgramSessionData[] = [
     date: "22 Feb 2025",
     duration: "2 Hours",
     location: "Chinmaya Vidyalaya Auditorium, Ernakulam, Kerala",
-    image: imgChinmayaVidyalaya,
-    heroImage: sessionHeroImg,
+    image: supabaseProgramImages.chinmayaVidyalaya,
+    heroImage: supabaseProgramImages.sessionHero,
     gallery: defaultSessionGallery,
     type: "school",
     tag: "Class 12 Focus",
@@ -406,8 +427,8 @@ export const conductedPrograms: ProgramSessionData[] = [
     date: "18 Jan 2025",
     duration: "3 Hours",
     location: "Technology Tower Auditorium, VIT Vellore, Tamil Nadu",
-    image: imgVitVellore,
-    heroImage: sessionHeroImg,
+    image: supabaseProgramImages.vitVellore,
+    heroImage: supabaseProgramImages.sessionHero,
     gallery: defaultSessionGallery,
     type: "college",
     tag: "University",
@@ -454,8 +475,8 @@ export const conductedPrograms: ProgramSessionData[] = [
     date: "12 Dec 2024",
     duration: "2.5 Hours",
     location: "Bishop Heber College Main Hall, Tiruchirappalli, Tamil Nadu",
-    image: imgBishopHeber,
-    heroImage: sessionHeroImg,
+    image: supabaseProgramImages.bishopHeber,
+    heroImage: supabaseProgramImages.sessionHero,
     gallery: defaultSessionGallery,
     type: "college",
     tag: "Higher Education",

@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import {
   Plus,
   Trash2,
@@ -28,6 +29,7 @@ import {
   Image as ImageIcon,
 } from "lucide-react";
 import { toast } from "sonner";
+import { uploadProgramImage } from "@/lib/admin.functions";
 import {
   type SiteContent,
   type ProgramSessionItem,
@@ -182,6 +184,8 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
   const [selectedGalleryIdx, setSelectedGalleryIdx] = useState<number>(0);
   const [uploadingImage, setUploadingImage] = useState(false);
 
+  const uploadImageFn = useServerFn(uploadProgramImage);
+
   // Filtered Programs
   const filtered = programs.filter((p) => {
     const matchesType = typeFilter === "all" || p.type === typeFilter;
@@ -214,7 +218,7 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
     setIsDialogOpen(true);
   }
 
-  // Handle Image Upload Helper
+  // Handle Image Upload directly to Supabase Storage bucket 'programs'
   async function handleImageFile(
     file: File,
     target: "card" | "hero" | "gallery",
@@ -222,23 +226,43 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
   ) {
     try {
       setUploadingImage(true);
-      const dataUrl = await compressImage(file);
+      toast.loading("Uploading photo to Supabase Storage...", { id: "storage-upload" });
+
+      const compressed = await compressImage(file);
+      const targetSessionId =
+        form.id.trim() || slugify(form.institution || form.title) || "custom";
+
+      const res = await uploadImageFn({
+        data: {
+          fileName: file.name,
+          contentType: file.type || "image/jpeg",
+          base64Data: compressed,
+          sessionId: targetSessionId,
+          type: target,
+          galleryIndex: galleryIdx,
+        },
+      });
+
+      const publicUrl = res.publicUrl;
+      toast.dismiss("storage-upload");
+
       if (target === "card") {
-        setForm((prev) => ({ ...prev, image: dataUrl }));
-        toast.success("Card thumbnail image updated");
+        setForm((prev) => ({ ...prev, image: publicUrl }));
+        toast.success(`Card photo uploaded to Supabase Storage (${targetSessionId})`);
       } else if (target === "hero") {
-        setForm((prev) => ({ ...prev, heroImage: dataUrl }));
-        toast.success("Session hero image updated");
+        setForm((prev) => ({ ...prev, heroImage: publicUrl }));
+        toast.success(`Hero photo uploaded to Supabase Storage (${targetSessionId})`);
       } else if (target === "gallery") {
         setForm((prev) => {
           const nextGallery = [...(prev.gallery || defaultSessionGallery)];
-          nextGallery[galleryIdx] = dataUrl;
+          nextGallery[galleryIdx] = publicUrl;
           return { ...prev, gallery: nextGallery };
         });
-        toast.success(`Gallery photo #${galleryIdx + 1} updated`);
+        toast.success(`Gallery photo #${galleryIdx + 1} uploaded to Supabase Storage (${targetSessionId})`);
       }
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Failed to upload image");
+      toast.dismiss("storage-upload");
+      toast.error(err instanceof Error ? err.message : "Failed to upload image to Supabase");
     } finally {
       setUploadingImage(false);
     }
