@@ -328,8 +328,8 @@ export const defaultContent: SiteContent = {
     },
   ],
   programsPage: {
-    title: "A complete ecosystem.",
-    lead: "Designed to guide, support and empower students — and give institutions full visibility.",
+    title: "Our Programs",
+    lead: "Explore the career guidance sessions, workshops and seminars conducted by EDUARC at various schools and colleges.",
     idealForTitle: "Every stage of the student journey.",
     processTitle: "Implementation process.",
     processLead: "Get started quickly with our simple 4‑step process.",
