@@ -79,13 +79,14 @@ export const uploadProgramImage = createServerFn({ method: "POST" })
         .replace(/^-|-$/g, "") || "custom";
 
     let targetFileName = "";
+    const ext = data.contentType.includes("webp") ? "webp" : "jpg";
     if (data.type === "card") {
-      targetFileName = `card-${Date.now()}.jpg`;
+      targetFileName = `card.${ext}`;
     } else if (data.type === "hero") {
-      targetFileName = `hero-${Date.now()}.jpg`;
+      targetFileName = `hero.${ext}`;
     } else if (data.type === "gallery") {
       const idx = (data.galleryIndex ?? 0) + 1;
-      targetFileName = `gallery-${idx}-${Date.now()}.jpg`;
+      targetFileName = `gallery-${idx}.${ext}`;
     } else {
       targetFileName = `${Date.now()}-${data.fileName.toLowerCase().replace(/[^\w.-]/g, "-")}`;
     }

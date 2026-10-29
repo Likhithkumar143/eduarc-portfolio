@@ -32,6 +32,7 @@ import {
 } from "lucide-react";
 import mentorImg from "@/assets/mentor-gayathri.jpg";
 import { toast } from "sonner";
+import { compressImage } from "@/lib/image-compression";
 import {
   defaultContent,
   initials,
@@ -74,54 +75,6 @@ function isUsableImage(url?: string | null): boolean {
     return false;
   }
   return true;
-}
-
-async function compressImage(file: File): Promise<string> {
-  if (file.type && !file.type.startsWith("image/")) {
-    throw new Error("Please select a valid image file (PNG, JPG, or WEBP).");
-  }
-  if (file.size > 10 * 1024 * 1024) {
-    throw new Error("Image file size must be under 10MB. Please select a smaller photo.");
-  }
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = new Image();
-      img.onload = () => {
-        const maxDim = 800;
-        let w = img.width;
-        let h = img.height;
-        if (w > maxDim || h > maxDim) {
-          if (w > h) {
-            h = Math.round((h * maxDim) / w);
-            w = maxDim;
-          } else {
-            w = Math.round((w * maxDim) / h);
-            h = maxDim;
-          }
-        }
-        const canvas = document.createElement("canvas");
-        canvas.width = w;
-        canvas.height = h;
-        const ctx = canvas.getContext("2d");
-        if (!ctx) {
-          resolve(e.target?.result as string);
-          return;
-        }
-        // Fill white background for transparent PNGs so they don't turn into black boxes
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, w, h);
-        ctx.drawImage(img, 0, 0, w, h);
-        const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
-        resolve(dataUrl);
-      };
-      img.onerror = () =>
-        reject(new Error("Could not decode image. Please try a different photo."));
-      img.src = e.target?.result as string;
-    };
-    reader.onerror = () => reject(new Error("Could not read image file."));
-    reader.readAsDataURL(file);
-  });
 }
 
 function createDefaultMentor(): MentorProfile {
@@ -250,12 +203,18 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
     const file = e.target.files?.[0];
     if (!file) return;
     try {
-      toast.loading("Processing photo...", { id: "mentor-photo" });
-      const dataUrl = await compressImage(file);
-      setCurrentMentor((prev) => ({ ...prev, imageUrl: dataUrl }));
-      toast.success("Photo uploaded! Click 'Apply & Publish Now' below to make it live.", {
-        id: "mentor-photo",
+      toast.loading("Compressing photo to reduce storage size...", { id: "mentor-photo" });
+      const result = await compressImage(file, {
+        maxWidth: 800,
+        maxHeight: 800,
+        quality: 0.78,
+        targetMaxBytes: 100 * 1024,
       });
+      setCurrentMentor((prev) => ({ ...prev, imageUrl: result.dataUrl }));
+      toast.success(
+        `Photo optimized (${result.readableCompressedSize}, ${result.savedPercent}% space saved)! Click 'Apply & Publish Now' below to make it live.`,
+        { id: "mentor-photo" }
+      );
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Failed to process photo.";
       toast.error(msg, { id: "mentor-photo" });
@@ -270,23 +229,27 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
     if (!file || targetIdx === null) return;
     try {
       toast.loading("Compressing and saving photo...", { id: "mentor-quick-photo" });
-      const dataUrl = await compressImage(file);
+      const result = await compressImage(file, {
+        maxWidth: 800,
+        maxHeight: 800,
+        quality: 0.78,
+        targetMaxBytes: 100 * 1024,
+      });
       const next = [...mentors];
       if (next[targetIdx]) {
-        next[targetIdx] = { ...next[targetIdx], imageUrl: dataUrl };
+        next[targetIdx] = { ...next[targetIdx], imageUrl: result.dataUrl };
         const nextDraft = { ...draft, mentors: next };
         update("mentors", next);
         if (onSave) {
           await onSave(nextDraft);
-          toast.success(`Photo updated and published live for "${next[targetIdx].name}"!`, {
-            id: "mentor-quick-photo",
-          });
+          toast.success(
+            `Photo compressed (${result.readableCompressedSize}, ${result.savedPercent}% saved) and published live for "${next[targetIdx].name}"!`,
+            { id: "mentor-quick-photo" }
+          );
         } else {
           toast.success(
-            `Photo updated for "${next[targetIdx].name}"! Click Save & publish to make live.`,
-            {
-              id: "mentor-quick-photo",
-            },
+            `Photo compressed (${result.readableCompressedSize}, ${result.savedPercent}% saved) for "${next[targetIdx].name}"! Click Save to publish.`,
+            { id: "mentor-quick-photo" }
           );
         }
       }
