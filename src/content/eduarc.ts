@@ -1,6 +1,10 @@
 // Content model + defaults for the EduArc site. The admin dashboard saves edits to the
 // database; pages read the merged result through `useSiteContent()`.
 import { z } from "zod";
+import {
+  conductedPrograms as defaultConductedPrograms,
+  defaultSessionGallery,
+} from "@/content/programs-data";
 
 export const iconNames = [
   "route",
@@ -83,6 +87,55 @@ export type MentorReason = z.infer<typeof mentorReasonSchema>;
 export type MentorBeneficiary = z.infer<typeof mentorBeneficiarySchema>;
 export type MentorImpactMetric = z.infer<typeof mentorImpactMetricSchema>;
 export type MentorCardStat = z.infer<typeof mentorCardStatSchema>;
+
+export const programSessionReviewSchema = z.object({
+  quote: z.string().max(2000),
+  author: z.string().max(250),
+});
+
+export const programInstitutionDetailsSchema = z.object({
+  name: z.string().max(250),
+  type: z.string().max(200),
+  city: z.string().max(200),
+  contactPerson: z.string().max(200),
+  phone: z.string().max(100),
+  email: z.string().max(200),
+});
+
+export const programSummarySchema = z.object({
+  text: z.string().max(5000),
+  quote: z.string().max(2000),
+  quoteAuthor: z.string().max(250),
+});
+
+export const programFeedbackSchema = z.object({
+  rating: z.string().max(20).default("4.8"),
+  totalResponses: z.number().default(86),
+  reviews: z.array(programSessionReviewSchema).default([]),
+});
+
+export const programSessionSchema = z.object({
+  id: z.string().max(150),
+  institution: z.string().max(250),
+  title: z.string().max(250),
+  date: z.string().max(150),
+  duration: z.string().max(150).default("2 Hours"),
+  location: z.string().max(300),
+  image: z.string().max(2_000_000).default(""),
+  heroImage: z.string().max(2_000_000).default(""),
+  gallery: z.array(z.string().max(2_000_000)).default([]),
+  type: z.enum(["school", "college"]).default("school"),
+  tag: z.string().max(150).default("Higher Secondary"),
+  category: z.string().max(200).default("Career Guidance Session"),
+  description: z.string().max(3000),
+  institutionDetails: programInstitutionDetailsSchema,
+  summary: programSummarySchema,
+  feedback: programFeedbackSchema,
+});
+
+export type ProgramSessionReview = z.infer<typeof programSessionReviewSchema>;
+export type ProgramInstitutionDetails = z.infer<typeof programInstitutionDetailsSchema>;
+export type ProgramSessionItem = z.infer<typeof programSessionSchema>;
 
 export const siteContentSchema = z.object({
   brand: z.object({ tagline: str, footerBlurb: str }),
@@ -197,6 +250,7 @@ export const siteContentSchema = z.object({
   }),
   cta: z.object({ title: str, lead: str }),
   mentors: z.array(mentorProfileSchema).default([]),
+  conductedPrograms: z.array(programSessionSchema).default([]),
 });
 
 export type SiteContent = z.infer<typeof siteContentSchema>;
@@ -548,6 +602,7 @@ export const defaultContent: SiteContent = {
       tagline: "Learn with direction. Grow with confidence. Build your future with EDUARC.",
     },
   ],
+  conductedPrograms: defaultConductedPrograms,
 };
 
 /** Saved data is layered over defaults per section so new fields always have a value. */
@@ -566,6 +621,11 @@ export function mergeContent(saved: unknown): SiteContent {
   // If saved mentors failed validation due to old schema, fall back to updated default mentors
   if (merged["mentors"]) {
     const fallback = { ...merged, mentors: defaultContent.mentors };
+    const retry = siteContentSchema.safeParse(fallback);
+    if (retry.success) return retry.data;
+  }
+  if (merged["conductedPrograms"]) {
+    const fallback = { ...merged, conductedPrograms: defaultContent.conductedPrograms };
     const retry = siteContentSchema.safeParse(fallback);
     if (retry.success) return retry.data;
   }

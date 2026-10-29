@@ -1,4 +1,5 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useMemo } from "react";
 import {
   Calendar,
   Clock,
@@ -19,6 +20,8 @@ import {
 import { Reveal } from "@/components/site/Reveal";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useSiteContent, siteContentQuery } from "@/lib/site-content";
+import type { SiteContent } from "@/content/eduarc";
 import {
   conductedPrograms,
   getProgramSessionById,
@@ -28,8 +31,17 @@ import {
 const defaultProgram = conductedPrograms[0]!;
 
 export const Route = createFileRoute("/programs_/$sessionId")({
-  loader: ({ params }): ProgramSessionData => {
-    const session = getProgramSessionById(params.sessionId);
+  loader: async ({ params, context }): Promise<ProgramSessionData> => {
+    let session = getProgramSessionById(params.sessionId);
+    try {
+      const siteContent = context?.queryClient?.getQueryData<SiteContent>(siteContentQuery.queryKey);
+      if (siteContent?.conductedPrograms?.length) {
+        const found = siteContent.conductedPrograms.find((p) => p.id === params.sessionId);
+        if (found) session = found;
+      }
+    } catch {
+      // fallback
+    }
     return session || defaultProgram;
   },
   head: ({ loaderData }) => {
@@ -56,7 +68,17 @@ export const Route = createFileRoute("/programs_/$sessionId")({
 });
 
 function ProgramSessionDetailPage() {
-  const session = Route.useLoaderData();
+  const loaderSession = Route.useLoaderData();
+  const c = useSiteContent();
+
+  const session = useMemo(() => {
+    const list =
+      c.conductedPrograms && c.conductedPrograms.length > 0
+        ? c.conductedPrograms
+        : conductedPrograms;
+    const match = list.find((p) => p.id === loaderSession?.id);
+    return match || loaderSession;
+  }, [c.conductedPrograms, loaderSession]);
 
   if (!session) {
     return (

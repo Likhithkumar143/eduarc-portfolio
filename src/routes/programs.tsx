@@ -48,10 +48,15 @@ function ProgramsPage() {
   const c = useSiteContent();
   const [filter, setFilter] = useState<FilterType>("all");
 
+  const programsList =
+    c.conductedPrograms && c.conductedPrograms.length > 0
+      ? c.conductedPrograms
+      : conductedPrograms;
+
   const filteredPrograms = useMemo(() => {
-    if (filter === "all") return conductedPrograms;
-    return conductedPrograms.filter((p) => p.type === filter);
-  }, [filter]);
+    if (filter === "all") return programsList;
+    return programsList.filter((p) => p.type === filter);
+  }, [filter, programsList]);
 
   return (
     <div className="bg-[#f8fafc] min-h-screen">
@@ -79,7 +84,7 @@ function ProgramsPage() {
                 }`}
               >
                 <span>All Programs</span>
-                <span className="text-[11px] opacity-75">({conductedPrograms.length})</span>
+                <span className="text-[11px] opacity-75">({programsList.length})</span>
               </button>
 
               <button
@@ -94,7 +99,7 @@ function ProgramsPage() {
                 <School className="h-3.5 w-3.5" />
                 <span>School Sessions</span>
                 <span className="text-[11px] opacity-75">
-                  ({conductedPrograms.filter((p) => p.type === "school").length})
+                  ({programsList.filter((p) => p.type === "school").length})
                 </span>
               </button>
 
@@ -110,7 +115,7 @@ function ProgramsPage() {
                 <GraduationCap className="h-3.5 w-3.5" />
                 <span>Colleges & Universities</span>
                 <span className="text-[11px] opacity-75">
-                  ({conductedPrograms.filter((p) => p.type === "college").length})
+                  ({programsList.filter((p) => p.type === "college").length})
                 </span>
               </button>
             </div>

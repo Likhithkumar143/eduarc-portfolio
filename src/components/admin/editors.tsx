@@ -216,50 +216,7 @@ export function FeaturesEditor({ draft, update }: EditorProps) {
   );
 }
 
-export function ProgramsEditor({ draft, update }: EditorProps) {
-  return (
-    <>
-      <Panel title="Programs page text">
-        <ObjectFields
-          value={draft.programsPage}
-          onChange={(v) => update("programsPage", v)}
-          fields={[
-            { key: "title", label: "Heading" },
-            { key: "idealForTitle", label: "“Ideal for” heading" },
-            { key: "lead", label: "Intro text", long: true },
-            { key: "processTitle", label: "Process heading" },
-            { key: "processLead", label: "Process text" },
-          ]}
-        />
-      </Panel>
-      <Panel title="What we offer">
-        <IconItems
-          label="Offers"
-          items={draft.offers}
-          onChange={(v) => update("offers", v)}
-          max={12}
-        />
-      </Panel>
-      <Panel title="Ideal for">
-        <StringList
-          label="Institution types"
-          items={draft.idealFor}
-          onChange={(v) => update("idealFor", v)}
-          max={20}
-          placeholder="e.g. Degree Colleges"
-        />
-      </Panel>
-      <Panel title="Implementation steps">
-        <TextItems
-          label="Steps"
-          items={draft.steps}
-          onChange={(v) => update("steps", v)}
-          max={12}
-        />
-      </Panel>
-    </>
-  );
-}
+export { ProgramsEditor } from "./ProgramsEditor";
 
 export function ImpactEditor({ draft, update }: EditorProps) {
   return (
