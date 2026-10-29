@@ -65,16 +65,30 @@ function slugify(text: string): string {
     .replace(/\s+/g, "-");
 }
 
+function isUsableImage(url?: string | null): boolean {
+  if (!url) return false;
+  const trimmed = url.trim().replace(/^["']|["']$/g, "");
+  if (!trimmed) return false;
+  // Guard against corrupted or dummy base64 strings
+  if (trimmed.startsWith("data:") && (trimmed.includes("AAAAAAAA") || trimmed.length < 50)) {
+    return false;
+  }
+  return true;
+}
+
 async function compressImage(file: File): Promise<string> {
   if (file.type && !file.type.startsWith("image/")) {
     throw new Error("Please select a valid image file (PNG, JPG, or WEBP).");
+  }
+  if (file.size > 10 * 1024 * 1024) {
+    throw new Error("Image file size must be under 10MB. Please select a smaller photo.");
   }
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = (e) => {
       const img = new Image();
       img.onload = () => {
-        const maxDim = 640;
+        const maxDim = 800;
         let w = img.width;
         let h = img.height;
         if (w > maxDim || h > maxDim) {
@@ -94,11 +108,15 @@ async function compressImage(file: File): Promise<string> {
           resolve(e.target?.result as string);
           return;
         }
+        // Fill white background for transparent PNGs so they don't turn into black boxes
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, w, h);
         ctx.drawImage(img, 0, 0, w, h);
-        const dataUrl = canvas.toDataURL("image/jpeg", 0.82);
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
         resolve(dataUrl);
       };
-      img.onerror = () => reject(new Error("Could not decode image."));
+      img.onerror = () =>
+        reject(new Error("Could not decode image. Please try a different photo."));
       img.src = e.target?.result as string;
     };
     reader.onerror = () => reject(new Error("Could not read image file."));
@@ -192,7 +210,8 @@ function createDefaultMentor(): MentorProfile {
       },
       {
         target: "Parents",
-        benefit: "Gain clarity about available academic options and support their children's decisions.",
+        benefit:
+          "Gain clarity about available academic options and support their children's decisions.",
       },
       {
         target: "Students Exploring Their Future",
@@ -237,8 +256,9 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
       toast.success("Photo uploaded! Click 'Apply & Publish Now' below to make it live.", {
         id: "mentor-photo",
       });
-    } catch (err: any) {
-      toast.error(err.message || "Failed to process photo.", { id: "mentor-photo" });
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to process photo.";
+      toast.error(msg, { id: "mentor-photo" });
     } finally {
       if (fileInputRef.current) fileInputRef.current.value = "";
     }
@@ -249,20 +269,30 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
     const targetIdx = quickUploadIndexRef.current;
     if (!file || targetIdx === null) return;
     try {
-      toast.loading("Processing photo...", { id: "mentor-quick-photo" });
+      toast.loading("Compressing and saving photo...", { id: "mentor-quick-photo" });
       const dataUrl = await compressImage(file);
       const next = [...mentors];
       if (next[targetIdx]) {
         next[targetIdx] = { ...next[targetIdx], imageUrl: dataUrl };
+        const nextDraft = { ...draft, mentors: next };
         update("mentors", next);
-        toast.success(`Photo updated for "${next[targetIdx].name}"!`, {
-          id: "mentor-quick-photo",
-          description: "Click 'Save & publish' below or the top button to publish live.",
-          action: onSave ? { label: "Publish Now", onClick: () => onSave() } : undefined,
-        });
+        if (onSave) {
+          await onSave(nextDraft);
+          toast.success(`Photo updated and published live for "${next[targetIdx].name}"!`, {
+            id: "mentor-quick-photo",
+          });
+        } else {
+          toast.success(
+            `Photo updated for "${next[targetIdx].name}"! Click Save & publish to make live.`,
+            {
+              id: "mentor-quick-photo",
+            },
+          );
+        }
       }
-    } catch (err: any) {
-      toast.error(err.message || "Failed to process photo.", { id: "mentor-quick-photo" });
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to process photo.";
+      toast.error(msg, { id: "mentor-quick-photo" });
     } finally {
       quickUploadIndexRef.current = null;
       if (quickFileInputRef.current) quickFileInputRef.current.value = "";
@@ -287,13 +317,13 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
     setModalOpen(true);
   }
 
-  function handleSaveCurrent() {
+  function prepareCleanedMentor(): MentorProfile | null {
     if (!currentMentor.name.trim()) {
       toast.error("Mentor name is required.");
-      return;
+      return null;
     }
 
-    const cleaned: MentorProfile = {
+    return {
       ...currentMentor,
       name: currentMentor.name.trim(),
       id: currentMentor.id.trim() || slugify(currentMentor.name) || `mentor-${Date.now()}`,
@@ -328,22 +358,43 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
         value: metric.value.trim(),
       })),
     };
+  }
+
+  function handleSaveCurrent() {
+    const cleaned = prepareCleanedMentor();
+    if (!cleaned) return;
 
     let next: MentorProfile[];
     if (editingIndex === null) {
       next = [...mentors, cleaned];
-      toast.success(`Mentor "${cleaned.name}" added! Click 'Save & publish' below to make it live.`, {
-        action: onSave ? { label: "Publish Now", onClick: () => onSave() } : undefined,
-      });
+      toast.success(`Mentor "${cleaned.name}" added! Click 'Save & publish' to make it live.`);
     } else {
       next = mentors.map((m, i) => (i === editingIndex ? cleaned : m));
-      toast.success(`Mentor "${cleaned.name}" updated! Click 'Save & publish' below to make it live.`, {
-        action: onSave ? { label: "Publish Now", onClick: () => onSave() } : undefined,
-      });
+      toast.success(`Mentor "${cleaned.name}" updated! Click 'Save & publish' to make it live.`);
     }
 
     update("mentors", next);
     setModalOpen(false);
+  }
+
+  async function handleApplyAndPublishNow() {
+    const cleaned = prepareCleanedMentor();
+    if (!cleaned) return;
+
+    let next: MentorProfile[];
+    if (editingIndex === null) {
+      next = [...mentors, cleaned];
+    } else {
+      next = mentors.map((m, i) => (i === editingIndex ? cleaned : m));
+    }
+
+    const nextDraft = { ...draft, mentors: next };
+    update("mentors", next);
+    setModalOpen(false);
+    if (onSave) {
+      await onSave(nextDraft);
+      toast.success(`Mentor "${cleaned.name}" updated and published live!`);
+    }
   }
 
   function handleDelete(index: number) {
@@ -435,7 +486,7 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
               <Button
                 variant="default"
                 size="sm"
-                onClick={() => onSave()}
+                onClick={() => onSave({ ...draft, mentors })}
                 disabled={isSaving}
                 className="rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-medium shadow-sm"
               >
@@ -467,7 +518,8 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
             <Users className="mx-auto h-10 w-10 text-muted-foreground/60" strokeWidth={1.5} />
             <h3 className="mt-3 text-lg font-semibold text-foreground">No mentors configured</h3>
             <p className="mt-1 text-sm text-muted-foreground max-w-md mx-auto">
-              Add a mentor profile to showcase academic and student counselling guidance to students and parents.
+              Add a mentor profile to showcase academic and student counselling guidance to students
+              and parents.
             </p>
             <div className="mt-6 flex justify-center gap-3">
               <Button onClick={handleRestoreDefault} variant="outline" className="rounded-xl">
@@ -482,11 +534,10 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
           mentors.map((mentor, index) => {
             const isGayathri =
               mentor.id === "dr-gayathri-g-n" || mentor.name.toLowerCase().includes("gayathri");
-            const photoSrc = mentor.imageUrl?.trim()
-              ? mentor.imageUrl
-              : isGayathri
-                ? mentorImg
-                : null;
+            const usableCustom = isUsableImage(mentor.imageUrl)
+              ? mentor.imageUrl!.trim().replace(/^["']|["']$/g, "")
+              : null;
+            const photoSrc = usableCustom ? usableCustom : isGayathri ? mentorImg : null;
 
             return (
               <div
@@ -642,7 +693,8 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
                     : `Edit Mentor — ${currentMentor.name || "Untitled"}`}
                 </DialogTitle>
                 <DialogDescription className="text-xs text-muted-foreground mt-0.5">
-                  Update mentor identity, career guidance offerings, credentials, beneficiaries, and mentorship impact.
+                  Update mentor identity, career guidance offerings, credentials, beneficiaries, and
+                  mentorship impact.
                 </DialogDescription>
               </div>
             </div>
@@ -754,19 +806,32 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
                   <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                     {/* Photo preview thumbnail */}
                     <div className="relative shrink-0">
-                      {currentMentor.imageUrl?.trim() ||
-                      currentMentor.id === "dr-gayathri-g-n" ||
-                      currentMentor.name.toLowerCase().includes("gayathri") ? (
-                        <img
-                          src={currentMentor.imageUrl?.trim() || mentorImg}
-                          alt={currentMentor.name || "Preview"}
-                          className="h-20 w-20 rounded-2xl object-cover ring-2 ring-brand/20 shadow-sm"
-                        />
-                      ) : (
-                        <div className="h-20 w-20 rounded-2xl bg-gradient-to-br from-brand/20 to-brand-teal/20 text-brand flex items-center justify-center font-bold text-2xl ring-2 ring-brand/10">
-                          {initials(currentMentor.name || "Mentor")}
-                        </div>
-                      )}
+                      {(() => {
+                        const isGayathri =
+                          currentMentor.id === "dr-gayathri-g-n" ||
+                          currentMentor.name.toLowerCase().includes("gayathri");
+                        const usable = isUsableImage(currentMentor.imageUrl)
+                          ? currentMentor.imageUrl.trim().replace(/^["']|["']$/g, "")
+                          : null;
+                        const previewSrc = usable ? usable : isGayathri ? mentorImg : null;
+
+                        return previewSrc ? (
+                          <img
+                            src={previewSrc}
+                            alt={currentMentor.name || "Preview"}
+                            className="h-20 w-20 rounded-2xl object-cover ring-2 ring-brand/20 shadow-sm"
+                            onError={(e) => {
+                              if (isGayathri && e.currentTarget.src !== mentorImg) {
+                                e.currentTarget.src = mentorImg;
+                              }
+                            }}
+                          />
+                        ) : (
+                          <div className="h-20 w-20 rounded-2xl bg-gradient-to-br from-brand/20 to-brand-teal/20 text-brand flex items-center justify-center font-bold text-2xl ring-2 ring-brand/10">
+                            {initials(currentMentor.name || "Mentor")}
+                          </div>
+                        );
+                      })()}
                     </div>
 
                     {/* Actions and inputs */}
@@ -806,14 +871,17 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
                         />
                       </div>
                       <p className="text-[11px] text-muted-foreground">
-                        Upload a PNG, JPG, or WEBP portrait from your device. Auto-resized and optimized for fast loading.
+                        Upload a PNG, JPG, or WEBP portrait from your device. Auto-resized and
+                        optimized for fast loading.
                       </p>
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-1.5 sm:col-span-2">
-                  <Label className="text-xs font-medium">Card Short Bio (Shown on Profile Card)</Label>
+                  <Label className="text-xs font-medium">
+                    Card Short Bio (Shown on Profile Card)
+                  </Label>
                   <Textarea
                     value={currentMentor.shortBio || ""}
                     onChange={(e) =>
@@ -824,28 +892,42 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
                     className="rounded-xl text-xs"
                   />
                   <p className="text-[11px] text-muted-foreground">
-                    1–2 concise sentences displayed directly on the mentor's profile card in the gallery.
+                    1–2 concise sentences displayed directly on the mentor's profile card in the
+                    gallery.
                   </p>
                 </div>
 
                 <div className="space-y-2 sm:col-span-2 border-t border-hairline pt-3">
                   <div className="flex items-center justify-between">
-                    <Label className="text-xs font-medium">Profile Card Quick Stats (3 Columns)</Label>
-                    <span className="text-[11px] text-muted-foreground">e.g. 7+ Yrs / Experience, 6 Pubs / Research</span>
+                    <Label className="text-xs font-medium">
+                      Profile Card Quick Stats (3 Columns)
+                    </Label>
+                    <span className="text-[11px] text-muted-foreground">
+                      e.g. 7+ Yrs / Experience, 6 Pubs / Research
+                    </span>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                     {[0, 1, 2].map((idx) => {
                       const stat = (currentMentor.cardStats || [])[idx] || { label: "", value: "" };
                       return (
-                        <div key={idx} className="p-2.5 rounded-xl border border-hairline bg-surface/40 space-y-1.5">
+                        <div
+                          key={idx}
+                          className="p-2.5 rounded-xl border border-hairline bg-surface/40 space-y-1.5"
+                        >
                           <div>
-                            <span className="text-[10px] uppercase font-bold text-muted-foreground">Stat #{idx + 1} Value</span>
+                            <span className="text-[10px] uppercase font-bold text-muted-foreground">
+                              Stat #{idx + 1} Value
+                            </span>
                             <Input
                               value={stat.value}
                               onChange={(e) => {
                                 const stats = [...(currentMentor.cardStats || [])];
                                 while (stats.length <= idx) stats.push({ label: "", value: "" });
-                                stats[idx] = { ...stats[idx], value: e.target.value, label: stats[idx]?.label || "" };
+                                stats[idx] = {
+                                  ...stats[idx],
+                                  value: e.target.value,
+                                  label: stats[idx]?.label || "",
+                                };
                                 setCurrentMentor({ ...currentMentor, cardStats: stats });
                               }}
                               placeholder={idx === 0 ? "7+ Yrs" : idx === 1 ? "6 Pubs" : "Ph.D."}
@@ -853,16 +935,24 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
                             />
                           </div>
                           <div>
-                            <span className="text-[10px] uppercase font-bold text-muted-foreground">Stat #{idx + 1} Label</span>
+                            <span className="text-[10px] uppercase font-bold text-muted-foreground">
+                              Stat #{idx + 1} Label
+                            </span>
                             <Input
                               value={stat.label}
                               onChange={(e) => {
                                 const stats = [...(currentMentor.cardStats || [])];
                                 while (stats.length <= idx) stats.push({ label: "", value: "" });
-                                stats[idx] = { ...stats[idx], label: e.target.value, value: stats[idx]?.value || "" };
+                                stats[idx] = {
+                                  ...stats[idx],
+                                  label: e.target.value,
+                                  value: stats[idx]?.value || "",
+                                };
                                 setCurrentMentor({ ...currentMentor, cardStats: stats });
                               }}
-                              placeholder={idx === 0 ? "Experience" : idx === 1 ? "Research" : "Education"}
+                              placeholder={
+                                idx === 0 ? "Experience" : idx === 1 ? "Research" : "Education"
+                              }
                               className="rounded-lg h-8 text-xs"
                             />
                           </div>
@@ -906,9 +996,7 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
 
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <Label className="text-xs font-medium">
-                    A Message to Students & Parents
-                  </Label>
+                  <Label className="text-xs font-medium">A Message to Students & Parents</Label>
                   <span className="text-[11px] text-muted-foreground">
                     Separate paragraphs with a blank line
                   </span>
@@ -944,7 +1032,10 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
                       ...currentMentor,
                       howICanGuide: [
                         ...currentMentor.howICanGuide,
-                        { title: "New Guidance Area", description: "Description of what this guidance covers." },
+                        {
+                          title: "New Guidance Area",
+                          description: "Description of what this guidance covers.",
+                        },
                       ],
                     });
                   }}
@@ -1031,7 +1122,10 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
                       ...currentMentor,
                       whyConnect: [
                         ...currentMentor.whyConnect,
-                        { title: "Specialized Credential", description: "Details about this credential or experience." },
+                        {
+                          title: "Specialized Credential",
+                          description: "Details about this credential or experience.",
+                        },
                       ],
                     });
                   }}
@@ -1118,7 +1212,10 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
                       ...currentMentor,
                       whoCanBenefit: [
                         ...currentMentor.whoCanBenefit,
-                        { target: "New Target Audience", benefit: "How they benefit from guidance." },
+                        {
+                          target: "New Target Audience",
+                          benefit: "How they benefit from guidance.",
+                        },
                       ],
                     });
                   }}
@@ -1278,7 +1375,8 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
 
           <DialogFooter className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-hairline pt-4">
             <span className="text-xs text-muted-foreground order-2 sm:order-1">
-              * Click <strong>Apply & Publish Now</strong> or click <strong>Save & publish</strong> on the dashboard to make changes live.
+              * Click <strong>Apply & Publish Now</strong> or click <strong>Save & publish</strong>{" "}
+              on the dashboard to make changes live.
             </span>
             <div className="flex flex-wrap items-center gap-2 order-1 sm:order-2 w-full sm:w-auto justify-end">
               <Button
@@ -1299,10 +1397,7 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
                 <Button
                   variant="default"
                   className="rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs shadow-sm"
-                  onClick={async () => {
-                    handleSaveCurrent();
-                    setTimeout(() => onSave(), 80);
-                  }}
+                  onClick={handleApplyAndPublishNow}
                   disabled={isSaving}
                 >
                   {isSaving ? (
@@ -1319,10 +1414,7 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
       </Dialog>
 
       {/* DELETE CONFIRMATION DIALOG */}
-      <Dialog
-        open={deleteIndex !== null}
-        onOpenChange={(open) => !open && setDeleteIndex(null)}
-      >
+      <Dialog open={deleteIndex !== null} onOpenChange={(open) => !open && setDeleteIndex(null)}>
         <DialogContent className="max-w-md rounded-3xl p-6">
           <DialogHeader>
             <div className="flex items-center gap-2 text-destructive">
@@ -1336,11 +1428,7 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="mt-4 flex justify-end gap-2">
-            <Button
-              variant="outline"
-              className="rounded-xl"
-              onClick={() => setDeleteIndex(null)}
-            >
+            <Button variant="outline" className="rounded-xl" onClick={() => setDeleteIndex(null)}>
               Cancel
             </Button>
             <Button

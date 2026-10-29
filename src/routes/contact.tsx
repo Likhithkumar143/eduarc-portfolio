@@ -42,6 +42,7 @@ export const Route = createFileRoute("/contact")({
           "We're here to help students, parents, and educational institutions. Reach out today.",
       },
     ],
+    links: [{ rel: "canonical", href: "https://eduarc-connect.in/contact" }],
   }),
   component: ContactPage,
 });
@@ -304,9 +305,7 @@ export function ContactPage() {
                 </div>
                 <div>
                   <h4 className="text-xs sm:text-sm font-bold text-slate-900">Facebook</h4>
-                  <p className="text-[11px] text-slate-500 font-medium">
-                    {socials.facebookHandle}
-                  </p>
+                  <p className="text-[11px] text-slate-500 font-medium">{socials.facebookHandle}</p>
                 </div>
               </div>
               <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-[#1877F2] group-hover:translate-x-0.5 transition-all ml-1 shrink-0" />
@@ -325,9 +324,7 @@ export function ContactPage() {
                 </div>
                 <div>
                   <h4 className="text-xs sm:text-sm font-bold text-slate-900">X (Twitter)</h4>
-                  <p className="text-[11px] text-slate-500 font-medium">
-                    {socials.twitterHandle}
-                  </p>
+                  <p className="text-[11px] text-slate-500 font-medium">{socials.twitterHandle}</p>
                 </div>
               </div>
               <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-black group-hover:translate-x-0.5 transition-all ml-1 shrink-0" />
@@ -346,9 +343,7 @@ export function ContactPage() {
                 </div>
                 <div>
                   <h4 className="text-xs sm:text-sm font-bold text-slate-900">LinkedIn</h4>
-                  <p className="text-[11px] text-slate-500 font-medium">
-                    {socials.linkedinHandle}
-                  </p>
+                  <p className="text-[11px] text-slate-500 font-medium">{socials.linkedinHandle}</p>
                 </div>
               </div>
               <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-[#0A66C2] group-hover:translate-x-0.5 transition-all ml-1 shrink-0" />
@@ -367,9 +362,7 @@ export function ContactPage() {
                 </div>
                 <div>
                   <h4 className="text-xs sm:text-sm font-bold text-slate-900">YouTube</h4>
-                  <p className="text-[11px] text-slate-500 font-medium">
-                    {socials.youtubeHandle}
-                  </p>
+                  <p className="text-[11px] text-slate-500 font-medium">{socials.youtubeHandle}</p>
                 </div>
               </div>
               <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-[#FF0000] group-hover:translate-x-0.5 transition-all ml-1 shrink-0" />
@@ -508,9 +501,7 @@ export function ContactPage() {
                       >
                         <div
                           className={`flex items-center justify-center w-8 h-8 rounded-xl ${
-                            isSelected
-                              ? "bg-[#1E5450] text-white"
-                              : "bg-[#EBF5F3] text-[#1C5153]"
+                            isSelected ? "bg-[#1E5450] text-white" : "bg-[#EBF5F3] text-[#1C5153]"
                           }`}
                         >
                           <Icon className="w-4 h-4" />
@@ -557,7 +548,8 @@ export function ContactPage() {
                           <>
                             Call us at{" "}
                             <span className="font-semibold text-slate-900">{contact.phone}</span>{" "}
-                            during our working hours ({contact.phoneHours || "Mon - Fri, 9:00 AM - 6:00 PM IST"}).
+                            during our working hours (
+                            {contact.phoneHours || "Mon - Fri, 9:00 AM - 6:00 PM IST"}).
                           </>
                         )}
                       </p>

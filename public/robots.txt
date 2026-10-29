@@ -22,3 +22,5 @@ User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /reception
+
+Sitemap: https://eduarc-connect.in/sitemap.xml

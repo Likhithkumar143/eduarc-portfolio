@@ -1,82 +1,162 @@
 import { createFileRoute } from "@tanstack/react-router";
+import {
+  BookOpen,
+  Briefcase,
+  Building2,
+  Compass,
+  GraduationCap,
+  ShieldCheck,
+  Users,
+} from "lucide-react";
+import studentJourneyBg from "@/assets/contact-guidance-bg.png";
 import { PartnerForm } from "@/components/site/PartnerForm";
-import { AmbientBlobs, GradientText } from "@/components/site/Section";
-import { Reveal } from "@/components/site/Reveal";
-import { CalendarCheck, MessageCircle, ShieldCheck } from "lucide-react";
 
 export const Route = createFileRoute("/partner")({
   head: () => ({
     meta: [
-      { title: "Partner with EduArc — Share Your Details" },
+      { title: "Partner With EDUARC — Career Guidance & Partnership" },
       {
         name: "description",
         content:
-          "Share your details with EduArc and our counsellors will contact you for career guidance.",
+          "Submit your details for personalized career guidance, stream planning after Class 10/12, or institutional school partnerships.",
       },
-      { property: "og:title", content: "Partner with EduArc" },
+      { property: "og:title", content: "Partner with EDUARC" },
       {
         property: "og:description",
-        content: "Share your details and an EduArc counsellor will reach out to guide you.",
+        content:
+          "Share your details and an EDUARC academic counsellor will reach out to guide you.",
       },
     ],
+    links: [{ rel: "canonical", href: "https://eduarc-connect.in/partner" }],
   }),
   component: PartnerPage,
 });
 
-const promises = [
+const expectations = [
   {
-    Icon: MessageCircle,
-    title: "We call or WhatsApp you",
-    body: "A counsellor reaches out on the number you share.",
+    icon: Users,
+    title: "1. Dedicated Counsellor Contact",
+    body: "An academic coordinator will review your background and connect via phone or WhatsApp to understand your educational goals.",
   },
   {
-    Icon: CalendarCheck,
-    title: "Guidance session",
-    body: "Talk through your goals, options and next steps.",
+    icon: BookOpen,
+    title: "2. Focused Guidance Consultation",
+    body: "Explore stream opportunities, college options, and entrance timelines in a pressure-free, student-first consultation.",
   },
   {
-    Icon: ShieldCheck,
-    title: "Your details stay private",
-    body: "Only the EduArc team can see what you submit.",
+    icon: ShieldCheck,
+    title: "3. Absolute Privacy & Integrity",
+    body: "Your details remain confidential and are accessed exclusively by verified EDUARC counselling staff for educational planning.",
   },
-];
+] as const;
 
-function PartnerPage() {
+export function PartnerPage() {
   return (
-    <section className="relative isolate overflow-hidden bg-gradient-soft">
-      <AmbientBlobs />
-      <div className="container-apple grid gap-12 pb-24 pt-20 md:pb-32 md:pt-28 lg:grid-cols-[1fr_1.15fr] lg:items-start lg:gap-16">
-        <div className="animate-rise lg:sticky lg:top-28">
-          <p className="type-eyebrow">Partner with us</p>
-          <h1 className="type-hero mt-4 text-foreground">
-            Start your journey <GradientText>with EduArc.</GradientText>
-          </h1>
-          <p className="type-lead mt-6 max-w-xl text-muted-foreground">
-            Fill in your details and our counselling team will get in touch to help you plan your
-            next step.
-          </p>
-          <ul className="mt-10 space-y-5">
-            {promises.map(({ Icon, title, body }, i) => (
-              <Reveal key={title} delay={i * 80}>
-                <li className="flex gap-4">
-                  <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-accent text-brand">
-                    <Icon className="h-5 w-5" strokeWidth={1.75} />
-                  </span>
-                  <span>
-                    <span className="block text-[17px] font-semibold tracking-tight text-foreground">
-                      {title}
-                    </span>
-                    <span className="block text-[15px] text-muted-foreground">{body}</span>
-                  </span>
-                </li>
-              </Reveal>
-            ))}
-          </ul>
+    <div className="relative isolate overflow-hidden bg-[#FEFAF1] min-h-screen">
+      <main className="container-wide py-10 sm:py-14 lg:py-18">
+        <div className="grid gap-12 lg:grid-cols-[1fr_1.18fr] lg:items-start lg:gap-14 xl:gap-20">
+          {/* Left Column: Context, Promises & Journey Artwork */}
+          <div className="flex flex-col justify-between space-y-8 lg:space-y-10">
+            {/* Header copy */}
+            <div className="space-y-4">
+              <span className="inline-flex items-center rounded-full bg-[#EBF5F3] px-3.5 py-1.5 text-xs font-semibold text-[#1C5153] border border-[#D1EAE5]">
+                Student &amp; Institutional Enquiries
+              </span>
+
+              <h1 className="text-3xl sm:text-4xl lg:text-[46px] font-extrabold tracking-tight text-brand-navy leading-[1.12]">
+                Start your guidance journey with{" "}
+                <span className="block text-brand-navy">EDUARC.</span>
+              </h1>
+
+              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl">
+                Whether you are a student evaluating streams after Class 10 or 12, a parent seeking
+                objective higher-education advice, or a school administrator planning a student
+                guidance cohort.
+              </p>
+            </div>
+
+            {/* What to Expect After Submitting */}
+            <div className="space-y-4 pt-2">
+              <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">
+                What to Expect After Submitting:
+              </p>
+
+              <div className="space-y-5">
+                {expectations.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <div key={item.title} className="flex items-start gap-4">
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#3B7A75] text-white shadow-xs">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <div className="space-y-0.5">
+                        <h3 className="text-sm font-bold text-brand-navy">{item.title}</h3>
+                        <p className="text-xs text-muted-foreground leading-relaxed">{item.body}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Student Journey Illustration with Floating Pathway Milestone Pills */}
+            <div className="relative pt-1 select-none">
+              <div className="relative rounded-3xl overflow-hidden bg-transparent">
+                <img
+                  src={studentJourneyBg}
+                  alt="Student Guidance Journey towards Higher Education"
+                  className="w-full h-auto object-cover max-h-[380px] sm:max-h-[440px]"
+                />
+
+                {/* Milestone 1: Higher Education */}
+                <div className="absolute top-[30%] right-[14%] sm:right-[18%] flex items-center gap-2 rounded-xl bg-white px-3 py-1.5 shadow-[0_4px_14px_rgba(20,39,68,0.08)] border border-white/80 text-[11px] sm:text-xs font-bold text-brand-navy">
+                  <div className="flex h-5 w-5 items-center justify-center rounded-md bg-[#E0F2FE] text-[#0284C7]">
+                    <GraduationCap className="h-3.5 w-3.5" />
+                  </div>
+                  <span>Higher Education</span>
+                </div>
+
+                {/* Milestone 2: Career Options */}
+                <div className="absolute top-[50%] right-[6%] sm:right-[10%] flex items-center gap-2 rounded-xl bg-white px-3 py-1.5 shadow-[0_4px_14px_rgba(20,39,68,0.08)] border border-white/80 text-[11px] sm:text-xs font-bold text-brand-navy">
+                  <div className="flex h-5 w-5 items-center justify-center rounded-md bg-[#CCFBF1] text-[#0D9488]">
+                    <Briefcase className="h-3.5 w-3.5" />
+                  </div>
+                  <span>Career Options</span>
+                </div>
+
+                {/* Milestone 3: Your Future */}
+                <div className="absolute top-[70%] right-[10%] sm:right-[14%] flex items-center gap-2 rounded-xl bg-white px-3 py-1.5 shadow-[0_4px_14px_rgba(20,39,68,0.08)] border border-white/80 text-[11px] sm:text-xs font-bold text-brand-navy">
+                  <div className="flex h-5 w-5 items-center justify-center rounded-md bg-[#EDE9FE] text-[#7C3AED]">
+                    <Compass className="h-3.5 w-3.5" />
+                  </div>
+                  <span>Your Future</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Trust Indicators */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-[#E8DBBF]/60 text-xs text-brand-navy font-semibold">
+              <div className="flex items-center gap-2">
+                <Users className="h-4 w-4 text-[#1E5450] shrink-0" />
+                <span>Trusted by Students &amp; Families</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Building2 className="h-4 w-4 text-[#1E5450] shrink-0" />
+                <span>Partnered with Schools &amp; Colleges</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="h-4 w-4 text-[#1E5450] shrink-0" />
+                <span>Focused on Your Future</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Guidance Form Card */}
+          <div className="lg:sticky lg:top-20">
+            <PartnerForm />
+          </div>
         </div>
-        <div className="animate-zoom-in [animation-delay:150ms]">
-          <PartnerForm />
-        </div>
-      </div>
-    </section>
+      </main>
+    </div>
   );
 }

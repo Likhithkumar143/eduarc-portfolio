@@ -1,313 +1,444 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, CalendarCheck, Map, Quote } from "lucide-react";
+import {
+  ArrowRight,
+  Compass,
+  Map,
+  Users,
+  GraduationCap,
+  ShieldCheck,
+  Building2,
+  Sparkles,
+  CheckCircle2,
+  CalendarCheck,
+} from "lucide-react";
 import heroImg from "@/assets/hero-students-clean.jpg";
 import futureImg from "@/assets/future-student.jpg";
 import campusImg from "@/assets/campus.jpg";
+import mentorGayathriImg from "@/assets/mentor-gayathri.jpg";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Reveal } from "@/components/site/Reveal";
-import { AmbientBlobs, CtaBand, GradientText, SectionHeading } from "@/components/site/Section";
-import { FeatureIcon } from "@/components/site/icons";
+import { CtaBand, GradientText, SectionHeading } from "@/components/site/Section";
 import { useSiteContent } from "@/lib/site-content";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "EduArc — Empowering Students for a Brighter Future" },
+      { title: "EDUARC — Empowering Students with Career Direction" },
       {
         name: "description",
         content:
-          "Career guidance and education support platform for schools and colleges. Personalized roadmaps, expert mentors and real outcomes.",
+          "Career guidance and education support platform for schools, colleges, and students. Structured roadmaps, verified academic mentorship, and future-ready planning.",
       },
-      { property: "og:title", content: "EduArc — Empowering Students for a Brighter Future" },
+      { property: "og:title", content: "EDUARC — Empowering Students with Career Direction" },
       {
         property: "og:description",
-        content: "Career guidance and education support platform for schools and colleges.",
+        content:
+          "Structured career roadmaps, verified academic mentorship, and education support for schools and colleges.",
       },
     ],
+    links: [{ rel: "canonical", href: "https://eduarc-connect.in" }],
   }),
   component: Index,
 });
 
+const studentJourneySteps = [
+  {
+    step: "01",
+    title: "Discover",
+    subtitle: "Identify Strengths & Interests",
+    description:
+      "Clarify academic interests, natural strengths, and subjects that inspire genuine curiosity before making critical stream choices.",
+    icon: Compass,
+  },
+  {
+    step: "02",
+    title: "Explore",
+    subtitle: "Unpack Real Career Paths",
+    description:
+      "Evaluate Science, Commerce, Arts, and emerging degree options with realistic information on course contents and higher-ed requirements.",
+    icon: Map,
+  },
+  {
+    step: "03",
+    title: "Connect",
+    subtitle: "Verified Academic Mentorship",
+    description:
+      "Discuss choices with experienced academicians and career counsellors who provide unbiased, supportive advice for students and parents.",
+    icon: Users,
+  },
+  {
+    step: "04",
+    title: "Progress",
+    subtitle: "Actionable Educational Milestones",
+    description:
+      "Build a step-by-step academic plan with timelines, skill benchmarks, and clear criteria for next-stage admissions and preparations.",
+    icon: GraduationCap,
+  },
+] as const;
+
+const audiencePathways = [
+  {
+    badge: "Students & Parents",
+    title: "Clarity over Confusion",
+    description:
+      "Avoid stream regrets after Class 10 or 12. Receive structured guidance to choose courses confidently with full family alignment.",
+    cta: "Request Guidance",
+    href: "/partner",
+    highlight: "Class 10 & 12 Focus",
+  },
+  {
+    badge: "Schools & Colleges",
+    title: "Institutional Guidance Hub",
+    description:
+      "Equip your institution with systematic career guidance workshops, mentor sessions, and structured tracking for every student batch.",
+    cta: "Explore Programs",
+    href: "/programs",
+    highlight: "Partner Onboarding",
+  },
+  {
+    badge: "Academic Mentors",
+    title: "Verified Mentorship Network",
+    description:
+      "Connect certified educators and domain specialists with young minds seeking genuine academic direction and industry perspective.",
+    cta: "View Directory",
+    href: "/mentors",
+    highlight: "Credential-Backed",
+  },
+] as const;
+
 function Index() {
   const c = useSiteContent();
+  const leadMentor = c.mentors[0];
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative isolate overflow-hidden bg-gradient-soft">
-        <AmbientBlobs />
-        <div className="container-apple pt-20 text-center md:pt-28">
-          <div className="animate-rise">
-            <p className="type-eyebrow">{c.home.eyebrow}</p>
-            <h1 className="type-hero mx-auto mt-4 max-w-4xl text-foreground">
-              {c.home.title} <GradientText>{c.home.titleHighlight}</GradientText>
-            </h1>
+      {/* 1. Above the fold Hero */}
+      <section className="relative isolate overflow-hidden bg-gradient-soft pt-12 pb-16 md:pt-16 md:pb-20 border-b border-hairline/70">
+        <div className="container-apple text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-brand-gold-border bg-brand-gold-soft/80 px-3.5 py-1 text-xs font-semibold text-brand-navy shadow-xs mb-6">
+            <Sparkles className="h-3.5 w-3.5 text-brand-gold" />
+            <span>{c.home.eyebrow || "Ambitious to Achievement"}</span>
           </div>
-          <p className="type-lead animate-rise mx-auto mt-6 max-w-2xl text-muted-foreground [animation-delay:120ms]">
+
+          <h1 className="type-hero mx-auto max-w-4xl text-brand-navy font-bold tracking-tight">
+            {c.home.title}{" "}
+            <GradientText>{c.home.titleHighlight || "brighter future."}</GradientText>
+          </h1>
+
+          <p className="type-lead mx-auto mt-6 max-w-2xl text-muted-foreground leading-relaxed">
             {c.home.lead}
           </p>
-          <div className="animate-rise mt-9 flex flex-wrap items-center justify-center gap-6 [animation-delay:220ms]">
-            <Button asChild variant="pill" size="pill">
-              <Link to="/partner">Partner with us</Link>
+
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
+            <Button
+              asChild
+              variant="pill-gold"
+              size="pill"
+              className="w-full sm:w-auto justify-center"
+            >
+              <Link to="/partner">Get Career Guidance</Link>
             </Button>
-            <Button asChild variant="text-link" size="inline">
-              <Link to="/features">
-                Explore the platform <ArrowRight />
+            <Button
+              asChild
+              variant="pill-outline"
+              size="pill"
+              className="w-full sm:w-auto justify-center"
+            >
+              <Link to="/features" className="gap-2 justify-center">
+                <span>Explore How It Works</span>
+                <ArrowRight className="h-4 w-4 text-brand-gold" />
               </Link>
             </Button>
           </div>
         </div>
-        <div className="container-wide relative mt-14 md:mt-20">
-          <div className="animate-zoom-in relative mx-auto max-w-5xl [animation-delay:200ms]">
+
+        {/* Hero Visual Showcase */}
+        <div className="container-wide relative mt-8 md:mt-12 flex justify-center">
+          <div className="relative w-fit max-w-full rounded-3xl overflow-hidden border border-border shadow-lift bg-[#ebedf0]/40">
             <img
               src={heroImg}
-              alt="Two smiling students with backpacks, books and a laptop"
+              alt="High school and college students collaborating with notebooks and laptop on campus"
               width={1264}
               height={848}
-              className="w-full rounded-t-[2rem] object-cover"
+              className="block h-auto w-auto max-w-full max-h-[min(540px,68vh)] rounded-3xl object-contain"
+              loading="eager"
             />
-            <div className="glass animate-float absolute left-3 top-[18%] hidden items-center gap-3 rounded-2xl px-4 py-3 sm:flex md:-left-8">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-brand text-primary-foreground">
-                <Map className="h-4 w-4" />
-              </span>
-              <span className="text-left">
-                <span className="block text-[13px] font-semibold text-foreground">
-                  Career Roadmap
-                </span>
-                <span className="mt-1 block h-1.5 w-28 rounded-full bg-hairline">
-                  <span className="block h-1.5 w-[72%] rounded-full bg-brand-teal" />
-                </span>
-              </span>
+
+            {/* Apple-style floating badge 1 */}
+            <div className="glass absolute left-3 top-3 sm:left-5 sm:top-5 hidden sm:flex items-center gap-2.5 sm:gap-3 rounded-2xl p-2.5 sm:p-3.5 border border-white/80 shadow-card">
+              <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-brand-navy text-brand-gold shrink-0">
+                <Map className="h-4 w-4 sm:h-5 sm:w-5" />
+              </div>
+              <div className="text-left">
+                <p className="text-[11px] sm:text-xs font-semibold text-brand-navy">
+                  Tailored Direction
+                </p>
+                <p className="text-[10px] sm:text-[11px] text-muted-foreground">
+                  Class 10 to College Pathways
+                </p>
+              </div>
             </div>
-            <div className="glass animate-float-delayed absolute bottom-[22%] right-3 hidden items-center gap-3 rounded-2xl px-4 py-3 sm:flex md:-right-8">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-accent text-brand">
-                <CalendarCheck className="h-4 w-4" />
-              </span>
-              <span className="text-left">
-                <span className="block text-[13px] font-semibold text-foreground">
-                  Mentor session
-                </span>
-                <span className="block text-[12px] text-muted-foreground">One‑on‑one guidance</span>
-              </span>
+
+            {/* Apple-style floating badge 2 */}
+            <div className="glass absolute right-3 bottom-3 sm:right-5 sm:bottom-5 hidden sm:flex items-center gap-2.5 sm:gap-3 rounded-2xl p-2.5 sm:p-3.5 border border-white/80 shadow-card">
+              <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-brand-gold-soft border border-brand-gold-border text-brand-navy shrink-0">
+                <CalendarCheck className="h-4 w-4 sm:h-5 sm:w-5 text-brand-gold" />
+              </div>
+              <div className="text-left">
+                <p className="text-[11px] sm:text-xs font-semibold text-brand-navy">
+                  Verified Mentorship
+                </p>
+                <p className="text-[10px] sm:text-[11px] text-muted-foreground">
+                  Dedicated Academic Guidance
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Pillars */}
-      <section className="bg-background py-24 md:py-32">
+      {/* 2. Four-Step Student Journey */}
+      <section id="journey" className="py-20 md:py-28 bg-background">
         <div className="container-apple">
           <SectionHeading
-            eyebrow="Our mission"
-            title={c.home.missionTitle}
-            lead={c.home.missionLead}
+            eyebrow="The Student Journey"
+            title="Four intentional steps from confusion to clarity."
+            lead="We guide students through a structured methodology that replaces guesswork with verified academic insights."
           />
-          <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {c.pillars.map((p, i) => (
-              <Reveal key={p.title + i} delay={i * 80}>
-                <article className="hover-lift h-full rounded-3xl bg-surface p-7">
-                  <FeatureIcon name={p.icon} />
-                  <h3 className="mt-6 text-[19px] font-semibold tracking-tight text-foreground">
-                    {p.title}
-                  </h3>
-                  <p className="mt-2 text-[15px] text-muted-foreground">{p.body}</p>
-                </article>
+
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {studentJourneySteps.map((stepItem, idx) => {
+              const Icon = stepItem.icon;
+              return (
+                <Reveal key={stepItem.step} delay={idx * 60}>
+                  <div className="group h-full rounded-2xl border border-hairline bg-surface/70 p-7 hover-lift transition-all hover:bg-white hover:border-brand-gold/40 hover:shadow-card">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold tracking-widest text-brand-gold font-mono">
+                        {stepItem.step}
+                      </span>
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-navy text-brand-gold transition-transform group-hover:scale-105">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                    </div>
+                    <h3 className="mt-5 text-xl font-bold tracking-tight text-brand-navy">
+                      {stepItem.title}
+                    </h3>
+                    <p className="mt-1 text-xs font-semibold text-brand-gold">
+                      {stepItem.subtitle}
+                    </p>
+                    <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                      {stepItem.description}
+                    </p>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Audience Pathways */}
+      <section className="py-20 md:py-28 bg-surface border-y border-hairline/80">
+        <div className="container-apple">
+          <SectionHeading
+            eyebrow="Tailored Solutions"
+            title="Guidance designed for your educational context."
+            lead="Whether you are a student planning your next academic milestone or an institution structuring guidance for hundreds."
+          />
+
+          <div className="mt-14 grid gap-8 md:grid-cols-3">
+            {audiencePathways.map((path, i) => (
+              <Reveal key={path.title} delay={i * 80}>
+                <div className="flex h-full flex-col justify-between rounded-2xl border border-border bg-white p-8 shadow-card hover-lift">
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <Badge variant="gold">{path.badge}</Badge>
+                      <span className="text-[11px] font-medium text-muted-foreground">
+                        {path.highlight}
+                      </span>
+                    </div>
+                    <h3 className="text-xl font-bold text-brand-navy tracking-tight">
+                      {path.title}
+                    </h3>
+                    <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                      {path.description}
+                    </p>
+                  </div>
+
+                  <div className="mt-8 pt-6 border-t border-hairline">
+                    <Button
+                      asChild
+                      variant="pill-outline"
+                      size="sm"
+                      className="w-full justify-between"
+                    >
+                      <Link to={path.href}>
+                        <span>{path.cta}</span>
+                        <ArrowRight className="h-3.5 w-3.5 text-brand-gold" />
+                      </Link>
+                    </Button>
+                  </div>
+                </div>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Tiles */}
-      <section className="bg-surface py-3">
-        <div className="container-wide grid gap-3 md:grid-cols-2">
-          <Tile
-            eyebrow="Platform"
-            title="Everything students need. In one place."
-            body="Roadmaps, mentor sessions, certificates and an admin dashboard."
-            to="/features"
-            cta="See features"
-            art={<IconsArt />}
-          />
-          <Tile
-            eyebrow="Partner with us"
-            title="Talk to a counsellor."
-            body="Share your details and our team will reach out to guide you."
-            to="/partner"
-            cta="Share your details"
-            dark
-            art={<PartnerArt />}
-          />
-          <Tile
-            eyebrow="Programs"
-            title="Built for schools & colleges."
-            body="From high schools to professional and technical institutions."
-            to="/programs"
-            cta="View programs"
-            dark
-            image={campusImg}
-          />
-          <Tile
-            eyebrow="Impact"
-            title={(c.impacts[0]?.title ?? "Real results") + "."}
-            body="More focused, engaged and future‑ready student communities."
-            to="/impact"
-            cta="See the impact"
-            image={futureImg}
-          />
-        </div>
-      </section>
+      {/* 4. Real Verified Mentor Spotlight */}
+      {leadMentor && (
+        <section className="py-20 md:py-28 bg-background">
+          <div className="container-apple">
+            <Reveal>
+              <div className="rounded-3xl border border-border bg-brand-navy text-white p-8 md:p-12 overflow-hidden relative shadow-lift">
+                <div className="grid gap-8 lg:grid-cols-12 items-center">
+                  <div className="lg:col-span-4 flex justify-center">
+                    <div className="relative">
+                      <img
+                        src={mentorGayathriImg}
+                        alt={leadMentor.name}
+                        width={280}
+                        height={340}
+                        className="rounded-2xl object-cover h-72 w-60 border-2 border-brand-gold/40 shadow-lg"
+                      />
+                      <Badge
+                        variant="gold"
+                        className="absolute -bottom-3 left-1/2 -translate-x-1/2 shadow-sm text-nowrap"
+                      >
+                        Verified Lead Mentor
+                      </Badge>
+                    </div>
+                  </div>
 
-      {/* Quote */}
-      <section className="bg-background py-24 md:py-32">
-        <Reveal className="container-apple text-center">
-          <Quote className="mx-auto h-10 w-10 text-brand-teal" strokeWidth={1.5} />
-          <p className="type-headline mx-auto mt-6 max-w-3xl text-foreground">
-            {c.home.quote} <GradientText>{c.home.quoteHighlight}</GradientText>
-          </p>
-          <p className="type-lead mx-auto mt-5 max-w-xl text-muted-foreground">{c.home.quoteSub}</p>
-        </Reveal>
-      </section>
+                  <div className="lg:col-span-8 space-y-4">
+                    <span className="type-eyebrow text-brand-gold">Academic Leadership</span>
+                    <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white">
+                      {leadMentor.name}
+                    </h2>
+                    <p className="text-sm font-medium text-brand-gold-soft">
+                      {leadMentor.designation} · {leadMentor.location}
+                    </p>
+                    <p className="text-sm text-ink-muted leading-relaxed max-w-2xl">
+                      {leadMentor.shortBio ||
+                        "Helping students move from confusion to clarity with informed academic choices and future career roadmaps."}
+                    </p>
 
-      {/* Full-bleed image with glass panel */}
-      <section className="relative isolate overflow-hidden">
-        <img
-          src={futureImg}
-          alt="A student with a backpack looking out over a city at sunrise"
-          width={1600}
-          height={1008}
-          loading="lazy"
-          className="absolute inset-0 -z-10 h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 -z-10 bg-gradient-ink" />
-        <div className="container-apple flex min-h-[640px] flex-col justify-end pb-16 md:min-h-[760px] md:pb-20">
-          <Reveal>
-            <div className="glass-dark max-w-xl rounded-[2rem] p-8 md:p-10">
-              <h2 className="type-title text-ink-foreground md:text-5xl md:leading-[1.08]">
-                {c.home.bannerTitle}
-              </h2>
-              <div className="mt-8">
-                <Button asChild variant="pill-light" size="pill">
-                  <Link to="/about">Why partner with EduArc</Link>
-                </Button>
+                    <div className="grid grid-cols-3 gap-3 pt-2 max-w-md">
+                      {leadMentor.cardStats?.map((stat) => (
+                        <div
+                          key={stat.label}
+                          className="rounded-xl bg-white/5 border border-white/10 p-3 text-center"
+                        >
+                          <p className="text-base font-bold text-brand-gold">{stat.value}</p>
+                          <p className="text-[11px] text-ink-muted">{stat.label}</p>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="pt-4 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
+                      <Button
+                        asChild
+                        variant="pill-gold"
+                        size="pill-sm"
+                        className="w-full sm:w-auto justify-center"
+                      >
+                        <Link to="/mentors">View Mentor Profile & Roadmap</Link>
+                      </Button>
+                      <Button
+                        asChild
+                        variant="pill-outline"
+                        size="pill-sm"
+                        className="border-white/20 text-white hover:bg-white/10 hover:text-white w-full sm:w-auto justify-center"
+                      >
+                        <Link to="/partner">Connect with {leadMentor.name.split(" ")[0]}</Link>
+                      </Button>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </Reveal>
+            </Reveal>
+          </div>
+        </section>
+      )}
+
+      {/* 5. Trust & Pillars Section */}
+      <section className="py-20 md:py-28 bg-surface border-t border-hairline">
+        <div className="container-apple">
+          <SectionHeading
+            eyebrow="Trust & Integrity"
+            title="Built on transparency, academic rigor, and privacy."
+            lead="EDUARC prioritizes authentic guidance over marketing noise, guaranteeing real institutional and student value."
+          />
+
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {c.pillars.map((pillar, i) => (
+              <Reveal key={pillar.title} delay={i * 70}>
+                <div className="h-full rounded-2xl border border-hairline bg-white p-6 shadow-xs hover-lift">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-gold-soft text-brand-navy border border-brand-gold-border">
+                    <CheckCircle2 className="h-5 w-5 text-brand-gold" />
+                  </div>
+                  <h3 className="mt-4 text-base font-bold text-brand-navy">{pillar.title}</h3>
+                  <p className="mt-2 text-xs text-muted-foreground leading-relaxed">
+                    {pillar.body}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
-      <CtaBand />
-    </>
-  );
-}
-
-function Tile({
-  eyebrow,
-  title,
-  body,
-  to,
-  cta,
-  dark = false,
-  image,
-  art,
-}: {
-  eyebrow: string;
-  title: string;
-  body: string;
-  to: "/features" | "/partner" | "/programs" | "/impact";
-  cta: string;
-  dark?: boolean;
-  image?: string;
-  art?: React.ReactNode;
-}) {
-  return (
-    <Reveal>
-      <Link
-        to={to}
-        className={
-          "group relative isolate flex min-h-[420px] flex-col items-center justify-start overflow-hidden rounded-[2rem] px-8 pt-16 text-center transition-shadow duration-500 hover:shadow-lift md:min-h-[520px] " +
-          (dark ? "bg-ink text-ink-foreground" : "bg-background text-foreground")
-        }
-      >
-        {dark && (
-          <span
-            className="blob blob-teal -bottom-20 left-1/2 -z-10 h-64 w-64 -translate-x-1/2 opacity-25"
-            aria-hidden="true"
-          />
-        )}
-        <p className="type-eyebrow">{eyebrow}</p>
-        <h3 className="type-title mt-3 max-w-md">{title}</h3>
-        <p
-          className={
-            "mt-3 max-w-sm text-[17px] " + (dark ? "text-ink-muted" : "text-muted-foreground")
-          }
-        >
-          {body}
-        </p>
-        <span className="mt-6 inline-flex items-center gap-1 text-[17px] text-brand-teal group-hover:underline">
-          {cta}{" "}
-          <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-        </span>
-        {image ? (
-          <img
-            src={image}
-            alt=""
-            loading="lazy"
-            width={1600}
-            height={1008}
-            className="mt-auto h-48 w-full max-w-md rounded-t-[1.5rem] object-cover transition-transform duration-700 group-hover:-translate-y-2 group-hover:scale-[1.02] md:h-60"
-          />
-        ) : (
-          <div
-            className={
-              "mt-auto h-48 w-full max-w-md rounded-t-[1.5rem] transition-transform duration-700 group-hover:-translate-y-2 md:h-60 " +
-              (dark ? "bg-gradient-brand" : "bg-surface")
-            }
-            aria-hidden="true"
-          >
-            {art}
+      {/* 6. Institutional Full-Bleed Showcase */}
+      <section className="relative isolate overflow-hidden bg-brand-navy py-20 text-white">
+        <div className="container-apple grid gap-10 md:grid-cols-2 items-center">
+          <div className="space-y-5">
+            <span className="type-eyebrow text-brand-gold">Schools & Colleges</span>
+            <h2 className="type-headline text-white">
+              {c.home.bannerTitle || "Right guidance today. Greater opportunities tomorrow."}
+            </h2>
+            <p className="type-lead text-ink-muted leading-relaxed">
+              We partner directly with institutions to deliver career seminars, personalized
+              assessment roadmaps, and dedicated parent guidance workshops.
+            </p>
+            <div className="pt-2 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
+              <Button
+                asChild
+                variant="pill-gold"
+                size="pill"
+                className="w-full sm:w-auto justify-center"
+              >
+                <Link to="/programs">Explore Institutional Programs</Link>
+              </Button>
+              <Button
+                asChild
+                variant="pill-outline"
+                size="pill"
+                className="border-white/20 text-white hover:bg-white/10 hover:text-white w-full sm:w-auto justify-center"
+              >
+                <Link to="/partner">Schedule School Demo</Link>
+              </Button>
+            </div>
           </div>
-        )}
-      </Link>
-    </Reveal>
-  );
-}
 
-function PartnerArt() {
-  return (
-    <div className="flex h-full flex-col justify-center gap-3 px-8">
-      {["w-[78%]", "w-[62%]", "w-[70%]"].map((w, i) => (
-        <div
-          key={w}
-          className={
-            "glass-dark flex h-10 items-center rounded-xl px-4 " +
-            (i % 2 ? "animate-float-delayed" : "animate-float")
-          }
-        >
-          <span className={"h-2 rounded-full bg-ink-foreground/50 " + w} />
+          <div className="relative">
+            <img
+              src={campusImg}
+              alt="Campus building and educational facilities"
+              width={800}
+              height={500}
+              className="rounded-2xl border border-white/10 shadow-lift object-cover w-full h-[320px]"
+              loading="lazy"
+            />
+          </div>
         </div>
-      ))}
-      <div className="flex h-10 items-center justify-center self-end rounded-full bg-ink-foreground px-6 text-[13px] font-semibold text-brand">
-        Submit
-      </div>
-    </div>
-  );
-}
+      </section>
 
-function IconsArt() {
-  return (
-    <div className="grid h-full grid-cols-3 content-center gap-4 px-8">
-      {(["map", "video", "user", "award", "bell", "layout"] as const).map((n, i) => (
-        <div key={n} className="flex justify-center">
-          <FeatureIcon
-            name={n}
-            className={
-              "h-14 w-14 bg-background shadow-card " +
-              (i % 2 ? "animate-float" : "animate-float-delayed")
-            }
-          />
-        </div>
-      ))}
-    </div>
+      {/* 7. Call to Action Band */}
+      <CtaBand
+        title="Ready to provide purposeful career direction?"
+        lead="Whether you're exploring options for yourself or seeking a structured guidance partner for your student body, our team is ready to assist."
+      />
+    </>
   );
 }
