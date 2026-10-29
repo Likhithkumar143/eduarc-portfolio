@@ -44,6 +44,7 @@ export function TextField({
   long,
   hint,
   type = "text",
+  placeholder,
 }: {
   label: string;
   value: string;
@@ -51,6 +52,7 @@ export function TextField({
   long?: boolean | undefined;
   hint?: string | undefined;
   type?: string | undefined;
+  placeholder?: string | undefined;
 }) {
   const id = useId();
   return (
@@ -64,6 +66,7 @@ export function TextField({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           rows={3}
+          placeholder={placeholder}
           className={cn(inputClass, "min-h-[88px] resize-y")}
         />
       ) : (
@@ -72,6 +75,7 @@ export function TextField({
           type={type}
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
           className={cn(inputClass, "h-11")}
         />
       )}

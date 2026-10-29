@@ -1,7 +1,8 @@
 // Server-only staff auth: separate password + session cookie for the admin and the reception desk.
-import { useSession } from "@tanstack/react-start/server";
+import { getRequest, useSession } from "@tanstack/react-start/server";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { hashPassword, passwordProblem, verifyPassword } from "./password.server";
+import { checkRateLimit, getClientIp, LOGIN_RATE_LIMIT_OPTIONS } from "./rate-limit.server";
 
 export type StaffRole = "admin" | "reception";
 type SessionData = { ok?: boolean; v?: string };
@@ -30,8 +31,13 @@ const COLS = "password_hash, salt, iterations, failed_attempts, locked_until, up
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-function getSessionConfig(role: StaffRole) {
-  const password = process.env["SESSION_SECRET"] || "eduarc-default-session-secret-key-32chars";
+export function getSessionConfig(role: StaffRole) {
+  const password = process.env["SESSION_SECRET"];
+  if (!password || password.length < 32) {
+    throw new Error(
+      "SESSION_SECRET environment variable is missing or shorter than 32 characters. Session integrity requires a strong secret.",
+    );
+  }
   const sameSite = (process.env["COOKIE_SAMESITE"] as "lax" | "strict" | "none") ?? "lax";
   return {
     password,
@@ -68,7 +74,9 @@ export async function loadCredentials(role: StaffRole): Promise<Credentials | nu
   const { data, error } = await credTable(role).select(COLS).eq("id", 1).maybeSingle();
   if (error) {
     console.error(`[loadCredentials] error loading ${role}:`, error.message);
-    throw new Error(`Database error: ${error.message}. Make sure table '${ROLES[role].table}' exists in Supabase.`);
+    throw new Error(
+      `Database error: ${error.message}. Make sure table '${ROLES[role].table}' exists in Supabase.`,
+    );
   }
   if (data) return data;
 
@@ -110,7 +118,17 @@ export async function requireStaff(role: StaffRole) {
 }
 
 export const requireAdmin = () => requireStaff("admin");
-export const requireReception = () => requireStaff("reception");
+export async function requireReception() {
+  try {
+    return await requireStaff("reception");
+  } catch (receptionErr) {
+    try {
+      return await requireStaff("admin");
+    } catch {
+      throw receptionErr;
+    }
+  }
+}
 
 export async function staffStatus(role: StaffRole) {
   try {
@@ -123,20 +141,47 @@ export async function staffStatus(role: StaffRole) {
 
 type Result = { ok: true } | { ok: false; message: string };
 
-export async function staffLogin(role: StaffRole, password: string): Promise<Result> {
+export async function staffLogin(
+  role: StaffRole,
+  password: string,
+  clientIp?: string,
+): Promise<Result> {
+  // Rate limit by client IP before executing any cryptographic or database operations
+  let ip = clientIp;
+  if (!ip) {
+    try {
+      const req = getRequest();
+      if (req?.headers) ip = getClientIp(req.headers);
+    } catch {
+      ip = "unknown";
+    }
+  }
+
+  const rateCheck = checkRateLimit(`login:${role}:${ip || "unknown"}`, LOGIN_RATE_LIMIT_OPTIONS);
+  if (!rateCheck.allowed) {
+    const minutes = Math.max(1, Math.ceil(rateCheck.retryAfterSeconds / 60));
+    return {
+      ok: false,
+      message: `Too many login attempts. Please try again in ${minutes} minute${minutes === 1 ? "" : "s"}.`,
+    };
+  }
+
   try {
     const creds = await loadCredentials(role);
     if (!creds) {
+      console.warn(
+        `[staffLogin] Attempted login for role "${role}" but credentials are not configured.`,
+      );
       return {
         ok: false,
-        message:
-          role === "admin"
-            ? "Admin password has not been initialized. Please set ADMIN_INITIAL_PASSWORD in Vercel environment variables."
-            : "Reception access hasn't been set up yet. Ask the admin to set a reception password.",
+        message: "Invalid credentials.",
       };
     }
     if (creds.locked_until && new Date(creds.locked_until) > new Date()) {
-      return { ok: false, message: `Too many attempts. Try again in ${LOCKOUT_MINUTES} minutes.` };
+      return {
+        ok: false,
+        message: `Account temporarily locked due to failed attempts. Try again in ${LOCKOUT_MINUTES} minutes.`,
+      };
     }
 
     const valid = await verifyPassword(password, {
@@ -158,8 +203,8 @@ export async function staffLogin(role: StaffRole, password: string): Promise<Res
       return {
         ok: false,
         message: lock
-          ? `Too many attempts. Try again in ${LOCKOUT_MINUTES} minutes.`
-          : "Incorrect password.",
+          ? `Account temporarily locked due to failed attempts. Try again in ${LOCKOUT_MINUTES} minutes.`
+          : "Invalid credentials.",
       };
     }
 
@@ -171,9 +216,11 @@ export async function staffLogin(role: StaffRole, password: string): Promise<Res
     await session.update({ ok: true, v: creds.updated_at });
     return { ok: true };
   } catch (err) {
-    const msg = err instanceof Error ? err.message : "Authentication service error";
-    console.error(`[staffLogin] error:`, msg);
-    return { ok: false, message: msg };
+    console.error(`[staffLogin] internal error for role "${role}":`, err);
+    return {
+      ok: false,
+      message: "Authentication service temporarily unavailable. Please try again later.",
+    };
   }
 }
 

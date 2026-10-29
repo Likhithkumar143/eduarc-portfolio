@@ -75,10 +75,13 @@ EduArc utilizes a layered security architecture separating unprivileged public u
 
 ### 2.5 Denial of Service & Resource Exhaustion (OWASP A04:2021 / CWE-400)
 
-- **Status:** **REMEDIATION IN PROGRESS**
+- **Status:** **PASS (REMEDIATED)**
 - **Finding SEC-03:**
   - In `src/components/admin/MentorsEditor.tsx`, mentor image upload compresses files via HTML5 Canvas, but lacked an explicit pre-read `file.size` check.
-  - _Fix:_ Enforce a strict 10MB file size ceiling to prevent memory exhaustion on low-spec admin devices.
+  - _Fix:_ Enforce a strict 10MB file size ceiling (`file.size > 10 * 1024 * 1024`) before `FileReader` execution, preventing memory exhaustion and tab crashes on low-spec admin devices.
+- **Finding SEC-04 (High Availability & Database Resilience):**
+  - In `src/lib/site-content.functions.ts`, unhandled transient database outages or network timeouts when querying Supabase could trigger an uncaught SSR error boundary.
+  - _Fix:_ Wrapped `getSiteContent` in a defensive `try / catch` fallback that logs the warning and immediately returns `defaultContent`, ensuring zero downtime or blank page crashes for visitors.
 
 ### 2.6 Security Headers & Browser Hardening (OWASP A05:2021)
 

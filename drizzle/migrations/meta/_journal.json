@@ -15,6 +15,20 @@
       "when": 1793069774862,
       "tag": "0001_partner_enquiries_and_reception",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793184000000,
+      "tag": "0002_role_based_enquiries_and_remarks",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1793187600000,
+      "tag": "0003_privacy_and_consent",
+      "breakpoints": true
     }
   ]
 }

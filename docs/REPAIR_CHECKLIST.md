@@ -26,6 +26,7 @@
 | **P1-4** | `partner.tsx` | Preserve standalone student guidance pathway & `PartnerForm` | ✅ COMPLETED | Fully preserved and tested. |
 | **P1-5** | `PartnerForm.tsx` | Prevent duplicate submissions via button disable on `busy` | ✅ COMPLETED | Verified in `PartnerForm.tsx`. |
 | **P1-6** | `__root.tsx` | Provide accessible 404 (`NotFoundComponent`) & error boundary | ✅ COMPLETED | Mounted in `src/routes/__root.tsx`. |
+| **P1-7** | `site-content.functions.ts` | Graceful database outage fallback returning `defaultContent` | ✅ COMPLETED | Wrapped `getSiteContent` with try/catch returning `defaultContent`. |
 
 ---
 

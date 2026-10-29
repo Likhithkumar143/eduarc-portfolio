@@ -6,7 +6,7 @@ type Update = <K extends keyof SiteContent>(key: K, value: SiteContent[K]) => vo
 export type EditorProps = {
   draft: SiteContent;
   update: Update;
-  onSave?: () => Promise<void>;
+  onSave?: (explicitDraft?: SiteContent) => Promise<void>;
   isSaving?: boolean;
 };
 
@@ -316,43 +316,361 @@ export function ImpactEditor({ draft, update }: EditorProps) {
 }
 
 export function ContactEditor({ draft, update }: EditorProps) {
+  const contact = draft.contact;
+  const contactPage = draft.contactPage;
+  const socials = draft.socials;
+
+  const updateContact = (patch: Partial<typeof contact>) => {
+    update("contact", { ...contact, ...patch });
+  };
+
+  const updateContactPage = (patch: Partial<typeof contactPage>) => {
+    update("contactPage", { ...contactPage, ...patch });
+  };
+
+  const updateSocials = (patch: Partial<typeof socials>) => {
+    update("socials", { ...socials, ...patch });
+  };
+
   return (
     <>
+      {/* 1. Hero Section Banner */}
       <Panel
-        title="Contact details"
-        description="Used on the Contact page and in the footer of every page."
+        title="Contact Hero Banner"
+        description="Headlines, description and reassurance pills shown across the full-page counselor banner."
       >
         <div className="grid gap-5 md:grid-cols-3">
           <TextField
-            label="Email"
-            type="email"
-            value={draft.contact.email}
-            onChange={(email) => update("contact", { ...draft.contact, email })}
+            label="Eyebrow Badge"
+            value={contactPage.badge || ""}
+            onChange={(badge) => updateContactPage({ badge })}
+            placeholder="Get in Touch"
           />
           <TextField
-            label="Phone"
-            type="tel"
-            value={draft.contact.phone}
-            onChange={(phone) => update("contact", { ...draft.contact, phone })}
+            label="Headline Start"
+            value={contactPage.title}
+            onChange={(title) => updateContactPage({ title })}
+            placeholder="Let’s Build"
           />
           <TextField
-            label="Website"
-            value={draft.contact.website}
-            onChange={(website) => update("contact", { ...draft.contact, website })}
+            label="Headline Highlight"
+            value={contactPage.titleHighlight}
+            onChange={(titleHighlight) => updateContactPage({ titleHighlight })}
+            placeholder="Brighter Futures Together"
+          />
+        </div>
+
+        <TextField
+          label="Hero Subtitle / Description"
+          long
+          value={contactPage.lead}
+          onChange={(lead) => updateContactPage({ lead })}
+          placeholder="Have questions, feedback, or want to collaborate?..."
+        />
+
+        <div className="grid gap-5 md:grid-cols-3 pt-2">
+          <TextField
+            label="Feature Pill 1"
+            value={contactPage.pill1 || ""}
+            onChange={(pill1) => updateContactPage({ pill1 })}
+            placeholder="Quick Response"
+          />
+          <TextField
+            label="Feature Pill 2"
+            value={contactPage.pill2 || ""}
+            onChange={(pill2) => updateContactPage({ pill2 })}
+            placeholder="Dedicated Support"
+          />
+          <TextField
+            label="Feature Pill 3"
+            value={contactPage.pill3 || ""}
+            onChange={(pill3) => updateContactPage({ pill3 })}
+            placeholder="Real People"
           />
         </div>
       </Panel>
-      <Panel title="Contact page text">
-        <ObjectFields
-          value={draft.contactPage}
-          onChange={(v) => update("contactPage", v)}
-          fields={[
-            { key: "title", label: "Heading" },
-            { key: "titleHighlight", label: "Highlighted words" },
-            { key: "lead", label: "Intro text", long: true },
-            { key: "thankYou", label: "Thank‑you message", long: true },
-          ]}
-        />
+
+      {/* 2. Direct Contact Channels */}
+      <Panel
+        title="Direct Contact Channels"
+        description="Information displayed on the 4 primary channel cards (Phone, Email, Location, Website)."
+      >
+        <div className="grid gap-5 md:grid-cols-2">
+          <TextField
+            label="Section Title"
+            value={contactPage.channelsTitle || ""}
+            onChange={(channelsTitle) => updateContactPage({ channelsTitle })}
+            placeholder="Multiple Ways to Reach Us"
+          />
+          <TextField
+            label="Section Subtitle"
+            value={contactPage.channelsLead || ""}
+            onChange={(channelsLead) => updateContactPage({ channelsLead })}
+            placeholder="Choose the channel that works best for you..."
+          />
+        </div>
+
+        <div className="grid gap-5 md:grid-cols-2 pt-2">
+          {/* Phone Card */}
+          <div className="rounded-2xl border border-border/80 bg-background/50 p-4 space-y-4">
+            <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
+              <span>📞 Phone Channel</span>
+            </h3>
+            <TextField
+              label="Contact Phone Number"
+              type="tel"
+              value={contact.phone}
+              onChange={(phone) => updateContact({ phone })}
+              placeholder="+91 98765 43210"
+            />
+            <TextField
+              label="Operating Schedule / Hours"
+              value={contact.phoneHours || ""}
+              onChange={(phoneHours) => updateContact({ phoneHours })}
+              placeholder="Mon - Fri, 9:00 AM - 6:00 PM (IST)"
+            />
+          </div>
+
+          {/* Email Card */}
+          <div className="rounded-2xl border border-border/80 bg-background/50 p-4 space-y-4">
+            <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
+              <span>✉️ Email Channel</span>
+            </h3>
+            <TextField
+              label="Primary Email Address"
+              type="email"
+              value={contact.email}
+              onChange={(email) => updateContact({ email })}
+              placeholder="partnerships@eduarc.in"
+            />
+            <TextField
+              label="Reply Commitment Note"
+              value={contact.emailNote || ""}
+              onChange={(emailNote) => updateContact({ emailNote })}
+              placeholder="We reply within 24 hours"
+            />
+          </div>
+
+          {/* Location Card */}
+          <div className="rounded-2xl border border-border/80 bg-background/50 p-4 space-y-4">
+            <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
+              <span>📍 Office Location</span>
+            </h3>
+            <TextField
+              label="Physical Location"
+              value={contact.location || ""}
+              onChange={(location) => updateContact({ location })}
+              placeholder="Bengaluru, Karnataka, India"
+            />
+            <TextField
+              label="Appointment Note"
+              value={contact.locationNote || ""}
+              onChange={(locationNote) => updateContact({ locationNote })}
+              placeholder="(By appointment only)"
+            />
+          </div>
+
+          {/* Website Card */}
+          <div className="rounded-2xl border border-border/80 bg-background/50 p-4 space-y-4">
+            <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
+              <span>🌐 Website Channel</span>
+            </h3>
+            <TextField
+              label="Official Website URL"
+              value={contact.website}
+              onChange={(website) => updateContact({ website })}
+              placeholder="www.eduarc.in"
+            />
+            <TextField
+              label="Explorer Note"
+              value={contact.websiteNote || ""}
+              onChange={(websiteNote) => updateContact({ websiteNote })}
+              placeholder="Explore more about us"
+            />
+          </div>
+        </div>
+      </Panel>
+
+      {/* 3. Social Media Channels */}
+      <Panel
+        title="Social Media Channels"
+        description="Links and handles displayed across the 5 social media cards (Instagram, Facebook, X, LinkedIn, YouTube)."
+      >
+        <div className="grid gap-5 md:grid-cols-2">
+          {/* Instagram */}
+          <div className="rounded-2xl border border-border/80 bg-background/50 p-4 space-y-3">
+            <span className="text-xs font-bold text-pink-600 uppercase tracking-wider block">
+              Instagram
+            </span>
+            <TextField
+              label="Handle"
+              value={socials.instagramHandle || ""}
+              onChange={(instagramHandle) => updateSocials({ instagramHandle })}
+              placeholder="@eduarc_official"
+            />
+            <TextField
+              label="URL"
+              value={socials.instagramUrl || ""}
+              onChange={(instagramUrl) => updateSocials({ instagramUrl })}
+              placeholder="https://instagram.com/eduarc_official"
+            />
+          </div>
+
+          {/* Facebook */}
+          <div className="rounded-2xl border border-border/80 bg-background/50 p-4 space-y-3">
+            <span className="text-xs font-bold text-blue-600 uppercase tracking-wider block">
+              Facebook
+            </span>
+            <TextField
+              label="Handle"
+              value={socials.facebookHandle || ""}
+              onChange={(facebookHandle) => updateSocials({ facebookHandle })}
+              placeholder="/eduarc"
+            />
+            <TextField
+              label="URL"
+              value={socials.facebookUrl || ""}
+              onChange={(facebookUrl) => updateSocials({ facebookUrl })}
+              placeholder="https://facebook.com/eduarc"
+            />
+          </div>
+
+          {/* X (Twitter) */}
+          <div className="rounded-2xl border border-border/80 bg-background/50 p-4 space-y-3">
+            <span className="text-xs font-bold text-foreground uppercase tracking-wider block">
+              X (Twitter)
+            </span>
+            <TextField
+              label="Handle"
+              value={socials.twitterHandle || ""}
+              onChange={(twitterHandle) => updateSocials({ twitterHandle })}
+              placeholder="@eduarc_official"
+            />
+            <TextField
+              label="URL"
+              value={socials.twitterUrl || ""}
+              onChange={(twitterUrl) => updateSocials({ twitterUrl })}
+              placeholder="https://x.com/eduarc_official"
+            />
+          </div>
+
+          {/* LinkedIn */}
+          <div className="rounded-2xl border border-border/80 bg-background/50 p-4 space-y-3">
+            <span className="text-xs font-bold text-sky-600 uppercase tracking-wider block">
+              LinkedIn
+            </span>
+            <TextField
+              label="Handle"
+              value={socials.linkedinHandle || ""}
+              onChange={(linkedinHandle) => updateSocials({ linkedinHandle })}
+              placeholder="/company/eduarc"
+            />
+            <TextField
+              label="URL"
+              value={socials.linkedinUrl || ""}
+              onChange={(linkedinUrl) => updateSocials({ linkedinUrl })}
+              placeholder="https://linkedin.com/company/eduarc"
+            />
+          </div>
+
+          {/* YouTube */}
+          <div className="rounded-2xl border border-border/80 bg-background/50 p-4 space-y-3 md:col-span-2">
+            <span className="text-xs font-bold text-red-600 uppercase tracking-wider block">
+              YouTube
+            </span>
+            <div className="grid gap-4 md:grid-cols-2">
+              <TextField
+                label="Handle"
+                value={socials.youtubeHandle || ""}
+                onChange={(youtubeHandle) => updateSocials({ youtubeHandle })}
+                placeholder="@eduarc"
+              />
+              <TextField
+                label="URL"
+                value={socials.youtubeUrl || ""}
+                onChange={(youtubeUrl) => updateSocials({ youtubeUrl })}
+                placeholder="https://youtube.com/@eduarc"
+              />
+            </div>
+          </div>
+        </div>
+      </Panel>
+
+      {/* 4. Dual Engagement & Direct Conversation Card */}
+      <Panel
+        title="Engagement & Message Card"
+        description="Text for the dual 'Ready to Connect?' left column and 'Send Us a Message' right column."
+      >
+        <div className="grid gap-6 md:grid-cols-2">
+          {/* Left Column Settings */}
+          <div className="rounded-2xl border border-border/80 bg-background/50 p-5 space-y-4">
+            <h3 className="text-sm font-bold text-foreground">Left Column: Ready to Connect</h3>
+            <TextField
+              label="Eyebrow"
+              value={contactPage.connectEyebrow || ""}
+              onChange={(connectEyebrow) => updateContactPage({ connectEyebrow })}
+              placeholder="— Ready to Connect?"
+            />
+            <TextField
+              label="Title"
+              value={contactPage.connectTitle || ""}
+              onChange={(connectTitle) => updateContactPage({ connectTitle })}
+              placeholder="We’re Here for What’s Next"
+            />
+            <TextField
+              label="Description"
+              long
+              value={contactPage.connectLead || ""}
+              onChange={(connectLead) => updateContactPage({ connectLead })}
+              placeholder="Whether you’re a student, parent, educator..."
+            />
+          </div>
+
+          {/* Right Column Settings */}
+          <div className="rounded-2xl border border-border/80 bg-background/50 p-5 space-y-4">
+            <h3 className="text-sm font-bold text-foreground">
+              Right Column: Quick Contact & Banner
+            </h3>
+            <div className="grid gap-4 md:grid-cols-2">
+              <TextField
+                label="Badge"
+                value={contactPage.messageBadge || ""}
+                onChange={(messageBadge) => updateContactPage({ messageBadge })}
+                placeholder="Quick Contact"
+              />
+              <TextField
+                label="Title"
+                value={contactPage.messageTitle || ""}
+                onChange={(messageTitle) => updateContactPage({ messageTitle })}
+                placeholder="Send Us a Message"
+              />
+            </div>
+            <TextField
+              label="Topic Prompt Text"
+              value={contactPage.messageLead || ""}
+              onChange={(messageLead) => updateContactPage({ messageLead })}
+              placeholder="Have a specific question or inquiry?..."
+            />
+            <TextField
+              label="Direct Call Callout Title"
+              value={contactPage.directCallTitle || ""}
+              onChange={(directCallTitle) => updateContactPage({ directCallTitle })}
+              placeholder="Prefer a direct conversation?"
+            />
+            <TextField
+              label="Direct Call Callout Note"
+              value={contactPage.directCallLead || ""}
+              onChange={(directCallLead) => updateContactPage({ directCallLead })}
+              placeholder="Call us during our working hours..."
+            />
+            <TextField
+              label="Signature Quote"
+              value={contactPage.signature || ""}
+              onChange={(signature) => updateContactPage({ signature })}
+              placeholder="“We’d love to hear from you!”"
+            />
+          </div>
+        </div>
       </Panel>
     </>
   );

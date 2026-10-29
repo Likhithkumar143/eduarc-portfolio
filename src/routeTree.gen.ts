@@ -19,6 +19,7 @@ import { Route as MentorRouteImport } from './routes/mentor'
 import { Route as MentorsRouteImport } from './routes/mentors'
 import { Route as PartnerRouteImport } from './routes/partner'
 import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as ProgramsRouteImport } from './routes/programs'
 import { Route as ReceptionRouteImport } from './routes/reception'
 
@@ -72,6 +73,11 @@ const PricingRoute = PricingRouteImport.update({
   path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProgramsRoute = ProgramsRouteImport.update({
   id: '/programs',
   path: '/programs',
@@ -94,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/mentors': typeof MentorsRoute
   '/partner': typeof PartnerRoute
   '/pricing': typeof PricingRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/programs': typeof ProgramsRoute
   '/reception': typeof ReceptionRoute
 }
@@ -108,6 +115,7 @@ export interface FileRoutesByTo {
   '/mentors': typeof MentorsRoute
   '/partner': typeof PartnerRoute
   '/pricing': typeof PricingRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/programs': typeof ProgramsRoute
   '/reception': typeof ReceptionRoute
 }
@@ -123,6 +131,7 @@ export interface FileRoutesById {
   '/mentors': typeof MentorsRoute
   '/partner': typeof PartnerRoute
   '/pricing': typeof PricingRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/programs': typeof ProgramsRoute
   '/reception': typeof ReceptionRoute
 }
@@ -139,6 +148,7 @@ export interface FileRouteTypes {
     | '/mentors'
     | '/partner'
     | '/pricing'
+    | '/privacy-policy'
     | '/programs'
     | '/reception'
   fileRoutesByTo: FileRoutesByTo
@@ -153,6 +163,7 @@ export interface FileRouteTypes {
     | '/mentors'
     | '/partner'
     | '/pricing'
+    | '/privacy-policy'
     | '/programs'
     | '/reception'
   id:
@@ -167,6 +178,7 @@ export interface FileRouteTypes {
     | '/mentors'
     | '/partner'
     | '/pricing'
+    | '/privacy-policy'
     | '/programs'
     | '/reception'
   fileRoutesById: FileRoutesById
@@ -182,6 +194,7 @@ export interface RootRouteChildren {
   MentorsRoute: typeof MentorsRoute
   PartnerRoute: typeof PartnerRoute
   PricingRoute: typeof PricingRoute
+  PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ProgramsRoute: typeof ProgramsRoute
   ReceptionRoute: typeof ReceptionRoute
 }
@@ -258,6 +271,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PricingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/programs': {
       id: '/programs'
       path: '/programs'
@@ -286,6 +306,7 @@ const rootRouteChildren: RootRouteChildren = {
   MentorsRoute: MentorsRoute,
   PartnerRoute: PartnerRoute,
   PricingRoute: PricingRoute,
+  PrivacyPolicyRoute: PrivacyPolicyRoute,
   ProgramsRoute: ProgramsRoute,
   ReceptionRoute: ReceptionRoute,
 }

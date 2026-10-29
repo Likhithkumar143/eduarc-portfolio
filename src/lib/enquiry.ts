@@ -25,43 +25,125 @@ const mobile = (label: string) =>
       return n;
     });
 
-export const enquirySchema = z.object({
-  fullName: z
-    .string()
-    .trim()
-    .min(2, "Full name is required")
-    .max(100, "Name must be under 100 characters"),
-  phone: mobile("Contact number"),
-  whatsapp: mobile("WhatsApp number"),
-  email: z
-    .string()
-    .trim()
-    .min(1, "Email is required")
-    .max(255, "Email must be under 255 characters")
-    .email("Enter a valid email address")
-    .transform((v) => v.toLowerCase()),
-  college: z
-    .string()
-    .trim()
-    .min(2, "College name is required")
-    .max(150, "College name must be under 150 characters"),
-  education: z
-    .string()
-    .trim()
-    .min(2, "Education is required")
-    .max(100, "Education must be under 100 characters"),
-});
+export const enquiryRoles = ["student", "parent", "institution", "mentor"] as const;
+export type EnquiryRole = (typeof enquiryRoles)[number];
+
+export const roleLabels: Record<EnquiryRole, string> = {
+  student: "Student",
+  parent: "Parent / Guardian",
+  institution: "School / College (Institution)",
+  mentor: "Mentor",
+};
+
+export const educationLevels = ["Class 10", "Class 12 / PUC", "Degree / College", "Other"] as const;
+export type EducationLevel = (typeof educationLevels)[number];
+
+export const PRIVACY_POLICY_VERSION = "2026.1";
+
+export const enquirySchema = z
+  .object({
+    role: z.enum(enquiryRoles).default("student"),
+    fullName: z
+      .string()
+      .trim()
+      .min(2, "Name is required")
+      .max(100, "Name must be under 100 characters"),
+    phone: mobile("Contact number"),
+    whatsapp: mobile("WhatsApp number"),
+    email: z
+      .string()
+      .trim()
+      .min(1, "Email is required")
+      .max(255, "Email must be under 255 characters")
+      .email("Enter a valid email address")
+      .transform((v) => v.toLowerCase()),
+    // Role-specific fields
+    education: z.string().trim().max(100).optional(),
+    childName: z.string().trim().max(100).optional(),
+    college: z.string().trim().max(150).optional(),
+    designation: z.string().trim().max(100).optional(),
+    mentorExpertise: z.string().trim().max(150).optional(),
+    // Optional Remarks (max 500 characters)
+    remarks: z.string().trim().max(500, "Remarks must be 500 characters or fewer").optional(),
+    // Privacy policy agreement (required, must be true)
+    privacyConsent: z.boolean().refine((val) => val === true, {
+      message: "You must read and agree to EDUARC's Privacy Policy to submit your enquiry",
+    }),
+    // Marketing communications preference (optional, defaults to false)
+    marketingConsent: z.boolean().default(false),
+    // Honeypot field (hidden from users, trips automated spam bots)
+    website: z.string().max(200).optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.role === "student") {
+      if (!data.education || data.education.trim().length < 2) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["education"],
+          message: "Please select your education level",
+        });
+      }
+    } else if (data.role === "parent") {
+      if (!data.education || data.education.trim().length < 2) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["education"],
+          message: "Please select child's education level",
+        });
+      }
+    } else if (data.role === "institution") {
+      if (!data.college || data.college.trim().length < 2) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["college"],
+          message: "Institution name is required",
+        });
+      }
+      if (!data.designation || data.designation.trim().length < 2) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["designation"],
+          message: "Designation at institution is required",
+        });
+      }
+    } else if (data.role === "mentor") {
+      if (!data.designation || data.designation.trim().length < 2) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["designation"],
+          message: "Professional designation is required",
+        });
+      }
+      if (!data.mentorExpertise || data.mentorExpertise.trim().length < 2) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["mentorExpertise"],
+          message: "Area of expertise is required",
+        });
+      }
+    }
+  });
 
 export type EnquiryInput = z.input<typeof enquirySchema>;
 export type Enquiry = z.output<typeof enquirySchema>;
 
-export const counsellingStatuses = ["done", "contact_again", "not_available"] as const;
+export const counsellingStatuses = [
+  "contacted",
+  "follow_up",
+  "resolved",
+  "done",
+  "contact_again",
+  "not_available",
+] as const;
 export type CounsellingStatus = (typeof counsellingStatuses)[number];
 
 export const statusLabels: Record<CounsellingStatus, string> = {
-  done: "Done",
-  contact_again: "Need to contact again",
-  not_available: "Not available",
+  contacted: "Contacted",
+  follow_up: "Follow-up Required",
+  resolved: "Resolved",
+  done: "Contacted",
+  contact_again: "Follow-up Required",
+  not_available: "Not Available",
 };
 
 export const statusUpdateSchema = z.object({

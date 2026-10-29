@@ -24,9 +24,9 @@ import { siteContentSchema, type SiteContent } from "@/content/eduarc";
 import { adminLogout, saveSiteContent } from "@/lib/admin.functions";
 import { adminStatusQuery } from "@/lib/admin-status";
 import { siteContentQuery, useSiteContent } from "@/lib/site-content";
-import { AmbientBlobs } from "@/components/site/Section";
 import { BrandLogo } from "@/components/site/BrandLogo";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import {
   AboutEditor,
@@ -57,75 +57,74 @@ const sections: Section[] = [
     id: "home",
     label: "Home",
     icon: House,
-    description: "Headline, mission and key strengths.",
+    description: "Headline, mission statement, and student journey.",
     Editor: HomeEditor,
   },
   {
     id: "about",
     label: "About",
     icon: Info,
-    description: "Your story and advantages.",
+    description: "Educational philosophy, mission, and institutional benefits.",
     Editor: AboutEditor,
   },
   {
     id: "mentors",
     label: "Mentors",
     icon: GraduationCap,
-    description: "Add, edit and manage mentor profiles.",
+    description: "Manage verified mentor profiles, roadmaps, and credentials.",
     Editor: MentorsEditor,
   },
   {
     id: "features",
     label: "Features",
     icon: Sparkles,
-    description: "Platform features list.",
+    description: "Platform capabilities, stream exploration, and tools.",
     Editor: FeaturesEditor,
   },
   {
     id: "programs",
     label: "Programs",
     icon: Layers,
-    description: "Offers, audiences and steps.",
+    description: "Institutional offerings for schools and colleges.",
     Editor: ProgramsEditor,
   },
   {
     id: "impact",
     label: "Impact",
     icon: TrendingUp,
-    description: "Impact cards and testimonials.",
+    description: "Evaluation methodology and partner perspectives.",
     Editor: ImpactEditor,
   },
   {
     id: "contact",
     label: "Contact",
     icon: Mail,
-    description: "Email, phone, website and contact page.",
+    description: "Institutional email, support phone, and website channels.",
     Editor: ContactEditor,
   },
   {
     id: "general",
-    label: "Brand & footer",
+    label: "Brand & Footer",
     icon: Settings2,
-    description: "Tagline, footer and call‑to‑action.",
+    description: "Tagline, footer descriptions, and call-to-action defaults.",
     Editor: GeneralEditor,
   },
   {
     id: "reception",
-    label: "Reception",
+    label: "Reception Access",
     icon: UserRoundCheck,
-    description: "Set the reception desk password.",
+    description: "Manage credentials for reception staff portal.",
     Custom: ReceptionAccessPanel,
   },
   {
     id: "security",
-    label: "Password",
+    label: "Admin Security",
     icon: KeyRound,
-    description: "Change your admin password.",
+    description: "Update the master administrator password.",
     Custom: PasswordPanel,
   },
 ];
 
-/** Drops blank lines from simple lists before saving. */
 function clean(c: SiteContent): SiteContent {
   const keep = (s: string) => s.trim().length > 0;
   return {
@@ -156,10 +155,11 @@ export function AdminDashboard() {
 
   const update: EditorProps["update"] = (key, value) => setDraft((d) => ({ ...d, [key]: value }));
 
-  async function onSave() {
-    const parsed = siteContentSchema.safeParse(clean(draft));
+  async function onSave(explicitDraft?: SiteContent) {
+    const targetDraft = explicitDraft ?? draft;
+    const parsed = siteContentSchema.safeParse(clean(targetDraft));
     if (!parsed.success) {
-      toast.error("Some fields are too long or invalid. Please check and try again.");
+      toast.error("Some fields are too long or invalid. Please check your inputs.");
       return;
     }
     setSaving(true);
@@ -167,7 +167,7 @@ export function AdminDashboard() {
       await save({ data: parsed.data });
       queryClient.setQueryData(siteContentQuery.queryKey, parsed.data);
       setDraft(parsed.data);
-      toast.success("Changes published to the website");
+      toast.success("Changes published live to the EDUARC website");
     } catch {
       toast.error("Couldn't save. Your session may have expired — sign in again.");
       await queryClient.invalidateQueries({ queryKey: adminStatusQuery.queryKey });
@@ -186,35 +186,40 @@ export function AdminDashboard() {
   const Custom = section.Custom;
 
   return (
-    <div className="relative isolate min-h-screen overflow-hidden bg-surface">
-      <AmbientBlobs className="fixed opacity-50" />
-
-      {/* Top bar */}
-      <header className="glass-nav sticky top-0 z-40 border-b border-hairline">
+    <div className="relative isolate min-h-screen bg-surface/40">
+      {/* Top Navigation Bar */}
+      <header className="glass-nav sticky top-0 z-40 border-b border-hairline/80">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 md:px-6">
           <div className="flex items-center gap-3">
             <BrandLogo />
-            <span className="hidden rounded-full bg-accent px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-brand sm:inline">
-              Admin
-            </span>
+            <Badge variant="gold" className="hidden sm:inline-flex py-0.5">
+              Admin Workspace
+            </Badge>
           </div>
-          <div className="flex items-center gap-1.5 md:gap-2">
-            <Button asChild variant="ghost" size="sm" className="rounded-full">
-              <a href="/" target="_blank" rel="noreferrer">
-                <ExternalLink /> <span className="hidden sm:inline">View site</span>
+          <div className="flex items-center gap-2">
+            <Button asChild variant="pill-outline" size="sm" className="bg-white/80">
+              <a href="/" target="_blank" rel="noreferrer" className="gap-1.5">
+                <ExternalLink className="h-3.5 w-3.5" />
+                <span className="hidden sm:inline">Preview Live Site</span>
               </a>
             </Button>
-            <Button variant="ghost" size="sm" className="rounded-full" onClick={onLogout}>
-              <LogOut /> <span className="hidden sm:inline">Sign out</span>
+            <Button
+              variant="pill-outline"
+              size="sm"
+              className="bg-white/80 text-muted-foreground hover:text-destructive hover:border-destructive/30"
+              onClick={onLogout}
+            >
+              <LogOut className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">Sign Out</span>
             </Button>
           </div>
         </div>
       </header>
 
-      <div className="mx-auto grid max-w-7xl gap-6 px-4 pb-32 pt-6 md:px-6 lg:grid-cols-[240px_1fr] lg:pt-10">
-        {/* Navigation */}
+      <div className="mx-auto grid max-w-7xl gap-8 px-4 pb-32 pt-6 md:px-6 lg:grid-cols-[250px_1fr] lg:pt-8">
+        {/* Sidebar Navigation */}
         <nav aria-label="Dashboard sections" className="lg:sticky lg:top-24 lg:self-start">
-          <div className="glass -mx-1 flex gap-1 overflow-x-auto rounded-2xl p-1.5 lg:mx-0 lg:flex-col lg:rounded-3xl lg:p-2">
+          <div className="rounded-2xl border border-hairline bg-white p-2 shadow-xs flex gap-1 overflow-x-auto lg:flex-col lg:overflow-visible">
             {sections.map((s) => {
               const Icon = s.icon;
               const on = s.id === active;
@@ -225,27 +230,38 @@ export function AdminDashboard() {
                   onClick={() => setActive(s.id)}
                   aria-current={on ? "page" : undefined}
                   className={cn(
-                    "flex shrink-0 items-center gap-2.5 rounded-xl px-3.5 py-2.5 text-left text-[14px] transition-all duration-300",
+                    "flex shrink-0 items-center gap-2.5 rounded-xl px-3.5 py-2.5 text-left text-xs font-semibold transition-all duration-150 cursor-pointer",
                     on
-                      ? "bg-primary text-primary-foreground shadow-card"
-                      : "text-muted-foreground hover:bg-background/70 hover:text-foreground",
+                      ? "bg-brand-navy text-white shadow-xs"
+                      : "text-muted-foreground hover:bg-surface hover:text-brand-navy",
                   )}
                 >
-                  <Icon className="h-4 w-4 shrink-0" strokeWidth={1.75} />
-                  {s.label}
+                  <Icon
+                    className={cn(
+                      "h-4 w-4 shrink-0",
+                      on ? "text-brand-gold" : "text-muted-foreground",
+                    )}
+                    strokeWidth={1.75}
+                  />
+                  <span>{s.label}</span>
                 </button>
               );
             })}
           </div>
         </nav>
 
-        {/* Content */}
+        {/* Content Pane */}
         <div key={section.id} className="min-w-0">
-          <div className="animate-rise mb-6">
-            <p className="type-eyebrow">{section.Custom ? "Settings" : "Edit page"}</p>
-            <h1 className="type-headline mt-1 text-foreground">{section.label}</h1>
-            <p className="mt-2 text-[15px] text-muted-foreground">{section.description}</p>
+          <div className="mb-6 pb-4 border-b border-hairline">
+            <span className="type-eyebrow text-brand-gold">
+              {section.Custom ? "System Configuration" : "Content Editor"}
+            </span>
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-brand-navy mt-1">
+              {section.label}
+            </h1>
+            <p className="mt-1 text-xs text-muted-foreground">{section.description}</p>
           </div>
+
           {Editor ? (
             <EditorStack>
               <Editor draft={draft} update={update} onSave={onSave} isSaving={saving} />
@@ -256,40 +272,49 @@ export function AdminDashboard() {
         </div>
       </div>
 
-      {/* Save bar */}
+      {/* Floating Save Action Bar */}
       <div
         className={cn(
-          "fixed inset-x-0 bottom-5 z-50 flex justify-center px-4 transition-all duration-500",
-          dirty ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-24 opacity-0",
+          "fixed inset-x-0 bottom-5 z-50 flex justify-center px-4 transition-all duration-300",
+          dirty ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-20 opacity-0",
         )}
         aria-hidden={!dirty}
       >
-        <div className="glass flex w-full max-w-xl items-center justify-between gap-3 rounded-full py-2 pl-5 pr-2 shadow-lift">
-          <p className="flex items-center gap-2 text-[14px] text-foreground">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-brand-teal" />
-            Unsaved changes
+        <div className="flex w-full max-w-xl items-center justify-between gap-3 rounded-full bg-brand-navy text-white py-2 pl-5 pr-2.5 shadow-2xl border border-brand-gold/30">
+          <p className="flex items-center gap-2 text-xs font-medium text-white">
+            <span className="h-2 w-2 animate-pulse rounded-full bg-brand-gold" />
+            <span>Unsaved brochure modifications</span>
           </p>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             <Button
               variant="ghost"
               size="sm"
-              className="rounded-full"
+              className="rounded-full text-xs text-white/80 hover:text-white hover:bg-white/10"
               onClick={() => setDraft(saved)}
               disabled={saving}
               tabIndex={dirty ? 0 : -1}
             >
-              <Undo2 /> Discard
+              <Undo2 className="h-3.5 w-3.5 mr-1" /> Discard
             </Button>
             <Button
-              variant="pill"
+              variant="pill-gold"
               size="pill-sm"
-              className="h-9"
-              onClick={onSave}
+              className="h-8 text-xs font-bold"
+              onClick={() => onSave()}
               disabled={saving}
               tabIndex={dirty ? 0 : -1}
             >
-              {saving ? <Loader2 className="animate-spin" /> : <Check />}
-              Save & publish
+              {saving ? (
+                <>
+                  <Loader2 className="h-3.5 w-3.5 animate-spin mr-1.5" />
+                  Publishing...
+                </>
+              ) : (
+                <>
+                  <Check className="h-3.5 w-3.5 mr-1.5" />
+                  Save & Publish
+                </>
+              )}
             </Button>
           </div>
         </div>

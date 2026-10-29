@@ -44,12 +44,38 @@ function isH3SwallowedErrorBody(body: string): boolean {
   }
 }
 
-function addSecurityHeaders(response: Response): Response {
+export function addSecurityHeaders(response: Response): Response {
   const headers = new Headers(response.headers);
   if (!headers.has("X-Content-Type-Options")) headers.set("X-Content-Type-Options", "nosniff");
-  if (!headers.has("X-Frame-Options")) headers.set("X-Frame-Options", "SAMEORIGIN");
+  if (!headers.has("X-Frame-Options")) headers.set("X-Frame-Options", "DENY");
   if (!headers.has("Referrer-Policy"))
     headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  if (!headers.has("Strict-Transport-Security"))
+    headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
+  if (!headers.has("Cross-Origin-Opener-Policy"))
+    headers.set("Cross-Origin-Opener-Policy", "same-origin");
+  if (!headers.has("Permissions-Policy"))
+    headers.set(
+      "Permissions-Policy",
+      "camera=(), microphone=(), geolocation=(), browsing-topics=()",
+    );
+  if (!headers.has("Content-Security-Policy")) {
+    headers.set(
+      "Content-Security-Policy",
+      [
+        "default-src 'self'",
+        "script-src 'self' 'unsafe-inline'",
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+        "font-src 'self' https://fonts.gstatic.com data:",
+        "img-src 'self' data: https: blob:",
+        "connect-src 'self' https://*.supabase.co",
+        "frame-ancestors 'none'",
+        "object-src 'none'",
+        "base-uri 'self'",
+        "form-action 'self'",
+      ].join("; "),
+    );
+  }
   return new Response(response.body, {
     status: response.status,
     statusText: response.statusText,

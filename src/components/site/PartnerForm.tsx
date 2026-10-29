@@ -1,72 +1,183 @@
 import { useId, useState, type FormEvent, type ReactNode } from "react";
+import { Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { CheckCircle2, Loader2, Send } from "lucide-react";
+import {
+  Building2,
+  Check,
+  CheckCircle2,
+  GraduationCap,
+  Loader2,
+  Lock,
+  Mail,
+  PenLine,
+  SendHorizontal,
+  ShieldCheck,
+  User,
+  UserCheck,
+  Users,
+} from "lucide-react";
 import { submitEnquiry } from "@/lib/enquiry.functions";
-import { enquirySchema, type EnquiryInput } from "@/lib/enquiry";
-import { Button } from "@/components/ui/button";
+import {
+  educationLevels,
+  enquiryRoles,
+  enquirySchema,
+  roleLabels,
+  type EnquiryInput,
+  type EnquiryRole,
+} from "@/lib/enquiry";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
-type Errors = Partial<Record<keyof EnquiryInput, string>>;
+type FormState = {
+  role: EnquiryRole;
+  fullName: string;
+  phone: string;
+  whatsapp: string;
+  email: string;
+  education: string;
+  childName: string;
+  college: string;
+  designation: string;
+  mentorExpertise: string;
+  remarks: string;
+  privacyConsent: boolean;
+  marketingConsent: boolean;
+};
 
-const empty: EnquiryInput = {
+const emptyState: FormState = {
+  role: "student",
   fullName: "",
   phone: "",
   whatsapp: "",
   email: "",
-  college: "",
   education: "",
+  childName: "",
+  college: "",
+  designation: "",
+  mentorExpertise: "",
+  remarks: "",
+  privacyConsent: false,
+  marketingConsent: false,
 };
 
-function validate(values: EnquiryInput): Errors {
-  const r = enquirySchema.safeParse(values);
+type Errors = Partial<Record<keyof FormState, string>>;
+
+function validateForm(values: FormState): Errors {
+  const payload: EnquiryInput = {
+    role: values.role,
+    fullName: values.fullName,
+    phone: values.phone,
+    whatsapp: values.whatsapp,
+    email: values.email,
+    education: values.role === "student" || values.role === "parent" ? values.education : undefined,
+    childName: values.role === "parent" ? values.childName || undefined : undefined,
+    college: values.role === "institution" ? values.college : undefined,
+    designation:
+      values.role === "institution" || values.role === "mentor" ? values.designation : undefined,
+    mentorExpertise: values.role === "mentor" ? values.mentorExpertise : undefined,
+    remarks: values.remarks.trim() ? values.remarks.trim() : undefined,
+    privacyConsent: values.privacyConsent,
+    marketingConsent: values.marketingConsent,
+  };
+
+  const r = enquirySchema.safeParse(payload);
   if (r.success) return {};
   const errors: Errors = {};
   for (const issue of r.error.issues) {
-    const key = issue.path[0] as keyof EnquiryInput;
-    errors[key] ??= issue.message;
+    const key = issue.path[0] as keyof FormState;
+    if (key) errors[key] ??= issue.message;
   }
   return errors;
 }
 
 export function PartnerForm() {
   const submit = useServerFn(submitEnquiry);
-  const [values, setValues] = useState<EnquiryInput>(empty);
+  const [form, setForm] = useState<FormState>(emptyState);
   const [sameAsPhone, setSameAsPhone] = useState(false);
-  const [touched, setTouched] = useState<Partial<Record<keyof EnquiryInput, boolean>>>({});
+  const [touched, setTouched] = useState<Partial<Record<keyof FormState, boolean>>>({});
   const [submitted, setSubmitted] = useState(false);
   const [busy, setBusy] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const [doneName, setDoneName] = useState<string | null>(null);
   const [honeypot, setHoneypot] = useState("");
 
-  const effective: EnquiryInput = {
-    ...values,
-    whatsapp: sameAsPhone ? values.phone : values.whatsapp,
+  const effectiveForm: FormState = {
+    ...form,
+    whatsapp: sameAsPhone ? form.phone : form.whatsapp,
   };
-  const errors = validate(effective);
-  const show = (k: keyof EnquiryInput) => (submitted || touched[k] ? errors[k] : undefined);
 
-  const set = (k: keyof EnquiryInput) => (v: string) => setValues((s) => ({ ...s, [k]: v }));
-  const blur = (k: keyof EnquiryInput) => () => setTouched((t) => ({ ...t, [k]: true }));
+  const errors = validateForm(effectiveForm);
+  const show = (k: keyof FormState) => (submitted || touched[k] ? errors[k] : undefined);
+
+  const setField = (k: keyof FormState) => (v: string) => {
+    setForm((prev) => ({ ...prev, [k]: v }));
+  };
+
+  const markTouched = (k: keyof FormState) => () => {
+    setTouched((prev) => ({ ...prev, [k]: true }));
+  };
+
+  const handleRoleChange = (newRole: EnquiryRole) => {
+    setForm((prev) => ({
+      ...prev,
+      role: newRole,
+      education: newRole === "student" || newRole === "parent" ? prev.education : "",
+      childName: newRole === "parent" ? prev.childName : "",
+      college: newRole === "institution" ? prev.college : "",
+      designation: newRole === "institution" || newRole === "mentor" ? prev.designation : "",
+      mentorExpertise: newRole === "mentor" ? prev.mentorExpertise : "",
+    }));
+  };
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     setSubmitted(true);
     setServerError(null);
+
     if (Object.keys(errors).length > 0) return;
     setBusy(true);
+
     try {
-      await submit({ data: { ...effective, website: honeypot } });
-      setDoneName(effective.fullName.trim().split(/\s+/)[0] ?? "");
-      setValues(empty);
+      const payload: EnquiryInput = {
+        role: effectiveForm.role,
+        fullName: effectiveForm.fullName.trim(),
+        phone: effectiveForm.phone.trim(),
+        whatsapp: effectiveForm.whatsapp.trim(),
+        email: effectiveForm.email.trim(),
+        education:
+          effectiveForm.role === "student" || effectiveForm.role === "parent"
+            ? effectiveForm.education.trim()
+            : undefined,
+        childName:
+          effectiveForm.role === "parent" && effectiveForm.childName.trim()
+            ? effectiveForm.childName.trim()
+            : undefined,
+        college: effectiveForm.role === "institution" ? effectiveForm.college.trim() : undefined,
+        designation:
+          effectiveForm.role === "institution" || effectiveForm.role === "mentor"
+            ? effectiveForm.designation.trim()
+            : undefined,
+        mentorExpertise:
+          effectiveForm.role === "mentor" ? effectiveForm.mentorExpertise.trim() : undefined,
+        remarks: effectiveForm.remarks.trim() ? effectiveForm.remarks.trim() : undefined,
+        privacyConsent: effectiveForm.privacyConsent,
+        marketingConsent: effectiveForm.marketingConsent,
+      };
+
+      await submit({ data: { ...payload, website: honeypot } });
+      setDoneName(effectiveForm.fullName.trim().split(/\s+/)[0] ?? "");
+      setForm(emptyState);
       setSameAsPhone(false);
       setTouched({});
       setSubmitted(false);
-    } catch {
-      setServerError("Couldn't send your details right now. Please try again in a moment.");
+    } catch (err: unknown) {
+      const msg =
+        err instanceof Error
+          ? err.message
+          : "Unable to send your details right now. Please check your connection and try again.";
+      setServerError(msg);
     } finally {
       setBusy(false);
     }
@@ -74,222 +185,710 @@ export function PartnerForm() {
 
   if (doneName !== null) {
     return (
-      <div className="glass animate-zoom-in rounded-[2rem] p-10 text-center md:p-14" role="status">
-        <span className="glow-ring mx-auto inline-flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground">
-          <CheckCircle2 className="h-8 w-8" strokeWidth={1.75} />
-        </span>
-        <h2 className="type-title mt-6 text-foreground">
+      <div
+        className="rounded-3xl border border-hairline bg-white p-8 md:p-12 text-center shadow-xl animate-in fade-in zoom-in-95 duration-300"
+        role="status"
+      >
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-gold-soft border border-brand-gold-border text-brand-navy shadow-sm">
+          <CheckCircle2 className="h-8 w-8 text-brand-gold" strokeWidth={2} />
+        </div>
+        <h2 className="text-2xl font-bold tracking-tight text-brand-navy mt-6">
           Thank you{doneName ? `, ${doneName}` : ""}.
         </h2>
-        <p className="type-lead mx-auto mt-3 max-w-md text-muted-foreground">
-          We've received your details. Our counselling team will contact you soon.
+        <p className="mt-3 text-sm text-muted-foreground leading-relaxed max-w-md mx-auto">
+          Your guidance request has been received securely. An academic counsellor from EDUARC will
+          review your details and reach out on your provided contact details to discuss next steps.
         </p>
-        <Button
-          variant="pill-outline"
-          size="pill"
-          className="mt-8"
-          onClick={() => setDoneName(null)}
-        >
-          Submit another response
-        </Button>
+        <div className="mt-8 flex justify-center">
+          <button
+            type="button"
+            className="rounded-full border border-hairline px-6 py-2.5 text-xs font-semibold text-brand-navy hover:bg-surface transition-colors cursor-pointer"
+            onClick={() => setDoneName(null)}
+          >
+            Submit Another Request
+          </button>
+        </div>
       </div>
     );
   }
+
+  const roleIcons = {
+    student: GraduationCap,
+    parent: User,
+    institution: Building2,
+    mentor: Users,
+  };
 
   return (
     <form
       onSubmit={onSubmit}
       noValidate
-      className="glass rounded-[2rem] p-7 md:p-10"
-      aria-label="Partner with us"
+      className="rounded-[28px] sm:rounded-[32px] border border-black/5 bg-white p-6 sm:p-8 md:p-10 shadow-[0_20px_50px_rgba(20,39,68,0.08)]"
+      aria-label="EDUARC Guidance & Partnership Form"
     >
-      <h2 className="type-title text-foreground">Your details</h2>
-      <p className="mt-2 text-[15px] text-muted-foreground">All fields are required.</p>
-
-      <div className="mt-8 grid gap-5 md:grid-cols-2">
-        <Field label="Full name" error={show("fullName")} className="md:col-span-2">
-          {(id, invalid) => (
-            <Input
-              id={id}
-              autoComplete="name"
-              value={values.fullName}
-              onChange={(e) => set("fullName")(e.target.value)}
-              onBlur={blur("fullName")}
-              aria-invalid={invalid}
-              maxLength={100}
-              className={inputClass}
-              placeholder="e.g. Ananya Rao"
-            />
-          )}
-        </Field>
-
-        <Field label="Contact number" error={show("phone")}>
-          {(id, invalid) => (
-            <PhoneInput
-              id={id}
-              value={values.phone}
-              onChange={set("phone")}
-              onBlur={blur("phone")}
-              invalid={invalid}
-            />
-          )}
-        </Field>
-
-        <Field label="WhatsApp number" error={sameAsPhone ? undefined : show("whatsapp")}>
-          {(id, invalid) => (
-            <PhoneInput
-              id={id}
-              value={sameAsPhone ? values.phone : values.whatsapp}
-              onChange={set("whatsapp")}
-              onBlur={blur("whatsapp")}
-              invalid={invalid}
-              disabled={sameAsPhone}
-            />
-          )}
-        </Field>
-
-        <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-hairline bg-background/60 px-4 py-3 text-[14px] text-foreground transition-colors hover:bg-background/90 md:col-span-2">
-          <Checkbox checked={sameAsPhone} onCheckedChange={(v) => setSameAsPhone(v === true)} />
-          WhatsApp number is the same as my contact number
-        </label>
-
-        <Field label="Email ID" error={show("email")} className="md:col-span-2">
-          {(id, invalid) => (
-            <Input
-              id={id}
-              type="email"
-              autoComplete="email"
-              inputMode="email"
-              value={values.email}
-              onChange={(e) => set("email")(e.target.value)}
-              onBlur={blur("email")}
-              aria-invalid={invalid}
-              maxLength={255}
-              className={inputClass}
-              placeholder="you@example.com"
-            />
-          )}
-        </Field>
-
-        <Field label="College name" error={show("college")}>
-          {(id, invalid) => (
-            <Input
-              id={id}
-              autoComplete="organization"
-              value={values.college}
-              onChange={(e) => set("college")(e.target.value)}
-              onBlur={blur("college")}
-              aria-invalid={invalid}
-              maxLength={150}
-              className={inputClass}
-              placeholder="e.g. Sunrise PU College"
-            />
-          )}
-        </Field>
-
-        <Field label="Education" error={show("education")}>
-          {(id, invalid) => (
-            <Input
-              id={id}
-              value={values.education}
-              onChange={(e) => set("education")(e.target.value)}
-              onBlur={blur("education")}
-              aria-invalid={invalid}
-              maxLength={100}
-              className={inputClass}
-              placeholder="e.g. 12th / PUC, B.Com 2nd year"
-            />
-          )}
-        </Field>
-
-        {/* Hidden from people; catches bots. */}
-        <input
-          type="text"
-          name="website"
-          tabIndex={-1}
-          autoComplete="off"
-          value={honeypot}
-          onChange={(e) => setHoneypot(e.target.value)}
-          className="hidden"
-          aria-hidden="true"
-        />
+      {/* Header */}
+      <div className="border-b border-hairline/80 pb-5">
+        <h2 className="text-2xl sm:text-[26px] font-bold tracking-tight text-brand-navy">
+          Request Guidance &amp; Partnership
+        </h2>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Select who you are below. Fields marked with an asterisk (
+          <span className="text-destructive">*</span>) are required.
+        </p>
       </div>
 
-      {serverError && (
-        <p role="alert" className="animate-rise mt-5 text-sm text-destructive">
-          {serverError}
-        </p>
-      )}
+      <div className="mt-6 space-y-6">
+        {/* Step 1: Role Selector ("1. I am a...") */}
+        <fieldset className="space-y-3">
+          <legend className="text-sm font-bold text-brand-navy">1. I am a…</legend>
 
-      <Button type="submit" variant="pill" size="pill" className="mt-8 w-full" disabled={busy}>
-        {busy ? <Loader2 className="animate-spin" /> : <Send />}
-        Submit details
-      </Button>
-      <p className="mt-4 text-center text-[12px] text-muted-foreground">
-        By submitting, you agree to be contacted by EduArc about counselling.
-      </p>
+          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
+            {enquiryRoles.map((r) => {
+              const active = form.role === r;
+              const Icon = roleIcons[r];
+              const displayLabel =
+                r === "institution"
+                  ? "School / College (Institution)"
+                  : r === "parent"
+                    ? "Parent / Guardian"
+                    : roleLabels[r];
+
+              return (
+                <button
+                  key={r}
+                  type="button"
+                  onClick={() => handleRoleChange(r)}
+                  className={cn(
+                    "relative flex flex-col items-center justify-center gap-2 rounded-2xl border p-3.5 sm:p-4 text-center transition-all cursor-pointer min-h-[96px]",
+                    active
+                      ? "border-[#1E5450] bg-[#1E5450] text-white shadow-md ring-1 ring-[#1E5450]"
+                      : "border-hairline bg-white text-brand-navy hover:border-[#1E5450]/40 hover:bg-surface/50",
+                  )}
+                  aria-pressed={active}
+                >
+                  <Icon
+                    className={cn(
+                      "h-6 w-6 transition-transform",
+                      active ? "text-white scale-110" : "text-[#1E5450]",
+                    )}
+                  />
+                  <span className="text-xs font-semibold leading-tight">{displayLabel}</span>
+                  {active && (
+                    <div className="absolute bottom-2 right-2 flex h-4 w-4 items-center justify-center rounded-full bg-white/25 text-white">
+                      <Check className="h-2.5 w-2.5" strokeWidth={3} />
+                    </div>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </fieldset>
+
+        {/* Step 2: Role Details Header */}
+        <div className="space-y-4 pt-1">
+          <div className="flex items-center gap-2 border-b border-hairline/60 pb-2.5">
+            <UserCheck className="h-4 w-4 text-[#1E5450] shrink-0" />
+            <h3 className="text-sm font-bold text-brand-navy">
+              2. {roleLabels[form.role]} Details
+            </h3>
+          </div>
+
+          {/* Student Fields */}
+          {form.role === "student" && (
+            <>
+              <Field
+                id="fullName"
+                label="Student Full Name"
+                required
+                error={show("fullName")}
+                hint="Your legal name as per school or college records"
+              >
+                <Input
+                  id="fullName"
+                  value={form.fullName}
+                  onChange={(e) => setField("fullName")(e.target.value)}
+                  onBlur={markTouched("fullName")}
+                  placeholder="e.g. Rahul Sharma"
+                  autoComplete="name"
+                  aria-invalid={Boolean(show("fullName"))}
+                  className="h-11 rounded-xl border-hairline bg-white text-sm placeholder:text-muted-foreground/60 focus-visible:border-[#1E5450] focus-visible:ring-1 focus-visible:ring-[#1E5450]"
+                />
+              </Field>
+
+              <Field
+                id="education"
+                label="Current Education Level"
+                required
+                error={show("education")}
+                hint="Select the level you are currently enrolled in"
+              >
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                  {educationLevels.map((lvl) => {
+                    const active = form.education === lvl;
+                    return (
+                      <button
+                        key={lvl}
+                        type="button"
+                        onClick={() => setField("education")(lvl)}
+                        className={cn(
+                          "rounded-xl border px-3 py-2 text-xs font-semibold transition-all cursor-pointer text-center",
+                          active
+                            ? "border-[#1E5450] bg-[#1E5450]/10 text-[#1E5450] font-bold ring-1 ring-[#1E5450]"
+                            : "border-hairline bg-white text-foreground/80 hover:border-[#1E5450]/40",
+                        )}
+                        aria-pressed={active}
+                      >
+                        {lvl}
+                      </button>
+                    );
+                  })}
+                </div>
+              </Field>
+            </>
+          )}
+
+          {/* Parent / Guardian Fields */}
+          {form.role === "parent" && (
+            <>
+              <Field
+                id="parentName"
+                label="Parent / Guardian Name"
+                required
+                error={show("fullName")}
+                hint="Your legal full name"
+              >
+                <Input
+                  id="parentName"
+                  value={form.fullName}
+                  onChange={(e) => setField("fullName")(e.target.value)}
+                  onBlur={markTouched("fullName")}
+                  placeholder="e.g. Suresh Kumar"
+                  autoComplete="name"
+                  aria-invalid={Boolean(show("fullName"))}
+                  className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#1E5450] focus-visible:ring-1 focus-visible:ring-[#1E5450]"
+                />
+              </Field>
+
+              <Field
+                id="childEducation"
+                label="Child's Current Education Level"
+                required
+                error={show("education")}
+                hint="Select your child's current study stage"
+              >
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                  {educationLevels.map((lvl) => {
+                    const active = form.education === lvl;
+                    return (
+                      <button
+                        key={lvl}
+                        type="button"
+                        onClick={() => setField("education")(lvl)}
+                        className={cn(
+                          "rounded-xl border px-3 py-2 text-xs font-semibold transition-all cursor-pointer text-center",
+                          active
+                            ? "border-[#1E5450] bg-[#1E5450]/10 text-[#1E5450] font-bold ring-1 ring-[#1E5450]"
+                            : "border-hairline bg-white text-foreground/80 hover:border-[#1E5450]/40",
+                        )}
+                        aria-pressed={active}
+                      >
+                        {lvl}
+                      </button>
+                    );
+                  })}
+                </div>
+              </Field>
+
+              <Field
+                id="childName"
+                label="Child's Name"
+                optional
+                error={show("childName")}
+                hint="Optional: helps our counsellor prepare guidance material"
+              >
+                <Input
+                  id="childName"
+                  value={form.childName}
+                  onChange={(e) => setField("childName")(e.target.value)}
+                  onBlur={markTouched("childName")}
+                  placeholder="e.g. Ananya Kumar"
+                  className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#1E5450] focus-visible:ring-1 focus-visible:ring-[#1E5450]"
+                />
+              </Field>
+            </>
+          )}
+
+          {/* School / College (Institution) Fields */}
+          {form.role === "institution" && (
+            <>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field
+                  id="contactPersonName"
+                  label="Contact Person Name"
+                  required
+                  error={show("fullName")}
+                  hint="Your full name"
+                >
+                  <Input
+                    id="contactPersonName"
+                    value={form.fullName}
+                    onChange={(e) => setField("fullName")(e.target.value)}
+                    onBlur={markTouched("fullName")}
+                    placeholder="e.g. Dr. Ramesh Rao"
+                    autoComplete="name"
+                    aria-invalid={Boolean(show("fullName"))}
+                    className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#1E5450] focus-visible:ring-1 focus-visible:ring-[#1E5450]"
+                  />
+                </Field>
+
+                <Field
+                  id="designation"
+                  label="Designation at Institution"
+                  required
+                  error={show("designation")}
+                  hint="Official title"
+                >
+                  <Input
+                    id="designation"
+                    value={form.designation}
+                    onChange={(e) => setField("designation")(e.target.value)}
+                    onBlur={markTouched("designation")}
+                    placeholder="e.g. Principal / Director / Counsellor"
+                    aria-invalid={Boolean(show("designation"))}
+                    className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#1E5450] focus-visible:ring-1 focus-visible:ring-[#1E5450]"
+                  />
+                </Field>
+              </div>
+
+              <Field
+                id="college"
+                label="School / College / Institution Name"
+                required
+                error={show("college")}
+                hint="Full official name of your educational institution"
+              >
+                <Input
+                  id="college"
+                  value={form.college}
+                  onChange={(e) => setField("college")(e.target.value)}
+                  onBlur={markTouched("college")}
+                  placeholder="e.g. St. Joseph's Pre-University College"
+                  aria-invalid={Boolean(show("college"))}
+                  className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#1E5450] focus-visible:ring-1 focus-visible:ring-[#1E5450]"
+                />
+              </Field>
+            </>
+          )}
+
+          {/* Mentor Fields */}
+          {form.role === "mentor" && (
+            <>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field
+                  id="mentorName"
+                  label="Mentor Full Name"
+                  required
+                  error={show("fullName")}
+                  hint="Your full name"
+                >
+                  <Input
+                    id="mentorName"
+                    value={form.fullName}
+                    onChange={(e) => setField("fullName")(e.target.value)}
+                    onBlur={markTouched("fullName")}
+                    placeholder="e.g. Dr. Priya Nair"
+                    autoComplete="name"
+                    aria-invalid={Boolean(show("fullName"))}
+                    className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#1E5450] focus-visible:ring-1 focus-visible:ring-[#1E5450]"
+                  />
+                </Field>
+
+                <Field
+                  id="mentorDesignation"
+                  label="Professional Designation"
+                  required
+                  error={show("designation")}
+                  hint="Current role & organization"
+                >
+                  <Input
+                    id="mentorDesignation"
+                    value={form.designation}
+                    onChange={(e) => setField("designation")(e.target.value)}
+                    onBlur={markTouched("designation")}
+                    placeholder="e.g. Associate Professor / Senior Engineer"
+                    aria-invalid={Boolean(show("designation"))}
+                    className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#1E5450] focus-visible:ring-1 focus-visible:ring-[#1E5450]"
+                  />
+                </Field>
+              </div>
+
+              <Field
+                id="mentorExpertise"
+                label="Area of Mentorship Expertise"
+                required
+                error={show("mentorExpertise")}
+                hint="Key subjects, streams, or industries you guide students in"
+              >
+                <Input
+                  id="mentorExpertise"
+                  value={form.mentorExpertise}
+                  onChange={(e) => setField("mentorExpertise")(e.target.value)}
+                  onBlur={markTouched("mentorExpertise")}
+                  placeholder="e.g. Computer Science, Medicine, Commerce, Pure Sciences"
+                  aria-invalid={Boolean(show("mentorExpertise"))}
+                  className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#1E5450] focus-visible:ring-1 focus-visible:ring-[#1E5450]"
+                />
+              </Field>
+            </>
+          )}
+
+          {/* Two-Column Phone & WhatsApp Row with +91 Prepend */}
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <Label htmlFor="phone" className="text-xs font-semibold text-brand-navy">
+                Contact Phone Number <span className="text-destructive">*</span>
+              </Label>
+              <div className="mt-1.5 flex rounded-xl border border-hairline bg-white shadow-2xs focus-within:border-[#1E5450] focus-within:ring-1 focus-within:ring-[#1E5450] overflow-hidden">
+                <span className="flex items-center justify-center bg-surface border-r border-hairline px-3 text-xs font-semibold text-muted-foreground select-none">
+                  +91
+                </span>
+                <input
+                  id="phone"
+                  type="tel"
+                  inputMode="numeric"
+                  value={form.phone}
+                  onChange={(e) => setField("phone")(e.target.value)}
+                  onBlur={markTouched("phone")}
+                  placeholder="98765 43210"
+                  autoComplete="tel"
+                  maxLength={15}
+                  aria-invalid={Boolean(show("phone"))}
+                  className="w-full h-11 px-3 text-sm text-foreground outline-none placeholder:text-muted-foreground/60 bg-transparent"
+                />
+              </div>
+              <p className="text-[11px] text-muted-foreground mt-1">
+                10-digit Indian mobile number
+              </p>
+              {show("phone") && <p className="text-xs text-destructive mt-1">{show("phone")}</p>}
+            </div>
+
+            <div>
+              <Label htmlFor="whatsapp" className="text-xs font-semibold text-brand-navy">
+                WhatsApp Number <span className="text-destructive">*</span>
+              </Label>
+              <div
+                className={cn(
+                  "mt-1.5 flex rounded-xl border border-hairline bg-white shadow-2xs overflow-hidden",
+                  sameAsPhone
+                    ? "bg-surface text-muted-foreground cursor-not-allowed"
+                    : "focus-within:border-[#1E5450] focus-within:ring-1 focus-within:ring-[#1E5450]",
+                )}
+              >
+                <span className="flex items-center justify-center bg-surface border-r border-hairline px-3 text-xs font-semibold text-muted-foreground select-none">
+                  +91
+                </span>
+                <input
+                  id="whatsapp"
+                  type="tel"
+                  inputMode="numeric"
+                  disabled={sameAsPhone}
+                  value={effectiveForm.whatsapp}
+                  onChange={(e) => setField("whatsapp")(e.target.value)}
+                  onBlur={markTouched("whatsapp")}
+                  placeholder="98765 43210"
+                  maxLength={15}
+                  aria-invalid={Boolean(!sameAsPhone && show("whatsapp"))}
+                  className={cn(
+                    "w-full h-11 px-3 text-sm outline-none placeholder:text-muted-foreground/60 bg-transparent",
+                    sameAsPhone ? "text-muted-foreground cursor-not-allowed" : "text-foreground",
+                  )}
+                />
+              </div>
+              <p className="text-[11px] text-muted-foreground mt-1">
+                Where we can send guidance roadmaps and session links.
+              </p>
+              {!sameAsPhone && show("whatsapp") && (
+                <p className="text-xs text-destructive mt-1">{show("whatsapp")}</p>
+              )}
+            </div>
+          </div>
+
+          {/* Sync Checkbox */}
+          <div className="flex items-center gap-2 pt-0.5">
+            <Checkbox
+              id="sameAsPhone"
+              checked={sameAsPhone}
+              onCheckedChange={(c) => {
+                const next = Boolean(c);
+                setSameAsPhone(next);
+                if (next) setField("whatsapp")(form.phone);
+              }}
+              className="h-4 w-4 rounded data-[state=checked]:bg-[#1E5450] data-[state=checked]:border-[#1E5450]"
+            />
+            <Label
+              htmlFor="sameAsPhone"
+              className="text-xs font-medium text-foreground/80 cursor-pointer select-none"
+            >
+              WhatsApp number is the same as contact number
+            </Label>
+          </div>
+
+          {/* Email Address with left icon */}
+          <Field
+            id="email"
+            label="Email Address"
+            required
+            error={show("email")}
+            hint="We will send confirmed schedules and roadmap submissions to this email"
+          >
+            <div className="relative flex items-center">
+              <Mail className="absolute left-3.5 h-4 w-4 text-muted-foreground pointer-events-none" />
+              <input
+                id="email"
+                type="email"
+                value={form.email}
+                onChange={(e) => setField("email")(e.target.value)}
+                onBlur={markTouched("email")}
+                placeholder="name@example.com"
+                autoComplete="email"
+                aria-invalid={Boolean(show("email"))}
+                className="w-full h-11 pl-10 pr-3 text-sm text-foreground rounded-xl border border-hairline bg-white outline-none placeholder:text-muted-foreground/60 focus:border-[#1E5450] focus:ring-1 focus:ring-[#1E5450] shadow-2xs"
+              />
+            </div>
+          </Field>
+
+          {/* Remarks Field with live counter and pencil icon */}
+          <div className="space-y-1.5 pt-1">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="remarks" className="text-xs font-semibold text-brand-navy">
+                Remarks / Anything you'd like us to know?{" "}
+                <span className="font-normal text-muted-foreground">(Optional)</span>
+              </Label>
+              <span className="text-[11px] font-mono text-muted-foreground tabular-nums">
+                {form.remarks.length} / 500
+              </span>
+            </div>
+
+            <div className="relative">
+              <textarea
+                id="remarks"
+                value={form.remarks}
+                onChange={(e) => {
+                  if (e.target.value.length <= 500) {
+                    setField("remarks")(e.target.value);
+                  }
+                }}
+                onBlur={markTouched("remarks")}
+                maxLength={500}
+                rows={3}
+                placeholder="Share your questions, career goals, requirements, or additional information here..."
+                className="w-full rounded-xl border border-hairline bg-white p-3 pr-9 text-sm text-foreground outline-none placeholder:text-muted-foreground/60 focus:border-[#1E5450] focus:ring-1 focus:ring-[#1E5450] shadow-2xs resize-none"
+              />
+              <PenLine className="absolute bottom-3 right-3 h-4 w-4 text-muted-foreground/60 pointer-events-none" />
+            </div>
+
+            {show("remarks") && (
+              <p className="text-xs text-destructive" role="alert">
+                {show("remarks")}
+              </p>
+            )}
+          </div>
+
+          {/* Honeypot field */}
+          <div
+            className="absolute -left-[9999px] top-auto h-0 w-0 overflow-hidden"
+            aria-hidden="true"
+          >
+            <label htmlFor="website-hp">Website</label>
+            <input
+              id="website-hp"
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+            />
+          </div>
+
+          {/* Student & Minor Privacy Notice (DPDPA 2023) */}
+          {form.role === "student" && (
+            <div className="rounded-xl border border-[#F5E6B8] bg-[#FDF8E8] p-3.5 flex items-start gap-3 text-xs leading-relaxed">
+              <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#D97706]/20 text-[#D97706] mt-0.5">
+                <Lock className="h-3 w-3" />
+              </div>
+              <div className="space-y-0.5">
+                <p className="font-bold text-[#92400E]">
+                  Student &amp; Minor Privacy Notice (DPDPA, 2023)
+                </p>
+                <p className="text-[11.5px] text-[#A16207] leading-relaxed">
+                  If you are under 18 years of age, our academic roadmap and career guidance
+                  sessions will involve your parents or legal guardian. Please ensure your parent or
+                  guardian is aware of and consents to the educational guidance enquiry.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {form.role === "parent" && (
+            <div className="rounded-xl border border-[#F5E6B8] bg-[#FDF8E8] p-3.5 flex items-start gap-3 text-xs leading-relaxed">
+              <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#D97706]/20 text-[#D97706] mt-0.5">
+                <Lock className="h-3 w-3" />
+              </div>
+              <div className="space-y-0.5">
+                <p className="font-bold text-[#92400E]">Parental &amp; Guardian Authority</p>
+                <p className="text-[11.5px] text-[#A16207] leading-relaxed">
+                  As a parent or legal guardian, you are submitting this enquiry on behalf of your
+                  ward. EDUARC will use these details strictly to provide the educational guidance
+                  requested for your child.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Step 5: Privacy Policy & Consent Checkboxes */}
+          <div className="space-y-3 pt-2 border-t border-hairline/80">
+            <div className="space-y-1">
+              <div className="flex items-start gap-2.5">
+                <Checkbox
+                  id="privacyConsent"
+                  checked={form.privacyConsent}
+                  onCheckedChange={(checked) => {
+                    setForm((prev) => ({ ...prev, privacyConsent: Boolean(checked) }));
+                    if (touched.privacyConsent) {
+                      setTouched((prev) => ({ ...prev, privacyConsent: true }));
+                    }
+                  }}
+                  onBlur={markTouched("privacyConsent")}
+                  aria-invalid={Boolean(show("privacyConsent"))}
+                  className="mt-0.5 h-4 w-4 rounded-full data-[state=checked]:bg-[#1E5450] data-[state=checked]:border-[#1E5450]"
+                />
+                <Label
+                  htmlFor="privacyConsent"
+                  className="text-xs font-normal text-foreground/90 leading-relaxed cursor-pointer select-none"
+                >
+                  I have read and agree to EDUARC’s{" "}
+                  <Link
+                    to="/privacy-policy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-[#1E5450] hover:text-brand-navy underline underline-offset-2 transition-colors inline-flex items-center gap-0.5"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    Privacy Policy
+                  </Link>
+                  . I understand that my information will be used to respond to my enquiry and
+                  provide the educational guidance or services I request.{" "}
+                  <span className="text-destructive font-semibold">*</span>
+                </Label>
+              </div>
+              {show("privacyConsent") && (
+                <p className="text-xs text-destructive pl-6" role="alert">
+                  {show("privacyConsent")}
+                </p>
+              )}
+            </div>
+
+            <div className="flex items-start gap-2.5">
+              <Checkbox
+                id="marketingConsent"
+                checked={form.marketingConsent}
+                onCheckedChange={(checked) =>
+                  setForm((prev) => ({ ...prev, marketingConsent: Boolean(checked) }))
+                }
+                className="mt-0.5 h-4 w-4 rounded-full data-[state=checked]:bg-[#1E5450] data-[state=checked]:border-[#1E5450]"
+              />
+              <Label
+                htmlFor="marketingConsent"
+                className="text-xs font-normal text-muted-foreground leading-relaxed cursor-pointer select-none"
+              >
+                I would like to receive updates, educational resources, and information about EDUARC
+                programmes and services.{" "}
+                <span className="text-[11px] text-muted-foreground/80">(Optional)</span>
+              </Label>
+            </div>
+          </div>
+
+          {/* Server Error Alert */}
+          {serverError && (
+            <div
+              className="rounded-xl border border-destructive/20 bg-destructive/5 p-3.5 text-xs font-medium text-destructive leading-relaxed"
+              role="alert"
+            >
+              {serverError}
+            </div>
+          )}
+
+          {/* Submit Action */}
+          <div className="pt-2">
+            <button
+              type="submit"
+              disabled={busy}
+              className="w-full h-12 rounded-xl bg-gradient-to-r from-[#DFB76C] to-[#C99C4B] hover:from-[#D4A95B] hover:to-[#BD8E3A] text-brand-navy font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {busy ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin mr-1.5" />
+                  <span>Submitting Enquiry…</span>
+                </>
+              ) : (
+                <>
+                  <span>Submit Guidance Request</span>
+                  <SendHorizontal className="h-4 w-4 ml-1" />
+                </>
+              )}
+            </button>
+
+            <p className="mt-3 text-center text-[11px] text-muted-foreground flex items-center justify-center gap-1.5">
+              <Lock className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+              <span>Your information is secure and will never be shared with third parties.</span>
+            </p>
+          </div>
+        </div>
+      </div>
     </form>
   );
 }
 
-const inputClass = "h-12 rounded-xl bg-background/70 text-[16px]";
-
 function Field({
+  id,
   label,
+  required,
+  optional,
   error,
-  className,
+  hint,
   children,
 }: {
-  label: string;
-  error: string | undefined;
-  className?: string;
-  children: (id: string, invalid: boolean) => ReactNode;
-}) {
-  const id = useId();
-  return (
-    <div className={cn("space-y-2", className)}>
-      <Label htmlFor={id} className="text-[13px] font-medium text-foreground">
-        {label}
-      </Label>
-      {children(id, !!error)}
-      {error && <p className="animate-rise text-[13px] text-destructive">{error}</p>}
-    </div>
-  );
-}
-
-function PhoneInput({
-  id,
-  value,
-  onChange,
-  onBlur,
-  invalid,
-  disabled,
-}: {
   id: string;
-  value: string;
-  onChange: (v: string) => void;
-  onBlur: () => void;
-  invalid: boolean;
-  disabled?: boolean;
+  label: string;
+  required?: boolean | undefined;
+  optional?: boolean | undefined;
+  error?: string | undefined;
+  hint?: string | undefined;
+  children: ReactNode;
 }) {
+  const errId = useId();
+  const hintId = useId();
+
   return (
-    <div className="relative">
-      <span className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-[16px] text-muted-foreground">
-        +91
-      </span>
-      <Input
-        id={id}
-        type="tel"
-        inputMode="tel"
-        autoComplete="tel-national"
-        value={value}
-        onChange={(e) => onChange(e.target.value.replace(/[^\d+\s-]/g, "").slice(0, 16))}
-        onBlur={onBlur}
-        aria-invalid={invalid}
-        disabled={disabled}
-        className={cn(inputClass, "pl-12 disabled:opacity-70")}
-        placeholder="98765 43210"
-      />
+    <div className="space-y-1.5">
+      <div className="flex items-center justify-between">
+        <Label htmlFor={id} className="text-xs font-semibold text-brand-navy">
+          {label} {required && <span className="text-destructive">*</span>}
+          {optional && <span className="font-normal text-muted-foreground"> (Optional)</span>}
+        </Label>
+      </div>
+
+      {children}
+
+      {error ? (
+        <p id={errId} className="text-xs text-destructive" role="alert">
+          {error}
+        </p>
+      ) : hint ? (
+        <p id={hintId} className="text-[11px] text-muted-foreground">
+          {hint}
+        </p>
+      ) : null}
     </div>
   );
 }

@@ -86,7 +86,41 @@ export type MentorCardStat = z.infer<typeof mentorCardStatSchema>;
 
 export const siteContentSchema = z.object({
   brand: z.object({ tagline: str, footerBlurb: str }),
-  contact: z.object({ email: str, phone: str, website: str }),
+  contact: z.object({
+    email: str,
+    phone: str,
+    website: str,
+    phoneHours: str.default("Mon - Fri, 9:00 AM - 6:00 PM (IST)"),
+    emailNote: str.default("We reply within 24 hours"),
+    location: str.default("Bengaluru, Karnataka, India"),
+    locationNote: str.default("(By appointment only)"),
+    websiteNote: str.default("Explore more about us"),
+  }),
+  socials: z
+    .object({
+      instagramUrl: str.default("https://instagram.com/eduarc_official"),
+      instagramHandle: str.default("@eduarc_official"),
+      facebookUrl: str.default("https://facebook.com/eduarc"),
+      facebookHandle: str.default("/eduarc"),
+      twitterUrl: str.default("https://x.com/eduarc_official"),
+      twitterHandle: str.default("@eduarc_official"),
+      linkedinUrl: str.default("https://linkedin.com/company/eduarc"),
+      linkedinHandle: str.default("/company/eduarc"),
+      youtubeUrl: str.default("https://youtube.com/@eduarc"),
+      youtubeHandle: str.default("@eduarc"),
+    })
+    .default({
+      instagramUrl: "https://instagram.com/eduarc_official",
+      instagramHandle: "@eduarc_official",
+      facebookUrl: "https://facebook.com/eduarc",
+      facebookHandle: "/eduarc",
+      twitterUrl: "https://x.com/eduarc_official",
+      twitterHandle: "@eduarc_official",
+      linkedinUrl: "https://linkedin.com/company/eduarc",
+      linkedinHandle: "/company/eduarc",
+      youtubeUrl: "https://youtube.com/@eduarc",
+      youtubeHandle: "@eduarc",
+    }),
   home: z.object({
     eyebrow: str,
     title: str,
@@ -130,7 +164,37 @@ export const siteContentSchema = z.object({
   impactPage: z.object({ title: str, lead: str }),
   impacts: z.array(iconItem).max(12),
   testimonials: z.array(z.object({ quote: str, name: str, role: str })).max(12),
-  contactPage: z.object({ title: str, titleHighlight: str, lead: str, thankYou: str }),
+  contactPage: z.object({
+    badge: str.default("Get in Touch"),
+    title: str,
+    titleHighlight: str,
+    lead: str,
+    pill1: str.default("Quick Response"),
+    pill2: str.default("Dedicated Support"),
+    pill3: str.default("Real People"),
+    channelsTitle: str.default("Multiple Ways to Reach Us"),
+    channelsLead: str.default(
+      "Choose the channel that works best for you. We're just a call, email or message away!",
+    ),
+    connectEyebrow: str.default("— Ready to Connect?"),
+    connectTitle: str.default("We’re Here for What’s Next"),
+    connectLead: str.default(
+      "Whether you’re a student, parent, educator, or institution — your journey matters to us. Let’s talk and create the right guidance for your future.",
+    ),
+    messageBadge: str.default("Quick Contact"),
+    messageTitle: str.default("Send Us a Message"),
+    messageLead: str.default(
+      "Have a specific question or inquiry? Choose a topic and we'll get back to you with the right person from our team.",
+    ),
+    directCallTitle: str.default("Prefer a direct conversation?"),
+    directCallLead: str.default(
+      "Call us during our working hours (Mon - Fri, 9:00 AM - 6:00 PM IST).",
+    ),
+    signature: str.default("“We’d love to hear from you!”"),
+    thankYou: str.default(
+      "For your time and consideration. Together, let's empower more students to achieve their dreams.",
+    ),
+  }),
   cta: z.object({ title: str, lead: str }),
   mentors: z.array(mentorProfileSchema).default([]),
 });
@@ -147,6 +211,23 @@ export const defaultContent: SiteContent = {
     email: "partnerships@eduarc.in",
     phone: "+91 98765 43210",
     website: "www.eduarc.in",
+    phoneHours: "Mon - Fri, 9:00 AM - 6:00 PM (IST)",
+    emailNote: "We reply within 24 hours",
+    location: "Bengaluru, Karnataka, India",
+    locationNote: "(By appointment only)",
+    websiteNote: "Explore more about us",
+  },
+  socials: {
+    instagramUrl: "https://instagram.com/eduarc_official",
+    instagramHandle: "@eduarc_official",
+    facebookUrl: "https://facebook.com/eduarc",
+    facebookHandle: "/eduarc",
+    twitterUrl: "https://x.com/eduarc_official",
+    twitterHandle: "@eduarc_official",
+    linkedinUrl: "https://linkedin.com/company/eduarc",
+    linkedinHandle: "/company/eduarc",
+    youtubeUrl: "https://youtube.com/@eduarc",
+    youtubeHandle: "@eduarc",
   },
   home: {
     eyebrow: "Ambitious to Achievement",
@@ -332,9 +413,27 @@ export const defaultContent: SiteContent = {
     },
   ],
   contactPage: {
-    title: "Let's build a brighter future",
-    titleHighlight: "together.",
-    lead: "Partner with EduArc and give your students the guidance, mentorship and opportunities they deserve.",
+    badge: "Get in Touch",
+    title: "Let’s Build",
+    titleHighlight: "Brighter Futures Together",
+    lead: "Have questions, feedback, or want to collaborate? We're here to help. Reach out to us through any of the channels below — we'd love to hear from you!",
+    pill1: "Quick Response",
+    pill2: "Dedicated Support",
+    pill3: "Real People",
+    channelsTitle: "Multiple Ways to Reach Us",
+    channelsLead:
+      "Choose the channel that works best for you. We're just a call, email or message away!",
+    connectEyebrow: "— Ready to Connect?",
+    connectTitle: "We’re Here for What’s Next",
+    connectLead:
+      "Whether you’re a student, parent, educator, or institution — your journey matters to us. Let’s talk and create the right guidance for your future.",
+    messageBadge: "Quick Contact",
+    messageTitle: "Send Us a Message",
+    messageLead:
+      "Have a specific question or inquiry? Choose a topic and we'll get back to you with the right person from our team.",
+    directCallTitle: "Prefer a direct conversation?",
+    directCallLead: "Call us during our working hours (Mon - Fri, 9:00 AM - 6:00 PM IST).",
+    signature: "“We’d love to hear from you!”",
     thankYou:
       "For your time and consideration. Together, let's empower more students to achieve their dreams.",
   },
@@ -428,7 +527,8 @@ export const defaultContent: SiteContent = {
         },
         {
           target: "Parents",
-          benefit: "Gain clarity about available academic options and support their children's decisions.",
+          benefit:
+            "Gain clarity about available academic options and support their children's decisions.",
         },
         {
           target: "Students Exploring Their Future",
@@ -464,7 +564,7 @@ export function mergeContent(saved: unknown): SiteContent {
   if (parsed.success) return parsed.data;
 
   // If saved mentors failed validation due to old schema, fall back to updated default mentors
-  if (merged.mentors) {
+  if (merged["mentors"]) {
     const fallback = { ...merged, mentors: defaultContent.mentors };
     const retry = siteContentSchema.safeParse(fallback);
     if (retry.success) return retry.data;
