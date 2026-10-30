@@ -17,12 +17,12 @@ import { GradientText, SectionHeading } from "@/components/site/Section";
 import { siteContentQuery, useSiteContent } from "@/lib/site-content";
 
 // Reused Content Sections from existing pages
-import { AboutContent } from "@/routes/about";
-import { ProgramsSection } from "@/routes/programs";
-import { FeaturesContent } from "@/routes/features";
-import { TestimonialsContent } from "@/routes/testimonials";
-import { ContactContent } from "@/routes/contact";
-import { PartnerContent } from "@/routes/partner";
+import { AboutContent } from "@/components/site/sections/AboutContent";
+import { ProgramsSection } from "@/components/site/sections/ProgramsSection";
+import { FeaturesContent } from "@/components/site/sections/FeaturesContent";
+import { TestimonialsContent } from "@/components/site/sections/TestimonialsContent";
+import { ContactContent } from "@/components/site/sections/ContactContent";
+import { PartnerContent } from "@/components/site/sections/PartnerContent";
 
 export const Route = createFileRoute("/")({
   loader: async ({ context }) => {

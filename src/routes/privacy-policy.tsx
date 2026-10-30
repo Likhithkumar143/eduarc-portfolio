@@ -38,7 +38,7 @@ export const Route = createFileRoute("/privacy-policy")({
   component: PrivacyPolicyPage,
 });
 
-export function PrivacyPolicyPage() {
+function PrivacyPolicyPage() {
   const { contact } = useSiteContent();
   const effectiveDate = "October 28, 2026";
   const policyVersion = "2026.1";
