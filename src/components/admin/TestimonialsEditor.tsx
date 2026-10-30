@@ -328,44 +328,50 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
           </Button>
         </div>
 
-        {/* Live Visual Preview: Fully Aligned Banner matching reference */}
-        <div className="rounded-2xl border border-slate-200/80 bg-[#F2F7FD] min-h-[260px] sm:min-h-[300px] relative overflow-hidden flex items-end">
-          {/* Original 2187x892 Hero Banner Illustration Aligned Flush to Bottom Right */}
-          <div className="absolute inset-y-0 right-0 flex items-end justify-end pointer-events-none select-none z-0">
-            <img
-              src={heroBannerImg}
-              alt="Hero Banner Visual"
-              className="h-full w-auto max-w-none object-contain object-right-bottom block"
-            />
-          </div>
+        {/* Live Visual Preview: Sleek, Compact, Fully Aligned Banner matching reference */}
+        <div className="rounded-2xl border border-slate-200/80 bg-[#F2F7FD] min-h-[190px] sm:min-h-[220px] relative overflow-hidden flex items-end">
+          <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-3 items-end p-4 sm:p-6 pb-0">
+            {/* Left Content (Cols 1 to 5) */}
+            <div className="md:col-span-5 space-y-1.5 pb-4 sm:pb-6 z-10">
+              <span className="text-[11px] font-bold tracking-wider text-blue-600 uppercase block">
+                {page.badge || "TESTIMONIALS"}
+              </span>
+              <h4 className="text-base sm:text-xl font-black text-[#0F172A] tracking-tight leading-snug">
+                {page.title}{" "}
+                <span className="text-[#0F172A]">{page.titleHighlight}</span>
+              </h4>
+              <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                {page.lead}
+              </p>
+            </div>
 
-          {/* Script Callout on the right */}
-          <div className="absolute right-3 sm:right-6 md:right-8 top-1/4 -translate-y-1/2 pointer-events-none select-none text-left z-10 rotate-[-2deg]">
-            <p className="font-serif italic font-bold text-[#1E40AF] text-xs sm:text-sm md:text-base leading-tight drop-shadow-2xs">
-              {page.calloutLine1 || "Better Guidance"}<br />
-              <span className="text-indigo-800">{page.calloutLine2 || "Brighter Futures"}</span>
-            </p>
-            <svg
-              className="w-16 sm:w-20 md:w-24 h-3 text-blue-600 stroke-current mt-0.5"
-              viewBox="0 0 100 12"
-              fill="none"
-            >
-              <path d="M2,8 Q50,2 98,6" strokeWidth="2.5" strokeLinecap="round" />
-            </svg>
-          </div>
+            {/* Middle: Student Girl Illustration (Cols 6 to 9) - Flush with bottom border */}
+            <div className="md:col-span-4 flex items-end justify-center h-full">
+              <div className="relative h-36 sm:h-44 md:h-48 overflow-hidden flex items-end w-full max-w-[200px]">
+                <img
+                  src={heroBannerImg}
+                  alt="Hero Banner Visual"
+                  className="h-full w-auto max-w-none object-cover object-right-bottom block select-none pointer-events-none"
+                />
+              </div>
+            </div>
 
-          {/* Content on the left */}
-          <div className="relative z-10 p-5 sm:p-7 max-w-xs sm:max-w-sm md:max-w-md space-y-2 pb-6">
-            <span className="text-[11px] font-bold tracking-wider text-blue-600 uppercase block">
-              {page.badge || "TESTIMONIALS"}
-            </span>
-            <h4 className="text-lg sm:text-2xl font-black text-[#0F172A] tracking-tight leading-snug">
-              {page.title}{" "}
-              <span className="text-[#0F172A]">{page.titleHighlight}</span>
-            </h4>
-            <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">
-              {page.lead}
-            </p>
+            {/* Right: Script Callout in its own column (Cols 10 to 12) - Never on her face */}
+            <div className="md:col-span-3 pb-4 sm:pb-6 flex items-center justify-start z-10">
+              <div className="text-left select-none pointer-events-none rotate-[-2deg]">
+                <p className="font-serif italic font-bold text-[#1E40AF] text-xs sm:text-sm leading-tight drop-shadow-2xs">
+                  {page.calloutLine1 || "Better Guidance"}<br />
+                  <span className="text-indigo-800">{page.calloutLine2 || "Brighter Futures"}</span>
+                </p>
+                <svg
+                  className="w-16 sm:w-20 h-2.5 text-blue-600 stroke-current mt-0.5"
+                  viewBox="0 0 100 12"
+                  fill="none"
+                >
+                  <path d="M2,8 Q50,2 98,6" strokeWidth="2.5" strokeLinecap="round" />
+                </svg>
+              </div>
+            </div>
           </div>
         </div>
 

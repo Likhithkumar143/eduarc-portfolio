@@ -206,65 +206,96 @@ function TestimonialsPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      {/* 1. Hero Section - Seamless Fully Aligned Hero Banner matching reference */}
-      <section className="relative overflow-hidden bg-[#F2F7FD] border-b border-slate-200/60 min-h-[380px] sm:min-h-[420px] lg:min-h-[460px] xl:min-h-[500px] flex items-end">
-        {/* Desktop & Laptop Illustration: Aligned directly to bottom-right without a box */}
-        <div className="hidden lg:flex absolute inset-y-0 right-0 pointer-events-none select-none z-0 items-end justify-end">
-          <img
-            src={heroBannerImg}
-            alt="EDUARC Student - Better Guidance, Brighter Futures"
-            className="h-full max-h-[500px] w-auto max-w-none object-contain object-right-bottom block"
-          />
-        </div>
+      {/* 1. Hero Section - Sleek, Compact, Seamless Fully Aligned Hero Banner matching reference */}
+      <section className="relative overflow-hidden bg-[#F2F7FD] border-b border-slate-200/60">
+        <div className="container-apple relative">
+          {/* Desktop & Laptop Grid: 5 cols Text | 4 cols Student Girl | 3 cols Script Callout */}
+          <div className="hidden lg:grid lg:grid-cols-12 gap-4 items-end min-h-[220px] lg:min-h-[240px] xl:min-h-[260px]">
+            {/* Left Column: Badge, Title & Lead (Cols 1 to 5) */}
+            <div className="lg:col-span-5 py-6 xl:py-8 z-10">
+              <Reveal>
+                <span className="text-xs font-bold tracking-wider text-blue-600 uppercase mb-2 block">
+                  {pageContent.badge || "TESTIMONIALS"}
+                </span>
 
-        {/* Desktop Script Callout matching reference: positioned to the right of the student */}
-        <div className="hidden lg:block absolute right-6 xl:right-16 top-1/4 xl:top-[28%] -translate-y-1/2 pointer-events-none select-none text-left z-10 rotate-[-2deg]">
-          <Reveal delay={200}>
-            <p className="font-serif italic font-bold text-[#1E40AF] text-base lg:text-lg xl:text-xl leading-tight tracking-wide drop-shadow-2xs">
-              {pageContent.calloutLine1 || "Better Guidance"}
-              <br />
-              <span className="text-indigo-800">{pageContent.calloutLine2 || "Brighter Futures"}</span>
-            </p>
-            <svg
-              className="w-20 sm:w-24 lg:w-28 h-3 text-blue-600 stroke-current mt-1"
-              viewBox="0 0 100 12"
-              fill="none"
-            >
-              <path d="M2,8 Q50,2 98,6" strokeWidth="2.5" strokeLinecap="round" />
-            </svg>
-          </Reveal>
-        </div>
+                <h1 className="text-2xl lg:text-[34px] xl:text-[38px] font-extrabold text-[#0F172A] tracking-tight leading-[1.18]">
+                  {pageContent.title}{" "}
+                  <span className="text-[#0F172A]">
+                    {pageContent.titleHighlight}
+                  </span>
+                </h1>
 
-        {/* Content Container */}
-        <div className="container-apple relative z-10 w-full">
-          <div className="pt-10 pb-6 sm:pt-14 sm:pb-8 lg:py-16 max-w-xl lg:max-w-lg xl:max-w-xl">
-            <Reveal>
-              <span className="text-xs sm:text-sm font-bold tracking-wider text-blue-600 uppercase mb-3 block">
+                <p className="mt-2.5 text-xs lg:text-[13px] text-slate-600 max-w-sm xl:max-w-md leading-relaxed">
+                  {pageContent.lead}
+                </p>
+              </Reveal>
+            </div>
+
+            {/* Middle Column: Student Girl Illustration (Cols 6 to 9) - Flush with bottom border */}
+            <div className="lg:col-span-4 flex items-end justify-center h-full">
+              <Reveal delay={100}>
+                <div className="relative h-48 lg:h-56 xl:h-60 flex items-end justify-center overflow-hidden w-full max-w-[280px]">
+                  <img
+                    src={heroBannerImg}
+                    alt="EDUARC Student - Better Guidance, Brighter Futures"
+                    className="h-full w-auto max-w-none object-cover object-right-bottom block select-none pointer-events-none"
+                  />
+                </div>
+              </Reveal>
+            </div>
+
+            {/* Right Column: Cursive Script Callout (Cols 10 to 12) - In its own column, NEVER on her face */}
+            <div className="lg:col-span-3 pb-8 xl:pb-10 flex items-center justify-start">
+              <Reveal delay={200}>
+                <div className="text-left select-none pointer-events-none rotate-[-2deg] pl-2 xl:pl-4">
+                  <p className="font-serif italic font-bold text-[#1E40AF] text-base lg:text-lg xl:text-xl leading-tight tracking-wide drop-shadow-2xs">
+                    {pageContent.calloutLine1 || "Better Guidance"}
+                    <br />
+                    <span className="text-indigo-800">{pageContent.calloutLine2 || "Brighter Futures"}</span>
+                  </p>
+                  <svg
+                    className="w-22 lg:w-26 xl:w-28 h-3 text-blue-600 stroke-current mt-1"
+                    viewBox="0 0 100 12"
+                    fill="none"
+                  >
+                    <path d="M2,8 Q50,2 98,6" strokeWidth="2.5" strokeLinecap="round" />
+                  </svg>
+                </div>
+              </Reveal>
+            </div>
+          </div>
+
+          {/* Mobile & Tablet Layout (< 1024px): Compact text on top, Girl and Callout side-by-side below */}
+          <div className="lg:hidden pt-8 pb-0">
+            {/* Top: Headline & Lead */}
+            <div className="text-center sm:text-left max-w-xl mx-auto sm:mx-0">
+              <span className="text-xs font-bold tracking-wider text-blue-600 uppercase mb-2 block">
                 {pageContent.badge || "TESTIMONIALS"}
               </span>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-[44px] xl:text-5xl font-extrabold text-[#0F172A] tracking-tight leading-[1.15]">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight leading-[1.18]">
                 {pageContent.title}{" "}
                 <span className="text-[#0F172A]">
                   {pageContent.titleHighlight}
                 </span>
               </h1>
 
-              <p className="mt-4 text-sm sm:text-base text-slate-600 max-w-lg leading-relaxed">
+              <p className="mt-2 text-xs sm:text-sm text-slate-600 max-w-md mx-auto sm:mx-0 leading-relaxed">
                 {pageContent.lead}
               </p>
-            </Reveal>
-          </div>
+            </div>
 
-          {/* Mobile & Tablet Illustration: rendered in-flow flush at the bottom edge */}
-          <div className="lg:hidden relative w-full flex items-end justify-center pt-2 overflow-hidden">
-            <div className="relative max-w-md sm:max-w-lg w-full flex items-end justify-center">
-              <img
-                src={heroBannerImg}
-                alt="EDUARC Student - Better Guidance, Brighter Futures"
-                className="w-full h-auto object-contain block"
-              />
-              <div className="absolute right-2 sm:right-6 top-1/4 -translate-y-1/2 pointer-events-none select-none text-left rotate-[-2deg]">
+            {/* Bottom: Student Girl & Cursive Callout placed side-by-side flush to bottom border */}
+            <div className="flex items-end justify-center sm:justify-start gap-4 sm:gap-8 pt-4 overflow-hidden">
+              <div className="relative h-40 sm:h-48 overflow-hidden flex items-end">
+                <img
+                  src={heroBannerImg}
+                  alt="EDUARC Student - Better Guidance, Brighter Futures"
+                  className="h-full w-auto max-w-none object-cover object-right-bottom block select-none pointer-events-none"
+                />
+              </div>
+
+              <div className="pb-6 sm:pb-8 text-left select-none pointer-events-none rotate-[-2deg] shrink-0">
                 <p className="font-serif italic font-bold text-[#1E40AF] text-xs sm:text-sm leading-tight drop-shadow-2xs">
                   {pageContent.calloutLine1 || "Better Guidance"}
                   <br />
