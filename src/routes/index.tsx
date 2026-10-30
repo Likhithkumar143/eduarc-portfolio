@@ -18,7 +18,7 @@ import mentorGayathriImg from "@/assets/mentor-gayathri.jpg";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Reveal } from "@/components/site/Reveal";
-import { CtaBand, GradientText, SectionHeading } from "@/components/site/Section";
+import { GradientText, SectionHeading } from "@/components/site/Section";
 import { useSiteContent } from "@/lib/site-content";
 
 export const Route = createFileRoute("/")({
@@ -433,12 +433,6 @@ function Index() {
           </div>
         </div>
       </section>
-
-      {/* 7. Call to Action Band */}
-      <CtaBand
-        title="Ready to provide purposeful career direction?"
-        lead="Whether you're exploring options for yourself or seeking a structured guidance partner for your student body, our team is ready to assist."
-      />
     </>
   );
 }
