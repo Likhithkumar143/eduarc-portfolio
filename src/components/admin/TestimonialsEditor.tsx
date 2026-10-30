@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { type SiteContent, type TestimonialItem, initials } from "@/content/eduarc";
+import heroBannerImg from "@/assets/testimonials/hero-banner.jpg";
 import type { EditorProps } from "./editors";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -97,6 +98,27 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
     if (onSave) {
       await onSave({ ...draft, testimonialStats: stats });
       toast.success("Impact numbers and milestone stats updated live!");
+    }
+  }
+
+  const page = draft.testimonialsPage || {
+    badge: "TESTIMONIALS",
+    title: "Real Stories.",
+    titleHighlight: "Brighter Futures.",
+    lead: "Hear from students, parents and educators who have experienced the impact of EDUARC's career guidance programs.",
+    calloutLine1: "Better Guidance",
+    calloutLine2: "Brighter Futures",
+  };
+
+  function updatePage(key: keyof typeof page, value: string) {
+    const nextPage = { ...page, [key]: value };
+    update("testimonialsPage", nextPage);
+  }
+
+  async function handleSavePage() {
+    if (onSave) {
+      await onSave({ ...draft, testimonialsPage: page });
+      toast.success("Hero Banner & Header settings saved live!");
     }
   }
 
@@ -276,7 +298,146 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
         </div>
       </section>
 
-      {/* 2. Impact Numbers & Milestone Bar Controls */}
+      {/* 2. Hero Banner & Header Callout Controls */}
+      <section className="glass rounded-3xl p-6 sm:p-8 border border-hairline bg-surface/70 space-y-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 border-b border-hairline">
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+              <Sparkles className="h-5 w-5" />
+            </div>
+            <div>
+              <h3 className="text-base sm:text-lg font-bold text-foreground">
+                Hero Banner & Header Callout
+              </h3>
+              <p className="text-xs text-muted-foreground">
+                Customize the hero section headline, badge, and script callout. Styled fully aligned with no box container.
+              </p>
+            </div>
+          </div>
+
+          <Button
+            type="button"
+            variant="pill-gold"
+            size="sm"
+            disabled={isSaving}
+            onClick={handleSavePage}
+            className="gap-1.5 text-xs shadow-sm cursor-pointer"
+          >
+            <Check className="h-3.5 w-3.5" />
+            <span>Save Header</span>
+          </Button>
+        </div>
+
+        {/* Live Visual Preview: Fully Aligned Banner matching reference */}
+        <div className="rounded-2xl border border-slate-200/80 bg-[#F2F7FD] min-h-[260px] sm:min-h-[300px] relative overflow-hidden flex items-end">
+          {/* Original 2187x892 Hero Banner Illustration Aligned Flush to Bottom Right */}
+          <div className="absolute inset-y-0 right-0 flex items-end justify-end pointer-events-none select-none z-0">
+            <img
+              src={heroBannerImg}
+              alt="Hero Banner Visual"
+              className="h-full w-auto max-w-none object-contain object-right-bottom block"
+            />
+          </div>
+
+          {/* Script Callout on the right */}
+          <div className="absolute right-3 sm:right-6 md:right-8 top-1/4 -translate-y-1/2 pointer-events-none select-none text-left z-10 rotate-[-2deg]">
+            <p className="font-serif italic font-bold text-[#1E40AF] text-xs sm:text-sm md:text-base leading-tight drop-shadow-2xs">
+              {page.calloutLine1 || "Better Guidance"}<br />
+              <span className="text-indigo-800">{page.calloutLine2 || "Brighter Futures"}</span>
+            </p>
+            <svg
+              className="w-16 sm:w-20 md:w-24 h-3 text-blue-600 stroke-current mt-0.5"
+              viewBox="0 0 100 12"
+              fill="none"
+            >
+              <path d="M2,8 Q50,2 98,6" strokeWidth="2.5" strokeLinecap="round" />
+            </svg>
+          </div>
+
+          {/* Content on the left */}
+          <div className="relative z-10 p-5 sm:p-7 max-w-xs sm:max-w-sm md:max-w-md space-y-2 pb-6">
+            <span className="text-[11px] font-bold tracking-wider text-blue-600 uppercase block">
+              {page.badge || "TESTIMONIALS"}
+            </span>
+            <h4 className="text-lg sm:text-2xl font-black text-[#0F172A] tracking-tight leading-snug">
+              {page.title}{" "}
+              <span className="text-[#0F172A]">{page.titleHighlight}</span>
+            </h4>
+            <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">
+              {page.lead}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-muted-foreground pt-1">
+          <span>Visual Layout: <strong className="text-foreground">Fully Aligned (No Box Frame, Bottom-Flush)</strong></span>
+          <span>Source Asset: <code className="bg-surface px-1.5 py-0.5 rounded text-blue-600 font-mono">src/assets/testimonials/hero-banner.jpg (2187×892)</code></span>
+        </div>
+
+        {/* Header Content Form Fields */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <Label className="text-xs text-foreground font-medium">Badge Text</Label>
+            <Input
+              value={page.badge}
+              onChange={(e) => updatePage("badge", e.target.value)}
+              placeholder="TESTIMONIALS"
+              className="mt-1 h-9 rounded-xl text-xs"
+            />
+          </div>
+          <div>
+            <Label className="text-xs text-foreground font-medium">Headline</Label>
+            <Input
+              value={page.title}
+              onChange={(e) => updatePage("title", e.target.value)}
+              placeholder="Real Stories."
+              className="mt-1 h-9 rounded-xl text-xs font-bold"
+            />
+          </div>
+          <div>
+            <Label className="text-xs text-foreground font-medium">Headline Highlight</Label>
+            <Input
+              value={page.titleHighlight}
+              onChange={(e) => updatePage("titleHighlight", e.target.value)}
+              placeholder="Brighter Futures."
+              className="mt-1 h-9 rounded-xl text-xs font-bold text-blue-600"
+            />
+          </div>
+        </div>
+
+        <div>
+          <Label className="text-xs text-foreground font-medium">Lead Description</Label>
+          <Textarea
+            value={page.lead}
+            onChange={(e) => updatePage("lead", e.target.value)}
+            rows={2}
+            className="mt-1 rounded-xl text-xs leading-relaxed resize-none"
+          />
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <Label className="text-xs text-foreground font-medium">Script Callout Line 1</Label>
+            <Input
+              value={page.calloutLine1}
+              onChange={(e) => updatePage("calloutLine1", e.target.value)}
+              placeholder="Better Guidance"
+              className="mt-1 h-9 rounded-xl text-xs font-medium"
+            />
+          </div>
+          <div>
+            <Label className="text-xs text-foreground font-medium">Script Callout Line 2</Label>
+            <Input
+              value={page.calloutLine2}
+              onChange={(e) => updatePage("calloutLine2", e.target.value)}
+              placeholder="Brighter Futures"
+              className="mt-1 h-9 rounded-xl text-xs font-medium"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Impact Numbers & Milestone Bar Controls */}
       <section className="glass rounded-3xl p-6 sm:p-8 border border-hairline bg-surface/70 space-y-5">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 border-b border-hairline">
           <div className="flex items-center gap-3">

@@ -259,6 +259,25 @@ export const siteContentSchema = z.object({
       ctaDescription: "Join EDUARC and help more students discover their true potential.",
       ctaButtonText: "Explore Our Programs",
     }),
+  testimonialsPage: z
+    .object({
+      badge: str.default("TESTIMONIALS"),
+      title: str.default("Real Stories."),
+      titleHighlight: str.default("Brighter Futures."),
+      lead: str.default(
+        "Hear from students, parents and educators who have experienced the impact of EDUARC's career guidance programs.",
+      ),
+      calloutLine1: str.default("Better Guidance"),
+      calloutLine2: str.default("Brighter Futures"),
+    })
+    .default({
+      badge: "TESTIMONIALS",
+      title: "Real Stories.",
+      titleHighlight: "Brighter Futures.",
+      lead: "Hear from students, parents and educators who have experienced the impact of EDUARC's career guidance programs.",
+      calloutLine1: "Better Guidance",
+      calloutLine2: "Brighter Futures",
+    }),
   contactPage: z.object({
     badge: str.default("Get in Touch"),
     title: str,
@@ -563,6 +582,14 @@ export const defaultContent: SiteContent = {
     ctaTitle: "Be a part of their success story",
     ctaDescription: "Join EDUARC and help more students discover their true potential.",
     ctaButtonText: "Explore Our Programs",
+  },
+  testimonialsPage: {
+    badge: "TESTIMONIALS",
+    title: "Real Stories.",
+    titleHighlight: "Brighter Futures.",
+    lead: "Hear from students, parents and educators who have experienced the impact of EDUARC's career guidance programs.",
+    calloutLine1: "Better Guidance",
+    calloutLine2: "Brighter Futures",
   },
   contactPage: {
     badge: "Get in Touch",

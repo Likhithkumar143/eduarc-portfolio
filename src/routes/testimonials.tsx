@@ -39,7 +39,7 @@ import rohitImg from "@/assets/testimonials/rohit.jpg";
 import meeraImg from "@/assets/testimonials/meera.jpg";
 import rameshImg from "@/assets/testimonials/ramesh.jpg";
 import snehaImg from "@/assets/testimonials/sneha.jpg";
-import heroStudentImg from "@/assets/testimonials/hero-student.jpg";
+import heroBannerImg from "@/assets/testimonials/hero-banner.jpg";
 import successBooksImg from "@/assets/testimonials/success-books.jpg";
 
 export const Route = createFileRoute("/testimonials")({
@@ -102,6 +102,15 @@ function TestimonialsPage() {
     ctaTitle: "Be a part of their success story",
     ctaDescription: "Join EDUARC and help more students discover their true potential.",
     ctaButtonText: "Explore Our Programs",
+  };
+
+  const pageContent = c.testimonialsPage || {
+    badge: "TESTIMONIALS",
+    title: "Real Stories.",
+    titleHighlight: "Brighter Futures.",
+    lead: "Hear from students, parents and educators who have experienced the impact of EDUARC's career guidance programs.",
+    calloutLine1: "Better Guidance",
+    calloutLine2: "Brighter Futures",
   };
 
   useEffect(() => {
@@ -197,60 +206,78 @@ function TestimonialsPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      {/* 1. Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#F0F7FF]/80 via-white to-[#F8FAFC] pt-12 pb-16 md:pt-16 md:pb-20 border-b border-slate-100/80">
-        <div className="container-apple">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            {/* Left Content */}
-            <div className="lg:col-span-7">
-              <Reveal>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200/60 mb-4">
-                  <Sparkles className="h-3 w-3 text-blue-600" />
-                  <span className="text-[11px] font-bold tracking-wider text-blue-600 uppercase">
-                    TESTIMONIALS
-                  </span>
-                </div>
+      {/* 1. Hero Section - Seamless Fully Aligned Hero Banner matching reference */}
+      <section className="relative overflow-hidden bg-[#F2F7FD] border-b border-slate-200/60 min-h-[380px] sm:min-h-[420px] lg:min-h-[460px] xl:min-h-[500px] flex items-end">
+        {/* Desktop & Laptop Illustration: Aligned directly to bottom-right without a box */}
+        <div className="hidden lg:flex absolute inset-y-0 right-0 pointer-events-none select-none z-0 items-end justify-end">
+          <img
+            src={heroBannerImg}
+            alt="EDUARC Student - Better Guidance, Brighter Futures"
+            className="h-full max-h-[500px] w-auto max-w-none object-contain object-right-bottom block"
+          />
+        </div>
 
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#0F172A] tracking-tight leading-[1.15]">
-                  Real Stories.{" "}
-                  <span className="bg-gradient-to-r from-[#2563EB] to-[#1E40AF] bg-clip-text text-transparent">
-                    Brighter Futures.
-                  </span>
-                </h1>
+        {/* Desktop Script Callout matching reference: positioned to the right of the student */}
+        <div className="hidden lg:block absolute right-6 xl:right-16 top-1/4 xl:top-[28%] -translate-y-1/2 pointer-events-none select-none text-left z-10 rotate-[-2deg]">
+          <Reveal delay={200}>
+            <p className="font-serif italic font-bold text-[#1E40AF] text-base lg:text-lg xl:text-xl leading-tight tracking-wide drop-shadow-2xs">
+              {pageContent.calloutLine1 || "Better Guidance"}
+              <br />
+              <span className="text-indigo-800">{pageContent.calloutLine2 || "Brighter Futures"}</span>
+            </p>
+            <svg
+              className="w-20 sm:w-24 lg:w-28 h-3 text-blue-600 stroke-current mt-1"
+              viewBox="0 0 100 12"
+              fill="none"
+            >
+              <path d="M2,8 Q50,2 98,6" strokeWidth="2.5" strokeLinecap="round" />
+            </svg>
+          </Reveal>
+        </div>
 
-                <p className="mt-4 text-sm sm:text-base text-slate-600 max-w-xl leading-relaxed">
-                  Hear from students, parents and educators who have experienced the impact of
-                  EDUARC’s career guidance programs.
+        {/* Content Container */}
+        <div className="container-apple relative z-10 w-full">
+          <div className="pt-10 pb-6 sm:pt-14 sm:pb-8 lg:py-16 max-w-xl lg:max-w-lg xl:max-w-xl">
+            <Reveal>
+              <span className="text-xs sm:text-sm font-bold tracking-wider text-blue-600 uppercase mb-3 block">
+                {pageContent.badge || "TESTIMONIALS"}
+              </span>
+
+              <h1 className="text-3xl sm:text-4xl lg:text-[44px] xl:text-5xl font-extrabold text-[#0F172A] tracking-tight leading-[1.15]">
+                {pageContent.title}{" "}
+                <span className="text-[#0F172A]">
+                  {pageContent.titleHighlight}
+                </span>
+              </h1>
+
+              <p className="mt-4 text-sm sm:text-base text-slate-600 max-w-lg leading-relaxed">
+                {pageContent.lead}
+              </p>
+            </Reveal>
+          </div>
+
+          {/* Mobile & Tablet Illustration: rendered in-flow flush at the bottom edge */}
+          <div className="lg:hidden relative w-full flex items-end justify-center pt-2 overflow-hidden">
+            <div className="relative max-w-md sm:max-w-lg w-full flex items-end justify-center">
+              <img
+                src={heroBannerImg}
+                alt="EDUARC Student - Better Guidance, Brighter Futures"
+                className="w-full h-auto object-contain block"
+              />
+              <div className="absolute right-2 sm:right-6 top-1/4 -translate-y-1/2 pointer-events-none select-none text-left rotate-[-2deg]">
+                <p className="font-serif italic font-bold text-[#1E40AF] text-xs sm:text-sm leading-tight drop-shadow-2xs">
+                  {pageContent.calloutLine1 || "Better Guidance"}
+                  <br />
+                  <span className="text-indigo-800">{pageContent.calloutLine2 || "Brighter Futures"}</span>
                 </p>
-              </Reveal>
-            </div>
-
-            {/* Right Hero Visual with Student & Callout */}
-            <div className="lg:col-span-5 relative flex items-center justify-center lg:justify-end">
-              <Reveal delay={150}>
-                <div className="relative max-w-sm sm:max-w-md w-full">
-                  {/* Soft fluid background glow */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-blue-200/50 via-indigo-100/40 to-purple-100/40 rounded-[36px] blur-xl -z-10 transform scale-95" />
-
-                  {/* Image container frame matching reference */}
-                  <div className="relative rounded-[32px] overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-50/60 border border-white/80 shadow-[0_10px_35px_-10px_rgba(37,99,235,0.12)]">
-                    <img
-                      src={heroStudentImg}
-                      alt="EDUARC Student - Better Guidance, Brighter Futures"
-                      className="w-full h-auto object-cover block"
-                    />
-
-                    {/* Playful Handwritten Script Callout matching reference */}
-                    <div className="absolute top-4 right-4 sm:top-6 sm:right-6 pointer-events-none select-none text-right">
-                      <p className="font-serif italic font-bold text-blue-600 text-sm sm:text-base lg:text-lg leading-tight tracking-wide drop-shadow-2xs">
-                        Better Guidance
-                        <br />
-                        <span className="text-indigo-700">Brighter Futures</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </Reveal>
+                <svg
+                  className="w-16 sm:w-20 h-2.5 text-blue-600 stroke-current mt-0.5"
+                  viewBox="0 0 100 12"
+                  fill="none"
+                >
+                  <path d="M2,8 Q50,2 98,6" strokeWidth="2.5" strokeLinecap="round" />
+                </svg>
+              </div>
             </div>
           </div>
         </div>
