@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
 import {
   Compass,
   Users,
@@ -17,17 +18,19 @@ import {
 } from "lucide-react";
 import { Reveal } from "@/components/site/Reveal";
 import { Button } from "@/components/ui/button";
-import { useSiteContent } from "@/lib/site-content";
+import { siteContentQuery, useSiteContent } from "@/lib/site-content";
+import { defaultContent, initials, type MentorProfile } from "@/content/eduarc";
+import { cn } from "@/lib/utils";
 
-import futureStudentImg from "@/assets/future-student.jpg";
+import aboutHeroImg from "@/assets/about-hero.jpg";
 import aboutDeskImg from "@/assets/about-desk.jpg";
 import aboutVisionImg from "@/assets/about-vision.jpg";
 import mentorGayathriImg from "@/assets/mentor-gayathri.jpg";
-import rohitImg from "@/assets/testimonials/rohit.jpg";
-import snehaImg from "@/assets/testimonials/sneha.jpg";
-import arjunImg from "@/assets/about-arjun.jpg";
 
 export const Route = createFileRoute("/about")({
+  loader: async ({ context }) => {
+    await context.queryClient.fetchQuery({ ...siteContentQuery, staleTime: 0 });
+  },
   head: () => ({
     meta: [
       { title: "About EduArc — Empowering Students to Discover Their Future" },
@@ -47,6 +50,86 @@ export const Route = createFileRoute("/about")({
   }),
   component: AboutPage,
 });
+
+function isUsableImage(url?: string | null): boolean {
+  if (!url) return false;
+  const trimmed = url.trim().replace(/^["']|["']$/g, "");
+  if (!trimmed) return false;
+  if (trimmed.startsWith("data:") && (trimmed.includes("AAAAAAAA") || trimmed.length < 50)) {
+    return false;
+  }
+  return true;
+}
+
+function MentorAvatar({
+  imageUrl,
+  name,
+  isGayathri,
+}: {
+  imageUrl?: string;
+  name: string;
+  isGayathri: boolean;
+}) {
+  const usableCustomUrl = isUsableImage(imageUrl)
+    ? imageUrl!.trim().replace(/^["']|["']$/g, "")
+    : null;
+  const initialSrc = usableCustomUrl || (isGayathri ? mentorGayathriImg : null);
+  const [src, setSrc] = useState<string | null>(initialSrc);
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    const updatedUsable = isUsableImage(imageUrl)
+      ? imageUrl!.trim().replace(/^["']|["']$/g, "")
+      : null;
+    setSrc(updatedUsable || (isGayathri ? mentorGayathriImg : null));
+    setHasError(false);
+  }, [imageUrl, isGayathri]);
+
+  if (!src || hasError) {
+    if (isGayathri && src !== mentorGayathriImg) {
+      return (
+        <img
+          src={mentorGayathriImg}
+          alt={name}
+          className="w-12 h-12 rounded-full object-cover object-top border border-slate-200 shrink-0 shadow-sm"
+        />
+      );
+    }
+    return (
+      <div className="w-12 h-12 rounded-full bg-[#0D2436] text-white flex items-center justify-center font-bold text-sm shrink-0 border border-slate-200 shadow-sm">
+        {initials(name)}
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={src}
+      alt={name}
+      className="w-12 h-12 rounded-full object-cover object-top border border-slate-200 shrink-0 shadow-sm"
+      onError={() => {
+        if (isGayathri && src !== mentorGayathriImg) {
+          setSrc(mentorGayathriImg);
+        } else {
+          setHasError(true);
+        }
+      }}
+    />
+  );
+}
+
+function getMentorExpertise(m: MentorProfile): string {
+  if (m.id === "dr-gayathri-g-n" || m.name.toLowerCase().includes("gayathri")) {
+    return "Engineering, Research, Higher Education & Career Roadmaps";
+  }
+  if (m.howICanGuide && m.howICanGuide.length > 0) {
+    return m.howICanGuide
+      .slice(0, 3)
+      .map((g) => g.title)
+      .join(", ");
+  }
+  return m.shortBio || m.designation || m.role;
+}
 
 const challenges = [
   {
@@ -102,39 +185,9 @@ const solutions = [
   },
 ] as const;
 
-const mentors = [
-  {
-    name: "Dr. Gayathri G N",
-    role: "Associate Professor, SIET",
-    expertise: "Engineering, Research, Higher Studies",
-    avatar: mentorGayathriImg,
-    href: "/mentor" as const,
-  },
-  {
-    name: "Rohit Sharma",
-    role: "Product Designer, Google",
-    expertise: "UI/UX, Design Thinking, Product Design",
-    avatar: rohitImg,
-    href: "/mentors" as const,
-  },
-  {
-    name: "Arjun Mehta",
-    role: "Tech Lead, TCS",
-    expertise: "Software Development, System Design, Tech Careers",
-    avatar: arjunImg,
-    href: "/mentors" as const,
-  },
-  {
-    name: "Sneha Patil",
-    role: "HR Manager, Infosys",
-    expertise: "Career Planning, Interview Preparation",
-    avatar: snehaImg,
-    href: "/mentors" as const,
-  },
-] as const;
-
 function AboutPage() {
   const c = useSiteContent();
+  const mentors = c.mentors && c.mentors.length > 0 ? c.mentors : defaultContent.mentors;
 
   return (
     <div className="min-h-screen bg-white">
@@ -142,92 +195,46 @@ function AboutPage() {
           SECTION 1: HERO SECTION
           Empowering Students to Discover Their Future
          ========================================================================= */}
-      <section className="relative overflow-hidden bg-white pt-8 pb-16 sm:pt-12 sm:pb-20 lg:pt-16 lg:pb-24 border-b border-slate-100">
-        <div className="container-apple">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
-            {/* Left Content */}
-            <div className="lg:col-span-7 xl:col-span-6 text-center sm:text-left">
-              <Reveal>
-                <div className="inline-flex items-center gap-2 mb-4 justify-center sm:justify-start">
-                  <span className="w-6 h-[2.5px] bg-[#E07A2B] inline-block rounded-full" />
-                  <span className="text-xs font-bold tracking-wider text-slate-500 uppercase">
-                    About EduArc
-                  </span>
-                </div>
+      <section className="relative overflow-hidden bg-[#F5F5F5] border-b border-slate-200/60 min-h-[340px] sm:min-h-[360px] lg:h-[360px] xl:h-[380px] flex items-end lg:items-center">
+        {/* Desktop & Laptop Illustration: Aligned directly to bottom-right flush with bottom border */}
+        <div className="hidden lg:flex absolute inset-y-0 right-0 pointer-events-none select-none z-0 items-end justify-end">
+          <img
+            src={aboutHeroImg}
+            alt="Empowering Students to Discover Their Future"
+            className="h-full w-auto max-w-none object-contain object-right-bottom block select-none pointer-events-none"
+          />
+        </div>
 
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[46px] xl:text-[52px] font-extrabold text-[#0D2436] tracking-tight leading-[1.12]">
-                  Empowering Students <br className="hidden sm:inline" />
-                  to Discover <span className="text-[#E07A2B]">Their Future.</span>
-                </h1>
+        {/* Content Container */}
+        <div className="container-apple relative z-10 w-full">
+          <div className="pt-10 pb-8 sm:pt-12 sm:pb-10 lg:py-0 max-w-xl lg:max-w-lg xl:max-w-xl text-center sm:text-left">
+            <Reveal>
+              <div className="inline-flex items-center gap-2 mb-3 justify-center sm:justify-start">
+                <span className="w-6 h-[2.5px] bg-[#E07A2B] inline-block rounded-full" />
+                <span className="text-xs font-bold tracking-wider text-slate-500 uppercase">
+                  About EduArc
+                </span>
+              </div>
 
-                <p className="mt-5 text-sm sm:text-base md:text-lg text-slate-600 max-w-xl mx-auto sm:mx-0 leading-relaxed">
-                  {c.about?.lead ||
-                    "EduArc is a career guidance platform designed to help students make informed decisions about their future. We provide the right guidance, resources and support to turn your dreams into achievable goals."}
-                </p>
-              </Reveal>
-            </div>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[44px] xl:text-[48px] font-extrabold text-[#0D2436] tracking-tight leading-[1.15]">
+                Empowering Students <br className="hidden sm:inline" />
+                to Discover <span className="text-[#E07A2B]">Their Future.</span>
+              </h1>
 
-            {/* Right Arched Illustration with Handwriting Callout */}
-            <div className="lg:col-span-5 xl:col-span-6 flex justify-center lg:justify-end">
-              <Reveal delay={150}>
-                <div className="relative">
-                  {/* Decorative curved arc border around the dome */}
-                  <svg
-                    className="absolute -left-10 -bottom-6 w-72 h-72 sm:w-80 sm:h-80 pointer-events-none -z-10 text-[#E07A2B]/40"
-                    viewBox="0 0 200 200"
-                    fill="none"
-                  >
-                    <path
-                      d="M 20 180 A 130 130 0 0 1 170 30"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeDasharray="4 4"
-                    />
-                  </svg>
+              <p className="mt-4 text-sm sm:text-base text-slate-600 max-w-lg mx-auto sm:mx-0 leading-relaxed">
+                {c.about?.lead ||
+                  "EduArc is a career guidance platform designed to help students make informed decisions about their future. We provide the right guidance, resources and support to turn your dreams into achievable goals."}
+              </p>
+            </Reveal>
+          </div>
 
-                  {/* Arched Photo Frame (Dome top, flat bottom) */}
-                  <div className="relative w-[280px] sm:w-[320px] md:w-[360px] h-[340px] sm:h-[390px] md:h-[430px] rounded-t-[160px] sm:rounded-t-[180px] md:rounded-t-[200px] overflow-hidden shadow-xl border-4 border-white bg-slate-100">
-                    <img
-                      src={futureStudentImg}
-                      alt="Student looking forward to a brighter career future"
-                      className="w-full h-full object-cover object-center block select-none pointer-events-none"
-                    />
-                  </div>
-
-                  {/* Handwritten Callout Tag */}
-                  <div className="absolute -top-4 -right-3 sm:-right-8 select-none pointer-events-none">
-                    <div className="font-serif italic text-right leading-none space-y-1 drop-shadow-xs">
-                      <span className="block text-xl sm:text-2xl text-slate-500 font-light tracking-wide">
-                        Better
-                      </span>
-                      <span className="block text-xl sm:text-2xl text-slate-500 font-light tracking-wide">
-                        Choices
-                      </span>
-                      <span className="block text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight pt-0.5">
-                        Brighter
-                      </span>
-                      <span className="relative inline-block text-2xl sm:text-3xl font-bold text-[#E07A2B] tracking-tight">
-                        Future
-                        {/* Decorative brush underline */}
-                        <svg
-                          className="absolute -bottom-1.5 left-0 w-full overflow-visible"
-                          height="6"
-                          viewBox="0 0 80 6"
-                          fill="none"
-                        >
-                          <path
-                            d="M 2 3 Q 40 6 78 2"
-                            stroke="#E07A2B"
-                            strokeWidth="2.5"
-                            strokeLinecap="round"
-                          />
-                        </svg>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </Reveal>
-            </div>
+          {/* Mobile & Tablet Illustration: rendered in-flow flush at the bottom edge */}
+          <div className="lg:hidden relative w-full flex items-end justify-center pt-2 overflow-hidden">
+            <img
+              src={aboutHeroImg}
+              alt="Empowering Students to Discover Their Future"
+              className="h-[180px] sm:h-[220px] md:h-[260px] w-auto max-w-full object-contain object-bottom block select-none pointer-events-none"
+            />
           </div>
         </div>
       </section>
@@ -305,26 +312,15 @@ function AboutPage() {
               </Reveal>
             </div>
 
-            {/* Right Desk Image with Quote Overlay */}
+            {/* Right Desk Image */}
             <div className="lg:col-span-6">
               <Reveal delay={150}>
                 <div className="relative rounded-2xl overflow-hidden shadow-lg border border-slate-200/80 group">
                   <img
                     src={aboutDeskImg}
-                    alt="Study desk with books, laptop, and plant"
+                    alt="Study desk with books and laptop"
                     className="w-full h-[280px] sm:h-[320px] md:h-[360px] object-cover block"
                   />
-                  {/* Subtle Top-Right Quote Badge */}
-                  <div className="absolute top-6 right-6 sm:top-8 sm:right-8 text-right bg-white/70 backdrop-blur-xs p-3.5 sm:p-4 rounded-xl shadow-xs border border-white/60">
-                    <p className="font-serif italic text-xs sm:text-sm text-slate-700 leading-tight">
-                      Right Guidance
-                      <br />
-                      Leads to
-                      <br />
-                      <span className="font-semibold text-slate-900">Greater Opportunities</span>
-                    </p>
-                    <div className="w-6 h-[2px] bg-[#E07A2B] ml-auto mt-1.5 rounded-full" />
-                  </div>
                 </div>
               </Reveal>
             </div>
@@ -542,40 +538,68 @@ function AboutPage() {
             </div>
           </Reveal>
 
-          {/* 4 Mentors Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {mentors.map((m, idx) => (
-              <Reveal key={m.name} delay={idx * 60}>
-                <Link
-                  to={m.href}
-                  className="block p-5 rounded-2xl border border-slate-200/80 bg-white hover:border-[#E07A2B]/40 hover:shadow-card transition-all group"
-                >
-                  <div className="flex items-center gap-3.5 mb-3">
-                    <img
-                      src={m.avatar}
-                      alt={m.name}
-                      className="w-11 h-11 rounded-full object-cover border border-slate-200 shrink-0"
-                    />
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between gap-1">
-                        <h3 className="text-sm font-bold text-[#0D2436] truncate group-hover:text-[#E07A2B] transition-colors">
-                          {m.name}
-                        </h3>
-                        <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#E07A2B] transition-transform group-hover:translate-x-0.5 shrink-0" />
-                      </div>
-                      <p className="text-[11px] text-slate-500 truncate">{m.role}</p>
-                    </div>
-                  </div>
+          {/* Mentors Grid */}
+          <div
+            className={cn(
+              "grid gap-6",
+              mentors.length === 1
+                ? "grid-cols-1 max-w-lg mx-auto"
+                : mentors.length === 2
+                ? "grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto"
+                : mentors.length === 3
+                ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto"
+                : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+            )}
+          >
+            {mentors.map((m, idx) => {
+              const isGayathri =
+                m.id === "dr-gayathri-g-n" || m.name.toLowerCase().includes("gayathri");
+              const expertise = getMentorExpertise(m);
 
-                  <div className="pt-2.5 border-t border-slate-100">
-                    <p className="text-[11px] text-slate-600 line-clamp-2 leading-relaxed">
-                      <span className="font-semibold text-slate-700">Expertise:</span>{" "}
-                      {m.expertise}
-                    </p>
-                  </div>
-                </Link>
-              </Reveal>
-            ))}
+              return (
+                <Reveal key={m.id || m.name} delay={idx * 60}>
+                  <Link
+                    to="/mentors"
+                    className="block p-5 rounded-2xl border border-slate-200/80 bg-white hover:border-[#E07A2B]/40 hover:shadow-card transition-all group"
+                  >
+                    <div className="flex items-center gap-3.5 mb-3">
+                      <MentorAvatar imageUrl={m.imageUrl} name={m.name} isGayathri={isGayathri} />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-1">
+                          <h3 className="text-sm font-bold text-[#0D2436] truncate group-hover:text-[#E07A2B] transition-colors">
+                            {m.name}
+                          </h3>
+                          <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#E07A2B] transition-transform group-hover:translate-x-0.5 shrink-0" />
+                        </div>
+                        <p className="text-[11px] text-slate-500 truncate">
+                          {m.designation || m.role}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="pt-2.5 border-t border-slate-100">
+                      <p className="text-[11px] text-slate-600 line-clamp-2 leading-relaxed">
+                        <span className="font-semibold text-slate-700">Expertise:</span>{" "}
+                        {expertise}
+                      </p>
+                    </div>
+
+                    {m.cardStats && m.cardStats.length > 0 && (
+                      <div className="mt-3 pt-2.5 border-t border-slate-100 flex flex-wrap gap-1.5">
+                        {m.cardStats.slice(0, 3).map((st) => (
+                          <span
+                            key={st.label}
+                            className="inline-flex items-center gap-1 text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-50 text-slate-600 border border-slate-200/70"
+                          >
+                            <span className="font-bold text-[#0D2436]">{st.value}</span> {st.label}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </Link>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
