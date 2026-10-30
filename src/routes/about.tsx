@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Check, Compass, ShieldCheck, Target, Users, BookOpen, ArrowRight } from "lucide-react";
-import { PageIntro, SectionHeading, CtaBand } from "@/components/site/Section";
+import { PageIntro, SectionHeading } from "@/components/site/Section";
 import { Reveal } from "@/components/site/Reveal";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -170,12 +170,6 @@ function AboutPage() {
           </Reveal>
         </div>
       </section>
-
-      {/* 4. Call to Action Band */}
-      <CtaBand
-        title="Bring structured guidance to your school or family."
-        lead="Contact our academic advisors to learn more about our workshops, counselling roadmaps, and institutional partnerships."
-      />
     </>
   );
 }
