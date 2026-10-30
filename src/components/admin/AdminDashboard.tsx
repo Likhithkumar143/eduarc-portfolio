@@ -35,9 +35,9 @@ import {
   FeaturesEditor,
   GeneralEditor,
   HomeEditor,
-  ImpactEditor,
   MentorsEditor,
   ProgramsEditor,
+  TestimonialsEditor,
   type EditorProps,
 } from "./editors";
 import { PasswordPanel } from "./PasswordPanel";
@@ -93,7 +93,7 @@ const sections: Section[] = [
     label: "Testimonials",
     icon: TrendingUp,
     description: "Student, parent, and institutional testimonials and reviews.",
-    Editor: ImpactEditor,
+    Editor: TestimonialsEditor,
   },
   {
     id: "contact",

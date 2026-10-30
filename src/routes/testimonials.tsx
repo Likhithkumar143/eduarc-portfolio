@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import {
   Quote,
   Star,
@@ -28,6 +29,7 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { useSiteContent } from "@/lib/site-content";
+import { submitUserReview } from "@/lib/testimonials.functions";
 import { initials, type TestimonialItem } from "@/content/eduarc";
 
 // Local cropped assets from reference design
@@ -85,12 +87,19 @@ function getAvatarSrc(t: TestimonialItem, index: number): string | null {
 
 function TestimonialsPage() {
   const c = useSiteContent();
+  const submitReviewFn = useServerFn(submitUserReview);
+  const [localTestimonials, setLocalTestimonials] = useState<TestimonialItem[]>(c.testimonials);
+
+  useEffect(() => {
+    setLocalTestimonials(c.testimonials);
+  }, [c.testimonials]);
+
   const [emailInput, setEmailInput] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalForm, setModalForm] = useState({
     name: "",
     email: "",
-    role: "Student",
+    role: "Class 12 Student",
     rating: 5,
     category: "Career Guidance Session",
     review: "",
@@ -107,33 +116,69 @@ function TestimonialsPage() {
     setIsModalOpen(true);
   }
 
-  function handleSaveReview(e: React.FormEvent) {
+  async function handleSaveReview(e: React.FormEvent) {
     e.preventDefault();
     if (!modalForm.name.trim()) {
       toast.error("Please enter your name");
+      return;
+    }
+    if (!modalForm.email.trim() || !modalForm.email.includes("@")) {
+      toast.error("Please enter a valid email address");
       return;
     }
     if (!modalForm.review.trim()) {
       toast.error("Please write your review feedback");
       return;
     }
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+
+    try {
+      setIsSubmitting(true);
+      toast.loading("Submitting review...", { id: "user-review" });
+
+      const res = await submitReviewFn({
+        data: {
+          name: modalForm.name.trim(),
+          email: modalForm.email.trim(),
+          role: modalForm.role.trim() || "Student",
+          rating: modalForm.rating,
+          category: modalForm.category.trim() || "Career Guidance Session",
+          quote: modalForm.review.trim(),
+        },
+      });
+
+      toast.dismiss("user-review");
+
+      if (res.skipped) {
+        toast.info(res.message, {
+          id: "user-review",
+          duration: 5000,
+        });
+      } else {
+        toast.success(res.message, {
+          id: "user-review",
+          duration: 5000,
+        });
+        if (res.review) {
+          setLocalTestimonials((prev) => [res.review as TestimonialItem, ...prev]);
+        }
+      }
+
       setIsModalOpen(false);
       setEmailInput("");
       setModalForm({
         name: "",
         email: "",
-        role: "Student",
+        role: "Class 12 Student",
         rating: 5,
         category: "Career Guidance Session",
         review: "",
       });
-      toast.success("Thank you! Your testimonial has been submitted for review.", {
-        icon: "🌟",
-      });
-    }, 600);
+    } catch (err) {
+      toast.dismiss("user-review");
+      toast.error(err instanceof Error ? err.message : "Failed to submit review");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -201,7 +246,7 @@ function TestimonialsPage() {
       <section className="py-12 md:py-16">
         <div className="container-apple">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {c.testimonials.map((t, idx) => {
+            {localTestimonials.map((t, idx) => {
               const avatarSrc = getAvatarSrc(t, idx);
               const rating = t.rating ?? 5;
               const category =
@@ -452,15 +497,29 @@ function TestimonialsPage() {
           </DialogHeader>
 
           <form onSubmit={handleSaveReview} className="space-y-4 py-2">
-            <div>
-              <Label className="text-xs font-medium text-slate-700">Your Full Name</Label>
-              <Input
-                value={modalForm.name}
-                onChange={(e) => setModalForm({ ...modalForm, name: e.target.value })}
-                placeholder="e.g. Ananya Sharma"
-                className="mt-1 h-9 rounded-xl text-xs"
-                required
-              />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <Label className="text-xs font-medium text-slate-700">Your Full Name *</Label>
+                <Input
+                  value={modalForm.name}
+                  onChange={(e) => setModalForm({ ...modalForm, name: e.target.value })}
+                  placeholder="e.g. Ananya Sharma"
+                  className="mt-1 h-9 rounded-xl text-xs"
+                  required
+                />
+              </div>
+
+              <div>
+                <Label className="text-xs font-medium text-slate-700">Email Address *</Label>
+                <Input
+                  type="email"
+                  value={modalForm.email}
+                  onChange={(e) => setModalForm({ ...modalForm, email: e.target.value })}
+                  placeholder="yourname@example.com"
+                  className="mt-1 h-9 rounded-xl text-xs"
+                  required
+                />
+              </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
@@ -551,3 +610,4 @@ function TestimonialsPage() {
     </div>
   );
 }
+

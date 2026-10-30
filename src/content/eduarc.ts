@@ -225,9 +225,11 @@ export const siteContentSchema = z.object({
         rating: z.number().default(5).optional(),
         category: str.optional(),
         avatar: str.optional(),
+        email: str.optional(),
+        createdAt: str.optional(),
       }),
     )
-    .max(24),
+    .max(100),
   contactPage: z.object({
     badge: str.default("Get in Touch"),
     title: str,

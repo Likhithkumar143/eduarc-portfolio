@@ -217,73 +217,7 @@ export function FeaturesEditor({ draft, update }: EditorProps) {
 }
 
 export { ProgramsEditor } from "./ProgramsEditor";
-
-export function ImpactEditor({ draft, update }: EditorProps) {
-  return (
-    <>
-      <Panel title="Impact page text">
-        <ObjectFields
-          value={draft.impactPage}
-          onChange={(v) => update("impactPage", v)}
-          fields={[
-            { key: "title", label: "Heading" },
-            { key: "lead", label: "Intro text", long: true },
-          ]}
-        />
-      </Panel>
-      <Panel title="Impact cards">
-        <IconItems
-          label="Cards"
-          items={draft.impacts}
-          onChange={(v) => update("impacts", v)}
-          max={12}
-        />
-      </Panel>
-      <Panel title="Testimonials">
-        <ListEditor
-          label="Testimonials"
-          items={draft.testimonials}
-          onChange={(v) => update("testimonials", v)}
-          max={12}
-          addLabel="Add testimonial"
-          newItem={() => ({
-            quote: "",
-            name: "",
-            role: "",
-            rating: 5,
-            category: "Career Guidance Session",
-          })}
-          itemTitle={(t) => t.name}
-          renderItem={(t, set) => (
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="md:col-span-2">
-                <TextField
-                  label="Quote"
-                  long
-                  value={t.quote}
-                  onChange={(quote) => set({ ...t, quote })}
-                />
-              </div>
-              <TextField label="Name" value={t.name} onChange={(name) => set({ ...t, name })} />
-              <TextField
-                label="Role & institution"
-                value={t.role}
-                onChange={(role) => set({ ...t, role })}
-              />
-              <div className="md:col-span-2">
-                <TextField
-                  label="Program Category Tag (e.g. Career Guidance Session, Parent Feedback)"
-                  value={t.category ?? ""}
-                  onChange={(category) => set({ ...t, category })}
-                />
-              </div>
-            </div>
-          )}
-        />
-      </Panel>
-    </>
-  );
-}
+export { TestimonialsEditor, TestimonialsEditor as ImpactEditor } from "./TestimonialsEditor";
 
 export function ContactEditor({ draft, update }: EditorProps) {
   const contact = draft.contact;
