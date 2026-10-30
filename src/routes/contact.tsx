@@ -94,21 +94,18 @@ export function ContactPage() {
 
   return (
     <div className="bg-[#FAFDFB] min-h-screen">
-      {/* 1. Hero Section - Responsive Framing: Side-by-Side on Desktop, Dedicated Visual Block on Mobile */}
+      {/* 1. Hero Section - Responsive Framing: Side-by-Side on Desktop, Dedicated Visual Block on Mobile & Tablet */}
       <section className="relative overflow-hidden w-full bg-[#FAFDFB] border-b border-slate-100/80 min-h-[440px] sm:min-h-[480px] lg:min-h-[520px] flex items-center">
-        {/* Desktop Right-aligned illustration container with seamless edge dissolve */}
-        <div className="hidden md:block absolute right-0 top-0 bottom-0 md:w-[60%] lg:w-[56%] xl:w-[52%] pointer-events-none select-none overflow-hidden">
+        {/* Desktop Right-aligned illustration container - Right-anchored so all right-side icons and books are 100% visible */}
+        <div className="hidden lg:block absolute right-0 top-0 bottom-0 lg:w-[54%] xl:w-[50%] pointer-events-none select-none overflow-hidden pr-4 lg:pr-8 xl:pr-12">
           <img
             src={counselorHeroBg}
             alt="EDUARC Educational Guidance and Counselling"
-            className="w-full h-full object-cover object-[center_top] lg:object-[82%_top]"
+            className="w-full h-full object-cover object-[right_top]"
           />
 
-          {/* Left Edge Seamless Dissolve */}
-          <div className="absolute inset-y-0 left-0 w-24 lg:w-48 bg-gradient-to-r from-[#FAFDFB] to-transparent z-10" />
-
-          {/* Right Edge Soft Vignette */}
-          <div className="absolute inset-y-0 right-0 w-8 lg:w-12 bg-gradient-to-l from-[#FAFDFB]/60 to-transparent z-10" />
+          {/* Left Edge Seamless Dissolve: Softly melts the sky on the left into the page background */}
+          <div className="absolute inset-y-0 left-0 w-24 lg:w-44 bg-gradient-to-r from-[#FAFDFB] to-transparent z-10" />
 
           {/* Bottom Edge Fade */}
           <div className="absolute inset-x-0 bottom-0 h-8 lg:h-10 bg-gradient-to-t from-[#FAFDFB] to-transparent z-10" />
@@ -130,10 +127,10 @@ export function ContactPage() {
               {contactPage.lead}
             </p>
 
-            {/* Mobile View: Dedicated Crystal-Clear Counselor Visual */}
-            <div className="block md:hidden my-5">
-              <div className="relative mx-auto max-w-sm rounded-3xl overflow-hidden border border-[#D1EAE5]/70 bg-gradient-to-b from-[#EBF5F3]/50 to-white shadow-xs p-2">
-                <div className="relative rounded-2xl overflow-hidden aspect-[1080/972] bg-white">
+            {/* Mobile & Tablet View: Dedicated Crystal-Clear Counselor Visual */}
+            <div className="block lg:hidden my-6">
+              <div className="relative mx-auto max-w-md sm:max-w-lg rounded-3xl overflow-hidden border border-[#D1EAE5]/70 bg-gradient-to-b from-[#EBF5F3]/50 to-white shadow-xs p-2 sm:p-3">
+                <div className="relative rounded-2xl overflow-hidden aspect-[1080/923] bg-white p-1">
                   <img
                     src={counselorHeroMobile}
                     alt="EDUARC Educational Guidance and Counselling"
