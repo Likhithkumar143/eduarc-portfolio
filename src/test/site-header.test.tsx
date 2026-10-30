@@ -53,7 +53,7 @@ describe("SiteHeader & Mobile Navigation Drawer", () => {
       "/mentors",
       "/programs",
       "/features",
-      "/impact",
+      "/testimonials",
       "/contact",
     ]);
   });

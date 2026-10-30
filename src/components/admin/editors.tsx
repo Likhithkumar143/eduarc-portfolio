@@ -246,7 +246,13 @@ export function ImpactEditor({ draft, update }: EditorProps) {
           onChange={(v) => update("testimonials", v)}
           max={12}
           addLabel="Add testimonial"
-          newItem={() => ({ quote: "", name: "", role: "" })}
+          newItem={() => ({
+            quote: "",
+            name: "",
+            role: "",
+            rating: 5,
+            category: "Career Guidance Session",
+          })}
           itemTitle={(t) => t.name}
           renderItem={(t, set) => (
             <div className="grid gap-4 md:grid-cols-2">
@@ -264,6 +270,13 @@ export function ImpactEditor({ draft, update }: EditorProps) {
                 value={t.role}
                 onChange={(role) => set({ ...t, role })}
               />
+              <div className="md:col-span-2">
+                <TextField
+                  label="Program Category Tag (e.g. Career Guidance Session, Parent Feedback)"
+                  value={t.category ?? ""}
+                  onChange={(category) => set({ ...t, category })}
+                />
+              </div>
             </div>
           )}
         />

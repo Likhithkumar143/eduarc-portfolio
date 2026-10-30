@@ -11,7 +11,7 @@ export const navItems = [
   { to: "/mentors", label: "Mentors" },
   { to: "/programs", label: "Programs" },
   { to: "/features", label: "Features" },
-  { to: "/impact", label: "Impact" },
+  { to: "/testimonials", label: "Testimonials" },
   { to: "/contact", label: "Contact" },
 ] as const;
 

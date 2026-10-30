@@ -216,7 +216,18 @@ export const siteContentSchema = z.object({
   steps: z.array(textItem).max(12),
   impactPage: z.object({ title: str, lead: str }),
   impacts: z.array(iconItem).max(12),
-  testimonials: z.array(z.object({ quote: str, name: str, role: str })).max(12),
+  testimonials: z
+    .array(
+      z.object({
+        quote: str,
+        name: str,
+        role: str,
+        rating: z.number().default(5).optional(),
+        category: str.optional(),
+        avatar: str.optional(),
+      }),
+    )
+    .max(24),
   contactPage: z.object({
     badge: str.default("Get in Touch"),
     title: str,
@@ -255,6 +266,7 @@ export const siteContentSchema = z.object({
 
 export type SiteContent = z.infer<typeof siteContentSchema>;
 export type IconName = (typeof iconNames)[number];
+export type TestimonialItem = SiteContent["testimonials"][number];
 
 export const defaultContent: SiteContent = {
   brand: {
@@ -454,16 +466,58 @@ export const defaultContent: SiteContent = {
   ],
   testimonials: [
     {
+      name: "Ananya S",
+      role: "Class 12 Student",
       quote:
-        "EduArc has been a game‑changer for our students. The structured roadmaps and mentor sessions have helped them gain clarity and confidence about their future.",
-      name: "Dr. R. Sharma",
-      role: "Principal, Sunrise PU College",
+        "EDUARC helped me understand my interests and explore career options I had never considered. The session was interactive, and the mentors were so supportive and friendly.",
+      rating: 5,
+      category: "Career Guidance Session",
+      avatar: "ananya",
     },
     {
+      name: "Priya Sharma",
+      role: "Parent",
       quote:
-        "The platform is easy to use, well‑designed and provides real value for our students. We highly recommend EduArc to other institutions.",
-      name: "Ms. Priya Nair",
-      role: "Principal, Green Valley High School",
+        "As a parent, I was confused about the best career path for my daughter. EDUARC gave us clear guidance and practical steps. The team is professional and truly cares about students' future.",
+      rating: 5,
+      category: "Parent Feedback",
+      avatar: "priya",
+    },
+    {
+      name: "Rohit Kumar",
+      role: "College Student",
+      quote:
+        "The mentor session was very insightful. I got to know about different career paths, the required skills and even some real-life examples. It gave me confidence to plan my future.",
+      rating: 5,
+      category: "Mentorship Session",
+      avatar: "rohit",
+    },
+    {
+      name: "Dr. Meera Iyer",
+      role: "Teacher",
+      quote:
+        "EDUARC's sessions are well-structured and highly engaging. The resources and guidance provided are excellent and help students make informed decisions about their careers.",
+      rating: 5,
+      category: "Workshop Feedback",
+      avatar: "meera",
+    },
+    {
+      name: "Mr. Ramesh Babu",
+      role: "Institution Representative",
+      quote:
+        "The EDUARC team conducted an excellent career guidance program at our school. The session was informative, interactive and received very positive feedback from our students and staff.",
+      rating: 5,
+      category: "Institution Partner",
+      avatar: "ramesh",
+    },
+    {
+      name: "Sneha V",
+      role: "Class 10 Student",
+      quote:
+        "I was so confused about my future, but after the EDUARC session, I feel much more confident. It helped me discover my interests and gave me clear next steps.",
+      rating: 5,
+      category: "Career Guidance Session",
+      avatar: "sneha",
     },
   ],
   contactPage: {
@@ -614,6 +668,10 @@ export function mergeContent(saved: unknown): SiteContent {
     if (value === undefined || value === null) continue;
     merged[key] =
       Array.isArray(def) || typeof def !== "object" ? value : { ...def, ...(value as object) };
+  }
+  // If testimonials only has old template placeholders (< 3 items), default to the 6 complete reference testimonials
+  if (!Array.isArray(merged["testimonials"]) || (merged["testimonials"] as unknown[]).length < 3) {
+    merged["testimonials"] = defaultContent.testimonials;
   }
   const parsed = siteContentSchema.safeParse(merged);
   if (parsed.success) return parsed.data;

@@ -90,9 +90,9 @@ const sections: Section[] = [
   },
   {
     id: "impact",
-    label: "Impact",
+    label: "Testimonials",
     icon: TrendingUp,
-    description: "Evaluation methodology and partner perspectives.",
+    description: "Student, parent, and institutional testimonials and reviews.",
     Editor: ImpactEditor,
   },
   {
