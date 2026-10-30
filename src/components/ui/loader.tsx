@@ -16,3 +16,4 @@ export function Loader({ className, ...props }: LoaderProps) {
 }
 
 export default Loader;
+

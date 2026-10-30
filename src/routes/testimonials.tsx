@@ -39,7 +39,7 @@ import rohitImg from "@/assets/testimonials/rohit.jpg";
 import meeraImg from "@/assets/testimonials/meera.jpg";
 import rameshImg from "@/assets/testimonials/ramesh.jpg";
 import snehaImg from "@/assets/testimonials/sneha.jpg";
-import heroBannerImg from "@/assets/testimonials/hero-banner.jpg";
+import heroBannerImg from "@/assets/testimoials hero banner.jpg";
 import successBooksImg from "@/assets/testimonials/success-books.jpg";
 
 export const Route = createFileRoute("/testimonials")({
@@ -206,42 +206,45 @@ function TestimonialsPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      {/* 1. Hero Section - Sleek, Borderless Hero Banner with Student Illustration */}
-      <section className="relative overflow-hidden bg-[#F2F7FD] border-b border-slate-200/60">
-        <div className="container-apple relative">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end min-h-[220px] sm:min-h-[250px] lg:min-h-[270px]">
-            {/* Left Column: Badge, Title & Lead (Cols 1 to 7) */}
-            <div className="lg:col-span-7 pt-8 pb-4 sm:pt-10 sm:pb-6 lg:py-10 z-10 text-center sm:text-left">
-              <Reveal>
-                <span className="text-xs font-bold tracking-wider text-blue-600 uppercase mb-2 block">
-                  {pageContent.badge || "TESTIMONIALS"}
+      {/* 1. Hero Section - Sleek, Borderless Hero Banner matching Features Hero layout */}
+      <section className="relative overflow-hidden bg-[#F2F7FD] border-b border-slate-200/60 min-h-[300px] sm:min-h-[340px] lg:min-h-[360px] flex items-end">
+        {/* Desktop Illustration: Aligned directly to bottom-right flush with bottom border */}
+        <div className="hidden lg:flex absolute inset-y-0 right-0 pointer-events-none select-none z-0 items-end justify-end">
+          <img
+            src={heroBannerImg}
+            alt="EDUARC Testimonials Student"
+            className="h-full max-h-[380px] w-auto max-w-none object-contain object-right-bottom block"
+          />
+        </div>
+
+        {/* Content Container */}
+        <div className="container-apple relative z-10 w-full">
+          <div className="pt-10 pb-8 sm:pt-12 sm:pb-10 lg:py-14 max-w-xl lg:max-w-lg xl:max-w-xl text-center sm:text-left">
+            <Reveal>
+              <span className="text-xs font-bold tracking-wider text-blue-600 uppercase mb-3 block">
+                {pageContent.badge || "TESTIMONIALS"}
+              </span>
+
+              <h1 className="text-3xl sm:text-4xl lg:text-[42px] xl:text-[46px] font-extrabold text-[#0F172A] tracking-tight leading-[1.15]">
+                {pageContent.title}{" "}
+                <span className="text-[#0F172A]">
+                  {pageContent.titleHighlight}
                 </span>
+              </h1>
 
-                <h1 className="text-2xl sm:text-3xl lg:text-[38px] xl:text-[42px] font-extrabold text-[#0F172A] tracking-tight leading-[1.16]">
-                  {pageContent.title}{" "}
-                  <span className="text-[#0F172A]">
-                    {pageContent.titleHighlight}
-                  </span>
-                </h1>
+              <p className="mt-4 text-sm sm:text-base text-slate-600 max-w-lg mx-auto sm:mx-0 leading-relaxed">
+                {pageContent.lead}
+              </p>
+            </Reveal>
+          </div>
 
-                <p className="mt-3 text-xs sm:text-sm text-slate-600 max-w-md xl:max-w-lg mx-auto sm:mx-0 leading-relaxed">
-                  {pageContent.lead}
-                </p>
-              </Reveal>
-            </div>
-
-            {/* Right Column: Student Girl Illustration (Cols 8 to 12) - Fully Visible, Flush with bottom border */}
-            <div className="lg:col-span-5 flex items-end justify-center lg:justify-end h-full">
-              <Reveal delay={100}>
-                <div className="relative h-44 sm:h-52 lg:h-64 xl:h-72 flex items-end justify-center lg:justify-end overflow-hidden w-full max-w-md">
-                  <img
-                    src={heroBannerImg}
-                    alt="EDUARC Student"
-                    className="h-full w-auto max-w-none object-cover object-right-bottom block select-none pointer-events-none"
-                  />
-                </div>
-              </Reveal>
-            </div>
+          {/* Mobile & Tablet Illustration: rendered in-flow flush at the bottom edge */}
+          <div className="lg:hidden relative w-full flex items-end justify-center pt-2 overflow-hidden">
+            <img
+              src={heroBannerImg}
+              alt="EDUARC Testimonials Student"
+              className="w-full max-w-lg h-auto object-contain block select-none pointer-events-none"
+            />
           </div>
         </div>
       </section>

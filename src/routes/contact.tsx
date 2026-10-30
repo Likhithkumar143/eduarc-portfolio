@@ -22,8 +22,8 @@ import {
   Users,
   Youtube,
 } from "lucide-react";
-import counselorHeroBg from "@/assets/contact-hero-counselor-hd.png";
-import counselorHeroMobile from "@/assets/contact-hero-counselor-mobile.jpg";
+import { Reveal } from "@/components/site/Reveal";
+import counselorHeroBg from "@/assets/contact-hero-counselor-hd.jpg";
 import { phoneHref, websiteHref } from "@/content/eduarc";
 import { useSiteContent } from "@/lib/site-content";
 
@@ -94,74 +94,65 @@ export function ContactPage() {
 
   return (
     <div className="bg-[#FAFDFB] min-h-screen">
-      {/* 1. Hero Section - Responsive Framing: Side-by-Side on Desktop, Dedicated Visual Block on Mobile & Tablet */}
-      <section className="relative overflow-hidden w-full bg-[#FAFDFB] border-b border-slate-100/80 min-h-[440px] sm:min-h-[480px] lg:min-h-[520px] flex items-center">
-        {/* Desktop Right-aligned illustration container - Right-anchored so all right-side icons and books are 100% visible */}
-        <div className="hidden lg:block absolute right-0 top-0 bottom-0 lg:w-[54%] xl:w-[50%] pointer-events-none select-none overflow-hidden pr-4 lg:pr-8 xl:pr-12">
+      {/* 1. Hero Section - Sleek, Borderless Hero Banner matching Features Hero layout */}
+      <section className="relative overflow-hidden bg-[#C1EFFF] border-b border-slate-200/60 min-h-[300px] sm:min-h-[340px] lg:min-h-[360px] flex items-end">
+        {/* Desktop Illustration: Aligned directly to bottom-right flush with bottom border */}
+        <div className="hidden lg:flex absolute inset-y-0 right-0 pointer-events-none select-none z-0 items-end justify-end">
           <img
             src={counselorHeroBg}
             alt="EDUARC Educational Guidance and Counselling"
-            className="w-full h-full object-cover object-[right_top]"
+            className="h-full max-h-[380px] w-auto max-w-none object-contain object-right-bottom block"
           />
-
-          {/* Left Edge Seamless Dissolve: Softly melts the sky on the left into the page background */}
-          <div className="absolute inset-y-0 left-0 w-24 lg:w-44 bg-gradient-to-r from-[#FAFDFB] to-transparent z-10" />
-
-          {/* Bottom Edge Fade */}
-          <div className="absolute inset-x-0 bottom-0 h-8 lg:h-10 bg-gradient-to-t from-[#FAFDFB] to-transparent z-10" />
         </div>
 
-        {/* Foreground Content */}
-        <div className="relative z-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-20 w-full">
-          <div className="max-w-xl space-y-5 sm:space-y-6">
-            <span className="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold bg-[#EBF5F3]/90 backdrop-blur-xs text-[#1C5153] border border-[#D1EAE5] shadow-2xs">
-              {contactPage.badge || "Get in Touch"}
-            </span>
+        {/* Content Container */}
+        <div className="container-apple relative z-10 w-full">
+          <div className="pt-10 pb-8 sm:pt-12 sm:pb-10 lg:py-14 max-w-xl lg:max-w-lg xl:max-w-xl text-center sm:text-left">
+            <Reveal>
+              <span className="text-xs font-bold tracking-wider text-[#1C5153] uppercase mb-3 block">
+                {contactPage.badge || "Get in Touch"}
+              </span>
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-[54px] font-extrabold tracking-tight text-[#0D2436] leading-[1.14]">
-              {contactPage.title} <br className="hidden sm:inline" />
-              {contactPage.titleHighlight}
-            </h1>
+              <h1 className="text-3xl sm:text-4xl lg:text-[42px] xl:text-[46px] font-extrabold text-[#0D2436] tracking-tight leading-[1.15]">
+                {contactPage.title} <br className="hidden sm:inline" />
+                {contactPage.titleHighlight}
+              </h1>
 
-            <p className="text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed max-w-lg">
-              {contactPage.lead}
-            </p>
+              <p className="mt-4 text-sm sm:text-base text-slate-700 max-w-lg mx-auto sm:mx-0 leading-relaxed">
+                {contactPage.lead}
+              </p>
 
-            {/* Mobile & Tablet View: Dedicated Crystal-Clear Counselor Visual */}
-            <div className="block lg:hidden my-6">
-              <div className="relative mx-auto max-w-md sm:max-w-lg rounded-3xl overflow-hidden border border-[#D1EAE5]/70 bg-gradient-to-b from-[#EBF5F3]/50 to-white shadow-xs p-2 sm:p-3">
-                <div className="relative rounded-2xl overflow-hidden aspect-[1080/923] bg-white p-1">
-                  <img
-                    src={counselorHeroMobile}
-                    alt="EDUARC Educational Guidance and Counselling"
-                    className="w-full h-full object-contain block"
-                    loading="eager"
-                  />
+              {/* 3 Value Pills */}
+              <div className="mt-6 flex flex-wrap items-center justify-center sm:justify-start gap-2.5 sm:gap-3">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-xs border border-slate-200/90 shadow-2xs text-xs font-semibold text-slate-700">
+                  <span className="flex items-center justify-center w-5 h-5 rounded-full bg-[#EBF5F3] text-[#1C5153]">
+                    <MessageCircle className="w-3 h-3" />
+                  </span>
+                  {contactPage.pill1 || "Quick Response"}
+                </div>
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-xs border border-slate-200/90 shadow-2xs text-xs font-semibold text-slate-700">
+                  <span className="flex items-center justify-center w-5 h-5 rounded-full bg-[#EBF5F3] text-[#1C5153]">
+                    <ShieldCheck className="w-3 h-3" />
+                  </span>
+                  {contactPage.pill2 || "Dedicated Support"}
+                </div>
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-xs border border-slate-200/90 shadow-2xs text-xs font-semibold text-slate-700">
+                  <span className="flex items-center justify-center w-5 h-5 rounded-full bg-[#EBF5F3] text-[#1C5153]">
+                    <UserCheck className="w-3 h-3" />
+                  </span>
+                  {contactPage.pill3 || "Real People"}
                 </div>
               </div>
-            </div>
+            </Reveal>
+          </div>
 
-            {/* 3 Value Pills */}
-            <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 pt-1 sm:pt-2">
-              <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/95 backdrop-blur-xs border border-slate-200/90 shadow-2xs text-xs sm:text-sm font-semibold text-slate-700 hover:border-emerald-300 transition-colors">
-                <span className="flex items-center justify-center w-6 h-6 rounded-lg bg-[#EBF5F3] text-[#1C5153]">
-                  <MessageCircle className="w-3.5 h-3.5" />
-                </span>
-                {contactPage.pill1 || "Quick Response"}
-              </div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/95 backdrop-blur-xs border border-slate-200/90 shadow-2xs text-xs sm:text-sm font-semibold text-slate-700 hover:border-emerald-300 transition-colors">
-                <span className="flex items-center justify-center w-6 h-6 rounded-lg bg-[#EBF5F3] text-[#1C5153]">
-                  <ShieldCheck className="w-3.5 h-3.5" />
-                </span>
-                {contactPage.pill2 || "Dedicated Support"}
-              </div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/95 backdrop-blur-xs border border-slate-200/90 shadow-2xs text-xs sm:text-sm font-semibold text-slate-700 hover:border-emerald-300 transition-colors">
-                <span className="flex items-center justify-center w-6 h-6 rounded-lg bg-[#EBF5F3] text-[#1C5153]">
-                  <UserCheck className="w-3.5 h-3.5" />
-                </span>
-                {contactPage.pill3 || "Real People"}
-              </div>
-            </div>
+          {/* Mobile & Tablet Illustration: rendered in-flow flush at the bottom edge */}
+          <div className="lg:hidden relative w-full flex items-end justify-center pt-2 overflow-hidden">
+            <img
+              src={counselorHeroBg}
+              alt="EDUARC Educational Guidance and Counselling"
+              className="w-full max-w-lg h-auto object-contain block select-none pointer-events-none"
+            />
           </div>
         </div>
       </section>
