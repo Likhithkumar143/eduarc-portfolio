@@ -1,12 +1,22 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import markUrl from "@/assets/eduarc-mark.png";
 import textUrl from "@/assets/eduarc-text.png";
 import { cn } from "@/lib/utils";
 
 export function BrandLogo({ className, light = false }: { className?: string; light?: boolean }) {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isHomePage = pathname === "/";
+
   return (
     <Link
       to="/"
+      onClick={(e) => {
+        if (isHomePage) {
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          history.replaceState(null, "", "/");
+        }
+      }}
       className={cn(
         "flex items-center gap-2 sm:gap-2.5 group transition-opacity hover:opacity-90 select-none",
         className,

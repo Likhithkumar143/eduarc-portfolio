@@ -52,7 +52,15 @@ const expectations = [
 
 export function PartnerPage() {
   return (
-    <div className="relative isolate overflow-hidden bg-[#FEFAF1] min-h-screen">
+    <div className="min-h-screen bg-[#FEFAF1]">
+      <PartnerContent />
+    </div>
+  );
+}
+
+export function PartnerContent() {
+  return (
+    <div className="relative isolate overflow-hidden bg-[#FEFAF1]">
       <main className="container-wide py-10 sm:py-14 lg:py-18">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.18fr] lg:items-start lg:gap-14 xl:gap-20">
           {/* Left Column: Context, Promises & Journey Artwork */}

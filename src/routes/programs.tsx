@@ -44,7 +44,7 @@ export const Route = createFileRoute("/programs")({
 
 type FilterType = "all" | "school" | "college";
 
-function ProgramsPage() {
+export function ProgramsSection({ id }: { id?: string }) {
   const c = useSiteContent();
   const [filter, setFilter] = useState<FilterType>("all");
 
@@ -59,7 +59,7 @@ function ProgramsPage() {
   }, [filter, programsList]);
 
   return (
-    <div className="bg-[#f8fafc] min-h-screen">
+    <div id={id} className="bg-[#f8fafc]">
       {/* 1. Header Section */}
       <section className="pt-10 md:pt-16 pb-6 md:pb-8">
         <div className="container-wide">
@@ -237,6 +237,14 @@ function ProgramsPage() {
           </div>
         </div>
       </section>
+    </div>
+  );
+}
+
+function ProgramsPage() {
+  return (
+    <div className="bg-[#f8fafc] min-h-screen">
+      <ProgramsSection />
     </div>
   );
 }

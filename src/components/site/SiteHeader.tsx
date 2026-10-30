@@ -15,15 +15,64 @@ export const navItems = [
   { to: "/contact", label: "Contact" },
 ] as const;
 
+const sectionIdMap: Record<string, string> = {
+  "/about": "about",
+  "/programs": "programs",
+  "/features": "features",
+  "/testimonials": "testimonials",
+  "/contact": "contact",
+};
+
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const menuRef = useRef<HTMLDivElement>(null);
+  const isHomePage = pathname === "/";
+  const [activeSection, setActiveSection] = useState<string>("hero");
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // IntersectionObserver for scroll spy active navigation on homepage
+  useEffect(() => {
+    if (!isHomePage) return;
+
+    const sectionIds = [
+      "hero",
+      "about",
+      "programs",
+      "features",
+      "testimonials",
+      "contact",
+      "partner",
+    ];
+    const elements = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    if (elements.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+        if (visible.length > 0 && visible[0]?.target.id) {
+          setActiveSection(visible[0].target.id);
+        }
+      },
+      {
+        rootMargin: "-15% 0px -40% 0px",
+        threshold: [0.1, 0.25, 0.5],
+      },
+    );
+
+    elements.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [isHomePage]);
 
   // Close menu on route change
   useEffect(() => {
@@ -77,25 +126,56 @@ export function SiteHeader() {
 
           {/* Desktop Navigation */}
           <nav className="hidden items-center gap-7 lg:gap-9 md:flex" aria-label="Main navigation">
-            {navItems.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                className="text-[14px] font-medium text-foreground/75 transition-colors duration-150 hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold rounded-sm px-1 py-0.5"
-                activeProps={{
-                  className:
-                    "text-brand-navy font-semibold relative after:absolute after:-bottom-1.5 after:left-1 after:right-1 after:h-[2px] after:bg-brand-gold after:rounded-full",
-                }}
-              >
-                {item.label}
-              </Link>
-            ))}
+            {navItems.map((item) => {
+              const sectionId = sectionIdMap[item.to];
+              const isActive = isHomePage
+                ? activeSection === sectionId
+                : pathname.startsWith(item.to);
+
+              return (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  onClick={(e) => {
+                    if (isHomePage && sectionId) {
+                      e.preventDefault();
+                      const targetEl = document.getElementById(sectionId);
+                      if (targetEl) {
+                        targetEl.scrollIntoView({ behavior: "smooth" });
+                        history.replaceState(null, "", `#${sectionId}`);
+                      }
+                    }
+                  }}
+                  className={cn(
+                    "text-[14px] font-medium transition-colors duration-150 hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold rounded-sm px-1 py-0.5",
+                    isActive
+                      ? "text-brand-navy font-semibold relative after:absolute after:-bottom-1.5 after:left-1 after:right-1 after:h-[2px] after:bg-brand-gold after:rounded-full"
+                      : "text-foreground/75",
+                  )}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Desktop Action CTA */}
           <div className="hidden md:flex items-center gap-3">
             <Button asChild variant="pill-gold" size="pill-sm">
-              <Link to="/partner" className="gap-1.5">
+              <Link
+                to="/partner"
+                onClick={(e) => {
+                  if (isHomePage) {
+                    e.preventDefault();
+                    const targetEl = document.getElementById("partner");
+                    if (targetEl) {
+                      targetEl.scrollIntoView({ behavior: "smooth" });
+                      history.replaceState(null, "", "#partner");
+                    }
+                  }
+                }}
+                className="gap-1.5"
+              >
                 <span>Partner with us</span>
                 <ArrowUpRight className="h-3.5 w-3.5 opacity-80" />
               </Link>
@@ -131,23 +211,66 @@ export function SiteHeader() {
                   className="flex flex-col divide-y divide-hairline"
                   aria-label="Mobile navigation"
                 >
-                  {navItems.map((item) => (
-                    <Link
-                      key={item.to}
-                      to={item.to}
-                      onClick={() => setOpen(false)}
-                      className="py-4 text-lg font-semibold text-foreground hover:text-brand-navy transition-colors flex items-center justify-between"
-                      activeProps={{ className: "text-brand-navy font-bold" }}
-                    >
-                      <span>{item.label}</span>
-                      <ArrowUpRight className="h-4 w-4 text-brand-gold" />
-                    </Link>
-                  ))}
+                  {navItems.map((item) => {
+                    const sectionId = sectionIdMap[item.to];
+                    const isActive = isHomePage
+                      ? activeSection === sectionId
+                      : pathname.startsWith(item.to);
+
+                    return (
+                      <Link
+                        key={item.to}
+                        to={item.to}
+                        onClick={(e) => {
+                          setOpen(false);
+                          if (isHomePage && sectionId) {
+                            e.preventDefault();
+                            const targetEl = document.getElementById(sectionId);
+                            if (targetEl) {
+                              setTimeout(() => {
+                                targetEl.scrollIntoView({ behavior: "smooth" });
+                                history.replaceState(null, "", `#${sectionId}`);
+                              }, 50);
+                            }
+                          }
+                        }}
+                        className={cn(
+                          "py-4 text-lg font-semibold transition-colors flex items-center justify-between",
+                          isActive
+                            ? "text-brand-navy font-bold"
+                            : "text-foreground hover:text-brand-navy",
+                        )}
+                      >
+                        <span>{item.label}</span>
+                        <ArrowUpRight className="h-4 w-4 text-brand-gold" />
+                      </Link>
+                    );
+                  })}
                 </nav>
 
                 <div className="pt-6 mt-4 border-t border-hairline flex flex-col gap-3">
-                  <Button asChild variant="pill-gold" size="pill" className="w-full justify-center">
-                    <Link to="/partner" onClick={() => setOpen(false)}>
+                  <Button
+                    asChild
+                    variant="pill-gold"
+                    size="pill"
+                    className="w-full justify-center"
+                  >
+                    <Link
+                      to="/partner"
+                      onClick={(e) => {
+                        setOpen(false);
+                        if (isHomePage) {
+                          e.preventDefault();
+                          const targetEl = document.getElementById("partner");
+                          if (targetEl) {
+                            setTimeout(() => {
+                              targetEl.scrollIntoView({ behavior: "smooth" });
+                              history.replaceState(null, "", "#partner");
+                            }, 50);
+                          }
+                        }
+                      }}
+                    >
                       Partner with us
                     </Link>
                   </Button>
@@ -157,7 +280,22 @@ export function SiteHeader() {
                     size="pill"
                     className="w-full justify-center"
                   >
-                    <Link to="/contact" onClick={() => setOpen(false)}>
+                    <Link
+                      to="/contact"
+                      onClick={(e) => {
+                        setOpen(false);
+                        if (isHomePage) {
+                          e.preventDefault();
+                          const targetEl = document.getElementById("contact");
+                          if (targetEl) {
+                            setTimeout(() => {
+                              targetEl.scrollIntoView({ behavior: "smooth" });
+                              history.replaceState(null, "", "#contact");
+                            }, 50);
+                          }
+                        }
+                      }}
+                    >
                       Contact Support
                     </Link>
                   </Button>

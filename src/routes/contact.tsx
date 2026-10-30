@@ -58,39 +58,7 @@ function XLogo({ className = "w-4 h-4" }: { className?: string }) {
 }
 
 export function ContactPage() {
-  const { contact, contactPage, socials } = useSiteContent();
-  const [selectedTopic, setSelectedTopic] = useState<string>("general");
-
-  const topics = [
-    {
-      id: "general",
-      title: "General Enquiry",
-      icon: MessageSquare,
-      targetHref: `mailto:${contact.email}?subject=General%20Enquiry`,
-    },
-    {
-      id: "mentorship",
-      title: "Mentorship & Guidance",
-      icon: GraduationCap,
-      targetHref: "/partner?role=student",
-      isInternal: true,
-    },
-    {
-      id: "institution",
-      title: "Institution Partnership",
-      icon: Building2,
-      targetHref: "/partner?role=institution",
-      isInternal: true,
-    },
-    {
-      id: "other",
-      title: "Other",
-      icon: HelpCircle,
-      targetHref: `mailto:${contact.email}?subject=General%20Question`,
-    },
-  ];
-
-  const currentTopic = topics.find((t) => t.id === selectedTopic) ?? topics[0]!;
+  const { contactPage } = useSiteContent();
 
   return (
     <div className="bg-[#FAFDFB] min-h-screen">
@@ -156,6 +124,50 @@ export function ContactPage() {
           </div>
         </div>
       </section>
+
+      {/* REUSABLE CONTACT CONTENT */}
+      <ContactContent />
+    </div>
+  );
+}
+
+export function ContactContent() {
+  const { contact, contactPage, socials } = useSiteContent();
+  const [selectedTopic, setSelectedTopic] = useState<string>("general");
+
+  const topics = [
+    {
+      id: "general",
+      title: "General Enquiry",
+      icon: MessageSquare,
+      targetHref: `mailto:${contact.email}?subject=General%20Enquiry`,
+    },
+    {
+      id: "mentorship",
+      title: "Mentorship & Guidance",
+      icon: GraduationCap,
+      targetHref: "/partner?role=student",
+      isInternal: true,
+    },
+    {
+      id: "institution",
+      title: "Institution Partnership",
+      icon: Building2,
+      targetHref: "/partner?role=institution",
+      isInternal: true,
+    },
+    {
+      id: "other",
+      title: "Other",
+      icon: HelpCircle,
+      targetHref: `mailto:${contact.email}?subject=General%20Question`,
+    },
+  ];
+
+  const currentTopic = topics.find((t) => t.id === selectedTopic) ?? topics[0]!;
+
+  return (
+    <>
 
       {/* 2. Contact Information Cards */}
       <section className="py-12 sm:py-16">
@@ -593,6 +605,6 @@ export function ContactPage() {
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }

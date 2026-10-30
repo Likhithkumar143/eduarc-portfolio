@@ -187,7 +187,6 @@ const solutions = [
 
 function AboutPage() {
   const c = useSiteContent();
-  const mentors = c.mentors && c.mentors.length > 0 ? c.mentors : defaultContent.mentors;
 
   return (
     <div className="min-h-screen bg-white">
@@ -238,6 +237,63 @@ function AboutPage() {
           </div>
         </div>
       </section>
+
+      {/* REUSABLE ABOUT CONTENT SECTIONS 2 THROUGH 6 */}
+      <AboutContent />
+
+      {/* =========================================================================
+          SECTION 7: BOTTOM CTA BANNER
+          Your Future Starts With The Right Guidance.
+         ========================================================================= */}
+      <section className="bg-gradient-to-r from-blue-50/70 via-indigo-50/40 to-blue-50/70 border-t border-slate-200/70 py-6 sm:py-8">
+        <div className="container-apple">
+          <Reveal>
+            <div className="flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-left">
+              {/* Paper Airplane & Headline */}
+              <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+                <div className="flex items-center gap-2 text-[#E07A2B]">
+                  <Send className="w-6 h-6 rotate-[-20deg]" />
+                </div>
+
+                <div className="hidden sm:block h-9 w-[1px] bg-slate-300" />
+
+                <div>
+                  <h3 className="text-base sm:text-lg font-extrabold text-[#0D2436] tracking-tight leading-snug">
+                    Your Future Starts With <br className="hidden sm:inline" />
+                    The <span className="text-[#E07A2B]">Right Guidance.</span>
+                  </h3>
+                </div>
+              </div>
+
+              {/* Subtext */}
+              <p className="text-xs sm:text-sm text-slate-600 max-w-sm">
+                Join EduArc today and take the first step towards a successful career.
+              </p>
+
+              {/* Action Button */}
+              <Button
+                asChild
+                className="rounded-full bg-[#0B1B2B] hover:bg-[#152D47] text-white text-xs font-semibold px-6 py-2.5 h-10 shadow-sm shrink-0 gap-2"
+              >
+                <Link to="/partner">
+                  <span>Get Started</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              </Button>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+export function AboutContent() {
+  const c = useSiteContent();
+  const mentors = c.mentors && c.mentors.length > 0 ? c.mentors : defaultContent.mentors;
+
+  return (
+    <>
 
       {/* =========================================================================
           SECTION 2: WHO WE ARE
@@ -604,49 +660,6 @@ function AboutPage() {
         </div>
       </section>
 
-      {/* =========================================================================
-          SECTION 7: BOTTOM CTA BANNER
-          Your Future Starts With The Right Guidance.
-         ========================================================================= */}
-      <section className="bg-gradient-to-r from-blue-50/70 via-indigo-50/40 to-blue-50/70 border-t border-slate-200/70 py-6 sm:py-8">
-        <div className="container-apple">
-          <Reveal>
-            <div className="flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-left">
-              {/* Paper Airplane & Headline */}
-              <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
-                <div className="flex items-center gap-2 text-[#E07A2B]">
-                  <Send className="w-6 h-6 rotate-[-20deg]" />
-                </div>
-
-                <div className="hidden sm:block h-9 w-[1px] bg-slate-300" />
-
-                <div>
-                  <h3 className="text-base sm:text-lg font-extrabold text-[#0D2436] tracking-tight leading-snug">
-                    Your Future Starts With <br className="hidden sm:inline" />
-                    The <span className="text-[#E07A2B]">Right Guidance.</span>
-                  </h3>
-                </div>
-              </div>
-
-              {/* Subtext */}
-              <p className="text-xs sm:text-sm text-slate-600 max-w-sm">
-                Join EduArc today and take the first step towards a successful career.
-              </p>
-
-              {/* Action Button */}
-              <Button
-                asChild
-                className="rounded-full bg-[#0B1B2B] hover:bg-[#152D47] text-white text-xs font-semibold px-6 py-2.5 h-10 shadow-sm shrink-0 gap-2"
-              >
-                <Link to="/partner">
-                  <span>Get Started</span>
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </Link>
-              </Button>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-    </div>
+    </>
   );
 }

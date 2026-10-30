@@ -145,6 +145,75 @@ function FeaturesPage() {
         </div>
       </section>
 
+      {/* REUSABLE FEATURES CONTENT */}
+      <FeaturesContent />
+
+      {/* 7. Institutional Bottom CTA Banner */}
+      <section className="py-16 md:py-24 bg-[#F8FAFC]">
+        <div className="container-apple">
+          <div className="rounded-3xl bg-gradient-to-r from-[#EFF6FF] via-[#F0F7FF] to-[#E0EFFF] border border-blue-200/70 p-8 sm:p-12 relative overflow-hidden shadow-sm">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+              <div className="lg:col-span-8 space-y-3 text-center sm:text-left">
+                <span className="text-[11px] font-bold tracking-wider text-blue-600 uppercase block">
+                  LET'S WORK TOGETHER
+                </span>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0F172A] tracking-tight">
+                  Partner with EDUARC
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-600 max-w-lg mx-auto sm:mx-0 leading-relaxed">
+                  Let's build brighter futures for your students, together.
+                </p>
+                <div className="pt-2 flex flex-wrap gap-3 items-center justify-center sm:justify-start">
+                  <Button
+                    asChild
+                    className="rounded-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs font-semibold px-5 py-2.5 h-10 shadow-sm gap-1.5"
+                  >
+                    <Link to="/partner">
+                      <span>Request Institutional Proposal</span>
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </Link>
+                  </Button>
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="rounded-full border-slate-300 bg-white/90 hover:bg-white text-slate-700 text-xs font-medium px-4 py-2.5 h-10 shadow-2xs"
+                  >
+                    <Link to="/about">Learn More</Link>
+                  </Button>
+                </div>
+              </div>
+
+              {/* Right Side Callout Script Artifact */}
+              <div className="lg:col-span-4 flex items-center justify-center lg:justify-end">
+                <div className="text-center sm:text-left rotate-[-2deg] p-4 rounded-2xl bg-white/70 backdrop-blur-xs border border-white/80 shadow-xs">
+                  <p className="font-serif italic font-bold text-[#1E40AF] text-sm sm:text-base leading-tight tracking-wide drop-shadow-2xs">
+                    Better Guidance
+                    <br />
+                    <span className="text-indigo-800">Brighter Futures</span>
+                  </p>
+                  <svg
+                    className="w-20 sm:w-24 h-3 text-blue-600 stroke-current mt-1 mx-auto sm:mx-0"
+                    viewBox="0 0 100 12"
+                    fill="none"
+                  >
+                    <path d="M2,8 Q50,2 98,6" strokeWidth="2.5" strokeLinecap="round" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+export function FeaturesContent() {
+  const c = useSiteContent();
+
+  return (
+    <>
+
       {/* 2. Feature Levels Section */}
       <section className="py-16 md:py-24 bg-white relative">
         <div className="container-apple">
@@ -674,62 +743,6 @@ function FeaturesPage() {
         </div>
       </section>
 
-      {/* 8. Bottom CTA Banner: Partner with EDUARC */}
-      <section className="py-12 md:py-16">
-        <div className="container-apple">
-          <div className="rounded-3xl bg-gradient-to-r from-[#EFF6FF] via-[#F0F7FF] to-[#E0EFFF] border border-blue-200/70 p-8 sm:p-12 relative overflow-hidden shadow-sm">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
-              <div className="lg:col-span-8 space-y-3 text-center sm:text-left">
-                <span className="text-[11px] font-bold tracking-wider text-blue-600 uppercase block">
-                  LET'S WORK TOGETHER
-                </span>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0F172A] tracking-tight">
-                  Partner with EDUARC
-                </h2>
-                <p className="text-xs sm:text-sm text-slate-600 max-w-lg mx-auto sm:mx-0 leading-relaxed">
-                  Let's build brighter futures for your students, together.
-                </p>
-                <div className="pt-2 flex flex-wrap gap-3 items-center justify-center sm:justify-start">
-                  <Button
-                    asChild
-                    className="rounded-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs font-semibold px-5 py-2.5 h-10 shadow-sm gap-1.5"
-                  >
-                    <Link to="/partner">
-                      <span>Request Institutional Proposal</span>
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    </Link>
-                  </Button>
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="rounded-full border-slate-300 bg-white/90 hover:bg-white text-slate-700 text-xs font-medium px-4 py-2.5 h-10 shadow-2xs"
-                  >
-                    <Link to="/about">Learn More</Link>
-                  </Button>
-                </div>
-              </div>
-
-              {/* Right Side Callout Script Artifact */}
-              <div className="lg:col-span-4 flex items-center justify-center lg:justify-end">
-                <div className="text-center sm:text-left rotate-[-2deg] p-4 rounded-2xl bg-white/70 backdrop-blur-xs border border-white/80 shadow-xs">
-                  <p className="font-serif italic font-bold text-[#1E40AF] text-sm sm:text-base leading-tight tracking-wide drop-shadow-2xs">
-                    Better Guidance
-                    <br />
-                    <span className="text-indigo-800">Brighter Futures</span>
-                  </p>
-                  <svg
-                    className="w-20 sm:w-24 h-3 text-blue-600 stroke-current mt-1 mx-auto sm:mx-0"
-                    viewBox="0 0 100 12"
-                    fill="none"
-                  >
-                    <path d="M2,8 Q50,2 98,6" strokeWidth="2.5" strokeLinecap="round" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
+    </>
   );
 }
