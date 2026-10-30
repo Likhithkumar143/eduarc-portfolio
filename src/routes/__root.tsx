@@ -38,6 +38,14 @@ function NotFoundComponent() {
   );
 }
 
+function PendingComponent() {
+  return (
+    <div className="flex min-h-[60vh] w-full items-center justify-center p-8">
+      <div className="loader" role="status" aria-label="Loading page..." />
+    </div>
+  );
+}
+
 function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
   const router = useRouter();
@@ -105,6 +113,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   }),
   shellComponent: RootShell,
   component: RootComponent,
+  pendingComponent: PendingComponent,
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,
 });
