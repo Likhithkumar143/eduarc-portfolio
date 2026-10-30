@@ -83,61 +83,64 @@ function FeaturesPage() {
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       {/* 1. Hero Section - Sleek, Borderless Hero Banner with Features Hero Image */}
-      <section className="relative overflow-hidden bg-[#F2F7FD] border-b border-slate-200/60 pt-10 pb-0 sm:pt-14 sm:pb-0 lg:pt-16">
-        <div className="container-apple relative">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
-            {/* Left Content (Cols 1 to 6) */}
-            <div className="lg:col-span-6 pb-10 sm:pb-14 lg:pb-16 text-center sm:text-left z-10">
-              <Reveal>
-                <span className="text-xs font-bold tracking-wider text-blue-600 uppercase mb-3 block">
-                  INSTITUTIONAL FEATURES
+      <section className="relative overflow-hidden bg-[#EFF6FE] border-b border-slate-200/60 min-h-[300px] sm:min-h-[340px] lg:min-h-[360px] flex items-end">
+        {/* Desktop & Laptop Illustration: Aligned directly to bottom-right flush with bottom border */}
+        <div className="hidden lg:flex absolute inset-y-0 right-0 pointer-events-none select-none z-0 items-end justify-end">
+          <img
+            src={featuresHeroImg}
+            alt="EDUARC Institutional Students Learning Together"
+            className="h-full max-h-[380px] w-auto max-w-none object-contain object-right-bottom block"
+          />
+        </div>
+
+        {/* Content Container */}
+        <div className="container-apple relative z-10 w-full">
+          <div className="pt-10 pb-8 sm:pt-12 sm:pb-10 lg:py-14 max-w-xl lg:max-w-lg xl:max-w-xl text-center sm:text-left">
+            <Reveal>
+              <span className="text-xs font-bold tracking-wider text-blue-600 uppercase mb-3 block">
+                INSTITUTIONAL FEATURES
+              </span>
+
+              <h1 className="text-3xl sm:text-4xl lg:text-[42px] xl:text-[46px] font-extrabold text-[#0F172A] tracking-tight leading-[1.15]">
+                Structured features for{" "}
+                <span className="text-[#0F172A]">
+                  schools and colleges.
                 </span>
+              </h1>
 
-                <h1 className="text-3xl sm:text-4xl lg:text-[44px] xl:text-[48px] font-extrabold text-[#0F172A] tracking-tight leading-[1.15]">
-                  Structured features for{" "}
-                  <span className="text-[#0F172A]">
-                    schools and colleges.
-                  </span>
-                </h1>
+              <p className="mt-4 text-sm sm:text-base text-slate-600 max-w-lg mx-auto sm:mx-0 leading-relaxed">
+                {c.featuresPage?.lead ||
+                  "Designed to guide, support and empower students — and give institutions full visibility."}
+              </p>
 
-                <p className="mt-4 text-sm sm:text-base text-slate-600 max-w-lg mx-auto sm:mx-0 leading-relaxed">
-                  {c.featuresPage?.lead ||
-                    "Designed to guide, support and empower students — and give institutions full visibility."}
-                </p>
+              <div className="mt-6 flex flex-wrap gap-3 items-center justify-center sm:justify-start">
+                <Button
+                  asChild
+                  className="rounded-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs font-semibold px-5 py-2.5 h-10 shadow-sm gap-1.5"
+                >
+                  <Link to="/partner">
+                    <span>Request Institutional Proposal</span>
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="rounded-full border-slate-300 bg-white/90 hover:bg-white text-slate-700 text-xs font-medium px-4 py-2.5 h-10 shadow-2xs"
+                >
+                  <Link to="/contact">Speak with Partnerships Team</Link>
+                </Button>
+              </div>
+            </Reveal>
+          </div>
 
-                <div className="mt-6 flex flex-wrap gap-3 items-center justify-center sm:justify-start">
-                  <Button
-                    asChild
-                    className="rounded-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs font-semibold px-5 py-2.5 h-10 shadow-sm gap-1.5"
-                  >
-                    <Link to="/partner">
-                      <span>Request Institutional Proposal</span>
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    </Link>
-                  </Button>
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="rounded-full border-slate-300 bg-white/90 hover:bg-white text-slate-700 text-xs font-medium px-4 py-2.5 h-10 shadow-2xs"
-                  >
-                    <Link to="/contact">Speak with Partnerships Team</Link>
-                  </Button>
-                </div>
-              </Reveal>
-            </div>
-
-            {/* Right Hero Image (Cols 7 to 12) - Features Hero */}
-            <div className="lg:col-span-6 flex items-end justify-center lg:justify-end h-full">
-              <Reveal delay={150}>
-                <div className="relative flex items-end justify-center lg:justify-end w-full max-w-lg lg:max-w-xl">
-                  <img
-                    src={featuresHeroImg}
-                    alt="EDUARC Institutional Students Learning Together"
-                    className="w-full h-auto object-contain block select-none pointer-events-none"
-                  />
-                </div>
-              </Reveal>
-            </div>
+          {/* Mobile & Tablet Illustration: rendered in-flow flush at the bottom edge */}
+          <div className="lg:hidden relative w-full flex items-end justify-center pt-2 overflow-hidden">
+            <img
+              src={featuresHeroImg}
+              alt="EDUARC Institutional Students Learning Together"
+              className="w-full max-w-lg h-auto object-contain block select-none pointer-events-none"
+            />
           </div>
         </div>
       </section>
