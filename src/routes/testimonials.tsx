@@ -337,47 +337,51 @@ function TestimonialsPage() {
 
           {/* 3. Impact Metrics & Success Story Banner */}
           <Reveal delay={200}>
-            <div className="mt-12 rounded-3xl border border-blue-100/90 bg-[#F0F7FF] p-6 sm:p-8 shadow-xs">
-              <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6 lg:gap-8">
+            <div className="mt-12 rounded-3xl border border-blue-100/90 bg-[#F0F7FF] p-5 sm:p-6 lg:p-7 shadow-xs">
+              <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6 lg:gap-6 xl:gap-8">
                 {/* Left Stats Section */}
-                <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-4 sm:gap-6 lg:gap-8 flex-1">
-                  <div className="h-12 w-12 rounded-full bg-blue-100/90 text-blue-600 flex items-center justify-center shrink-0 shadow-2xs">
+                <div className="flex items-center gap-3 sm:gap-4 lg:gap-5 flex-1 min-w-0">
+                  <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-full bg-blue-100/90 text-blue-600 flex items-center justify-center shrink-0 shadow-2xs">
                     <Users className="h-5 w-5" />
                   </div>
 
-                  <div className="flex-1 grid grid-cols-2 sm:grid-cols-4 gap-4 items-center">
-                    <div>
-                      <p className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight">
+                  <div className="flex-1 min-w-0 grid grid-cols-2 sm:grid-cols-4 items-center">
+                    {/* Stat 1: Programs Conducted */}
+                    <div className="min-w-0 pr-3 sm:pr-4 lg:pr-5">
+                      <p className="text-lg sm:text-xl lg:text-[22px] xl:text-2xl font-black text-[#0F172A] tracking-tight tabular-nums whitespace-nowrap">
                         {stats.programsConducted}
                       </p>
-                      <p className="text-xs text-slate-500 font-medium mt-0.5">
+                      <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5 leading-snug line-clamp-2">
                         {stats.programsLabel}
                       </p>
                     </div>
 
-                    <div className="sm:border-l sm:border-blue-200/70 sm:pl-6">
-                      <p className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight">
+                    {/* Stat 2: Institutions Partnered */}
+                    <div className="min-w-0 pl-3 sm:px-4 lg:px-5 border-l border-blue-200/70">
+                      <p className="text-lg sm:text-xl lg:text-[22px] xl:text-2xl font-black text-[#0F172A] tracking-tight tabular-nums whitespace-nowrap">
                         {stats.institutionsPartnered}
                       </p>
-                      <p className="text-xs text-slate-500 font-medium mt-0.5">
+                      <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5 leading-snug line-clamp-2">
                         {stats.institutionsLabel}
                       </p>
                     </div>
 
-                    <div className="sm:border-l sm:border-blue-200/70 sm:pl-6">
-                      <p className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight">
+                    {/* Stat 3: Students Reached */}
+                    <div className="min-w-0 pt-3 sm:pt-0 pr-3 sm:px-4 lg:px-5 sm:border-l sm:border-blue-200/70">
+                      <p className="text-lg sm:text-xl lg:text-[22px] xl:text-2xl font-black text-[#0F172A] tracking-tight tabular-nums whitespace-nowrap">
                         {stats.studentsReached}
                       </p>
-                      <p className="text-xs text-slate-500 font-medium mt-0.5">
+                      <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5 leading-snug line-clamp-2">
                         {stats.studentsLabel}
                       </p>
                     </div>
 
-                    <div className="sm:border-l sm:border-blue-200/70 sm:pl-6">
-                      <p className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight">
+                    {/* Stat 4: Average Rating */}
+                    <div className="min-w-0 pt-3 sm:pt-0 pl-3 sm:pl-4 lg:pl-5 border-l border-blue-200/70">
+                      <p className="text-lg sm:text-xl lg:text-[22px] xl:text-2xl font-black text-[#0F172A] tracking-tight tabular-nums whitespace-nowrap">
                         {stats.averageRating}
                       </p>
-                      <p className="text-xs text-slate-500 font-medium mt-0.5">
+                      <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5 leading-snug line-clamp-2">
                         {stats.ratingLabel}
                       </p>
                     </div>
@@ -385,18 +389,18 @@ function TestimonialsPage() {
                 </div>
 
                 {/* Vertical Divider for Desktop */}
-                <div className="hidden lg:block h-12 w-px bg-blue-200/70" />
+                <div className="hidden lg:block h-12 w-px bg-blue-200/70 shrink-0" />
 
                 {/* Right Call To Action with 3D Books Illustration */}
-                <div className="flex items-center justify-between gap-4 lg:shrink-0 pt-4 lg:pt-0 border-t lg:border-t-0 border-blue-200/60">
-                  <div className="max-w-xs">
-                    <h4 className="text-sm sm:text-base font-bold text-[#0F172A]">
+                <div className="flex items-center justify-between gap-4 lg:shrink-0 pt-4 lg:pt-0 border-t lg:border-t-0 border-blue-200/60 max-w-sm lg:max-w-[280px] xl:max-w-xs">
+                  <div className="min-w-0">
+                    <h4 className="text-sm sm:text-base font-bold text-[#0F172A] leading-snug">
                       {stats.ctaTitle}
                     </h4>
-                    <p className="text-xs text-slate-600 mt-0.5">
+                    <p className="text-xs text-slate-600 mt-0.5 line-clamp-2 leading-relaxed">
                       {stats.ctaDescription}
                     </p>
-                    <div className="mt-3">
+                    <div className="mt-2.5 sm:mt-3">
                       <Button
                         asChild
                         size="sm"
@@ -410,7 +414,7 @@ function TestimonialsPage() {
                     </div>
                   </div>
 
-                  <div className="h-20 w-24 sm:h-24 sm:w-28 shrink-0 flex items-center justify-center">
+                  <div className="h-16 w-20 sm:h-20 sm:w-24 xl:h-24 xl:w-28 shrink-0 flex items-center justify-center">
                     <img
                       src={successBooksImg}
                       alt="Education and Success"
