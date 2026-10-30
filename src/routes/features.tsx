@@ -83,19 +83,19 @@ function FeaturesPage() {
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       {/* 1. Hero Section - Sleek, Borderless Hero Banner with Features Hero Image */}
-      <section className="relative overflow-hidden bg-[#EFF6FE] border-b border-slate-200/60 min-h-[340px] sm:min-h-[360px] lg:min-h-[380px] lg:h-[380px] xl:min-h-[400px] xl:h-[400px] flex items-end lg:items-center">
+      <section className="relative overflow-hidden bg-[#EFF6FE] border-b border-slate-200/60 min-h-[340px] sm:min-h-[360px] lg:h-[360px] xl:h-[380px] flex items-end lg:items-center">
         {/* Desktop & Laptop Illustration: Aligned directly to bottom-right flush with bottom border */}
         <div className="hidden lg:flex absolute inset-y-0 right-0 pointer-events-none select-none z-0 items-end justify-end">
           <img
             src={featuresHeroImg}
             alt="EDUARC Institutional Students Learning Together"
-            className="h-[340px] xl:h-[360px] w-auto max-w-none object-contain object-right-bottom block select-none pointer-events-none"
+            className="h-full w-auto max-w-none object-contain object-right-bottom block select-none pointer-events-none"
           />
         </div>
 
         {/* Content Container */}
         <div className="container-apple relative z-10 w-full">
-          <div className="pt-10 pb-8 sm:pt-12 sm:pb-10 lg:py-10 xl:py-12 max-w-xl lg:max-w-lg xl:max-w-xl text-center sm:text-left">
+          <div className="pt-10 pb-8 sm:pt-12 sm:pb-10 lg:py-0 max-w-xl lg:max-w-lg xl:max-w-xl text-center sm:text-left">
             <Reveal>
               <span className="text-xs font-bold tracking-wider text-blue-600 uppercase mb-3 block">
                 INSTITUTIONAL FEATURES

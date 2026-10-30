@@ -95,19 +95,19 @@ export function ContactPage() {
   return (
     <div className="bg-[#FAFDFB] min-h-screen">
       {/* 1. Hero Section - Sleek, Borderless Hero Banner matching Features Hero layout */}
-      <section className="relative overflow-hidden bg-[#C1EFFF] border-b border-slate-200/60 min-h-[340px] sm:min-h-[360px] lg:min-h-[380px] lg:h-[380px] xl:min-h-[400px] xl:h-[400px] flex items-end lg:items-center">
+      <section className="relative overflow-hidden bg-[#E6FFFF] border-b border-slate-200/60 min-h-[340px] sm:min-h-[360px] lg:h-[360px] xl:h-[380px] flex items-end lg:items-center">
         {/* Desktop Illustration: Aligned directly to bottom-right flush with bottom border */}
         <div className="hidden lg:flex absolute inset-y-0 right-0 pointer-events-none select-none z-0 items-end justify-end">
           <img
             src={counselorHeroBg}
             alt="EDUARC Educational Guidance and Counselling"
-            className="h-[340px] xl:h-[360px] w-auto max-w-none object-contain object-right-bottom block select-none pointer-events-none"
+            className="h-full w-auto max-w-none object-contain object-right-bottom block select-none pointer-events-none"
           />
         </div>
 
         {/* Content Container */}
         <div className="container-apple relative z-10 w-full">
-          <div className="pt-10 pb-8 sm:pt-12 sm:pb-10 lg:py-10 xl:py-12 max-w-xl lg:max-w-lg xl:max-w-xl text-center sm:text-left">
+          <div className="pt-10 pb-8 sm:pt-12 sm:pb-10 lg:py-0 max-w-xl lg:max-w-lg xl:max-w-xl text-center sm:text-left">
             <Reveal>
               <span className="text-xs font-bold tracking-wider text-[#1C5153] uppercase mb-3 block">
                 {contactPage.badge || "Get in Touch"}
