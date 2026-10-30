@@ -90,6 +90,20 @@ function TestimonialsPage() {
   const submitReviewFn = useServerFn(submitUserReview);
   const [localTestimonials, setLocalTestimonials] = useState<TestimonialItem[]>(c.testimonials);
 
+  const stats = c.testimonialStats || {
+    programsConducted: "100+",
+    programsLabel: "Programs Conducted",
+    institutionsPartnered: "50+",
+    institutionsLabel: "Institutions Partnered",
+    studentsReached: "10,000+",
+    studentsLabel: "Students Reached",
+    averageRating: "4.8/5",
+    ratingLabel: "Average Rating",
+    ctaTitle: "Be a part of their success story",
+    ctaDescription: "Join EDUARC and help more students discover their true potential.",
+    ctaButtonText: "Explore Our Programs",
+  };
+
   useEffect(() => {
     setLocalTestimonials(c.testimonials);
   }, [c.testimonials]);
@@ -334,37 +348,37 @@ function TestimonialsPage() {
                   <div className="flex-1 grid grid-cols-2 sm:grid-cols-4 gap-4 items-center">
                     <div>
                       <p className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight">
-                        100+
+                        {stats.programsConducted}
                       </p>
                       <p className="text-xs text-slate-500 font-medium mt-0.5">
-                        Programs Conducted
+                        {stats.programsLabel}
                       </p>
                     </div>
 
                     <div className="sm:border-l sm:border-blue-200/70 sm:pl-6">
                       <p className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight">
-                        50+
+                        {stats.institutionsPartnered}
                       </p>
                       <p className="text-xs text-slate-500 font-medium mt-0.5">
-                        Institutions Partnered
+                        {stats.institutionsLabel}
                       </p>
                     </div>
 
                     <div className="sm:border-l sm:border-blue-200/70 sm:pl-6">
                       <p className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight">
-                        10,000+
+                        {stats.studentsReached}
                       </p>
                       <p className="text-xs text-slate-500 font-medium mt-0.5">
-                        Students Reached
+                        {stats.studentsLabel}
                       </p>
                     </div>
 
                     <div className="sm:border-l sm:border-blue-200/70 sm:pl-6">
                       <p className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight">
-                        4.8/5
+                        {stats.averageRating}
                       </p>
                       <p className="text-xs text-slate-500 font-medium mt-0.5">
-                        Average Rating
+                        {stats.ratingLabel}
                       </p>
                     </div>
                   </div>
@@ -377,10 +391,10 @@ function TestimonialsPage() {
                 <div className="flex items-center justify-between gap-4 lg:shrink-0 pt-4 lg:pt-0 border-t lg:border-t-0 border-blue-200/60">
                   <div className="max-w-xs">
                     <h4 className="text-sm sm:text-base font-bold text-[#0F172A]">
-                      Be a part of their success story
+                      {stats.ctaTitle}
                     </h4>
                     <p className="text-xs text-slate-600 mt-0.5">
-                      Join EDUARC and help more students discover their true potential.
+                      {stats.ctaDescription}
                     </p>
                     <div className="mt-3">
                       <Button
@@ -389,7 +403,7 @@ function TestimonialsPage() {
                         className="rounded-full bg-[#1E40AF] hover:bg-[#1D4ED8] text-white text-xs font-semibold px-4 py-2 gap-1.5 shadow-sm"
                       >
                         <Link to="/programs">
-                          <span>Explore Our Programs</span>
+                          <span>{stats.ctaButtonText}</span>
                           <ArrowRight className="h-3 w-3" />
                         </Link>
                       </Button>

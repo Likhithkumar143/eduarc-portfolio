@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { userReviewInputSchema } from "@/lib/testimonials.functions";
+import { siteContentSchema, defaultContent } from "@/content/eduarc";
 
 describe("Testimonials & Review Submissions", () => {
   describe("userReviewInputSchema validation", () => {
@@ -107,4 +108,44 @@ describe("Testimonials & Review Submissions", () => {
       expect(exists).toBe(false);
     });
   });
+
+  describe("testimonialStats Schema Validation", () => {
+    it("validates and defaults testimonial milestone metrics", () => {
+      const parsed = siteContentSchema.safeParse(defaultContent);
+      expect(parsed.success).toBe(true);
+      if (parsed.success) {
+        expect(parsed.data.testimonialStats.programsConducted).toBe("100+");
+        expect(parsed.data.testimonialStats.institutionsPartnered).toBe("50+");
+        expect(parsed.data.testimonialStats.studentsReached).toBe("10,000+");
+        expect(parsed.data.testimonialStats.averageRating).toBe("4.8/5");
+      }
+    });
+
+    it("accepts custom updated milestone numbers", () => {
+      const customContent = {
+        ...defaultContent,
+        testimonialStats: {
+          programsConducted: "150+",
+          programsLabel: "Sessions Held",
+          institutionsPartnered: "80+",
+          institutionsLabel: "Colleges & Schools",
+          studentsReached: "25,000+",
+          studentsLabel: "Students Mentored",
+          averageRating: "4.9/5",
+          ratingLabel: "Overall Rating",
+          ctaTitle: "Join Our Success Story",
+          ctaDescription: "Help us reach the next generation.",
+          ctaButtonText: "View Programs",
+        },
+      };
+
+      const parsed = siteContentSchema.safeParse(customContent);
+      expect(parsed.success).toBe(true);
+      if (parsed.success) {
+        expect(parsed.data.testimonialStats.programsConducted).toBe("150+");
+        expect(parsed.data.testimonialStats.averageRating).toBe("4.9/5");
+      }
+    });
+  });
 });
+

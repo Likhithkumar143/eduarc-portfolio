@@ -15,6 +15,7 @@ import {
   Sparkles,
   MessageSquare,
   Tag,
+  TrendingUp,
 } from "lucide-react";
 import { toast } from "sonner";
 import { type SiteContent, type TestimonialItem, initials } from "@/content/eduarc";
@@ -72,6 +73,32 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
     email: "",
     avatar: "",
   });
+
+  const stats = draft.testimonialStats || {
+    programsConducted: "100+",
+    programsLabel: "Programs Conducted",
+    institutionsPartnered: "50+",
+    institutionsLabel: "Institutions Partnered",
+    studentsReached: "10,000+",
+    studentsLabel: "Students Reached",
+    averageRating: "4.8/5",
+    ratingLabel: "Average Rating",
+    ctaTitle: "Be a part of their success story",
+    ctaDescription: "Join EDUARC and help more students discover their true potential.",
+    ctaButtonText: "Explore Our Programs",
+  };
+
+  function updateStat(key: keyof typeof stats, value: string) {
+    const nextStats = { ...stats, [key]: value };
+    update("testimonialStats", nextStats);
+  }
+
+  async function handleSaveStats() {
+    if (onSave) {
+      await onSave({ ...draft, testimonialStats: stats });
+      toast.success("Impact numbers and milestone stats updated live!");
+    }
+  }
 
   // Filtered testimonials
   const filteredTestimonials = useMemo(() => {
@@ -249,7 +276,182 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
         </div>
       </section>
 
-      {/* 2. Testimonials List */}
+      {/* 2. Impact Numbers & Milestone Bar Controls */}
+      <section className="glass rounded-3xl p-6 sm:p-8 border border-hairline bg-surface/70 space-y-5">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 border-b border-hairline">
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+              <TrendingUp className="h-5 w-5" />
+            </div>
+            <div>
+              <h3 className="text-base sm:text-lg font-bold text-foreground">
+                Impact Numbers & Milestone Bar
+              </h3>
+              <p className="text-xs text-muted-foreground">
+                Update the 4 milestone metrics and success story banner shown on the testimonials page.
+              </p>
+            </div>
+          </div>
+
+          <Button
+            type="button"
+            variant="pill-gold"
+            size="sm"
+            disabled={isSaving}
+            onClick={handleSaveStats}
+            className="gap-1.5 text-xs shadow-sm cursor-pointer"
+          >
+            <Check className="h-3.5 w-3.5" />
+            <span>Save Metrics</span>
+          </Button>
+        </div>
+
+        {/* 4 Milestone Metrics Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* Stat 1: Programs Conducted */}
+          <div className="rounded-2xl border border-hairline bg-background/80 p-4 space-y-2.5">
+            <Label className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider block">
+              Metric #1
+            </Label>
+            <div>
+              <Label className="text-xs text-foreground font-medium">Value (e.g. 100+)</Label>
+              <Input
+                value={stats.programsConducted}
+                onChange={(e) => updateStat("programsConducted", e.target.value)}
+                placeholder="100+"
+                className="mt-1 h-9 rounded-xl text-xs font-bold text-brand-navy"
+              />
+            </div>
+            <div>
+              <Label className="text-xs text-foreground font-medium">Label</Label>
+              <Input
+                value={stats.programsLabel}
+                onChange={(e) => updateStat("programsLabel", e.target.value)}
+                placeholder="Programs Conducted"
+                className="mt-1 h-9 rounded-xl text-xs"
+              />
+            </div>
+          </div>
+
+          {/* Stat 2: Institutions Partnered */}
+          <div className="rounded-2xl border border-hairline bg-background/80 p-4 space-y-2.5">
+            <Label className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider block">
+              Metric #2
+            </Label>
+            <div>
+              <Label className="text-xs text-foreground font-medium">Value (e.g. 50+)</Label>
+              <Input
+                value={stats.institutionsPartnered}
+                onChange={(e) => updateStat("institutionsPartnered", e.target.value)}
+                placeholder="50+"
+                className="mt-1 h-9 rounded-xl text-xs font-bold text-brand-navy"
+              />
+            </div>
+            <div>
+              <Label className="text-xs text-foreground font-medium">Label</Label>
+              <Input
+                value={stats.institutionsLabel}
+                onChange={(e) => updateStat("institutionsLabel", e.target.value)}
+                placeholder="Institutions Partnered"
+                className="mt-1 h-9 rounded-xl text-xs"
+              />
+            </div>
+          </div>
+
+          {/* Stat 3: Students Reached */}
+          <div className="rounded-2xl border border-hairline bg-background/80 p-4 space-y-2.5">
+            <Label className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider block">
+              Metric #3
+            </Label>
+            <div>
+              <Label className="text-xs text-foreground font-medium">Value (e.g. 10,000+)</Label>
+              <Input
+                value={stats.studentsReached}
+                onChange={(e) => updateStat("studentsReached", e.target.value)}
+                placeholder="10,000+"
+                className="mt-1 h-9 rounded-xl text-xs font-bold text-brand-navy"
+              />
+            </div>
+            <div>
+              <Label className="text-xs text-foreground font-medium">Label</Label>
+              <Input
+                value={stats.studentsLabel}
+                onChange={(e) => updateStat("studentsLabel", e.target.value)}
+                placeholder="Students Reached"
+                className="mt-1 h-9 rounded-xl text-xs"
+              />
+            </div>
+          </div>
+
+          {/* Stat 4: Average Rating */}
+          <div className="rounded-2xl border border-hairline bg-background/80 p-4 space-y-2.5">
+            <Label className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider block">
+              Metric #4
+            </Label>
+            <div>
+              <Label className="text-xs text-foreground font-medium">Value (e.g. 4.8/5)</Label>
+              <Input
+                value={stats.averageRating}
+                onChange={(e) => updateStat("averageRating", e.target.value)}
+                placeholder="4.8/5"
+                className="mt-1 h-9 rounded-xl text-xs font-bold text-brand-navy"
+              />
+            </div>
+            <div>
+              <Label className="text-xs text-foreground font-medium">Label</Label>
+              <Input
+                value={stats.ratingLabel}
+                onChange={(e) => updateStat("ratingLabel", e.target.value)}
+                placeholder="Average Rating"
+                className="mt-1 h-9 rounded-xl text-xs"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Success Story Callout Settings */}
+        <div className="pt-2 border-t border-hairline">
+          <details className="group cursor-pointer">
+            <summary className="text-xs font-semibold text-brand-navy hover:underline list-none flex items-center justify-between">
+              <span>Edit Success Story CTA & Button</span>
+              <span className="text-[11px] text-muted-foreground group-open:rotate-180 transition-transform">
+                ▼
+              </span>
+            </summary>
+            <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+              <div>
+                <Label className="text-xs text-foreground font-medium">Headline</Label>
+                <Input
+                  value={stats.ctaTitle}
+                  onChange={(e) => updateStat("ctaTitle", e.target.value)}
+                  placeholder="Be a part of their success story"
+                  className="mt-1 h-9 rounded-xl text-xs"
+                />
+              </div>
+              <div>
+                <Label className="text-xs text-foreground font-medium">Description</Label>
+                <Input
+                  value={stats.ctaDescription}
+                  onChange={(e) => updateStat("ctaDescription", e.target.value)}
+                  placeholder="Join EDUARC and help more students..."
+                  className="mt-1 h-9 rounded-xl text-xs"
+                />
+              </div>
+              <div>
+                <Label className="text-xs text-foreground font-medium">Button Label</Label>
+                <Input
+                  value={stats.ctaButtonText}
+                  onChange={(e) => updateStat("ctaButtonText", e.target.value)}
+                  placeholder="Explore Our Programs"
+                  className="mt-1 h-9 rounded-xl text-xs"
+                />
+              </div>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      {/* 3. Testimonials List */}
       <div className="space-y-3">
         {filteredTestimonials.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-hairline bg-surface/30 p-12 text-center">
@@ -572,3 +774,4 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
     </div>
   );
 }
+

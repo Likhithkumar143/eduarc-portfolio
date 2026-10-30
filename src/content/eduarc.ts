@@ -230,6 +230,35 @@ export const siteContentSchema = z.object({
       }),
     )
     .max(100),
+  testimonialStats: z
+    .object({
+      programsConducted: str.default("100+"),
+      programsLabel: str.default("Programs Conducted"),
+      institutionsPartnered: str.default("50+"),
+      institutionsLabel: str.default("Institutions Partnered"),
+      studentsReached: str.default("10,000+"),
+      studentsLabel: str.default("Students Reached"),
+      averageRating: str.default("4.8/5"),
+      ratingLabel: str.default("Average Rating"),
+      ctaTitle: str.default("Be a part of their success story"),
+      ctaDescription: str.default(
+        "Join EDUARC and help more students discover their true potential.",
+      ),
+      ctaButtonText: str.default("Explore Our Programs"),
+    })
+    .default({
+      programsConducted: "100+",
+      programsLabel: "Programs Conducted",
+      institutionsPartnered: "50+",
+      institutionsLabel: "Institutions Partnered",
+      studentsReached: "10,000+",
+      studentsLabel: "Students Reached",
+      averageRating: "4.8/5",
+      ratingLabel: "Average Rating",
+      ctaTitle: "Be a part of their success story",
+      ctaDescription: "Join EDUARC and help more students discover their true potential.",
+      ctaButtonText: "Explore Our Programs",
+    }),
   contactPage: z.object({
     badge: str.default("Get in Touch"),
     title: str,
@@ -522,6 +551,19 @@ export const defaultContent: SiteContent = {
       avatar: "sneha",
     },
   ],
+  testimonialStats: {
+    programsConducted: "100+",
+    programsLabel: "Programs Conducted",
+    institutionsPartnered: "50+",
+    institutionsLabel: "Institutions Partnered",
+    studentsReached: "10,000+",
+    studentsLabel: "Students Reached",
+    averageRating: "4.8/5",
+    ratingLabel: "Average Rating",
+    ctaTitle: "Be a part of their success story",
+    ctaDescription: "Join EDUARC and help more students discover their true potential.",
+    ctaButtonText: "Explore Our Programs",
+  },
   contactPage: {
     badge: "Get in Touch",
     title: "Let’s Build",
