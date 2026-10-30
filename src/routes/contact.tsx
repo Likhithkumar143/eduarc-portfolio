@@ -23,6 +23,7 @@ import {
   Youtube,
 } from "lucide-react";
 import counselorHeroBg from "@/assets/contact-hero-counselor-hd.png";
+import counselorHeroMobile from "@/assets/contact-hero-counselor-mobile.jpg";
 import { phoneHref, websiteHref } from "@/content/eduarc";
 import { useSiteContent } from "@/lib/site-content";
 
@@ -93,37 +94,34 @@ export function ContactPage() {
 
   return (
     <div className="bg-[#FAFDFB] min-h-screen">
-      {/* 1. Hero Section - Full Page Width with Seamless Faded Sides & Counselor Background */}
+      {/* 1. Hero Section - Responsive Framing: Side-by-Side on Desktop, Dedicated Visual Block on Mobile */}
       <section className="relative overflow-hidden w-full bg-[#FAFDFB] border-b border-slate-100/80 min-h-[440px] sm:min-h-[480px] lg:min-h-[520px] flex items-center">
-        {/* Right-aligned illustration container - Proportional framing so all icons & desk visuals remain crisp and fully visible */}
-        <div className="absolute right-0 top-0 bottom-0 w-full sm:w-[65%] md:w-[60%] lg:w-[56%] xl:w-[52%] pointer-events-none select-none overflow-hidden">
+        {/* Desktop Right-aligned illustration container with seamless edge dissolve */}
+        <div className="hidden md:block absolute right-0 top-0 bottom-0 md:w-[60%] lg:w-[56%] xl:w-[52%] pointer-events-none select-none overflow-hidden">
           <img
             src={counselorHeroBg}
             alt="EDUARC Educational Guidance and Counselling"
-            className="w-full h-full object-cover object-[center_top] sm:object-[center_top] lg:object-[82%_top]"
+            className="w-full h-full object-cover object-[center_top] lg:object-[82%_top]"
           />
 
-          {/* Left Edge Seamless Dissolve: Softly melts the sky on the left of the artwork into the page background */}
-          <div className="absolute inset-y-0 left-0 w-20 sm:w-32 md:w-48 bg-gradient-to-r from-[#FAFDFB] to-transparent z-10" />
+          {/* Left Edge Seamless Dissolve */}
+          <div className="absolute inset-y-0 left-0 w-24 lg:w-48 bg-gradient-to-r from-[#FAFDFB] to-transparent z-10" />
 
           {/* Right Edge Soft Vignette */}
-          <div className="absolute inset-y-0 right-0 w-6 sm:w-12 bg-gradient-to-l from-[#FAFDFB]/60 to-transparent z-10" />
+          <div className="absolute inset-y-0 right-0 w-8 lg:w-12 bg-gradient-to-l from-[#FAFDFB]/60 to-transparent z-10" />
 
           {/* Bottom Edge Fade */}
-          <div className="absolute inset-x-0 bottom-0 h-6 sm:h-10 bg-gradient-to-t from-[#FAFDFB] to-transparent z-10" />
-
-          {/* Mobile backdrop fade so text is 100% legible on small portrait screens */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#FAFDFB]/95 via-[#FAFDFB]/75 to-[#FAFDFB]/30 sm:hidden z-10" />
+          <div className="absolute inset-x-0 bottom-0 h-8 lg:h-10 bg-gradient-to-t from-[#FAFDFB] to-transparent z-10" />
         </div>
 
-        {/* Foreground Content: Placed directly on the left with dedicated contrast */}
-        <div className="relative z-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 w-full">
-          <div className="max-w-xl lg:max-w-xl space-y-6">
+        {/* Foreground Content */}
+        <div className="relative z-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-20 w-full">
+          <div className="max-w-xl space-y-5 sm:space-y-6">
             <span className="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold bg-[#EBF5F3]/90 backdrop-blur-xs text-[#1C5153] border border-[#D1EAE5] shadow-2xs">
               {contactPage.badge || "Get in Touch"}
             </span>
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-[54px] font-extrabold tracking-tight text-[#0D2436] leading-[1.12]">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-[54px] font-extrabold tracking-tight text-[#0D2436] leading-[1.14]">
               {contactPage.title} <br className="hidden sm:inline" />
               {contactPage.titleHighlight}
             </h1>
@@ -132,21 +130,35 @@ export function ContactPage() {
               {contactPage.lead}
             </p>
 
+            {/* Mobile View: Dedicated Crystal-Clear Counselor Visual */}
+            <div className="block md:hidden my-5">
+              <div className="relative mx-auto max-w-sm rounded-3xl overflow-hidden border border-[#D1EAE5]/70 bg-gradient-to-b from-[#EBF5F3]/50 to-white shadow-xs p-2">
+                <div className="relative rounded-2xl overflow-hidden aspect-[1080/972] bg-white">
+                  <img
+                    src={counselorHeroMobile}
+                    alt="EDUARC Educational Guidance and Counselling"
+                    className="w-full h-full object-contain block"
+                    loading="eager"
+                  />
+                </div>
+              </div>
+            </div>
+
             {/* 3 Value Pills */}
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/90 backdrop-blur-xs border border-slate-200/90 shadow-2xs text-xs sm:text-sm font-semibold text-slate-700 hover:border-emerald-300 transition-colors">
+            <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 pt-1 sm:pt-2">
+              <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/95 backdrop-blur-xs border border-slate-200/90 shadow-2xs text-xs sm:text-sm font-semibold text-slate-700 hover:border-emerald-300 transition-colors">
                 <span className="flex items-center justify-center w-6 h-6 rounded-lg bg-[#EBF5F3] text-[#1C5153]">
                   <MessageCircle className="w-3.5 h-3.5" />
                 </span>
                 {contactPage.pill1 || "Quick Response"}
               </div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/90 backdrop-blur-xs border border-slate-200/90 shadow-2xs text-xs sm:text-sm font-semibold text-slate-700 hover:border-emerald-300 transition-colors">
+              <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/95 backdrop-blur-xs border border-slate-200/90 shadow-2xs text-xs sm:text-sm font-semibold text-slate-700 hover:border-emerald-300 transition-colors">
                 <span className="flex items-center justify-center w-6 h-6 rounded-lg bg-[#EBF5F3] text-[#1C5153]">
                   <ShieldCheck className="w-3.5 h-3.5" />
                 </span>
                 {contactPage.pill2 || "Dedicated Support"}
               </div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/90 backdrop-blur-xs border border-slate-200/90 shadow-2xs text-xs sm:text-sm font-semibold text-slate-700 hover:border-emerald-300 transition-colors">
+              <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/95 backdrop-blur-xs border border-slate-200/90 shadow-2xs text-xs sm:text-sm font-semibold text-slate-700 hover:border-emerald-300 transition-colors">
                 <span className="flex items-center justify-center w-6 h-6 rounded-lg bg-[#EBF5F3] text-[#1C5153]">
                   <UserCheck className="w-3.5 h-3.5" />
                 </span>
