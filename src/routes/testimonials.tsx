@@ -206,109 +206,41 @@ function TestimonialsPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      {/* 1. Hero Section - Sleek, Compact, Seamless Fully Aligned Hero Banner matching reference */}
+      {/* 1. Hero Section - Sleek, Borderless Hero Banner with Student Illustration */}
       <section className="relative overflow-hidden bg-[#F2F7FD] border-b border-slate-200/60">
         <div className="container-apple relative">
-          {/* Desktop & Laptop Grid: 5 cols Text | 4 cols Student Girl | 3 cols Script Callout */}
-          <div className="hidden lg:grid lg:grid-cols-12 gap-4 items-end min-h-[220px] lg:min-h-[240px] xl:min-h-[260px]">
-            {/* Left Column: Badge, Title & Lead (Cols 1 to 5) */}
-            <div className="lg:col-span-5 py-6 xl:py-8 z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end min-h-[220px] sm:min-h-[250px] lg:min-h-[270px]">
+            {/* Left Column: Badge, Title & Lead (Cols 1 to 7) */}
+            <div className="lg:col-span-7 pt-8 pb-4 sm:pt-10 sm:pb-6 lg:py-10 z-10 text-center sm:text-left">
               <Reveal>
                 <span className="text-xs font-bold tracking-wider text-blue-600 uppercase mb-2 block">
                   {pageContent.badge || "TESTIMONIALS"}
                 </span>
 
-                <h1 className="text-2xl lg:text-[34px] xl:text-[38px] font-extrabold text-[#0F172A] tracking-tight leading-[1.18]">
+                <h1 className="text-2xl sm:text-3xl lg:text-[38px] xl:text-[42px] font-extrabold text-[#0F172A] tracking-tight leading-[1.16]">
                   {pageContent.title}{" "}
                   <span className="text-[#0F172A]">
                     {pageContent.titleHighlight}
                   </span>
                 </h1>
 
-                <p className="mt-2.5 text-xs lg:text-[13px] text-slate-600 max-w-sm xl:max-w-md leading-relaxed">
+                <p className="mt-3 text-xs sm:text-sm text-slate-600 max-w-md xl:max-w-lg mx-auto sm:mx-0 leading-relaxed">
                   {pageContent.lead}
                 </p>
               </Reveal>
             </div>
 
-            {/* Middle Column: Student Girl Illustration (Cols 6 to 9) - Flush with bottom border */}
-            <div className="lg:col-span-4 flex items-end justify-center h-full">
+            {/* Right Column: Student Girl Illustration (Cols 8 to 12) - Fully Visible, Flush with bottom border */}
+            <div className="lg:col-span-5 flex items-end justify-center lg:justify-end h-full">
               <Reveal delay={100}>
-                <div className="relative h-48 lg:h-56 xl:h-60 flex items-end justify-center overflow-hidden w-full max-w-[280px]">
+                <div className="relative h-44 sm:h-52 lg:h-64 xl:h-72 flex items-end justify-center lg:justify-end overflow-hidden w-full max-w-md">
                   <img
                     src={heroBannerImg}
-                    alt="EDUARC Student - Better Guidance, Brighter Futures"
+                    alt="EDUARC Student"
                     className="h-full w-auto max-w-none object-cover object-right-bottom block select-none pointer-events-none"
                   />
                 </div>
               </Reveal>
-            </div>
-
-            {/* Right Column: Cursive Script Callout (Cols 10 to 12) - In its own column, NEVER on her face */}
-            <div className="lg:col-span-3 pb-8 xl:pb-10 flex items-center justify-start">
-              <Reveal delay={200}>
-                <div className="text-left select-none pointer-events-none rotate-[-2deg] pl-2 xl:pl-4">
-                  <p className="font-serif italic font-bold text-[#1E40AF] text-base lg:text-lg xl:text-xl leading-tight tracking-wide drop-shadow-2xs">
-                    {pageContent.calloutLine1 || "Better Guidance"}
-                    <br />
-                    <span className="text-indigo-800">{pageContent.calloutLine2 || "Brighter Futures"}</span>
-                  </p>
-                  <svg
-                    className="w-22 lg:w-26 xl:w-28 h-3 text-blue-600 stroke-current mt-1"
-                    viewBox="0 0 100 12"
-                    fill="none"
-                  >
-                    <path d="M2,8 Q50,2 98,6" strokeWidth="2.5" strokeLinecap="round" />
-                  </svg>
-                </div>
-              </Reveal>
-            </div>
-          </div>
-
-          {/* Mobile & Tablet Layout (< 1024px): Compact text on top, Girl and Callout side-by-side below */}
-          <div className="lg:hidden pt-8 pb-0">
-            {/* Top: Headline & Lead */}
-            <div className="text-center sm:text-left max-w-xl mx-auto sm:mx-0">
-              <span className="text-xs font-bold tracking-wider text-blue-600 uppercase mb-2 block">
-                {pageContent.badge || "TESTIMONIALS"}
-              </span>
-
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight leading-[1.18]">
-                {pageContent.title}{" "}
-                <span className="text-[#0F172A]">
-                  {pageContent.titleHighlight}
-                </span>
-              </h1>
-
-              <p className="mt-2 text-xs sm:text-sm text-slate-600 max-w-md mx-auto sm:mx-0 leading-relaxed">
-                {pageContent.lead}
-              </p>
-            </div>
-
-            {/* Bottom: Student Girl & Cursive Callout placed side-by-side flush to bottom border */}
-            <div className="flex items-end justify-center sm:justify-start gap-4 sm:gap-8 pt-4 overflow-hidden">
-              <div className="relative h-40 sm:h-48 overflow-hidden flex items-end">
-                <img
-                  src={heroBannerImg}
-                  alt="EDUARC Student - Better Guidance, Brighter Futures"
-                  className="h-full w-auto max-w-none object-cover object-right-bottom block select-none pointer-events-none"
-                />
-              </div>
-
-              <div className="pb-6 sm:pb-8 text-left select-none pointer-events-none rotate-[-2deg] shrink-0">
-                <p className="font-serif italic font-bold text-[#1E40AF] text-xs sm:text-sm leading-tight drop-shadow-2xs">
-                  {pageContent.calloutLine1 || "Better Guidance"}
-                  <br />
-                  <span className="text-indigo-800">{pageContent.calloutLine2 || "Brighter Futures"}</span>
-                </p>
-                <svg
-                  className="w-16 sm:w-20 h-2.5 text-blue-600 stroke-current mt-0.5"
-                  viewBox="0 0 100 12"
-                  fill="none"
-                >
-                  <path d="M2,8 Q50,2 98,6" strokeWidth="2.5" strokeLinecap="round" />
-                </svg>
-              </div>
             </div>
           </div>
         </div>

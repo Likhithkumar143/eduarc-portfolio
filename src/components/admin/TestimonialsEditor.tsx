@@ -307,10 +307,10 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
             </div>
             <div>
               <h3 className="text-base sm:text-lg font-bold text-foreground">
-                Hero Banner & Header Callout
+                Hero Banner Header
               </h3>
               <p className="text-xs text-muted-foreground">
-                Customize the hero section headline, badge, and script callout. Styled fully aligned with no box container.
+                Customize the testimonials page hero headline, badge, and description.
               </p>
             </div>
           </div>
@@ -328,48 +328,31 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
           </Button>
         </div>
 
-        {/* Live Visual Preview: Sleek, Compact, Fully Aligned Banner matching reference */}
-        <div className="rounded-2xl border border-slate-200/80 bg-[#F2F7FD] min-h-[190px] sm:min-h-[220px] relative overflow-hidden flex items-end">
-          <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-3 items-end p-4 sm:p-6 pb-0">
-            {/* Left Content (Cols 1 to 5) */}
-            <div className="md:col-span-5 space-y-1.5 pb-4 sm:pb-6 z-10">
+        {/* Live Visual Preview: Sleek, Compact, Fully Aligned Banner */}
+        <div className="rounded-2xl border border-slate-200/80 bg-[#F2F7FD] min-h-[180px] sm:min-h-[210px] relative overflow-hidden flex items-end">
+          <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-4 items-end p-5 sm:p-6 pb-0">
+            {/* Left Content (Cols 1 to 7) */}
+            <div className="md:col-span-7 space-y-2 pb-4 sm:pb-6 z-10">
               <span className="text-[11px] font-bold tracking-wider text-blue-600 uppercase block">
                 {page.badge || "TESTIMONIALS"}
               </span>
-              <h4 className="text-base sm:text-xl font-black text-[#0F172A] tracking-tight leading-snug">
+              <h4 className="text-lg sm:text-2xl font-black text-[#0F172A] tracking-tight leading-snug">
                 {page.title}{" "}
                 <span className="text-[#0F172A]">{page.titleHighlight}</span>
               </h4>
-              <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+              <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed max-w-sm">
                 {page.lead}
               </p>
             </div>
 
-            {/* Middle: Student Girl Illustration (Cols 6 to 9) - Flush with bottom border */}
-            <div className="md:col-span-4 flex items-end justify-center h-full">
-              <div className="relative h-36 sm:h-44 md:h-48 overflow-hidden flex items-end w-full max-w-[200px]">
+            {/* Right: Student Girl Illustration (Cols 8 to 12) - Fully Visible & Flush with bottom border */}
+            <div className="md:col-span-5 flex items-end justify-center md:justify-end h-full">
+              <div className="relative h-36 sm:h-44 md:h-48 overflow-hidden flex items-end w-full max-w-[240px]">
                 <img
                   src={heroBannerImg}
                   alt="Hero Banner Visual"
                   className="h-full w-auto max-w-none object-cover object-right-bottom block select-none pointer-events-none"
                 />
-              </div>
-            </div>
-
-            {/* Right: Script Callout in its own column (Cols 10 to 12) - Never on her face */}
-            <div className="md:col-span-3 pb-4 sm:pb-6 flex items-center justify-start z-10">
-              <div className="text-left select-none pointer-events-none rotate-[-2deg]">
-                <p className="font-serif italic font-bold text-[#1E40AF] text-xs sm:text-sm leading-tight drop-shadow-2xs">
-                  {page.calloutLine1 || "Better Guidance"}<br />
-                  <span className="text-indigo-800">{page.calloutLine2 || "Brighter Futures"}</span>
-                </p>
-                <svg
-                  className="w-16 sm:w-20 h-2.5 text-blue-600 stroke-current mt-0.5"
-                  viewBox="0 0 100 12"
-                  fill="none"
-                >
-                  <path d="M2,8 Q50,2 98,6" strokeWidth="2.5" strokeLinecap="round" />
-                </svg>
               </div>
             </div>
           </div>
@@ -419,27 +402,6 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
             rows={2}
             className="mt-1 rounded-xl text-xs leading-relaxed resize-none"
           />
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <Label className="text-xs text-foreground font-medium">Script Callout Line 1</Label>
-            <Input
-              value={page.calloutLine1}
-              onChange={(e) => updatePage("calloutLine1", e.target.value)}
-              placeholder="Better Guidance"
-              className="mt-1 h-9 rounded-xl text-xs font-medium"
-            />
-          </div>
-          <div>
-            <Label className="text-xs text-foreground font-medium">Script Callout Line 2</Label>
-            <Input
-              value={page.calloutLine2}
-              onChange={(e) => updatePage("calloutLine2", e.target.value)}
-              placeholder="Brighter Futures"
-              className="mt-1 h-9 rounded-xl text-xs font-medium"
-            />
-          </div>
         </div>
       </section>
 
