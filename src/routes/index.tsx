@@ -18,11 +18,9 @@ import { siteContentQuery, useSiteContent } from "@/lib/site-content";
 
 // Reused Content Sections from existing pages
 import { AboutContent } from "@/components/site/sections/AboutContent";
-import { ProgramsSection } from "@/components/site/sections/ProgramsSection";
 import { FeaturesContent } from "@/components/site/sections/FeaturesContent";
 import { TestimonialsContent } from "@/components/site/sections/TestimonialsContent";
 import { ContactContent } from "@/components/site/sections/ContactContent";
-import { PartnerContent } from "@/components/site/sections/PartnerContent";
 
 export const Route = createFileRoute("/")({
   loader: async ({ context }) => {
@@ -30,94 +28,117 @@ export const Route = createFileRoute("/")({
   },
   head: () => ({
     meta: [
-      { title: "EDUARC — Empowering Students with Career Direction" },
+      {
+        title: "EDUARC — Career Guidance & Education Support Platform | Ambitious to Achievement",
+      },
       {
         name: "description",
         content:
-          "Career guidance and education support platform for schools, colleges, and students. Structured roadmaps, verified academic mentorship, and future-ready planning.",
+          "Career guidance and education support platform for schools, colleges, and students across India. Structured career roadmaps, verified academic mentorship, and future-ready planning.",
       },
-      { property: "og:title", content: "EDUARC — Empowering Students with Career Direction" },
+      {
+        name: "keywords",
+        content:
+          "EDUARC, career guidance, education support, career counselling Bangalore, student mentorship India, school guidance workshops, college admission guidance, stream selection after 10th, career planning after 12th, Karnataka education consultancy",
+      },
+      {
+        property: "og:title",
+        content: "EDUARC — Career Guidance & Education Support Platform",
+      },
       {
         property: "og:description",
         content:
-          "Structured career roadmaps, verified academic mentorship, and education support for schools and colleges.",
+          "Structured career roadmaps, verified academic mentorship, and education support for schools, colleges, and students across India.",
       },
+      { property: "og:url", content: "https://eduarc-connect.in" },
+      { property: "og:image", content: "https://eduarc-connect.in/og-image.jpg" },
+      { property: "og:image:width", content: "1600" },
+      { property: "og:image:height", content: "1008" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://eduarc-connect.in/og-image.jpg" },
     ],
     links: [{ rel: "canonical", href: "https://eduarc-connect.in" }],
   }),
   component: Index,
 });
 
-const studentJourneySteps = [
-  {
-    step: "01",
-    title: "Discover",
-    subtitle: "Identify Strengths & Interests",
-    description:
-      "Clarify academic interests, natural strengths, and subjects that inspire genuine curiosity before making critical stream choices.",
-    icon: Compass,
-  },
-  {
-    step: "02",
-    title: "Explore",
-    subtitle: "Unpack Real Career Paths",
-    description:
-      "Evaluate Science, Commerce, Arts, and emerging degree options with realistic information on course contents and higher-ed requirements.",
-    icon: Map,
-  },
-  {
-    step: "03",
-    title: "Connect",
-    subtitle: "Verified Academic Mentorship",
-    description:
-      "Discuss choices with experienced academicians and career counsellors who provide unbiased, supportive advice for students and parents.",
-    icon: Users,
-  },
-  {
-    step: "04",
-    title: "Progress",
-    subtitle: "Actionable Educational Milestones",
-    description:
-      "Build a step-by-step academic plan with timelines, skill benchmarks, and clear criteria for next-stage admissions and preparations.",
-    icon: GraduationCap,
-  },
-] as const;
-
-const audiencePathways = [
-  {
-    badge: "Students & Parents",
-    title: "Clarity over Confusion",
-    description:
-      "Avoid stream regrets after Class 10 or 12. Receive structured guidance to choose courses confidently with full family alignment.",
-    cta: "Request Guidance",
-    targetSection: "partner",
-    routeTo: undefined,
-    highlight: "Class 10 & 12 Focus",
-  },
-  {
-    badge: "Schools & Colleges",
-    title: "Institutional Guidance Hub",
-    description:
-      "Equip your institution with systematic career guidance workshops, mentor sessions, and structured tracking for every student batch.",
-    cta: "Explore Features",
-    targetSection: "features",
-    routeTo: undefined,
-    highlight: "Partner Onboarding",
-  },
-  {
-    badge: "Academic Mentors",
-    title: "Verified Mentorship Network",
-    description:
-      "Connect certified educators and domain specialists with young minds seeking genuine academic direction and industry perspective.",
-    cta: "View Directory",
-    targetSection: undefined,
-    routeTo: "/mentors" as const,
-    highlight: "Credential-Backed",
-  },
-] as const;
-
 function Index() {
   const c = useSiteContent();
+
+  const studentJourneySteps = [
+    {
+      step: "01",
+      title: c.home.step1Title || "Discover",
+      subtitle: c.home.step1Subtitle || "Identify Strengths & Interests",
+      description:
+        c.home.step1Desc ||
+        "Clarify academic interests, natural strengths, and subjects that inspire genuine curiosity before making critical stream choices.",
+      icon: Compass,
+    },
+    {
+      step: "02",
+      title: c.home.step2Title || "Explore",
+      subtitle: c.home.step2Subtitle || "Unpack Real Career Paths",
+      description:
+        c.home.step2Desc ||
+        "Evaluate Science, Commerce, Arts, and emerging degree options with realistic information on course contents and higher-ed requirements.",
+      icon: Map,
+    },
+    {
+      step: "03",
+      title: c.home.step3Title || "Connect",
+      subtitle: c.home.step3Subtitle || "Verified Academic Mentorship",
+      description:
+        c.home.step3Desc ||
+        "Discuss choices with experienced academicians and career counsellors who provide unbiased, supportive advice for students and parents.",
+      icon: Users,
+    },
+    {
+      step: "04",
+      title: c.home.step4Title || "Progress",
+      subtitle: c.home.step4Subtitle || "Actionable Educational Milestones",
+      description:
+        c.home.step4Desc ||
+        "Build a step-by-step academic plan with timelines, skill benchmarks, and clear criteria for next-stage admissions and preparations.",
+      icon: GraduationCap,
+    },
+  ];
+
+  const audiencePathways = [
+    {
+      badge: "Students & Parents",
+      title: c.home.pathway1Title || "Clarity over Confusion",
+      description:
+        c.home.pathway1Desc ||
+        "Avoid stream regrets after Class 10 or 12. Receive structured guidance to choose courses confidently with full family alignment.",
+      cta: "Request Guidance",
+      targetSection: undefined,
+      routeTo: "/partner" as const,
+      highlight: "Class 10 & 12 Focus",
+    },
+    {
+      badge: "Schools & Colleges",
+      title: c.home.pathway2Title || "Institutional Guidance Hub",
+      description:
+        c.home.pathway2Desc ||
+        "Equip your institution with systematic career guidance workshops, mentor sessions, and structured tracking for every student batch.",
+      cta: "Explore Features",
+      targetSection: "features",
+      routeTo: undefined,
+      highlight: "Partner Onboarding",
+    },
+    {
+      badge: "Academic Mentors",
+      title: c.home.pathway3Title || "Verified Mentorship Network",
+      description:
+        c.home.pathway3Desc ||
+        "Connect certified educators and domain specialists with young minds seeking genuine academic direction and industry perspective.",
+      cta: "View Directory",
+      targetSection: undefined,
+      routeTo: "/mentors" as const,
+      highlight: "Credential-Backed",
+    },
+  ];
 
   // Scroll to hash on mount or hash change
   useEffect(() => {
@@ -170,15 +191,7 @@ function Index() {
                 size="pill"
                 className="w-full sm:w-auto justify-center cursor-pointer"
               >
-                <a
-                  href="#partner"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleScrollTo("partner");
-                  }}
-                >
-                  Get Career Guidance
-                </a>
+                <Link to="/partner">Get Career Guidance</Link>
               </Button>
               <Button
                 asChild
@@ -186,17 +199,10 @@ function Index() {
                 size="pill"
                 className="w-full sm:w-auto justify-center cursor-pointer"
               >
-                <a
-                  href="#programs"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleScrollTo("programs");
-                  }}
-                  className="gap-2 justify-center"
-                >
+                <Link to="/programs" className="gap-2 justify-center">
                   <span>Explore Programs</span>
                   <ArrowRight className="h-4 w-4 text-brand-gold" />
-                </a>
+                </Link>
               </Button>
             </div>
           </div>
@@ -220,10 +226,10 @@ function Index() {
                 </div>
                 <div className="text-left">
                   <p className="text-[11px] sm:text-xs font-semibold text-brand-navy">
-                    Tailored Direction
+                    {c.home.badge1Title || "Tailored Direction"}
                   </p>
                   <p className="text-[10px] sm:text-[11px] text-muted-foreground">
-                    Class 10 to College Pathways
+                    {c.home.badge1Subtitle || "Class 10 to College Pathways"}
                   </p>
                 </div>
               </div>
@@ -235,10 +241,10 @@ function Index() {
                 </div>
                 <div className="text-left">
                   <p className="text-[11px] sm:text-xs font-semibold text-brand-navy">
-                    Verified Mentorship
+                    {c.home.badge2Title || "Verified Mentorship"}
                   </p>
                   <p className="text-[10px] sm:text-[11px] text-muted-foreground">
-                    Dedicated Academic Guidance
+                    {c.home.badge2Subtitle || "Dedicated Academic Guidance"}
                   </p>
                 </div>
               </div>
@@ -250,9 +256,9 @@ function Index() {
         <div className="py-20 md:py-28 bg-background">
           <div className="container-apple">
             <SectionHeading
-              eyebrow="The Student Journey"
-              title="Four intentional steps from confusion to clarity."
-              lead="We guide students through a structured methodology that replaces guesswork with verified academic insights."
+              eyebrow={c.home.journeyEyebrow || "The Student Journey"}
+              title={c.home.journeyTitle || "Four intentional steps from confusion to clarity."}
+              lead={c.home.journeyLead || "We guide students through a structured methodology that replaces guesswork with verified academic insights."}
             />
 
             <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -290,9 +296,9 @@ function Index() {
         <div className="py-20 md:py-28 bg-surface border-y border-hairline/80">
           <div className="container-apple">
             <SectionHeading
-              eyebrow="Tailored Solutions"
-              title="Guidance designed for your educational context."
-              lead="Whether you are a student planning your next academic milestone or an institution structuring guidance for hundreds."
+              eyebrow={c.home.pathwaysEyebrow || "Tailored Solutions"}
+              title={c.home.pathwaysTitle || "Guidance designed for your educational context."}
+              lead={c.home.pathwaysLead || "Whether you are a student planning your next academic milestone or an institution structuring guidance for hundreds."}
             />
 
             <div className="mt-14 grid gap-8 md:grid-cols-3">
@@ -357,17 +363,17 @@ function Index() {
       </section>
 
       {/* =========================================================================
-          3. PROGRAMS SECTION
-         ========================================================================= */}
-      <section id="programs" className="scroll-mt-16">
-        <ProgramsSection />
-      </section>
-
-      {/* =========================================================================
-          4. FEATURES & BENEFITS SECTION
+          3. FEATURES & BENEFITS SECTION
          ========================================================================= */}
       <section id="features" className="scroll-mt-16">
         <FeaturesContent />
+      </section>
+
+      {/* =========================================================================
+          4. CONTACT US SECTION
+         ========================================================================= */}
+      <section id="contact" className="scroll-mt-16">
+        <ContactContent />
       </section>
 
       {/* =========================================================================
@@ -375,20 +381,6 @@ function Index() {
          ========================================================================= */}
       <section id="testimonials" className="scroll-mt-16">
         <TestimonialsContent />
-      </section>
-
-      {/* =========================================================================
-          6. CONTACT US SECTION
-         ========================================================================= */}
-      <section id="contact" className="scroll-mt-16">
-        <ContactContent />
-      </section>
-
-      {/* =========================================================================
-          7. PARTNER WITH US SECTION
-         ========================================================================= */}
-      <section id="partner" className="scroll-mt-16">
-        <PartnerContent />
       </section>
     </div>
   );

@@ -5,6 +5,7 @@ import {
   Check,
   ExternalLink,
   GraduationCap,
+  HeartHandshake,
   House,
   Info,
   KeyRound,
@@ -36,12 +37,13 @@ import {
   GeneralEditor,
   HomeEditor,
   MentorsEditor,
+  PartnerEditor,
   ProgramsEditor,
   TestimonialsEditor,
   type EditorProps,
 } from "./editors";
 import { PasswordPanel } from "./PasswordPanel";
-import { ReceptionAccessPanel } from "./ReceptionAccessPanel";
+import { ReceptionAdminPanel } from "./ReceptionAdminPanel";
 
 type Section = {
   id: string;
@@ -89,6 +91,13 @@ const sections: Section[] = [
     Editor: ProgramsEditor,
   },
   {
+    id: "partner",
+    label: "Partner",
+    icon: HeartHandshake,
+    description: "Student & institutional inquiry copy, expectations, and contact promises.",
+    Editor: PartnerEditor,
+  },
+  {
     id: "impact",
     label: "Testimonials",
     icon: TrendingUp,
@@ -111,10 +120,10 @@ const sections: Section[] = [
   },
   {
     id: "reception",
-    label: "Reception Access",
+    label: "Reception & Leads",
     icon: UserRoundCheck,
-    description: "Manage credentials for reception staff portal.",
-    Custom: ReceptionAccessPanel,
+    description: "Live student & institutional enquiries, progress reports, lead statuses, and staff access.",
+    Custom: ReceptionAdminPanel,
   },
   {
     id: "security",
@@ -124,6 +133,19 @@ const sections: Section[] = [
     Custom: PasswordPanel,
   },
 ];
+
+const sectionLinks: Record<string, string> = {
+  home: "/",
+  about: "/about",
+  mentors: "/mentors",
+  features: "/features",
+  programs: "/programs",
+  partner: "/partner",
+  impact: "/testimonials",
+  contact: "/contact",
+  general: "/",
+  reception: "/reception",
+};
 
 function clean(c: SiteContent): SiteContent {
   const keep = (s: string) => s.trim().length > 0;
@@ -252,14 +274,24 @@ export function AdminDashboard() {
 
         {/* Content Pane */}
         <div key={section.id} className="min-w-0">
-          <div className="mb-6 pb-4 border-b border-hairline">
-            <span className="type-eyebrow text-brand-gold">
-              {section.Custom ? "System Configuration" : "Content Editor"}
-            </span>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-brand-navy mt-1">
-              {section.label}
-            </h1>
-            <p className="mt-1 text-xs text-muted-foreground">{section.description}</p>
+          <div className="mb-6 pb-4 border-b border-hairline flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div>
+              <span className="type-eyebrow text-brand-gold">
+                {section.Custom ? "System Configuration" : "Content Editor"}
+              </span>
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-brand-navy mt-1">
+                {section.label}
+              </h1>
+              <p className="mt-1 text-xs text-muted-foreground">{section.description}</p>
+            </div>
+            {sectionLinks[section.id] && (
+              <Button asChild variant="pill-outline" size="sm" className="self-start sm:self-auto bg-white/80">
+                <a href={sectionLinks[section.id]} target="_blank" rel="noreferrer" className="gap-1.5 text-xs">
+                  <ExternalLink className="h-3.5 w-3.5" />
+                  <span>Open {sectionLinks[section.id]}</span>
+                </a>
+              </Button>
+            )}
           </div>
 
           {Editor ? (

@@ -53,8 +53,16 @@ export const Route = createFileRoute("/programs_/$sessionId")({
           name: "description",
           content: `${program.description} Conducted at ${program.location} on ${program.date}.`,
         },
+        {
+          name: "keywords",
+          content: `${program.institution}, ${program.title}, EDUARC program case study, school career seminar, student guidance workshop, career roadmap`,
+        },
         { property: "og:title", content: `${program.title} | EDUARC Programs` },
         { property: "og:description", content: program.description },
+        { property: "og:url", content: `https://eduarc-connect.in/programs/${program.id}` },
+        { property: "og:image", content: "https://eduarc-connect.in/og-image.jpg" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:image", content: "https://eduarc-connect.in/og-image.jpg" },
       ],
       links: [
         {

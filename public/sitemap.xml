@@ -1,58 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Core Public Navigation Pages -->
   <url>
     <loc>https://eduarc-connect.in/</loc>
-    <lastmod>2026-10-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <lastmod>2026-10-31</lastmod>
   </url>
   <url>
     <loc>https://eduarc-connect.in/about</loc>
-    <lastmod>2026-10-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://eduarc-connect.in/programs</loc>
-    <lastmod>2026-10-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://eduarc-connect.in/mentors</loc>
-    <lastmod>2026-10-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <lastmod>2026-10-31</lastmod>
   </url>
   <url>
     <loc>https://eduarc-connect.in/features</loc>
-    <lastmod>2026-10-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-10-31</lastmod>
   </url>
   <url>
-    <loc>https://eduarc-connect.in/impact</loc>
-    <lastmod>2026-10-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://eduarc-connect.in/programs</loc>
+    <lastmod>2026-10-31</lastmod>
+  </url>
+  <url>
+    <loc>https://eduarc-connect.in/mentors</loc>
+    <lastmod>2026-10-31</lastmod>
+  </url>
+  <url>
+    <loc>https://eduarc-connect.in/testimonials</loc>
+    <lastmod>2026-10-31</lastmod>
   </url>
   <url>
     <loc>https://eduarc-connect.in/partner</loc>
-    <lastmod>2026-10-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <lastmod>2026-10-31</lastmod>
   </url>
   <url>
     <loc>https://eduarc-connect.in/contact</loc>
-    <lastmod>2026-10-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-10-31</lastmod>
   </url>
   <url>
     <loc>https://eduarc-connect.in/privacy-policy</loc>
-    <lastmod>2026-10-29</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
+    <lastmod>2026-10-31</lastmod>
+  </url>
+
+  <!-- Conducted Career Guidance & Counselling Program Case Studies -->
+  <url>
+    <loc>https://eduarc-connect.in/programs/sri-venkateshwara</loc>
+    <lastmod>2026-10-31</lastmod>
+  </url>
+  <url>
+    <loc>https://eduarc-connect.in/programs/st-marys</loc>
+    <lastmod>2026-10-31</lastmod>
+  </url>
+  <url>
+    <loc>https://eduarc-connect.in/programs/kendriya-vidyalaya</loc>
+    <lastmod>2026-10-31</lastmod>
+  </url>
+  <url>
+    <loc>https://eduarc-connect.in/programs/dav-public</loc>
+    <lastmod>2026-10-31</lastmod>
+  </url>
+  <url>
+    <loc>https://eduarc-connect.in/programs/psg-college</loc>
+    <lastmod>2026-10-31</lastmod>
+  </url>
+  <url>
+    <loc>https://eduarc-connect.in/programs/sri-chaitanya</loc>
+    <lastmod>2026-10-31</lastmod>
+  </url>
+  <url>
+    <loc>https://eduarc-connect.in/programs/chinmaya-vidyalaya</loc>
+    <lastmod>2026-10-31</lastmod>
+  </url>
+  <url>
+    <loc>https://eduarc-connect.in/programs/vit-vellore</loc>
+    <lastmod>2026-10-31</lastmod>
+  </url>
+  <url>
+    <loc>https://eduarc-connect.in/programs/bishop-heber</loc>
+    <lastmod>2026-10-31</lastmod>
   </url>
 </urlset>
-

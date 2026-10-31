@@ -12,18 +12,30 @@ export const Route = createFileRoute("/about")({
   },
   head: () => ({
     meta: [
-      { title: "About EduArc — Empowering Students to Discover Their Future" },
+      { title: "About EDUARC — Educational Mentorship, Vision & Guidance Philosophy" },
       {
         name: "description",
         content:
-          "EduArc is a modern career guidance platform designed to help students make informed decisions about their future with expert mentorship and structured roadmaps.",
+          "Discover EDUARC's mission to bridge education with career achievement through structured roadmaps, experienced academic faculty, and holistic student guidance in India.",
       },
-      { property: "og:title", content: "About EduArc — Empowering Students to Discover Their Future" },
+      {
+        name: "keywords",
+        content:
+          "about EDUARC, education guidance philosophy, student career mentorship, career counselling Bangalore, school education consultants, academic advisory India, Ambitious to Achievement",
+      },
+      {
+        property: "og:title",
+        content: "About EDUARC — Empowering Students to Discover Their Future",
+      },
       {
         property: "og:description",
         content:
-          "Connect with expert academic mentors, unpack career possibilities, and build actionable milestone plans.",
+          "Connect with expert academic mentors, unpack career possibilities, and build actionable milestone plans with EDUARC.",
       },
+      { property: "og:url", content: "https://eduarc-connect.in/about" },
+      { property: "og:image", content: "https://eduarc-connect.in/og-image.jpg" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://eduarc-connect.in/og-image.jpg" },
     ],
     links: [{ rel: "canonical", href: "https://eduarc-connect.in/about" }],
   }),

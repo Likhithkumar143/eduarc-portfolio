@@ -10,12 +10,17 @@ export const Route = createFileRoute("/features")({
   head: () => ({
     meta: [
       {
-        title: "EDUARC Features — Comprehensive Career Guidance Framework",
+        title: "EDUARC Features — 4-Pillar Career Guidance & Institutional Framework",
       },
       {
         name: "description",
         content:
-          "Structured partnership features for schools, PU colleges, and higher education institutions.",
+          "Explore EDUARC's 4-pillar methodology: Aptitude Assessment, Tailored Roadmaps, Verified Faculty Mentorship, and Institutional Success Cohorts for schools and PU colleges.",
+      },
+      {
+        name: "keywords",
+        content:
+          "career guidance framework, student psychometric assessment, career roadmaps, institutional mentorship programs, school workshop framework, PU college guidance, higher education consulting",
       },
       {
         property: "og:title",
@@ -24,8 +29,12 @@ export const Route = createFileRoute("/features")({
       {
         property: "og:description",
         content:
-          "Structured partnership features for schools, PU colleges, and higher education institutions.",
+          "Structured partnership features and student guidance methodology for schools, PU colleges, and universities across India.",
       },
+      { property: "og:url", content: "https://eduarc-connect.in/features" },
+      { property: "og:image", content: "https://eduarc-connect.in/og-image.jpg" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://eduarc-connect.in/og-image.jpg" },
     ],
     links: [{ rel: "canonical", href: "https://eduarc-connect.in/features" }],
   }),

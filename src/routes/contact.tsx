@@ -8,18 +8,27 @@ import { ContactContent } from "@/components/site/sections/ContactContent";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact EDUARC — Let’s Build Brighter Futures Together" },
+      { title: "Contact EDUARC — Academic Consultation, Phone, WhatsApp & Office" },
       {
         name: "description",
         content:
-          "Have questions, feedback, or want to collaborate with EDUARC? Reach out via phone, email, WhatsApp, or connect on our social channels.",
+          "Have questions about career guidance or institutional partnerships? Reach out to EDUARC via direct call (+91 98765 43210), email, WhatsApp, or visit our Bengaluru campus.",
+      },
+      {
+        name: "keywords",
+        content:
+          "contact EDUARC, career counsellor Bangalore phone, student counselling WhatsApp, career guidance office Bengaluru, partnerships@eduarc.in, Karnataka education support",
       },
       { property: "og:title", content: "Contact EDUARC — Multiple Ways to Reach Us" },
       {
         property: "og:description",
         content:
-          "We're here to help students, parents, and educational institutions. Reach out today.",
+          "We're here to help students, parents, and educational institutions across India. Connect with EDUARC today.",
       },
+      { property: "og:url", content: "https://eduarc-connect.in/contact" },
+      { property: "og:image", content: "https://eduarc-connect.in/og-image.jpg" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://eduarc-connect.in/og-image.jpg" },
     ],
     links: [{ rel: "canonical", href: "https://eduarc-connect.in/contact" }],
   }),

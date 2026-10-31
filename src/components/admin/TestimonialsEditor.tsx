@@ -1,4 +1,6 @@
 import { useState, useMemo } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import {
   Quote,
   Star,
@@ -16,10 +18,25 @@ import {
   MessageSquare,
   Tag,
   TrendingUp,
+  CheckCircle2,
+  Clock,
+  XCircle,
+  RefreshCw,
+  ExternalLink,
+  ShieldCheck,
+  ThumbsUp,
+  ThumbsDown,
+  Camera,
 } from "lucide-react";
 import { toast } from "sonner";
 import { type SiteContent, type TestimonialItem, initials } from "@/content/eduarc";
 import heroBannerImg from "@/assets/testimonials/hero-banner.jpg";
+import ananyaImg from "@/assets/testimonials/ananya.jpg";
+import priyaImg from "@/assets/testimonials/priya.jpg";
+import rohitImg from "@/assets/testimonials/rohit.jpg";
+import meeraImg from "@/assets/testimonials/meera.jpg";
+import rameshImg from "@/assets/testimonials/ramesh.jpg";
+import snehaImg from "@/assets/testimonials/sneha.jpg";
 import type { EditorProps } from "./editors";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -35,6 +52,49 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import {
+  listUserReviews,
+  approveUserReview,
+  rejectUserReview,
+  deleteUserReview,
+  type UserReviewRecord,
+} from "@/lib/testimonials.functions";
+import {
+  getAvatarUrl,
+  getGoogleInitialsAvatar,
+  getGoogleMaterialAvatarSvg,
+  getGravatarUrl,
+} from "@/lib/avatar";
+import { compressImage } from "@/lib/image-compression";
+
+const defaultAvatars: Record<string, string> = {
+  ananya: ananyaImg,
+  priya: priyaImg,
+  rohit: rohitImg,
+  meera: meeraImg,
+  ramesh: rameshImg,
+  sneha: snehaImg,
+};
+
+function resolveTestimonialAvatar(t: { avatar?: string; email?: string; name: string }): string {
+  if (t.avatar) {
+    if (
+      t.avatar.startsWith("http://") ||
+      t.avatar.startsWith("https://") ||
+      t.avatar.startsWith("data:") ||
+      t.avatar.startsWith("//")
+    ) {
+      return t.avatar;
+    }
+    if (defaultAvatars[t.avatar.toLowerCase()]) {
+      return defaultAvatars[t.avatar.toLowerCase()]!;
+    }
+  }
+  if (t.email && t.email.includes("@")) {
+    return getAvatarUrl(t.email, t.name);
+  }
+  return getGoogleInitialsAvatar(t.name, t.email);
+}
 
 const roleSuggestions = [
   "Class 10 Student",
@@ -56,13 +116,178 @@ const categorySuggestions = [
   "Alumni Story",
 ];
 
+const dateFmt = new Intl.DateTimeFormat("en-IN", {
+  day: "numeric",
+  month: "short",
+  year: "numeric",
+});
+const timeFmt = new Intl.DateTimeFormat("en-IN", { hour: "numeric", minute: "2-digit" });
+const when = (iso: string) => {
+  try {
+    return `${dateFmt.format(new Date(iso))}, ${timeFmt.format(new Date(iso))}`;
+  } catch {
+    return iso;
+  }
+};
+
 export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorProps) {
   const testimonials = draft.testimonials || [];
+  const queryClient = useQueryClient();
+  const fetchReviews = useServerFn(listUserReviews);
+  const approveReviewFn = useServerFn(approveUserReview);
+  const rejectReviewFn = useServerFn(rejectUserReview);
+  const deleteReviewFn = useServerFn(deleteUserReview);
+
+  const {
+    data: userReviewsData,
+    isFetching: isFetchingReviews,
+    refetch: refetchReviews,
+  } = useQuery({
+    queryKey: ["admin-user-reviews"],
+    queryFn: () => fetchReviews(),
+    staleTime: 10_000,
+  });
+
+  const submittedReviews = userReviewsData?.reviews || [];
+
+  const [moderationTab, setModerationTab] = useState<
+    "pending" | "approved" | "rejected" | "all"
+  >("pending");
+
+  const pendingReviews = useMemo(
+    () => submittedReviews.filter((r) => r.status === "pending"),
+    [submittedReviews],
+  );
+  const approvedReviews = useMemo(
+    () => submittedReviews.filter((r) => r.status === "approved"),
+    [submittedReviews],
+  );
+  const rejectedReviews = useMemo(
+    () => submittedReviews.filter((r) => r.status === "rejected"),
+    [submittedReviews],
+  );
 
   const [searchQuery, setSearchQuery] = useState("");
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [deleteTargetIndex, setDeleteTargetIndex] = useState<number | null>(null);
+
+  const displayModerationReviews = useMemo(() => {
+    let list = submittedReviews;
+    if (moderationTab === "pending") list = pendingReviews;
+    else if (moderationTab === "approved") list = approvedReviews;
+    else if (moderationTab === "rejected") list = rejectedReviews;
+
+    if (!searchQuery.trim()) return list;
+    const q = searchQuery.toLowerCase();
+    return list.filter(
+      (r) =>
+        r.name.toLowerCase().includes(q) ||
+        r.email.toLowerCase().includes(q) ||
+        r.role.toLowerCase().includes(q) ||
+        r.quote.toLowerCase().includes(q) ||
+        r.category.toLowerCase().includes(q),
+    );
+  }, [
+    submittedReviews,
+    moderationTab,
+    pendingReviews,
+    approvedReviews,
+    rejectedReviews,
+    searchQuery,
+  ]);
+
+  async function handleApproveSubmission(review: UserReviewRecord) {
+    try {
+      toast.loading(`Approving review from ${review.name}...`, { id: "mod-action" });
+      const res = await approveReviewFn({
+        data: {
+          id: review.id || undefined,
+          email: review.email || undefined,
+        },
+      });
+      toast.dismiss("mod-action");
+      toast.success(`Approved & published review from "${review.name}" to the live site!`);
+
+      await queryClient.invalidateQueries({ queryKey: ["admin-user-reviews"] });
+
+      if (res.approvedItem) {
+        const cleanEmail = review.email.toLowerCase().trim();
+        const exists = testimonials.some(
+          (t) => t.email && t.email.toLowerCase().trim() === cleanEmail,
+        );
+        let nextList: TestimonialItem[];
+        if (exists) {
+          nextList = testimonials.map((t) =>
+            t.email && t.email.toLowerCase().trim() === cleanEmail
+              ? (res.approvedItem as TestimonialItem)
+              : t,
+          );
+        } else {
+          nextList = [res.approvedItem as TestimonialItem, ...testimonials];
+        }
+        update("testimonials", nextList);
+      }
+    } catch (err) {
+      toast.dismiss("mod-action");
+      toast.error(err instanceof Error ? err.message : "Failed to approve review");
+    }
+  }
+
+  async function handleRejectSubmission(review: UserReviewRecord) {
+    try {
+      toast.loading(`Declining review from ${review.name}...`, { id: "mod-action" });
+      await rejectReviewFn({
+        data: {
+          id: review.id || undefined,
+          email: review.email || undefined,
+        },
+      });
+      toast.dismiss("mod-action");
+      toast.info(`Review from "${review.name}" declined.`);
+
+      await queryClient.invalidateQueries({ queryKey: ["admin-user-reviews"] });
+
+      const cleanEmail = review.email.toLowerCase().trim();
+      const nextList = testimonials.filter(
+        (t) => !(t.email && t.email.toLowerCase().trim() === cleanEmail),
+      );
+      if (nextList.length !== testimonials.length) {
+        update("testimonials", nextList);
+      }
+    } catch (err) {
+      toast.dismiss("mod-action");
+      toast.error(err instanceof Error ? err.message : "Failed to decline review");
+    }
+  }
+
+  async function handleDeleteSubmission(review: UserReviewRecord) {
+    if (!window.confirm(`Permanently delete review submission from "${review.name}"?`)) return;
+    try {
+      toast.loading("Deleting submission...", { id: "mod-action" });
+      await deleteReviewFn({
+        data: {
+          id: review.id || undefined,
+          email: review.email || undefined,
+        },
+      });
+      toast.dismiss("mod-action");
+      toast.success("Review submission deleted.");
+
+      await queryClient.invalidateQueries({ queryKey: ["admin-user-reviews"] });
+
+      const cleanEmail = review.email.toLowerCase().trim();
+      const nextList = testimonials.filter(
+        (t) => !(t.email && t.email.toLowerCase().trim() === cleanEmail),
+      );
+      if (nextList.length !== testimonials.length) {
+        update("testimonials", nextList);
+      }
+    } catch (err) {
+      toast.dismiss("mod-action");
+      toast.error(err instanceof Error ? err.message : "Failed to delete submission");
+    }
+  }
 
   // Modal Form State
   const [form, setForm] = useState<TestimonialItem>({
@@ -191,7 +416,9 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
       rating: form.rating ?? 5,
       category: form.category?.trim() || "Career Guidance Session",
       email: form.email?.trim() || undefined,
-      avatar: form.avatar?.trim() || undefined,
+      avatar:
+        form.avatar?.trim() ||
+        (form.email?.trim() ? getGravatarUrl(form.email.trim()) : undefined),
     };
 
     let nextList: TestimonialItem[];
@@ -294,6 +521,334 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
             >
               Clear
             </Button>
+          )}
+        </div>
+      </section>
+
+      {/* 2. USER REVIEW SUBMISSIONS & MODERATION (NEEDS ADMIN APPROVAL TO SHOW) */}
+      <section className="glass rounded-3xl p-6 sm:p-8 border-2 border-brand-gold/30 bg-white/90 shadow-sm space-y-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-hairline">
+          <div className="flex items-center gap-3.5">
+            <div className="h-12 w-12 rounded-2xl bg-brand-navy text-brand-gold flex items-center justify-center shrink-0 shadow-sm">
+              <ShieldCheck className="h-6 w-6" strokeWidth={1.75} />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="text-lg sm:text-xl font-bold text-brand-navy">
+                  User Review Submissions
+                </h3>
+                {pendingReviews.length > 0 ? (
+                  <Badge variant="warning" className="text-xs px-2.5 py-0.5 animate-pulse font-bold">
+                    {pendingReviews.length} Awaiting Approval
+                  </Badge>
+                ) : (
+                  <Badge variant="gold" className="text-xs px-2 py-0.5">
+                    All Caught Up
+                  </Badge>
+                )}
+              </div>
+              <p className="text-xs text-muted-foreground mt-0.5 max-w-xl">
+                Reviews submitted by students and parents on the website. User profile photos are automatically loaded from their email addresses. Reviews require admin approval before appearing publicly.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Button
+              type="button"
+              variant="pill-outline"
+              size="sm"
+              onClick={() => refetchReviews()}
+              disabled={isFetchingReviews}
+              className="gap-1.5 text-xs bg-white cursor-pointer"
+              title="Refresh submitted reviews list"
+            >
+              <RefreshCw className={cn("h-3.5 w-3.5", isFetchingReviews && "animate-spin")} />
+              <span className="hidden sm:inline">Refresh</span>
+            </Button>
+          </div>
+        </div>
+
+        {/* Filter Tabs for Moderation */}
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setModerationTab("pending")}
+            className={cn(
+              "rounded-xl px-3.5 py-1.5 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5",
+              moderationTab === "pending"
+                ? "bg-amber-500 text-white shadow-xs"
+                : "bg-surface text-muted-foreground hover:bg-surface/80 hover:text-foreground",
+            )}
+          >
+            <Clock className="h-3.5 w-3.5" />
+            <span>Pending Approval</span>
+            <span
+              className={cn(
+                "ml-1 rounded-full px-1.5 py-0.2 text-[10px]",
+                moderationTab === "pending"
+                  ? "bg-white/20 text-white"
+                  : "bg-muted text-muted-foreground",
+              )}
+            >
+              {pendingReviews.length}
+            </span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setModerationTab("approved")}
+            className={cn(
+              "rounded-xl px-3.5 py-1.5 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5",
+              moderationTab === "approved"
+                ? "bg-emerald-600 text-white shadow-xs"
+                : "bg-surface text-muted-foreground hover:bg-surface/80 hover:text-foreground",
+            )}
+          >
+            <CheckCircle2 className="h-3.5 w-3.5" />
+            <span>Approved (Live)</span>
+            <span
+              className={cn(
+                "ml-1 rounded-full px-1.5 py-0.2 text-[10px]",
+                moderationTab === "approved"
+                  ? "bg-white/20 text-white"
+                  : "bg-muted text-muted-foreground",
+              )}
+            >
+              {approvedReviews.length}
+            </span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setModerationTab("rejected")}
+            className={cn(
+              "rounded-xl px-3.5 py-1.5 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5",
+              moderationTab === "rejected"
+                ? "bg-slate-700 text-white shadow-xs"
+                : "bg-surface text-muted-foreground hover:bg-surface/80 hover:text-foreground",
+            )}
+          >
+            <XCircle className="h-3.5 w-3.5" />
+            <span>Declined</span>
+            <span
+              className={cn(
+                "ml-1 rounded-full px-1.5 py-0.2 text-[10px]",
+                moderationTab === "rejected"
+                  ? "bg-white/20 text-white"
+                  : "bg-muted text-muted-foreground",
+              )}
+            >
+              {rejectedReviews.length}
+            </span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setModerationTab("all")}
+            className={cn(
+              "rounded-xl px-3.5 py-1.5 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5",
+              moderationTab === "all"
+                ? "bg-brand-navy text-white shadow-xs"
+                : "bg-surface text-muted-foreground hover:bg-surface/80 hover:text-foreground",
+            )}
+          >
+            <span>All Submissions</span>
+            <span
+              className={cn(
+                "ml-1 rounded-full px-1.5 py-0.2 text-[10px]",
+                moderationTab === "all" ? "bg-white/20 text-white" : "bg-muted text-muted-foreground",
+              )}
+            >
+              {submittedReviews.length}
+            </span>
+          </button>
+        </div>
+
+        {/* Reviews Moderation Cards List */}
+        <div className="space-y-3 pt-1">
+          {displayModerationReviews.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-hairline bg-surface/40 p-8 text-center">
+              <MessageSquare className="h-8 w-8 text-muted-foreground/40 mx-auto mb-2" />
+              <p className="text-sm font-semibold text-foreground">
+                {moderationTab === "pending"
+                  ? "No reviews awaiting approval"
+                  : `No ${moderationTab} reviews found`}
+              </p>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                {moderationTab === "pending"
+                  ? "New reviews submitted by visitors from the testimonials page will show up here for moderation."
+                  : "Any reviews in this category will appear here."}
+              </p>
+            </div>
+          ) : (
+            displayModerationReviews.map((r) => (
+              <div
+                key={r.id}
+                className={cn(
+                  "rounded-2xl border p-5 transition-all",
+                  r.status === "pending"
+                    ? "border-amber-300 bg-amber-50/30 hover:bg-amber-50/50 shadow-xs"
+                    : r.status === "approved"
+                      ? "border-emerald-200 bg-emerald-50/20 hover:bg-emerald-50/40"
+                      : "border-hairline bg-surface/40 opacity-80",
+                )}
+              >
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  {/* Left: Profile Photo (from mail ID) + Reviewer Details */}
+                  <div className="flex items-start gap-4 flex-1 min-w-0">
+                    {/* Profile Photo loaded from user's email or custom upload */}
+                    <div className="relative h-14 w-14 rounded-full overflow-hidden border-2 border-brand-gold/60 bg-brand-navy/10 shrink-0 shadow-xs flex items-center justify-center">
+                      <img
+                        src={resolveTestimonialAvatar(r)}
+                        alt={r.name}
+                        className="h-full w-full object-cover"
+                        onError={(e) => {
+                          const img = e.currentTarget;
+                          if (!img.dataset.fallbackApplied) {
+                            img.dataset.fallbackApplied = "true";
+                            img.src = getGoogleMaterialAvatarSvg(r.name, r.email);
+                          }
+                        }}
+                      />
+                    </div>
+
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h4 className="text-sm sm:text-base font-bold text-foreground leading-tight">
+                          {r.name}
+                        </h4>
+                        <span className="text-hairline" aria-hidden="true">
+                          •
+                        </span>
+                        <span className="text-xs text-muted-foreground font-medium">{r.role}</span>
+
+                        <Badge variant="outline" className="text-[10px] py-0 px-2 border-hairline">
+                          {r.category || "Career Guidance Session"}
+                        </Badge>
+
+                        {/* Status Badge */}
+                        {r.status === "pending" && (
+                          <Badge variant="warning" className="text-[10px] py-0 px-2 font-bold gap-1">
+                            <Clock className="h-3 w-3" />
+                            <span>Awaiting Approval</span>
+                          </Badge>
+                        )}
+                        {r.status === "approved" && (
+                          <Badge className="bg-emerald-600 text-white text-[10px] py-0 px-2 font-bold gap-1">
+                            <CheckCircle2 className="h-3 w-3" />
+                            <span>Approved &amp; Live</span>
+                          </Badge>
+                        )}
+                        {r.status === "rejected" && (
+                          <Badge
+                            variant="outline"
+                            className="text-slate-500 border-slate-300 text-[10px] py-0 px-2 font-bold gap-1"
+                          >
+                            <XCircle className="h-3 w-3" />
+                            <span>Declined</span>
+                          </Badge>
+                        )}
+                      </div>
+
+                      {/* Email and Submission Date */}
+                      <div className="flex flex-wrap items-center gap-3 mt-1.5 text-xs text-muted-foreground">
+                        <a
+                          href={`mailto:${r.email}`}
+                          className="inline-flex items-center gap-1 text-blue-600 hover:underline font-mono text-[11px] bg-blue-50 px-2 py-0.5 rounded-full"
+                          title="Contact reviewer"
+                        >
+                          <Mail className="h-2.5 w-2.5" />
+                          <span>{r.email}</span>
+                        </a>
+                        <span>Submitted: {when(r.createdAt)}</span>
+                      </div>
+
+                      {/* Rating Stars */}
+                      <div className="flex items-center gap-1 mt-2 text-amber-400">
+                        {Array.from({ length: r.rating || 5 }).map((_, sIdx) => (
+                          <Star key={sIdx} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                        ))}
+                        <span className="text-xs font-semibold text-muted-foreground ml-1">
+                          {r.rating || 5} / 5
+                        </span>
+                      </div>
+
+                      {/* Feedback Quote */}
+                      <div className="mt-2.5 rounded-xl border border-hairline/70 bg-white/95 p-3 text-xs text-foreground italic leading-relaxed">
+                        “{r.quote}”
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right: Moderation Actions */}
+                  <div className="flex flex-row sm:flex-col items-center sm:items-end gap-2 self-end sm:self-center shrink-0">
+                    {r.status === "pending" && (
+                      <>
+                        <Button
+                          type="button"
+                          variant="pill-gold"
+                          size="sm"
+                          onClick={() => handleApproveSubmission(r)}
+                          className="gap-1.5 text-xs shadow-xs cursor-pointer font-bold"
+                        >
+                          <CheckCircle2 className="h-3.5 w-3.5" />
+                          <span>Approve &amp; Publish</span>
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="pill-outline"
+                          size="sm"
+                          onClick={() => handleRejectSubmission(r)}
+                          className="gap-1.5 text-xs text-muted-foreground hover:text-destructive cursor-pointer"
+                        >
+                          <XCircle className="h-3.5 w-3.5" />
+                          <span>Decline</span>
+                        </Button>
+                      </>
+                    )}
+
+                    {r.status === "approved" && (
+                      <Button
+                        type="button"
+                        variant="pill-outline"
+                        size="sm"
+                        onClick={() => handleRejectSubmission(r)}
+                        className="gap-1.5 text-xs text-muted-foreground hover:text-amber-600 cursor-pointer"
+                        title="Unpublish from live site"
+                      >
+                        <XCircle className="h-3.5 w-3.5" />
+                        <span>Unpublish</span>
+                      </Button>
+                    )}
+
+                    {r.status === "rejected" && (
+                      <Button
+                        type="button"
+                        variant="pill-gold"
+                        size="sm"
+                        onClick={() => handleApproveSubmission(r)}
+                        className="gap-1.5 text-xs shadow-xs cursor-pointer font-bold"
+                      >
+                        <CheckCircle2 className="h-3.5 w-3.5" />
+                        <span>Re-Approve &amp; Publish</span>
+                      </Button>
+                    )}
+
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleDeleteSubmission(r)}
+                      className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10 cursor-pointer"
+                      title="Permanently delete submission"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ))
           )}
         </div>
       </section>
@@ -605,8 +1160,19 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                   {/* Left: Avatar + Details */}
                   <div className="flex items-start gap-3.5 flex-1 min-w-0">
-                    <div className="h-11 w-11 rounded-full bg-brand-navy text-brand-gold font-bold flex items-center justify-center shrink-0 shadow-2xs text-xs">
-                      {initials(t.name)}
+                    <div className="relative h-11 w-11 rounded-full overflow-hidden bg-brand-navy border border-hairline shrink-0 shadow-2xs flex items-center justify-center">
+                      <img
+                        src={resolveTestimonialAvatar(t)}
+                        alt={t.name}
+                        className="h-full w-full object-cover"
+                        onError={(e) => {
+                          const img = e.currentTarget;
+                          if (!img.dataset.fallbackApplied) {
+                            img.dataset.fallbackApplied = "true";
+                            img.src = getGoogleMaterialAvatarSvg(t.name, t.email);
+                          }
+                        }}
+                      />
                     </div>
 
                     <div className="min-w-0 flex-1">
@@ -738,6 +1304,84 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
                   placeholder="e.g. ananya@example.com"
                   className="mt-1 h-9 rounded-xl text-xs"
                 />
+              </div>
+            </div>
+
+            {/* Reviewer Photo Preview & Upload */}
+            <div className="rounded-xl border border-hairline bg-surface/60 p-3">
+              <div className="flex items-center gap-3.5">
+                <div className="relative h-13 w-13 rounded-full overflow-hidden bg-brand-navy border-2 border-brand-gold/60 shrink-0 shadow-2xs flex items-center justify-center">
+                  <img
+                    key={form.avatar || form.email || form.name}
+                    src={resolveTestimonialAvatar(form)}
+                    alt="Reviewer Avatar Preview"
+                    className="h-full w-full object-cover"
+                    onError={(e) => {
+                      const img = e.currentTarget;
+                      if (!img.dataset.fallbackApplied) {
+                        img.dataset.fallbackApplied = "true";
+                        img.src = getGoogleMaterialAvatarSvg(form.name || "User", form.email);
+                      }
+                    }}
+                  />
+                </div>
+
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-semibold text-foreground">Reviewer Photo</span>
+                    {form.avatar && (
+                      <button
+                        type="button"
+                        onClick={() => setForm((prev) => ({ ...prev, avatar: "" }))}
+                        className="text-[11px] text-destructive hover:underline cursor-pointer"
+                      >
+                        Reset to Email Photo
+                      </button>
+                    )}
+                  </div>
+                  <p className="text-[11px] text-muted-foreground mt-0.5 leading-snug">
+                    {form.avatar
+                      ? "Custom photo uploaded for this testimonial."
+                      : form.email && form.email.includes("@")
+                        ? "Auto-detected from reviewer's Gmail / Google profile."
+                        : "Enter reviewer's email above or upload a photo."}
+                  </p>
+
+                  <div className="mt-2 flex items-center gap-2">
+                    <label className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium bg-surface hover:bg-surface/80 border border-hairline cursor-pointer shadow-2xs transition-colors">
+                      <Camera className="h-3.5 w-3.5 text-brand-gold" />
+                      <span>{form.avatar ? "Change Photo" : "Upload Photo"}</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          try {
+                            toast.loading("Compressing photo...", { id: "avatar-upload" });
+                            const compressed = await compressImage(file, {
+                              maxWidth: 240,
+                              maxHeight: 240,
+                              quality: 0.85,
+                              format: "image/webp",
+                            });
+                            setForm((prev) => ({ ...prev, avatar: compressed.dataUrl }));
+                            toast.dismiss("avatar-upload");
+                            toast.success("Reviewer photo updated!");
+                          } catch (err) {
+                            toast.dismiss("avatar-upload");
+                            toast.error(
+                              err instanceof Error ? err.message : "Failed to compress photo",
+                            );
+                          } finally {
+                            e.target.value = "";
+                          }
+                        }}
+                      />
+                    </label>
+                  </div>
+                </div>
               </div>
             </div>
 

@@ -44,7 +44,12 @@ export const Route = createFileRoute("/mentors")({
       {
         name: "description",
         content:
-          "Connect with experienced academic mentors at EDUARC. Informed guidance on Class 10 stream choices, Class 12 degree options, and future career roadmaps.",
+          "Connect with experienced academic mentors and doctoral faculty at EDUARC. Informed guidance on Class 10 stream choices, Class 12 degree options, and future career roadmaps.",
+      },
+      {
+        name: "keywords",
+        content:
+          "academic mentors, career guidance counsellors, student mentor Bangalore, Dr Gayathri G N, career planning after 10th, degree selection after 12th, EDUARC mentors",
       },
       { property: "og:title", content: "EDUARC Academic Mentors & Guidance Advisors" },
       {
@@ -52,6 +57,10 @@ export const Route = createFileRoute("/mentors")({
         content:
           "Personalized student guidance, stream selection after 10th, and academic roadmap planning with verified mentors.",
       },
+      { property: "og:url", content: "https://eduarc-connect.in/mentors" },
+      { property: "og:image", content: "https://eduarc-connect.in/og-image.jpg" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://eduarc-connect.in/og-image.jpg" },
     ],
     links: [{ rel: "canonical", href: "https://eduarc-connect.in/mentors" }],
   }),

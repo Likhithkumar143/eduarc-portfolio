@@ -20,18 +20,27 @@ import {
 export const Route = createFileRoute("/privacy-policy")({
   head: () => ({
     meta: [
-      { title: "Privacy Policy & Data Protection — EDUARC Connect" },
+      { title: "Privacy Policy & Student Data Protection — EDUARC" },
       {
         name: "description",
         content:
-          "Official Privacy Policy of EDUARC Connect. Understand how we collect, protect, and process student, parent, and institutional guidance information under applicable Indian data protection laws.",
+          "Official Privacy Policy of EDUARC. Understand how we collect, protect, and process student, parent, and institutional guidance information under applicable Indian data protection laws.",
       },
-      { property: "og:title", content: "Privacy Policy — EDUARC Connect" },
+      {
+        name: "keywords",
+        content:
+          "EDUARC privacy policy, student data protection, educational guidance privacy India, student counselling confidentiality, parental consent",
+      },
+      { property: "og:title", content: "Privacy Policy — EDUARC" },
       {
         property: "og:description",
         content:
-          "Transparent, student-first privacy standards and verifiable parental consent practices for educational guidance.",
+          "Transparent, student-first privacy standards and verifiable confidentiality practices for educational guidance.",
       },
+      { property: "og:url", content: "https://eduarc-connect.in/privacy-policy" },
+      { property: "og:image", content: "https://eduarc-connect.in/og-image.jpg" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://eduarc-connect.in/og-image.jpg" },
     ],
     links: [{ rel: "canonical", href: "https://eduarc-connect.in/privacy-policy" }],
   }),

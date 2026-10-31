@@ -1,0 +1,33 @@
+# EDUARC — Career Guidance & Education Support Platform
+
+> Ambitious to Achievement: Empowering schools, colleges, and students across India with expert career roadmaps, verified academic mentorship cohorts, and college admissions support.
+
+## Overview
+EDUARC is a next-generation career guidance and education consulting platform based in Bengaluru, Karnataka, India. EDUARC partners with K-12 schools, Pre-University (PU) colleges, and higher education institutions to deliver structured student mentoring, stream selection after Class 10, undergraduate degree planning after Class 12, and future career awareness workshops.
+
+## Key Offerings & Programs
+- **Class 10 Stream Selection Guidance**: Helping students and parents make objective, informed choices between Science (PCMB/PCMC), Commerce, and Humanities based on aptitude and long-term goals.
+- **Class 12 Career Roadmaps**: Systematic evaluation of degree programmes, competitive exam timelines (JEE, NEET, KCET, CUET, CLAT), and emerging multidisciplinary career pathways.
+- **Institutional Partnerships**: Turnkey student development workshops, student psychometric assessment cohorts, and career summits for schools and colleges across Karnataka and India.
+- **Verified Academic Mentorship**: Personalized sessions with doctoral-level educators and certified career counsellors.
+- **Documented Program Sessions**: Completed workshops at institutions including Bishop Heber Higher Secondary School, Kendriya Vidyalaya, DAV Public School, PSG College of Technology, Sri Chaitanya Techno School, Chinmaya Vidyalaya, VIT Vellore, and Sri Venkateshwara College of Engineering.
+
+## Primary Public Navigation Links
+- [Homepage](https://eduarc-connect.in/): Overview of student programs, mission, and live stats.
+- [About EDUARC](https://eduarc-connect.in/about): Background, leadership, vision, and educational advisory philosophy.
+- [Guidance Framework & Features](https://eduarc-connect.in/features): 4-pillar methodology covering Assessment, Roadmap, Mentorship, and Institutional Success.
+- [Conducted Programs](https://eduarc-connect.in/programs): Detailed case studies, photo galleries, and student feedback from partner institutions.
+- [Academic Mentors](https://eduarc-connect.in/mentors): Faculty profiles, research background, and guidance focus areas.
+- [Student Testimonials](https://eduarc-connect.in/testimonials): Verified reviews from students, parents, and school educators.
+- [Institutional Partnerships](https://eduarc-connect.in/partner): Request student guidance cohorts, workshop proposals, and student registrations.
+- [Contact EDUARC](https://eduarc-connect.in/contact): Direct phone consultation, office hours, email, and Bengaluru campus address.
+- [Privacy Policy](https://eduarc-connect.in/privacy-policy): Student data protection and confidentiality standards.
+
+## Contact & Location
+- Headquarters: Bengaluru, Karnataka, India (By appointment)
+- Official Email: partnerships@eduarc.in
+- Student Enquiries: connect@eduarc.in
+- Phone: +91 98765 43210
+- Operating Hours: Monday to Friday, 9:00 AM – 6:00 PM IST
+- Official Website: https://eduarc-connect.in
+- Full AI Context: https://eduarc-connect.in/llms-full.txt

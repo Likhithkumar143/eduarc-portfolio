@@ -1,3 +1,7 @@
+# Robots.txt for EDUARC — Career Guidance & Education Support Platform
+# https://eduarc-connect.in
+
+# Standard Search Engines
 User-agent: Googlebot
 Allow: /
 Disallow: /admin
@@ -8,6 +12,12 @@ Allow: /
 Disallow: /admin
 Disallow: /reception
 
+User-agent: Applebot
+Allow: /
+Disallow: /admin
+Disallow: /reception
+
+# Social Media Link Previews (WhatsApp, Facebook, LinkedIn, Twitter/X, Telegram)
 User-agent: Twitterbot
 Allow: /
 Disallow: /admin
@@ -18,9 +28,67 @@ Allow: /
 Disallow: /admin
 Disallow: /reception
 
+User-agent: WhatsApp
+Allow: /
+Disallow: /admin
+Disallow: /reception
+
+User-agent: LinkedInBot
+Allow: /
+Disallow: /admin
+Disallow: /reception
+
+User-agent: TelegramBot
+Allow: /
+Disallow: /admin
+Disallow: /reception
+
+# AI Search Engines & Conversational Answer Engines
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+Disallow: /reception
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin
+Disallow: /reception
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin
+Disallow: /reception
+
+User-agent: anthropic-ai
+Allow: /
+Disallow: /admin
+Disallow: /reception
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin
+Disallow: /reception
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin
+Disallow: /reception
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /admin
+Disallow: /reception
+
+User-agent: CCBot
+Allow: /
+Disallow: /admin
+Disallow: /reception
+
+# Default for all other crawlers
 User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /reception
 
+# Sitemap Location
 Sitemap: https://eduarc-connect.in/sitemap.xml

@@ -185,6 +185,40 @@ export const siteContentSchema = z.object({
     quoteHighlight: str,
     quoteSub: str,
     bannerTitle: str,
+    badge1Title: str.default("Tailored Direction"),
+    badge1Sub: str.default("Class 10 to College Pathways"),
+    badge2Title: str.default("Verified Mentorship"),
+    badge2Sub: str.default("Dedicated Academic Guidance"),
+    journeyEyebrow: str.default("The Student Journey"),
+    journeyTitle: str.default("Four intentional steps from confusion to clarity."),
+    journeyLead: str.default(
+      "We guide students through a structured methodology that replaces guesswork with verified academic insights.",
+    ),
+    step1Title: str.default("Discover"),
+    step1Subtitle: str.default("Identify Strengths & Interests"),
+    step1Desc: str.default(
+      "Clarify academic interests, natural strengths, and subjects that inspire genuine curiosity before making critical stream choices.",
+    ),
+    step2Title: str.default("Explore"),
+    step2Subtitle: str.default("Unpack Real Career Paths"),
+    step2Desc: str.default(
+      "Evaluate Science, Commerce, Arts, and emerging degree options with realistic information on course contents and higher-ed requirements.",
+    ),
+    step3Title: str.default("Connect"),
+    step3Subtitle: str.default("Verified Academic Mentorship"),
+    step3Desc: str.default(
+      "Discuss choices with experienced academicians and career counsellors who provide unbiased, supportive advice for students and parents.",
+    ),
+    step4Title: str.default("Progress"),
+    step4Subtitle: str.default("Actionable Educational Milestones"),
+    step4Desc: str.default(
+      "Build a step-by-step academic plan with timelines, skill benchmarks, and clear criteria for next-stage admissions and preparations.",
+    ),
+    pathwaysEyebrow: str.default("Tailored Solutions"),
+    pathwaysTitle: str.default("Guidance designed for your educational context."),
+    pathwaysLead: str.default(
+      "Whether you are a student planning your next academic milestone or an institution structuring guidance for hundreds.",
+    ),
   }),
   about: z.object({
     title: str,
@@ -193,6 +227,34 @@ export const siteContentSchema = z.object({
     advantagesTitle: str,
     advantagesLead: str,
     quote: str,
+    whoWeAreEyebrow: str.default("WHO WE ARE"),
+    whoWeAreTitle: str.default("What is EduArc?"),
+    whoWeAreLead: str.default(
+      "EduArc is a modern career guidance platform that connects students with expert mentors, learning programs and industry insights. We help you explore career options, build essential skills and take confident steps towards your dream career.",
+    ),
+    pillar1Title: str.default("Student Focused"),
+    pillar2Title: str.default("Guidance Driven"),
+    pillar3Title: str.default("Future Ready"),
+    problemsEyebrow: str.default("THE PROBLEM WE SOLVE"),
+    problemsTitle: str.default("Common Challenges Students Face"),
+    problemsLead: str.default(
+      "We understand the struggles. Here are some of the key problems students face today:",
+    ),
+    solutionsEyebrow: str.default("OUR SOLUTIONS"),
+    solutionsTitle: str.default("How We Help You"),
+    missionEyebrow: str.default("OUR MISSION & VISION"),
+    missionTitle: str.default("Building a Brighter Future"),
+    missionText: str.default(
+      "To help every student make informed career decisions with the right guidance, resources and support.",
+    ),
+    visionText: str.default(
+      "To build a future where every student has access to the right guidance, mentorship and opportunities to achieve their dreams.",
+    ),
+    mentorsEyebrow: str.default("MEET OUR MENTORS"),
+    mentorsTitle: str.default("Learn From The Best"),
+    mentorsLead: str.default(
+      "Our mentors are experienced university educators and research scholars dedicated to giving students clarity, direction, and structured academic roadmaps.",
+    ),
   }),
   pillars: z.array(iconItem).max(12),
   advantages: z.array(textItem).max(12),
@@ -202,6 +264,21 @@ export const siteContentSchema = z.object({
     lead: str,
     devicesTitle: str,
     devicesLead: str,
+    levelsEyebrow: str.default("FEATURE LEVELS"),
+    levelsTitle: str.default("Designed for every critical academic transition."),
+    levelsLead: str.default(
+      "Our features are calibrated to the exact developmental and academic stage of your student body.",
+    ),
+    onboardingEyebrow: str.default("STRUCTURED ENGAGEMENT"),
+    onboardingTitle: str.default("How we onboard your institution."),
+    onboardingLead: str.default(
+      "A seamless, four-stage implementation methodology designed to minimize administrative friction while maximizing student engagement.",
+    ),
+    suiteEyebrow: str.default("INSTITUTIONAL GUIDANCE SUITE"),
+    suiteTitle: str.default("Everything your institution needs to guide students with confidence."),
+    suiteLead: str.default(
+      "Comprehensive guidance infrastructure combining mentor engagement, student analytics, and longitudinal progress tracking.",
+    ),
   }),
   features: z.array(iconItem).max(18),
   programsPage: z.object({
@@ -309,6 +386,44 @@ export const siteContentSchema = z.object({
       "For your time and consideration. Together, let's empower more students to achieve their dreams.",
     ),
   }),
+  partnerPage: z
+    .object({
+      badge: str.default("Student & Institutional Enquiries"),
+      title: str.default("Start your guidance journey with"),
+      titleHighlight: str.default("EDUARC."),
+      lead: str.default(
+        "Whether you are a student evaluating streams after Class 10 or 12, a parent seeking objective higher-education advice, or a school administrator planning a student guidance cohort.",
+      ),
+      expectationsTitle: str.default("What to Expect After Submitting:"),
+      step1Title: str.default("1. Dedicated Counsellor Contact"),
+      step1Body: str.default(
+        "An academic coordinator will review your background and connect via phone or WhatsApp to understand your educational goals.",
+      ),
+      step2Title: str.default("2. Focused Guidance Consultation"),
+      step2Body: str.default(
+        "Explore stream opportunities, college options, and entrance timelines in a pressure-free, student-first consultation.",
+      ),
+      step3Title: str.default("3. Absolute Privacy & Integrity"),
+      step3Body: str.default(
+        "Your details remain confidential and are accessed exclusively by verified EDUARC counselling staff for educational planning.",
+      ),
+    })
+    .default({
+      badge: "Student & Institutional Enquiries",
+      title: "Start your guidance journey with",
+      titleHighlight: "EDUARC.",
+      lead: "Whether you are a student evaluating streams after Class 10 or 12, a parent seeking objective higher-education advice, or a school administrator planning a student guidance cohort.",
+      expectationsTitle: "What to Expect After Submitting:",
+      step1Title: "1. Dedicated Counsellor Contact",
+      step1Body:
+        "An academic coordinator will review your background and connect via phone or WhatsApp to understand your educational goals.",
+      step2Title: "2. Focused Guidance Consultation",
+      step2Body:
+        "Explore stream opportunities, college options, and entrance timelines in a pressure-free, student-first consultation.",
+      step3Title: "3. Absolute Privacy & Integrity",
+      step3Body:
+        "Your details remain confidential and are accessed exclusively by verified EDUARC counselling staff for educational planning.",
+    }),
   cta: z.object({ title: str, lead: str }),
   mentors: z.array(mentorProfileSchema).default([]),
   conductedPrograms: z.array(programSessionSchema).default([]),
@@ -357,6 +472,34 @@ export const defaultContent: SiteContent = {
     quoteHighlight: "success tomorrow.",
     quoteSub: "Our goal is simple — every student deserves the right guidance.",
     bannerTitle: "Right guidance today. Greater opportunities tomorrow.",
+    badge1Title: "Tailored Direction",
+    badge1Sub: "Class 10 to College Pathways",
+    badge2Title: "Verified Mentorship",
+    badge2Sub: "Dedicated Academic Guidance",
+    journeyEyebrow: "The Student Journey",
+    journeyTitle: "Four intentional steps from confusion to clarity.",
+    journeyLead:
+      "We guide students through a structured methodology that replaces guesswork with verified academic insights.",
+    step1Title: "Discover",
+    step1Subtitle: "Identify Strengths & Interests",
+    step1Desc:
+      "Clarify academic interests, natural strengths, and subjects that inspire genuine curiosity before making critical stream choices.",
+    step2Title: "Explore",
+    step2Subtitle: "Unpack Real Career Paths",
+    step2Desc:
+      "Evaluate Science, Commerce, Arts, and emerging degree options with realistic information on course contents and higher-ed requirements.",
+    step3Title: "Connect",
+    step3Subtitle: "Verified Academic Mentorship",
+    step3Desc:
+      "Discuss choices with experienced academicians and career counsellors who provide unbiased, supportive advice for students and parents.",
+    step4Title: "Progress",
+    step4Subtitle: "Actionable Educational Milestones",
+    step4Desc:
+      "Build a step-by-step academic plan with timelines, skill benchmarks, and clear criteria for next-stage admissions and preparations.",
+    pathwaysEyebrow: "Tailored Solutions",
+    pathwaysTitle: "Guidance designed for your educational context.",
+    pathwaysLead:
+      "Whether you are a student planning your next academic milestone or an institution structuring guidance for hundreds.",
   },
   about: {
     title: "About EduArc.",
@@ -366,6 +509,29 @@ export const defaultContent: SiteContent = {
     advantagesLead:
       "EduArc gives your institution the tools to support students beyond the classroom — with structured guidance, expert mentorship and real‑world career insights.",
     quote: "Guidance today, success tomorrow.",
+    whoWeAreEyebrow: "WHO WE ARE",
+    whoWeAreTitle: "What is EduArc?",
+    whoWeAreLead:
+      "EduArc is a modern career guidance platform that connects students with expert mentors, learning programs and industry insights. We help you explore career options, build essential skills and take confident steps towards your dream career.",
+    pillar1Title: "Student Focused",
+    pillar2Title: "Guidance Driven",
+    pillar3Title: "Future Ready",
+    problemsEyebrow: "THE PROBLEM WE SOLVE",
+    problemsTitle: "Common Challenges Students Face",
+    problemsLead:
+      "We understand the struggles. Here are some of the key problems students face today:",
+    solutionsEyebrow: "OUR SOLUTIONS",
+    solutionsTitle: "How We Help You",
+    missionEyebrow: "OUR MISSION & VISION",
+    missionTitle: "Building a Brighter Future",
+    missionText:
+      "To help every student make informed career decisions with the right guidance, resources and support.",
+    visionText:
+      "To build a future where every student has access to the right guidance, mentorship and opportunities to achieve their dreams.",
+    mentorsEyebrow: "MEET OUR MENTORS",
+    mentorsTitle: "Learn From The Best",
+    mentorsLead:
+      "Our mentors are experienced university educators and research scholars dedicated to giving students clarity, direction, and structured academic roadmaps.",
   },
   pillars: [
     {
@@ -414,6 +580,18 @@ export const defaultContent: SiteContent = {
     devicesTitle: "Accessible on all devices.",
     devicesLead:
       "Desktop, tablet and mobile — students and staff stay connected wherever they are.",
+    levelsEyebrow: "FEATURE LEVELS",
+    levelsTitle: "Designed for every critical academic transition.",
+    levelsLead:
+      "Our features are calibrated to the exact developmental and academic stage of your student body.",
+    onboardingEyebrow: "STRUCTURED ENGAGEMENT",
+    onboardingTitle: "How we onboard your institution.",
+    onboardingLead:
+      "A seamless, four-stage implementation methodology designed to minimize administrative friction while maximizing student engagement.",
+    suiteEyebrow: "INSTITUTIONAL GUIDANCE SUITE",
+    suiteTitle: "Everything your institution needs to guide students with confidence.",
+    suiteLead:
+      "Comprehensive guidance infrastructure combining mentor engagement, student analytics, and longitudinal progress tracking.",
   },
   features: [
     {
@@ -615,6 +793,22 @@ export const defaultContent: SiteContent = {
     signature: "“We’d love to hear from you!”",
     thankYou:
       "For your time and consideration. Together, let's empower more students to achieve their dreams.",
+  },
+  partnerPage: {
+    badge: "Student & Institutional Enquiries",
+    title: "Start your guidance journey with",
+    titleHighlight: "EDUARC.",
+    lead: "Whether you are a student evaluating streams after Class 10 or 12, a parent seeking objective higher-education advice, or a school administrator planning a student guidance cohort.",
+    expectationsTitle: "What to Expect After Submitting:",
+    step1Title: "1. Dedicated Counsellor Contact",
+    step1Body:
+      "An academic coordinator will review your background and connect via phone or WhatsApp to understand your educational goals.",
+    step2Title: "2. Focused Guidance Consultation",
+    step2Body:
+      "Explore stream opportunities, college options, and entrance timelines in a pressure-free, student-first consultation.",
+    step3Title: "3. Absolute Privacy & Integrity",
+    step3Body:
+      "Your details remain confidential and are accessed exclusively by verified EDUARC counselling staff for educational planning.",
   },
   cta: {
     title: "Let's build a brighter future together.",

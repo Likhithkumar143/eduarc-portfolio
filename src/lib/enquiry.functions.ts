@@ -130,9 +130,7 @@ export const submitEnquiry = createServerFn({ method: "POST" })
   });
 
 export const getReceptionStatus = createServerFn({ method: "GET" }).handler(async () => {
-  const rep = await staffStatus("reception");
-  if (rep.authenticated) return rep;
-  return staffStatus("admin");
+  return staffStatus("reception");
 });
 
 export const receptionLogin = createServerFn({ method: "POST" })

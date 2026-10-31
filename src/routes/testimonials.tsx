@@ -7,18 +7,30 @@ import { TestimonialsContent } from "@/components/site/sections/TestimonialsCont
 export const Route = createFileRoute("/testimonials")({
   head: () => ({
     meta: [
-      { title: "EDUARC Testimonials — Real Stories. Brighter Futures." },
+      { title: "Student & Parent Reviews — EDUARC Testimonials | Real Stories" },
       {
         name: "description",
         content:
-          "Hear from students, parents and educators who have experienced the impact of EDUARC's career guidance programs and workshops.",
+          "Read verified reviews and feedback from students, parents, and educators on how EDUARC's career guidance sessions helped them choose the right academic direction with confidence.",
       },
-      { property: "og:title", content: "EDUARC Testimonials — Real Stories. Brighter Futures." },
+      {
+        name: "keywords",
+        content:
+          "EDUARC reviews, student testimonials, parent feedback, career guidance ratings, school partner reviews, education mentorship feedback, career counselling reviews Bangalore",
+      },
+      {
+        property: "og:title",
+        content: "EDUARC Testimonials — Real Stories. Brighter Futures.",
+      },
       {
         property: "og:description",
         content:
           "Real feedback and reviews from students, parents, and school partners who achieved career clarity with EDUARC.",
       },
+      { property: "og:url", content: "https://eduarc-connect.in/testimonials" },
+      { property: "og:image", content: "https://eduarc-connect.in/og-image.jpg" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://eduarc-connect.in/og-image.jpg" },
     ],
     links: [{ rel: "canonical", href: "https://eduarc-connect.in/testimonials" }],
   }),

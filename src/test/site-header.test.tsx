@@ -191,4 +191,41 @@ describe("SiteHeader & Mobile Navigation Drawer", () => {
     expect(document.getElementById("mobile-nav")).toBeNull();
     expect(document.body.style.overflow).toBe("");
   });
+
+  it("correctly highlights Features tab and not Contact tab when Features is selected on homepage", () => {
+    // Setup dummy section element in DOM
+    const featuresSection = document.createElement("section");
+    featuresSection.id = "features";
+    featuresSection.scrollIntoView = vi.fn();
+    document.body.appendChild(featuresSection);
+
+    const contactSection = document.createElement("section");
+    contactSection.id = "contact";
+    contactSection.scrollIntoView = vi.fn();
+    document.body.appendChild(contactSection);
+
+    render(<SiteHeader />);
+
+    // Find the desktop navigation links
+    const featuresLink = screen.getByRole("link", { name: /^features$/i });
+    const contactLink = screen.getByRole("link", { name: /^contact$/i });
+
+    expect(featuresLink).toBeInTheDocument();
+    expect(contactLink).toBeInTheDocument();
+
+    // Click "Features" link
+    fireEvent.click(featuresLink);
+
+    // Verify scrollIntoView was called on featuresSection
+    expect(featuresSection.scrollIntoView).toHaveBeenCalled();
+
+    // Features link should have active styling (font-semibold and active indicator class)
+    expect(featuresLink).toHaveClass("font-semibold");
+    // Contact link should NOT have active styling
+    expect(contactLink).not.toHaveClass("font-semibold");
+
+    // Clean up DOM
+    featuresSection.remove();
+    contactSection.remove();
+  });
 });

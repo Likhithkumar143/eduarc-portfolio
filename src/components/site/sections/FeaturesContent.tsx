@@ -67,13 +67,14 @@ export function FeaturesContent() {
           <div className="relative max-w-2xl mb-12">
             <Reveal>
               <span className="text-xs font-bold tracking-wider text-blue-600 uppercase mb-2 block">
-                FEATURE LEVELS
+                {c.featuresPage?.levelsEyebrow || "FEATURE LEVELS"}
               </span>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0F172A] tracking-tight">
-                Designed for every critical academic transition.
+                {c.featuresPage?.levelsTitle || "Designed for every critical academic transition."}
               </h2>
               <p className="mt-3 text-sm text-slate-600 leading-relaxed">
-                Our features are calibrated to the exact developmental and academic stage of your student body.
+                {c.featuresPage?.levelsLead ||
+                  "Our features are calibrated to the exact developmental and academic stage of your student body."}
               </p>
             </Reveal>
 
@@ -375,13 +376,14 @@ export function FeaturesContent() {
           <div className="max-w-2xl mb-12">
             <Reveal>
               <span className="text-xs font-bold tracking-wider text-blue-600 uppercase mb-2 block">
-                SMOOTH IMPLEMENTATION
+                {c.featuresPage?.onboardingEyebrow || "SMOOTH IMPLEMENTATION"}
               </span>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0F172A] tracking-tight">
-                Four simple steps from consultation to roadmap delivery.
+                {c.featuresPage?.onboardingTitle || "Four simple steps from consultation to roadmap delivery."}
               </h2>
               <p className="mt-3 text-sm text-slate-600 leading-relaxed">
-                We handle session logistics and guidance materials so your school administration can focus on supporting your students.
+                {c.featuresPage?.onboardingLead ||
+                  "We handle session logistics and guidance materials so your school administration can focus on supporting your students."}
               </p>
             </Reveal>
           </div>
@@ -429,13 +431,14 @@ export function FeaturesContent() {
               <div className="lg:col-span-5 space-y-4">
                 <Reveal>
                   <span className="text-xs font-bold tracking-wider text-blue-600 uppercase mb-2 block">
-                    WHY PARTNER WITH EDUARC
+                    {c.featuresPage?.suiteEyebrow || "WHY PARTNER WITH EDUARC"}
                   </span>
                   <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight">
-                    Real impact for your institution.
+                    {c.featuresPage?.suiteTitle || "Real impact for your institution."}
                   </h2>
                   <p className="text-sm text-slate-600 leading-relaxed">
-                    Partner with EDUARC to provide structured career guidance and create measurable outcomes for your students.
+                    {c.featuresPage?.suiteLead ||
+                      "Partner with EDUARC to provide structured career guidance and create measurable outcomes for your students."}
                   </p>
 
                   {/* Impact Metric Artifact in place of stock illustration */}

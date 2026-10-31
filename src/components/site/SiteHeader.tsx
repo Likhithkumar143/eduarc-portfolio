@@ -17,7 +17,6 @@ export const navItems = [
 
 const sectionIdMap: Record<string, string> = {
   "/about": "about",
-  "/programs": "programs",
   "/features": "features",
   "/testimonials": "testimonials",
   "/contact": "contact",
@@ -30,48 +29,92 @@ export function SiteHeader() {
   const menuRef = useRef<HTMLDivElement>(null);
   const isHomePage = pathname === "/";
   const [activeSection, setActiveSection] = useState<string>("hero");
+  const isManualScrollRef = useRef(false);
+  const manualScrollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // IntersectionObserver for scroll spy active navigation on homepage
+  const handleSectionNavigate = (sectionId: string) => {
+    setActiveSection(sectionId);
+    isManualScrollRef.current = true;
+    if (manualScrollTimerRef.current) {
+      clearTimeout(manualScrollTimerRef.current);
+    }
+
+    const targetEl = document.getElementById(sectionId);
+    if (targetEl) {
+      targetEl.scrollIntoView({ behavior: "smooth" });
+      history.replaceState(null, "", `#${sectionId}`);
+    }
+
+    manualScrollTimerRef.current = setTimeout(() => {
+      isManualScrollRef.current = false;
+    }, 1000);
+  };
+
+  // Robust scroll spy for active navigation on homepage
   useEffect(() => {
     if (!isHomePage) return;
+
+    // Check hash on mount
+    if (typeof window !== "undefined" && window.location.hash) {
+      const hash = window.location.hash.replace("#", "");
+      if (["hero", "about", "features", "contact", "testimonials"].includes(hash)) {
+        setActiveSection(hash);
+      }
+    }
 
     const sectionIds = [
       "hero",
       "about",
-      "programs",
       "features",
-      "testimonials",
       "contact",
-      "partner",
+      "testimonials",
     ];
-    const elements = sectionIds
-      .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => el !== null);
 
-    if (elements.length === 0) return;
+    const updateActiveSection = () => {
+      if (isManualScrollRef.current) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+      const scrollY = window.scrollY;
+      const viewportHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
 
-        if (visible.length > 0 && visible[0]?.target.id) {
-          setActiveSection(visible[0].target.id);
+      // Bottom of page detection -> activate testimonials
+      if (scrollY + viewportHeight >= documentHeight - 60) {
+        setActiveSection("testimonials");
+        return;
+      }
+
+      // 100px reading line below sticky header
+      const readingLine = 100;
+
+      // Check sections in reverse (bottom to top)
+      for (let i = sectionIds.length - 1; i >= 0; i--) {
+        const id = sectionIds[i]!;
+        const el = document.getElementById(id);
+        if (!el) continue;
+
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= readingLine) {
+          setActiveSection(id);
+          return;
         }
-      },
-      {
-        rootMargin: "-15% 0px -40% 0px",
-        threshold: [0.1, 0.25, 0.5],
-      },
-    );
+      }
 
-    elements.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+      setActiveSection("hero");
+    };
+
+    updateActiveSection();
+
+    window.addEventListener("scroll", updateActiveSection, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", updateActiveSection);
+      if (manualScrollTimerRef.current) {
+        clearTimeout(manualScrollTimerRef.current);
+      }
+    };
   }, [isHomePage]);
 
   // Close menu on route change
@@ -139,11 +182,7 @@ export function SiteHeader() {
                   onClick={(e) => {
                     if (isHomePage && sectionId) {
                       e.preventDefault();
-                      const targetEl = document.getElementById(sectionId);
-                      if (targetEl) {
-                        targetEl.scrollIntoView({ behavior: "smooth" });
-                        history.replaceState(null, "", `#${sectionId}`);
-                      }
+                      handleSectionNavigate(sectionId);
                     }
                   }}
                   className={cn(
@@ -162,20 +201,7 @@ export function SiteHeader() {
           {/* Desktop Action CTA */}
           <div className="hidden md:flex items-center gap-3">
             <Button asChild variant="pill-gold" size="pill-sm">
-              <Link
-                to="/partner"
-                onClick={(e) => {
-                  if (isHomePage) {
-                    e.preventDefault();
-                    const targetEl = document.getElementById("partner");
-                    if (targetEl) {
-                      targetEl.scrollIntoView({ behavior: "smooth" });
-                      history.replaceState(null, "", "#partner");
-                    }
-                  }
-                }}
-                className="gap-1.5"
-              >
+              <Link to="/partner" className="gap-1.5">
                 <span>Partner with us</span>
                 <ArrowUpRight className="h-3.5 w-3.5 opacity-80" />
               </Link>
@@ -225,13 +251,9 @@ export function SiteHeader() {
                           setOpen(false);
                           if (isHomePage && sectionId) {
                             e.preventDefault();
-                            const targetEl = document.getElementById(sectionId);
-                            if (targetEl) {
-                              setTimeout(() => {
-                                targetEl.scrollIntoView({ behavior: "smooth" });
-                                history.replaceState(null, "", `#${sectionId}`);
-                              }, 50);
-                            }
+                            setTimeout(() => {
+                              handleSectionNavigate(sectionId);
+                            }, 50);
                           }
                         }}
                         className={cn(
@@ -257,19 +279,7 @@ export function SiteHeader() {
                   >
                     <Link
                       to="/partner"
-                      onClick={(e) => {
-                        setOpen(false);
-                        if (isHomePage) {
-                          e.preventDefault();
-                          const targetEl = document.getElementById("partner");
-                          if (targetEl) {
-                            setTimeout(() => {
-                              targetEl.scrollIntoView({ behavior: "smooth" });
-                              history.replaceState(null, "", "#partner");
-                            }, 50);
-                          }
-                        }
-                      }}
+                      onClick={() => setOpen(false)}
                     >
                       Partner with us
                     </Link>
@@ -286,13 +296,9 @@ export function SiteHeader() {
                         setOpen(false);
                         if (isHomePage) {
                           e.preventDefault();
-                          const targetEl = document.getElementById("contact");
-                          if (targetEl) {
-                            setTimeout(() => {
-                              targetEl.scrollIntoView({ behavior: "smooth" });
-                              history.replaceState(null, "", "#contact");
-                            }, 50);
-                          }
+                          setTimeout(() => {
+                            handleSectionNavigate("contact");
+                          }, 50);
                         }
                       }}
                     >

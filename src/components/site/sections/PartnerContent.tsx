@@ -9,26 +9,35 @@ import {
 } from "lucide-react";
 import studentJourneyBg from "@/assets/contact-guidance-bg.png";
 import { PartnerForm } from "@/components/site/PartnerForm";
-
-const expectations = [
-  {
-    icon: Users,
-    title: "1. Dedicated Counsellor Contact",
-    body: "An academic coordinator will review your background and connect via phone or WhatsApp to understand your educational goals.",
-  },
-  {
-    icon: BookOpen,
-    title: "2. Focused Guidance Consultation",
-    body: "Explore stream opportunities, college options, and entrance timelines in a pressure-free, student-first consultation.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "3. Absolute Privacy & Integrity",
-    body: "Your details remain confidential and are accessed exclusively by verified EDUARC counselling staff for educational planning.",
-  },
-] as const;
+import { useSiteContent } from "@/lib/site-content";
 
 export function PartnerContent() {
+  const c = useSiteContent();
+
+  const dynamicExpectations = [
+    {
+      icon: Users,
+      title: c.partnerPage?.step1Title || "1. Dedicated Counsellor Contact",
+      body:
+        c.partnerPage?.step1Body ||
+        "An academic coordinator will review your background and connect via phone or WhatsApp to understand your educational goals.",
+    },
+    {
+      icon: BookOpen,
+      title: c.partnerPage?.step2Title || "2. Focused Guidance Consultation",
+      body:
+        c.partnerPage?.step2Body ||
+        "Explore stream opportunities, college options, and entrance timelines in a pressure-free, student-first consultation.",
+    },
+    {
+      icon: ShieldCheck,
+      title: c.partnerPage?.step3Title || "3. Absolute Privacy & Integrity",
+      body:
+        c.partnerPage?.step3Body ||
+        "Your details remain confidential and are accessed exclusively by verified EDUARC counselling staff for educational planning.",
+    },
+  ];
+
   return (
     <div className="relative isolate overflow-hidden bg-[#FEFAF1]">
       <main className="container-wide py-10 sm:py-14 lg:py-18">
@@ -38,18 +47,16 @@ export function PartnerContent() {
             {/* Header copy */}
             <div className="space-y-4">
               <span className="inline-flex items-center rounded-full bg-[#EBF5F3] px-3.5 py-1.5 text-xs font-semibold text-[#1C5153] border border-[#D1EAE5]">
-                Student &amp; Institutional Enquiries
+                {c.partnerPage?.badge || "Student & Institutional Enquiries"}
               </span>
 
               <h1 className="text-3xl sm:text-4xl lg:text-[46px] font-extrabold tracking-tight text-brand-navy leading-[1.12]">
-                Start your guidance journey with{" "}
-                <span className="block text-brand-navy">EDUARC.</span>
+                {c.partnerPage?.title || "Start your guidance journey with EDUARC."}
               </h1>
 
               <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl">
-                Whether you are a student evaluating streams after Class 10 or 12, a parent seeking
-                objective higher-education advice, or a school administrator planning a student
-                guidance cohort.
+                {c.partnerPage?.lead ||
+                  "Whether you are a student evaluating streams after Class 10 or 12, a parent seeking objective higher-education advice, or a school administrator planning a student guidance cohort."}
               </p>
             </div>
 
@@ -60,7 +67,7 @@ export function PartnerContent() {
               </p>
 
               <div className="space-y-5">
-                {expectations.map((item) => {
+                {dynamicExpectations.map((item) => {
                   const Icon = item.icon;
                   return (
                     <div key={item.title} className="flex items-start gap-4">

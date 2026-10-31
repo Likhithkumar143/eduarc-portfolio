@@ -10,6 +10,10 @@ import {
   Send,
   ArrowRight,
   MessageSquare,
+  Camera,
+  Upload,
+  X,
+  CheckCircle2,
 } from "lucide-react";
 import { Reveal } from "@/components/site/Reveal";
 import { Button } from "@/components/ui/button";
@@ -28,6 +32,13 @@ import { toast } from "sonner";
 import { useSiteContent } from "@/lib/site-content";
 import { submitUserReview } from "@/lib/testimonials.functions";
 import { initials, type TestimonialItem } from "@/content/eduarc";
+import {
+  getAvatarUrl,
+  getGoogleInitialsAvatar,
+  getGoogleMaterialAvatarSvg,
+  getGravatarUrl,
+} from "@/lib/avatar";
+import { compressImage } from "@/lib/image-compression";
 
 // Local cropped assets from reference design
 import ananyaImg from "@/assets/testimonials/ananya.jpg";
@@ -47,17 +58,31 @@ const defaultAvatars: Record<string, string> = {
   sneha: snehaImg,
 };
 
-// Fallback avatar lookup by index or key
-function getAvatarSrc(t: TestimonialItem, index: number): string | null {
-  if (t.avatar && defaultAvatars[t.avatar.toLowerCase()]) {
-    return defaultAvatars[t.avatar.toLowerCase()]!;
+// Avatar lookup: checks custom URL / Google Gmail avatar from email, local presets, and Google Material fallback
+function getAvatarSrc(t: TestimonialItem, index: number): string {
+  if (t.avatar) {
+    if (
+      t.avatar.startsWith("http://") ||
+      t.avatar.startsWith("https://") ||
+      t.avatar.startsWith("data:") ||
+      t.avatar.startsWith("//")
+    ) {
+      return t.avatar;
+    }
+    if (defaultAvatars[t.avatar.toLowerCase()]) {
+      return defaultAvatars[t.avatar.toLowerCase()]!;
+    }
+  }
+  // Load profile photo from user's email ID (Gmail / Google / Unavatar / Gravatar)
+  if (t.email && t.email.includes("@")) {
+    return getAvatarUrl(t.email, t.name);
   }
   const keys = ["ananya", "priya", "rohit", "meera", "ramesh", "sneha"];
   const fallbackKey = keys[index % keys.length];
   if (fallbackKey && defaultAvatars[fallbackKey]) {
     return defaultAvatars[fallbackKey]!;
   }
-  return null;
+  return getGoogleInitialsAvatar(t.name, t.email);
 }
 
 export function TestimonialsContent() {
@@ -92,8 +117,31 @@ export function TestimonialsContent() {
     rating: 5,
     category: "Career Guidance Session",
     review: "",
+    avatar: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  async function handleAvatarUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      toast.loading("Processing profile photo...", { id: "avatar-upload" });
+      const compressed = await compressImage(file, {
+        maxWidth: 240,
+        maxHeight: 240,
+        quality: 0.85,
+        format: "image/webp",
+      });
+      setModalForm((prev) => ({ ...prev, avatar: compressed.dataUrl }));
+      toast.dismiss("avatar-upload");
+      toast.success("Profile photo attached!");
+    } catch (err) {
+      toast.dismiss("avatar-upload");
+      toast.error(err instanceof Error ? err.message : "Failed to process photo");
+    } finally {
+      e.target.value = "";
+    }
+  }
 
   function handleQuickSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -132,6 +180,7 @@ export function TestimonialsContent() {
           rating: modalForm.rating,
           category: modalForm.category.trim() || "Career Guidance Session",
           quote: modalForm.review.trim(),
+          avatar: modalForm.avatar.trim() || undefined,
         },
       });
 
@@ -140,16 +189,13 @@ export function TestimonialsContent() {
       if (res.skipped) {
         toast.info(res.message, {
           id: "user-review",
-          duration: 5000,
+          duration: 6000,
         });
       } else {
         toast.success(res.message, {
           id: "user-review",
-          duration: 5000,
+          duration: 6000,
         });
-        if (res.review) {
-          setLocalTestimonials((prev) => [res.review as TestimonialItem, ...prev]);
-        }
       }
 
       setIsModalOpen(false);
@@ -161,6 +207,7 @@ export function TestimonialsContent() {
         rating: 5,
         category: "Career Guidance Session",
         review: "",
+        avatar: "",
       });
     } catch (err) {
       toast.dismiss("user-review");
@@ -200,18 +247,20 @@ export function TestimonialsContent() {
                       {/* Top Header: Avatar + Info + Quote Icon */}
                       <div className="flex items-center justify-between gap-3">
                         <div className="flex items-center gap-3">
-                          <div className="h-11 w-11 rounded-full overflow-hidden bg-slate-100 border border-slate-200/80 shrink-0 shadow-2xs">
-                            {avatarSrc ? (
-                              <img
-                                src={avatarSrc}
-                                alt={t.name}
-                                className="h-full w-full object-cover"
-                              />
-                            ) : (
-                              <span className="flex h-full w-full items-center justify-center bg-blue-100 text-xs font-bold text-blue-800">
-                                {initials(t.name)}
-                              </span>
-                            )}
+                          <div className="h-11 w-11 rounded-full overflow-hidden bg-slate-100 border border-slate-200/80 shrink-0 shadow-2xs flex items-center justify-center">
+                            <img
+                              src={avatarSrc}
+                              alt={t.name}
+                              loading="lazy"
+                              className="h-full w-full object-cover"
+                              onError={(e) => {
+                                const img = e.currentTarget;
+                                if (!img.dataset.fallbackApplied) {
+                                  img.dataset.fallbackApplied = "true";
+                                  img.src = getGoogleMaterialAvatarSvg(t.name, t.email);
+                                }
+                              }}
+                            />
                           </div>
                           <div>
                             <h3 className="text-[15px] font-bold text-slate-900 leading-tight">
@@ -449,10 +498,79 @@ export function TestimonialsContent() {
                   type="email"
                   value={modalForm.email}
                   onChange={(e) => setModalForm({ ...modalForm, email: e.target.value })}
-                  placeholder="yourname@example.com"
+                  placeholder="yourname@gmail.com"
                   className="mt-1 h-9 rounded-xl text-xs"
                   required
                 />
+              </div>
+            </div>
+
+            {/* Profile Photo: Upload custom photo or auto-load from Gmail / Google */}
+            <div className="rounded-2xl border border-slate-200/90 bg-slate-50/80 p-3">
+              <div className="flex items-center gap-3.5">
+                <div className="relative h-13 w-13 rounded-full overflow-hidden bg-slate-100 border-2 border-blue-400/80 shadow-2xs shrink-0 flex items-center justify-center">
+                  <img
+                    key={modalForm.avatar || modalForm.email || modalForm.name}
+                    src={
+                      modalForm.avatar ||
+                      (modalForm.email && modalForm.email.includes("@")
+                        ? getAvatarUrl(modalForm.email, modalForm.name)
+                        : getGoogleMaterialAvatarSvg(modalForm.name || "User", modalForm.email))
+                    }
+                    alt="Reviewer Avatar Preview"
+                    className="h-full w-full object-cover"
+                    onError={(e) => {
+                      const img = e.currentTarget;
+                      if (!img.dataset.fallbackApplied) {
+                        img.dataset.fallbackApplied = "true";
+                        img.src = getGoogleMaterialAvatarSvg(modalForm.name || "User", modalForm.email);
+                      }
+                    }}
+                  />
+                </div>
+
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-xs font-bold text-slate-800">Profile Photo</span>
+                    {modalForm.avatar && (
+                      <button
+                        type="button"
+                        onClick={() => setModalForm((prev) => ({ ...prev, avatar: "" }))}
+                        className="text-[11px] text-red-500 hover:text-red-700 font-medium flex items-center gap-1 cursor-pointer transition-colors"
+                      >
+                        <X className="h-3 w-3" />
+                        <span>Use Gmail Photo</span>
+                      </button>
+                    )}
+                  </div>
+
+                  <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">
+                    {modalForm.avatar
+                      ? "Custom photo attached for your review card."
+                      : modalForm.email && modalForm.email.includes("@")
+                        ? "Auto-loaded from your Gmail / Google account."
+                        : "Enter your email to auto-detect your Gmail photo, or choose a photo."}
+                  </p>
+
+                  <div className="mt-2 flex items-center gap-2">
+                    <label className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 hover:text-slate-900 cursor-pointer shadow-2xs transition-colors">
+                      <Camera className="h-3.5 w-3.5 text-blue-600" />
+                      <span>{modalForm.avatar ? "Change Photo" : "Upload Photo"}</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleAvatarUpload}
+                      />
+                    </label>
+                    {modalForm.avatar && (
+                      <span className="inline-flex items-center gap-1 text-[11px] text-emerald-600 font-medium bg-emerald-50 px-2 py-0.5 rounded-md">
+                        <CheckCircle2 className="h-3 w-3" />
+                        <span>Attached</span>
+                      </span>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
 
