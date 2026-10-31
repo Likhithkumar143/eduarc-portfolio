@@ -637,6 +637,16 @@ export function TestimonialsContent() {
               />
             </div>
 
+            {/* Honeypot field for bot deterrence */}
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              className="sr-only opacity-0 pointer-events-none absolute -left-[9999px]"
+              aria-hidden="true"
+            />
+
             <DialogFooter className="gap-2 sm:gap-0 pt-2">
               <Button
                 type="button"

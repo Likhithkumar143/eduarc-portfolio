@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireAdmin } from "@/lib/staff.server";
 import { getAvatarUrl, getGravatarUrl } from "@/lib/avatar";
+import { checkRateLimit, getClientIp, ENQUIRY_RATE_LIMIT_OPTIONS } from "@/lib/rate-limit.server";
 
 export const userReviewInputSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
@@ -59,6 +60,24 @@ export const submitUserReview = createServerFn({ method: "POST" })
         skipped: false as const,
         message: "Thank you! Your feedback has been received.",
       };
+    }
+
+    // Rate limiting by client IP
+    let ip = "unknown";
+    try {
+      const { getRequest } = await import("@tanstack/react-start/server");
+      const req = getRequest();
+      if (req?.headers) ip = getClientIp(req.headers);
+    } catch {
+      ip = "unknown";
+    }
+
+    const rateCheck = checkRateLimit(`review:${ip}`, ENQUIRY_RATE_LIMIT_OPTIONS);
+    if (!rateCheck.allowed) {
+      const minutes = Math.max(1, Math.ceil(rateCheck.retryAfterSeconds / 60));
+      throw new Error(
+        `Too many reviews submitted. Please wait ${minutes} minute${minutes === 1 ? "" : "s"} before submitting again.`,
+      );
     }
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");

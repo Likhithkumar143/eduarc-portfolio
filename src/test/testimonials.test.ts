@@ -6,6 +6,11 @@ import {
 } from "@/lib/testimonials.functions";
 import { siteContentSchema, defaultContent } from "@/content/eduarc";
 import {
+  checkRateLimit,
+  ENQUIRY_RATE_LIMIT_OPTIONS,
+  _resetRateLimitsForTesting,
+} from "@/lib/rate-limit.server";
+import {
   getGravatarUrl,
   getAvatarUrl,
   getGoogleColor,
@@ -338,6 +343,19 @@ describe("Testimonials & Review Submissions", () => {
         expect(parsed.data.testimonialStats.programsConducted).toBe("150+");
         expect(parsed.data.testimonialStats.averageRating).toBe("4.9/5");
       }
+    });
+  });
+
+  describe("Review Rate Limiting & Abuse Prevention", () => {
+    it("enforces rate limits on review submissions per IP", () => {
+      _resetRateLimitsForTesting();
+      for (let i = 0; i < 5; i++) {
+        const res = checkRateLimit("review:192.168.1.100", ENQUIRY_RATE_LIMIT_OPTIONS);
+        expect(res.allowed).toBe(true);
+      }
+      const throttled = checkRateLimit("review:192.168.1.100", ENQUIRY_RATE_LIMIT_OPTIONS);
+      expect(throttled.allowed).toBe(false);
+      expect(throttled.retryAfterSeconds).toBeGreaterThan(0);
     });
   });
 });

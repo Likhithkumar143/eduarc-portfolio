@@ -1,17 +1,13 @@
 import { createServerFn } from "@tanstack/react-start";
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 import { mergeContent, defaultContent } from "@/content/eduarc";
 
-// Public read of the editable site content (anon SELECT policy only).
-export const getSiteContent = createServerFn({ method: "GET" }).handler(async () => {
-  const url = process.env["SUPABASE_URL"] || "https://lionurqqysgonxrpzovv.supabase.co";
-  const key =
-    process.env["SUPABASE_PUBLISHABLE_KEY"] || "sb_publishable_a4Y9SoiVOegyPtFzoLG4lw_wcd39ojW";
-  if (!url || !key) return defaultContent;
+let cachedPublicClient: SupabaseClient<Database> | null = null;
 
-  try {
-    const client = createClient<Database>(url, key, {
+function getPublicSupabaseClient(url: string, key: string): SupabaseClient<Database> {
+  if (!cachedPublicClient) {
+    cachedPublicClient = createClient<Database>(url, key, {
       auth: { storage: undefined, persistSession: false, autoRefreshToken: false },
       global: {
         fetch: (input, init) => {
@@ -24,6 +20,19 @@ export const getSiteContent = createServerFn({ method: "GET" }).handler(async ()
         },
       },
     });
+  }
+  return cachedPublicClient;
+}
+
+// Public read of the editable site content (anon SELECT policy only).
+export const getSiteContent = createServerFn({ method: "GET" }).handler(async () => {
+  const url = process.env["SUPABASE_URL"] || "https://lionurqqysgonxrpzovv.supabase.co";
+  const key =
+    process.env["SUPABASE_PUBLISHABLE_KEY"] || "sb_publishable_a4Y9SoiVOegyPtFzoLG4lw_wcd39ojW";
+  if (!url || !key) return defaultContent;
+
+  try {
+    const client = getPublicSupabaseClient(url, key);
     const { data, error } = await client
       .from("site_content")
       .select("data")

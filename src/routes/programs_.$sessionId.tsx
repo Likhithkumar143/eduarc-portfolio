@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useMemo } from "react";
 import {
   Calendar,
@@ -42,7 +42,10 @@ export const Route = createFileRoute("/programs_/$sessionId")({
     } catch {
       // fallback
     }
-    return session || defaultProgram;
+    if (!session) {
+      throw notFound();
+    }
+    return session;
   },
   head: ({ loaderData }) => {
     const program = loaderData || defaultProgram;
