@@ -21,10 +21,13 @@ import {
   UserRoundCheck,
   Users,
   X,
+  AlertTriangle,
+  Trash2,
 } from "lucide-react";
 import { toast } from "sonner";
 import { enquiriesQuery } from "@/lib/reception-queries";
 import { adminSetReceptionPassword, getReceptionAccess } from "@/lib/admin.functions";
+import { deleteEnquiry, listEnquiries, type EnquiryRow } from "@/lib/enquiry.functions";
 import { exportStudentsToExcel } from "@/lib/export-excel";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -37,7 +40,6 @@ import {
   EnquiryDetailModal,
 } from "@/components/reception/enquiry-components";
 import { Panel, TextField } from "./fields";
-import type { EnquiryRow } from "@/lib/enquiry.functions";
 import type { EnquiryRole } from "@/lib/enquiry";
 
 type RoleFilter = "all" | EnquiryRole;
@@ -55,10 +57,24 @@ const MIN_PASS_LEN = 8;
 
 export function ReceptionAdminPanel() {
   const queryClient = useQueryClient();
-  const { data: rows = [], isLoading, isFetching, refetch } = useQuery(enquiriesQuery);
 
+  const fetchEnquiries = useServerFn(listEnquiries);
+  const deleteEnquiryFn = useServerFn(deleteEnquiry);
   const fetchAccessInfo = useServerFn(getReceptionAccess);
   const setReceptionPassword = useServerFn(adminSetReceptionPassword);
+
+  const {
+    data: rows = [],
+    isLoading,
+    isFetching,
+    refetch,
+  } = useQuery({
+    queryKey: enquiriesQuery.queryKey,
+    queryFn: () => fetchEnquiries(),
+    staleTime: 15_000,
+    refetchInterval: 30_000,
+  });
+
   const accessInfo = useQuery({ queryKey: ["reception-access"], queryFn: () => fetchAccessInfo() });
 
   const [activeTab, setActiveTab] = useState<"data" | "credentials">("data");
@@ -66,6 +82,8 @@ export function ReceptionAdminPanel() {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [query, setQuery] = useState("");
   const [activeDetail, setActiveDetail] = useState<EnquiryRow | null>(null);
+  const [deletingEnquiry, setDeletingEnquiry] = useState<EnquiryRow | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Password reset form state
   const [newPassword, setNewPassword] = useState("");
@@ -210,6 +228,28 @@ export function ReceptionAdminPanel() {
         ? `Exported ${toExport.length} filtered record(s) to Excel`
         : `Exported all ${rows.length} enquiry record(s) to Excel`,
     );
+  }
+
+  async function handleConfirmDelete() {
+    if (!deletingEnquiry) return;
+    setIsDeleting(true);
+    try {
+      await deleteEnquiryFn({ data: { id: deletingEnquiry.id } });
+      queryClient.setQueryData(enquiriesQuery.queryKey, (old?: EnquiryRow[]) =>
+        old ? old.filter((r) => r.id !== deletingEnquiry.id) : [],
+      );
+      toast.success(`Enquiry from "${deletingEnquiry.full_name}" deleted permanently.`);
+      if (activeDetail?.id === deletingEnquiry.id) {
+        setActiveDetail(null);
+      }
+      setDeletingEnquiry(null);
+    } catch (err: unknown) {
+      console.error("Delete enquiry error:", err);
+      const msg = err instanceof Error ? err.message : "";
+      toast.error(msg || "Could not delete enquiry. Only admins can delete records.");
+    } finally {
+      setIsDeleting(false);
+    }
   }
 
   async function onSaveReceptionPassword(e: React.FormEvent) {
@@ -873,6 +913,7 @@ export function ReceptionAdminPanel() {
                   row={r}
                   index={i}
                   onOpenDetails={() => setActiveDetail(r)}
+                  onDelete={() => setDeletingEnquiry(r)}
                 />
               ))
             )}
@@ -955,8 +996,70 @@ export function ReceptionAdminPanel() {
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto p-6 md:p-8 rounded-3xl border border-hairline bg-white shadow-lift">
           <DialogTitle className="sr-only">Enquiry Details</DialogTitle>
           {activeDetail && (
-            <EnquiryDetailModal row={activeDetail} onClose={() => setActiveDetail(null)} />
+            <EnquiryDetailModal
+              row={activeDetail}
+              onClose={() => setActiveDetail(null)}
+              onDelete={() => {
+                setDeletingEnquiry(activeDetail);
+              }}
+            />
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog (Admin-only restriction) */}
+      <Dialog
+        open={deletingEnquiry !== null}
+        onOpenChange={(open) => !open && !isDeleting && setDeletingEnquiry(null)}
+      >
+        <DialogContent className="max-w-md p-6 rounded-3xl border border-hairline bg-white shadow-lift">
+          <DialogTitle className="flex items-center gap-2 text-lg font-bold text-rose-700">
+            <AlertTriangle className="h-5 w-5 text-rose-600 shrink-0" />
+            <span>Delete Enquiry Record?</span>
+          </DialogTitle>
+          <div className="mt-3 space-y-3 text-xs text-foreground/85">
+            <p>
+              Are you sure you want to permanently delete the enquiry submitted by{" "}
+              <strong className="text-brand-navy">{deletingEnquiry?.full_name}</strong>
+              {deletingEnquiry?.email ? ` (${deletingEnquiry.email})` : ""}?
+            </p>
+            <div className="rounded-xl border border-rose-200 bg-rose-50/70 p-3 text-rose-800 text-[11px] leading-relaxed">
+              <strong>Caution:</strong> This will delete all contact information, education details,
+              remarks, and counselling progress for this lead. This action is irreversible and
+              restricted strictly to administrators.
+            </div>
+          </div>
+          <div className="mt-5 flex items-center justify-end gap-2 pt-2 border-t border-hairline">
+            <Button
+              type="button"
+              variant="pill-outline"
+              size="sm"
+              onClick={() => setDeletingEnquiry(null)}
+              disabled={isDeleting}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              variant="destructive"
+              size="sm"
+              onClick={handleConfirmDelete}
+              disabled={isDeleting}
+              className="bg-rose-600 hover:bg-rose-700 text-white rounded-full text-xs font-bold"
+            >
+              {isDeleting ? (
+                <>
+                  <Loader2 className="h-3.5 w-3.5 animate-spin mr-1.5" />
+                  <span>Deleting...</span>
+                </>
+              ) : (
+                <>
+                  <Trash2 className="h-3.5 w-3.5 mr-1.5" />
+                  <span>Delete Permanently</span>
+                </>
+              )}
+            </Button>
+          </div>
         </DialogContent>
       </Dialog>
     </div>

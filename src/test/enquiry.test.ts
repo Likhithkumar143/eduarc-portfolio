@@ -188,3 +188,15 @@ describe("Counselling status schema", () => {
     expect(statusUpdateSchema.safeParse({ id, status: "invalid_status" }).success).toBe(false);
   });
 });
+
+describe("Admin-only Enquiry Deletion", () => {
+  it("exports deleteEnquiry and rejects unauthenticated callers", async () => {
+    const { deleteEnquiry } = await import("@/lib/enquiry.functions");
+    expect(typeof deleteEnquiry).toBe("function");
+
+    // Unauthenticated callers without admin session must be rejected
+    await expect(
+      deleteEnquiry({ data: { id: "00000000-0000-0000-0000-000000000000" } }),
+    ).rejects.toThrow();
+  });
+});

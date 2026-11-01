@@ -28,10 +28,13 @@ Configure the following environment variables in your deployment platform (e.g. 
 ## 2. Database Setup & Migrations
 
 ### Option A: One-Shot Complete Schema (Recommended)
+
 Execute the consolidated all-in-one SQL script in the **Supabase SQL Editor**:
+
 - [`supabase/schema.sql`](file:///c:/Users/Home/Desktop/eduarc-connect-portfolio-backup-20261031/supabase/schema.sql) (or `drizzle/migrations/schema_all_in_one.sql`)
 
 This script creates and configures the entire database in one run:
+
 - Extensions (`pgcrypto`, `uuid-ossp`)
 - All 7 core tables with indices:
   1. `site_content`
@@ -46,6 +49,7 @@ This script creates and configures the entire database in one run:
 - Supabase Storage bucket (`programs`) configuration and public read policy
 
 ### Option B: Incremental Migrations
+
 Alternatively, apply the individual migration scripts located in `drizzle/migrations/` sequentially:
 
 1. `0000_migration.sql` — Site content storage & brochure schema.
@@ -55,7 +59,7 @@ Alternatively, apply the individual migration scripts located in `drizzle/migrat
 5. `0004_website_analytics.sql` — Privacy-first website analytics table.
 6. `0005_website_security.sql` — Security incidents & active IP blocklist tables.
 
-*Note: Application code includes automatic schema fallback for missing columns, so deployments will not crash even if migrations are applied after code deploy.*
+_Note: Application code includes automatic schema fallback for missing columns, so deployments will not crash even if migrations are applied after code deploy._
 
 ---
 
@@ -109,5 +113,6 @@ Once deployed to `https://eduarc-connect.in`:
 ### 5.2 Database Rollback Strategy
 
 Database changes are strictly backward-compatible:
+
 - Columns added allow NULL values, allowing older code versions to function normally.
 - Server functions in `src/lib/enquiry.functions.ts` automatically fall back to baseline columns if new columns are missing.

@@ -5,6 +5,7 @@ import { enquirySchema, statusUpdateSchema, type CounsellingStatus } from "./enq
 import { checkRateLimit, getClientIp, ENQUIRY_RATE_LIMIT_OPTIONS } from "./rate-limit.server";
 import {
   changeOwnPassword,
+  requireAdmin,
   requireReception,
   staffLogin,
   staffLogout,
@@ -256,4 +257,24 @@ export const updateEnquiryStatus = createServerFn({ method: "POST" })
       throw new Error(`Could not update status: ${error.message}`);
     }
     return { ok: true as const, statusUpdatedAt, status: targetStatus };
+  });
+
+/**
+ * Admin-only: Permanently delete an enquiry from the database.
+ * Strictly gated behind requireAdmin() so reception desk staff cannot delete records.
+ */
+export const deleteEnquiry = createServerFn({ method: "POST" })
+  .validator((d) => z.object({ id: z.string().min(1) }).parse(d))
+  .handler(async ({ data }) => {
+    await requireAdmin();
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    const { error } = await supabaseAdmin.from("partner_enquiries").delete().eq("id", data.id);
+
+    if (error) {
+      console.error("[deleteEnquiry] delete failed:", error.message);
+      throw new Error(`Could not delete enquiry: ${error.message}`);
+    }
+
+    return { ok: true as const, deletedId: data.id };
   });

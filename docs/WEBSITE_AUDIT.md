@@ -20,12 +20,12 @@ All verified issues identified during direct code inspection and automated testi
 
 ## 2. Baseline Status & Automated Checks
 
-| Check                      | Tool / Command                 | Initial Result        | Remediated Status  | Notes                                                                     |
-| -------------------------- | ------------------------------ | --------------------- | ------------------ | ------------------------------------------------------------------------- |
-| **TypeScript Typecheck**   | `npx tsc --noEmit`             | Clean exit (Code 0)   | ✅ **PASSED**      | Zero compilation errors across all modules.                               |
-| **Unit Test Suite**        | `npm test` (Vitest)            | 36 / 36 tests passed  | ✅ **117 / 117**   | All 11 test suites pass with 100% pass rate.                              |
-| **Production Build**       | `npm run build` (Vite + Nitro) | Clean bundle          | ✅ **PASSED**      | Client assets, SSR bundles, and Nitro serverless workers compile cleanly. |
-| **Code Formatting / Lint** | `npx eslint src`               | 390 errors (Prettier) | ✅ **0 ERRORS**    | Prettier formatted across repo; all `@typescript-eslint` any types fixed. |
+| Check                      | Tool / Command                 | Initial Result        | Remediated Status | Notes                                                                     |
+| -------------------------- | ------------------------------ | --------------------- | ----------------- | ------------------------------------------------------------------------- |
+| **TypeScript Typecheck**   | `npx tsc --noEmit`             | Clean exit (Code 0)   | ✅ **PASSED**     | Zero compilation errors across all modules.                               |
+| **Unit Test Suite**        | `npm test` (Vitest)            | 36 / 36 tests passed  | ✅ **117 / 117**  | All 11 test suites pass with 100% pass rate.                              |
+| **Production Build**       | `npm run build` (Vite + Nitro) | Clean bundle          | ✅ **PASSED**     | Client assets, SSR bundles, and Nitro serverless workers compile cleanly. |
+| **Code Formatting / Lint** | `npx eslint src`               | 390 errors (Prettier) | ✅ **0 ERRORS**   | Prettier formatted across repo; all `@typescript-eslint` any types fixed. |
 
 ---
 

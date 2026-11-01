@@ -14,6 +14,7 @@ import {
   X,
   Clock,
   Briefcase,
+  Trash2,
 } from "lucide-react";
 import { toast } from "sonner";
 import { updateEnquiryStatus, type EnquiryRow } from "@/lib/enquiry.functions";
@@ -26,6 +27,7 @@ import {
   type CounsellingStatus,
   type EnquiryRole,
 } from "@/lib/enquiry";
+import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
@@ -98,10 +100,12 @@ export function StatusBadge({ status }: { status: string | null | undefined }) {
 export function EnquiryCard({
   row,
   onOpenDetails,
+  onDelete,
 }: {
   row: EnquiryRow;
   index?: number;
   onOpenDetails: () => void;
+  onDelete?: () => void;
 }) {
   const queryClient = useQueryClient();
   const update = useServerFn(updateEnquiryStatus);
@@ -260,14 +264,28 @@ export function EnquiryCard({
               <span className="truncate">{row.email}</span>
             </a>
 
-            <button
-              type="button"
-              onClick={onOpenDetails}
-              className="inline-flex items-center gap-1 text-[11px] font-bold text-brand-gold hover:text-brand-gold-hover hover:underline cursor-pointer ml-auto"
-            >
-              <Eye className="h-3 w-3" />
-              <span>Full Details</span>
-            </button>
+            <div className="flex items-center gap-2 ml-auto">
+              <button
+                type="button"
+                onClick={onOpenDetails}
+                className="inline-flex items-center gap-1 text-[11px] font-bold text-brand-gold hover:text-brand-gold-hover hover:underline cursor-pointer"
+              >
+                <Eye className="h-3 w-3" />
+                <span>Full Details</span>
+              </button>
+
+              {onDelete && (
+                <button
+                  type="button"
+                  onClick={onDelete}
+                  className="inline-flex items-center gap-1 text-[11px] font-semibold text-rose-600 hover:text-rose-700 hover:bg-rose-50 px-2 py-0.5 rounded-md transition-colors cursor-pointer"
+                  title="Delete this enquiry (Admin only)"
+                >
+                  <Trash2 className="h-3 w-3" />
+                  <span>Delete</span>
+                </button>
+              )}
+            </div>
           </div>
         </div>
 
@@ -320,7 +338,15 @@ export function EnquiryCard({
   );
 }
 
-export function EnquiryDetailModal({ row, onClose }: { row: EnquiryRow; onClose: () => void }) {
+export function EnquiryDetailModal({
+  row,
+  onClose,
+  onDelete,
+}: {
+  row: EnquiryRow;
+  onClose: () => void;
+  onDelete?: () => void;
+}) {
   const queryClient = useQueryClient();
   const update = useServerFn(updateEnquiryStatus);
 
@@ -542,44 +568,59 @@ export function EnquiryDetailModal({ row, onClose }: { row: EnquiryRow; onClose:
       {/* Status Update Control in Modal */}
       <div className="border-t border-hairline pt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <span className="text-xs font-semibold text-brand-navy">Update Follow-up Status:</span>
-        <ToggleGroup
-          type="single"
-          value={normalizeStatus(row.status)}
-          onValueChange={(val) => {
-            if (val === "new" || !val) setStatus(null);
-            else setStatus(val as CounsellingStatus);
-          }}
-          className="flex flex-wrap gap-1 rounded-xl border border-hairline bg-surface p-1"
-        >
-          <ToggleGroupItem
-            value="new"
-            size="sm"
-            className="rounded-lg text-xs font-semibold px-2.5 py-1 cursor-pointer"
+        <div className="flex flex-wrap items-center gap-2">
+          <ToggleGroup
+            type="single"
+            value={normalizeStatus(row.status)}
+            onValueChange={(val) => {
+              if (val === "new" || !val) setStatus(null);
+              else setStatus(val as CounsellingStatus);
+            }}
+            className="flex flex-wrap gap-1 rounded-xl border border-hairline bg-surface p-1"
           >
-            New
-          </ToggleGroupItem>
-          <ToggleGroupItem
-            value="contacted"
-            size="sm"
-            className="rounded-lg text-xs font-semibold px-2.5 py-1 data-[state=on]:bg-success data-[state=on]:text-white cursor-pointer"
-          >
-            Contacted
-          </ToggleGroupItem>
-          <ToggleGroupItem
-            value="follow_up"
-            size="sm"
-            className="rounded-lg text-xs font-semibold px-2.5 py-1 data-[state=on]:bg-warning data-[state=on]:text-white cursor-pointer"
-          >
-            Follow-up
-          </ToggleGroupItem>
-          <ToggleGroupItem
-            value="resolved"
-            size="sm"
-            className="rounded-lg text-xs font-semibold px-2.5 py-1 data-[state=on]:bg-brand-navy data-[state=on]:text-white cursor-pointer"
-          >
-            Resolved
-          </ToggleGroupItem>
-        </ToggleGroup>
+            <ToggleGroupItem
+              value="new"
+              size="sm"
+              className="rounded-lg text-xs font-semibold px-2.5 py-1 cursor-pointer"
+            >
+              New
+            </ToggleGroupItem>
+            <ToggleGroupItem
+              value="contacted"
+              size="sm"
+              className="rounded-lg text-xs font-semibold px-2.5 py-1 data-[state=on]:bg-success data-[state=on]:text-white cursor-pointer"
+            >
+              Contacted
+            </ToggleGroupItem>
+            <ToggleGroupItem
+              value="follow_up"
+              size="sm"
+              className="rounded-lg text-xs font-semibold px-2.5 py-1 data-[state=on]:bg-warning data-[state=on]:text-white cursor-pointer"
+            >
+              Follow-up
+            </ToggleGroupItem>
+            <ToggleGroupItem
+              value="resolved"
+              size="sm"
+              className="rounded-lg text-xs font-semibold px-2.5 py-1 data-[state=on]:bg-brand-navy data-[state=on]:text-white cursor-pointer"
+            >
+              Resolved
+            </ToggleGroupItem>
+          </ToggleGroup>
+
+          {onDelete && (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={onDelete}
+              className="border-rose-200 text-rose-600 hover:bg-rose-50 hover:text-rose-700 text-xs font-semibold rounded-xl"
+            >
+              <Trash2 className="h-3.5 w-3.5 mr-1" />
+              <span>Delete Lead</span>
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   );

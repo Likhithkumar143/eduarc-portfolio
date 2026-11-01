@@ -310,3 +310,4 @@ END $$;
 -- Schema initialization complete!
 -- All 7 tables, indices, RLS policies, grants, and storage buckets are ready.
 -- ============================================================================
+

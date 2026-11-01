@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { enquiriesQuery, receptionStatusQuery } from "@/lib/reception-queries";
 import { receptionLogin } from "@/lib/enquiry.functions";
 import { AdminLogin } from "@/components/admin/AdminLogin";
@@ -7,8 +7,12 @@ import { ReceptionDashboard } from "@/components/reception/ReceptionDashboard";
 
 export const Route = createFileRoute("/reception")({
   loader: async ({ context }) => {
-    const status = await context.queryClient.fetchQuery(receptionStatusQuery);
-    if (status.authenticated) await context.queryClient.prefetchQuery(enquiriesQuery);
+    try {
+      const status = await context.queryClient.fetchQuery(receptionStatusQuery);
+      if (status?.authenticated) await context.queryClient.prefetchQuery(enquiriesQuery);
+    } catch {
+      // Gracefully continue to login form on loader errors
+    }
   },
   head: () => ({
     meta: [
@@ -29,8 +33,8 @@ export const Route = createFileRoute("/reception")({
 });
 
 function ReceptionPage() {
-  const { data } = useSuspenseQuery(receptionStatusQuery);
-  return data.authenticated ? (
+  const { data } = useQuery(receptionStatusQuery);
+  return data?.authenticated ? (
     <ReceptionDashboard />
   ) : (
     <AdminLogin

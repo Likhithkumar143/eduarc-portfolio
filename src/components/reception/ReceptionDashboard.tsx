@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import {
   Building2,
@@ -23,7 +23,12 @@ import {
   Briefcase,
 } from "lucide-react";
 import { toast } from "sonner";
-import { changeReceptionPassword, receptionLogout, type EnquiryRow } from "@/lib/enquiry.functions";
+import {
+  changeReceptionPassword,
+  listEnquiries,
+  receptionLogout,
+  type EnquiryRow,
+} from "@/lib/enquiry.functions";
 import { enquiriesQuery, receptionStatusQuery } from "@/lib/reception-queries";
 import { type EnquiryRole } from "@/lib/enquiry";
 import { exportStudentsToExcel } from "@/lib/export-excel";
@@ -63,9 +68,20 @@ const timeFmt = new Intl.DateTimeFormat("en-IN", { hour: "numeric", minute: "2-d
 const when = (iso: string) => `${dateFmt.format(new Date(iso))}, ${timeFmt.format(new Date(iso))}`;
 
 export function ReceptionDashboard() {
-  const { data: rows, isFetching, refetch } = useSuspenseQuery(enquiriesQuery);
   const queryClient = useQueryClient();
   const logout = useServerFn(receptionLogout);
+  const fetchEnquiries = useServerFn(listEnquiries);
+
+  const {
+    data: rows = [],
+    isFetching,
+    refetch,
+  } = useQuery({
+    queryKey: enquiriesQuery.queryKey,
+    queryFn: () => fetchEnquiries(),
+    staleTime: 15_000,
+    refetchInterval: 30_000,
+  });
 
   const [roleFilter, setRoleFilter] = useState<RoleFilter>("all");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
