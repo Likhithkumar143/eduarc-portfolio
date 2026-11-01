@@ -51,42 +51,56 @@ function AboutPage() {
           SECTION 1: HERO SECTION
           Empowering Students to Discover Their Future
          ========================================================================= */}
-      <section className="relative overflow-hidden bg-[#F5F1E8] border-b border-hairline/80 py-10 sm:py-14 lg:py-16">
-        <div className="container-apple">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left Column: Academic Brand Copy */}
-            <div className="lg:col-span-7 text-center sm:text-left">
-              <div className="inline-flex items-center gap-2 mb-3 justify-center sm:justify-start">
-                <span className="w-6 h-[2.5px] bg-[#B47A4B] inline-block rounded-full" />
-                <span className="text-xs font-bold tracking-wider text-[#243B35]/80 uppercase">
-                  About EduArc
-                </span>
-              </div>
+      {/* 1. Hero Section - Full-Bleed Edge-to-Edge Academic Hero Banner */}
+      <section className="relative overflow-hidden bg-[#F5F5F5] border-b border-hairline/80 min-h-[380px] sm:min-h-[420px] lg:h-[440px] xl:h-[480px] flex items-center">
+        {/* Desktop & Tablet Background Banner: Edge-to-edge horizontally, locked right-bottom with left fade */}
+        <div className="hidden sm:block absolute inset-y-0 right-0 h-full w-full pointer-events-none select-none z-0 overflow-hidden">
+          <img
+            src={aboutHeroImg}
+            alt="Empowering Students to Discover Their Future"
+            className="h-full w-full object-cover object-right-bottom block"
+            style={{
+              maskImage: "linear-gradient(to right, transparent 0%, transparent 12%, black 38%, black 100%)",
+              WebkitMaskImage: "linear-gradient(to right, transparent 0%, transparent 12%, black 38%, black 100%)",
+            }}
+          />
+          {/* Subtle gradient behind text to guarantee contrast across all viewports */}
+          <div className="absolute inset-y-0 left-0 w-[55%] md:w-[50%] lg:w-[45%] bg-gradient-to-r from-[#F5F5F5] via-[#F5F5F5]/90 to-transparent pointer-events-none" />
+        </div>
 
-              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-[54px] xl:text-[58px] font-semibold text-[#243B35] tracking-tight leading-[1.2] sm:leading-[1.15]">
-                Empowering Students <br />
-                to Discover <span className="text-[#B47A4B]">Their Future.</span>
-              </h1>
-
-              <p className="mt-4 text-base sm:text-lg text-[#343A36] max-w-xl mx-auto sm:mx-0 font-normal leading-relaxed">
-                {c.about?.lead ||
-                  "EduArc is a career guidance platform designed to help students make informed decisions about their future. We provide the right guidance, resources and support to turn your dreams into achievable goals."}
-              </p>
+        {/* Content Container */}
+        <div className="container-apple relative z-10 w-full">
+          <div className="pt-10 pb-4 sm:py-14 md:py-16 lg:py-20 max-w-xl text-center sm:text-left">
+            <div className="inline-flex items-center gap-2 mb-3 justify-center sm:justify-start">
+              <span className="w-6 h-[2.5px] bg-[#B47A4B] inline-block rounded-full" />
+              <span className="text-xs font-bold tracking-wider text-[#243B35]/80 uppercase">
+                About EduArc
+              </span>
             </div>
 
-            {/* Right Column: Framed Editorial Showcase Image */}
-            <div className="lg:col-span-5 flex justify-center lg:justify-end">
-              <div className="relative w-full max-w-md lg:max-w-none rounded-2xl overflow-hidden border border-hairline shadow-lift bg-white">
-                <div className="aspect-[16/10] w-full overflow-hidden relative">
-                  <img
-                    src={aboutHeroImg}
-                    alt="Empowering Students to Discover Their Future"
-                    className="h-full w-full object-cover object-right"
-                  />
-                  <div className="absolute inset-0 ring-1 ring-inset ring-black/5 rounded-2xl pointer-events-none" />
-                </div>
-              </div>
-            </div>
+            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-[54px] xl:text-[58px] font-semibold text-[#243B35] tracking-tight leading-[1.2] sm:leading-[1.15]">
+              Empowering Students <br />
+              to Discover <span className="text-[#B47A4B]">Their Future.</span>
+            </h1>
+
+            <p className="mt-4 text-base sm:text-lg text-[#343A36] max-w-lg mx-auto sm:mx-0 font-normal leading-relaxed">
+              {c.about?.lead ||
+                "EduArc is a career guidance platform designed to help students make informed decisions about their future. We provide the right guidance, resources and support to turn your dreams into achievable goals."}
+            </p>
+          </div>
+
+          {/* Mobile View: edge-to-edge horizontally, locked right-bottom, left empty space faded */}
+          <div className="sm:hidden relative w-[calc(100%+2rem)] -mx-4 h-[250px] overflow-hidden mt-4">
+            <img
+              src={aboutHeroImg}
+              alt="Empowering Students to Discover Their Future"
+              className="h-full w-full object-cover object-right-bottom block"
+              style={{
+                maskImage: "linear-gradient(to right, transparent 0%, black 25%, black 100%)",
+                WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 25%, black 100%)",
+              }}
+            />
+            <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#F5F5F5] to-transparent pointer-events-none" />
           </div>
         </div>
       </section>

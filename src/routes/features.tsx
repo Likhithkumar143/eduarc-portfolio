@@ -46,61 +46,74 @@ function FeaturesPage() {
 
   return (
     <div className="min-h-screen bg-[#FAF9F5]">
-      {/* 1. Hero Section - Structured 2-Column Academic Layout */}
-      <section className="relative overflow-hidden bg-[#F5F1E8] border-b border-hairline/80 py-10 sm:py-14 lg:py-16">
-        <div className="container-apple">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left Column: Academic Brand Copy */}
-            <div className="lg:col-span-7 text-center sm:text-left">
-              <span className="text-xs font-semibold tracking-wider text-[#B47A4B] uppercase mb-3 block">
-                INSTITUTIONAL FEATURES
+      {/* 1. Hero Section - Full-Bleed Edge-to-Edge Academic Hero Banner */}
+      <section className="relative overflow-hidden bg-[#EFF6FE] border-b border-hairline/80 min-h-[380px] sm:min-h-[420px] lg:h-[440px] xl:h-[480px] flex items-center">
+        {/* Desktop & Tablet Background Banner: Edge-to-edge horizontally, locked right-bottom with left fade */}
+        <div className="hidden sm:block absolute inset-y-0 right-0 h-full w-full pointer-events-none select-none z-0 overflow-hidden">
+          <img
+            src={featuresHeroImg}
+            alt="EDUARC Institutional Students Learning Together"
+            className="h-full w-full object-cover object-right-bottom block"
+            style={{
+              maskImage: "linear-gradient(to right, transparent 0%, transparent 12%, black 38%, black 100%)",
+              WebkitMaskImage: "linear-gradient(to right, transparent 0%, transparent 12%, black 38%, black 100%)",
+            }}
+          />
+          {/* Subtle gradient behind text to guarantee contrast across all viewports */}
+          <div className="absolute inset-y-0 left-0 w-[55%] md:w-[50%] lg:w-[45%] bg-gradient-to-r from-[#EFF6FE] via-[#EFF6FE]/90 to-transparent pointer-events-none" />
+        </div>
+
+        {/* Content Container */}
+        <div className="container-apple relative z-10 w-full">
+          <div className="pt-10 pb-4 sm:py-14 md:py-16 lg:py-20 max-w-xl text-center sm:text-left">
+            <span className="text-xs font-semibold tracking-wider text-[#B47A4B] uppercase mb-3 block">
+              INSTITUTIONAL FEATURES
+            </span>
+
+            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-[54px] xl:text-[58px] font-semibold text-[#243B35] tracking-tight leading-[1.2] sm:leading-[1.15]">
+              Structured features for <br />
+              <span className="text-[#243B35]">
+                schools and colleges.
               </span>
+            </h1>
 
-              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-[54px] xl:text-[58px] font-semibold text-[#243B35] tracking-tight leading-[1.2] sm:leading-[1.15]">
-                Structured features for <br />
-                <span className="text-[#243B35]">
-                  schools and colleges.
-                </span>
-              </h1>
+            <p className="mt-4 text-base sm:text-lg text-[#343A36] max-w-lg mx-auto sm:mx-0 font-normal leading-relaxed">
+              {c.featuresPage?.lead ||
+                "Designed to guide, support and empower students — and give institutions full visibility."}
+            </p>
 
-              <p className="mt-4 text-base sm:text-lg text-[#343A36] max-w-xl mx-auto sm:mx-0 font-normal leading-relaxed">
-                {c.featuresPage?.lead ||
-                  "Designed to guide, support and empower students — and give institutions full visibility."}
-              </p>
-
-              <div className="mt-6 flex flex-wrap gap-3 items-center justify-center sm:justify-start">
-                <Button
-                  asChild
-                  className="rounded-full bg-[#243B35] hover:bg-[#1A2C27] text-white text-sm font-semibold px-5 py-2.5 h-10 shadow-xs gap-1.5 cursor-pointer"
-                >
-                  <Link to="/partner">
-                    <span>Request Institutional Proposal</span>
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  variant="outline"
-                  className="rounded-full border-[#243B35] bg-transparent hover:bg-[#243B35]/10 text-[#243B35] text-sm font-semibold px-4 py-2.5 h-10 cursor-pointer"
-                >
-                  <Link to="/contact">Speak with Partnerships Team</Link>
-                </Button>
-              </div>
+            <div className="mt-6 flex flex-wrap gap-3 items-center justify-center sm:justify-start">
+              <Button
+                asChild
+                className="rounded-full bg-[#243B35] hover:bg-[#1A2C27] text-white text-sm font-semibold px-5 py-2.5 h-10 shadow-xs gap-1.5 cursor-pointer"
+              >
+                <Link to="/partner">
+                  <span>Request Institutional Proposal</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                className="rounded-full border-[#243B35] bg-transparent hover:bg-[#243B35]/10 text-[#243B35] text-sm font-semibold px-4 py-2.5 h-10 cursor-pointer"
+              >
+                <Link to="/contact">Speak with Partnerships Team</Link>
+              </Button>
             </div>
+          </div>
 
-            {/* Right Column: Framed Editorial Showcase Image */}
-            <div className="lg:col-span-5 flex justify-center lg:justify-end">
-              <div className="relative w-full max-w-md lg:max-w-none rounded-2xl overflow-hidden border border-hairline shadow-lift bg-white">
-                <div className="aspect-[16/10] w-full overflow-hidden relative">
-                  <img
-                    src={featuresHeroImg}
-                    alt="EDUARC Institutional Students Learning Together"
-                    className="h-full w-full object-cover object-[80%_center]"
-                  />
-                  <div className="absolute inset-0 ring-1 ring-inset ring-black/5 rounded-2xl pointer-events-none" />
-                </div>
-              </div>
-            </div>
+          {/* Mobile View: edge-to-edge horizontally, locked right-bottom, left empty space faded */}
+          <div className="sm:hidden relative w-[calc(100%+2rem)] -mx-4 h-[250px] overflow-hidden mt-4">
+            <img
+              src={featuresHeroImg}
+              alt="EDUARC Institutional Students Learning Together"
+              className="h-full w-full object-cover object-right-bottom block"
+              style={{
+                maskImage: "linear-gradient(to right, transparent 0%, black 25%, black 100%)",
+                WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 25%, black 100%)",
+              }}
+            />
+            <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#EFF6FE] to-transparent pointer-events-none" />
           </div>
         </div>
       </section>
