@@ -3,6 +3,7 @@ import { z } from "zod";
 import { requireAdmin } from "@/lib/staff.server";
 import { getAvatarUrl, getGravatarUrl } from "@/lib/avatar";
 import { checkRateLimit, getClientIp, ENQUIRY_RATE_LIMIT_OPTIONS } from "@/lib/rate-limit.server";
+import { removeImageFromStorageIfSupabase } from "@/lib/admin.functions";
 
 export const userReviewInputSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
@@ -117,10 +118,38 @@ export const submitUserReview = createServerFn({ method: "POST" })
     }
 
     // 4. Resolve profile photo: use user's uploaded avatar if provided, otherwise resolve via email
-    const avatarUrl =
-      data.avatar && data.avatar.trim().length > 0
-        ? data.avatar.trim()
-        : getAvatarUrl(normalizedEmail, data.name);
+    let avatarUrl = data.avatar && data.avatar.trim().length > 0 ? data.avatar.trim() : "";
+    if (avatarUrl.startsWith("data:image/")) {
+      try {
+        const rawBase64 = avatarUrl.replace(/^data:[^;]+;base64,/, "");
+        const buffer = Buffer.from(rawBase64, "base64");
+        const ext = avatarUrl.includes("image/webp") ? "webp" : "jpg";
+        const cleanName =
+          data.name
+            .toLowerCase()
+            .replace(/[^\w-]/g, "-")
+            .replace(/-+/g, "-")
+            .slice(0, 30) || "user";
+        const uniquePath = `avatars/submitted-${cleanName}-${Date.now()}.${ext}`;
+        const { error: upErr } = await supabaseAdmin.storage
+          .from("testimonials")
+          .upload(uniquePath, buffer, {
+            contentType: ext === "webp" ? "image/webp" : "image/jpeg",
+            upsert: true,
+          });
+        if (!upErr) {
+          const { data: pubData } = supabaseAdmin.storage
+            .from("testimonials")
+            .getPublicUrl(uniquePath);
+          avatarUrl = pubData.publicUrl;
+        }
+      } catch (e) {
+        console.warn("[submitUserReview] Storage upload fallback:", e);
+      }
+    }
+    if (!avatarUrl) {
+      avatarUrl = getAvatarUrl(normalizedEmail, data.name);
+    }
 
     // 5. Construct new review item with unique 'id' and 'pending' status
     const newReview: UserReviewRecord = {
@@ -519,6 +548,9 @@ export const deleteUserReview = createServerFn({ method: "POST" })
     };
 
     const targetReview = rawReviews.find(isMatch);
+    if (targetReview && typeof targetReview["avatar"] === "string") {
+      await removeImageFromStorageIfSupabase(targetReview["avatar"]);
+    }
     const updatedReviews = rawReviews.filter((r) => !isMatch(r));
 
     await supabaseAdmin.from("site_content").upsert({

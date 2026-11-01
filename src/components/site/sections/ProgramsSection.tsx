@@ -103,6 +103,17 @@ export function ProgramsSection({ id }: { id?: string }) {
       <section className="pb-16 md:pb-24">
         <div className="container-wide">
           <div className="grid gap-6 sm:gap-7 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {filteredPrograms.length === 0 && (
+              <div className="col-span-full text-center py-16 bg-white rounded-2xl border border-hairline shadow-xs">
+                <School className="h-10 w-10 text-muted-foreground/40 mx-auto mb-3" />
+                <p className="text-base font-semibold text-brand-navy">No programs found</p>
+                <p className="text-xs sm:text-sm text-muted-foreground mt-1 max-w-md mx-auto">
+                  {filter !== "all"
+                    ? "There are no sessions matching this specific filter right now."
+                    : "No program sessions are currently listed. Please check back soon or contact us to schedule a session."}
+                </p>
+              </div>
+            )}
             {filteredPrograms.map((program, idx) => (
               <Reveal key={program.id} delay={Math.min(idx * 60, 300)}>
                 <Link

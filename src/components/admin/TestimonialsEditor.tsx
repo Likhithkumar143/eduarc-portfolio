@@ -32,6 +32,7 @@ import {
 import { toast } from "sonner";
 import { type SiteContent, type TestimonialItem, initials, defaultContent } from "@/content/eduarc";
 import { siteContentQuery } from "@/lib/site-content";
+import { uploadTestimonialImage, deleteTestimonialPhoto } from "@/lib/admin.functions";
 import heroBannerImg from "@/assets/testimonials/hero-banner.jpg";
 import ananyaImg from "@/assets/testimonials/ananya.jpg";
 import priyaImg from "@/assets/testimonials/priya.jpg";
@@ -139,6 +140,8 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
   const approveReviewFn = useServerFn(approveUserReview);
   const rejectReviewFn = useServerFn(rejectUserReview);
   const deleteReviewFn = useServerFn(deleteUserReview);
+  const uploadPhotoFn = useServerFn(uploadTestimonialImage);
+  const deletePhotoFn = useServerFn(deleteTestimonialPhoto);
 
   const {
     data: userReviewsData,
@@ -463,6 +466,13 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
   async function handleConfirmDelete() {
     if (deleteTargetIndex === null) return;
     const target = testimonials[deleteTargetIndex];
+    if (target?.avatar) {
+      try {
+        await deletePhotoFn({ data: { photoUrl: target.avatar } });
+      } catch (err) {
+        console.warn("Storage deletion error:", err);
+      }
+    }
     const nextList = testimonials.filter((_, idx) => idx !== deleteTargetIndex);
     update("testimonials", nextList);
     setDeleteTargetIndex(null);
@@ -1418,7 +1428,18 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
                     {form.avatar && (
                       <button
                         type="button"
-                        onClick={() => setForm((prev) => ({ ...prev, avatar: "" }))}
+                        onClick={async () => {
+                          const oldUrl = form.avatar;
+                          setForm((prev) => ({ ...prev, avatar: "" }));
+                          if (oldUrl) {
+                            try {
+                              await deletePhotoFn({ data: { photoUrl: oldUrl } });
+                              toast.info("Deleted previous photo from storage");
+                            } catch (err) {
+                              console.warn("Storage delete failed:", err);
+                            }
+                          }
+                        }}
                         className="text-[11px] text-destructive hover:underline cursor-pointer"
                       >
                         Reset to Email Photo
@@ -1427,7 +1448,7 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
                   </div>
                   <p className="text-[11px] text-muted-foreground mt-0.5 leading-snug">
                     {form.avatar
-                      ? "Custom photo uploaded for this testimonial."
+                      ? "Custom photo uploaded & stored in Supabase Storage."
                       : form.email && form.email.includes("@")
                         ? "Auto-detected from reviewer's Gmail / Google profile."
                         : "Enter reviewer's email above or upload a photo."}
@@ -1445,20 +1466,31 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
                           const file = e.target.files?.[0];
                           if (!file) return;
                           try {
-                            toast.loading("Compressing photo...", { id: "avatar-upload" });
+                            toast.loading("Compressing & uploading photo to storage...", {
+                              id: "avatar-upload",
+                            });
                             const compressed = await compressImage(file, {
-                              maxWidth: 240,
-                              maxHeight: 240,
+                              maxWidth: 400,
+                              maxHeight: 400,
                               quality: 0.85,
                               format: "image/webp",
                             });
-                            setForm((prev) => ({ ...prev, avatar: compressed.dataUrl }));
+                            const res = await uploadPhotoFn({
+                              data: {
+                                fileName: file.name,
+                                contentType: "image/webp",
+                                base64Data: compressed.dataUrl,
+                                testimonialName: form.name || "reviewer",
+                                oldPhotoUrl: form.avatar,
+                              },
+                            });
+                            setForm((prev) => ({ ...prev, avatar: res.publicUrl }));
                             toast.dismiss("avatar-upload");
-                            toast.success("Reviewer photo updated!");
+                            toast.success("Profile photo stored & old photo cleaned up!");
                           } catch (err) {
                             toast.dismiss("avatar-upload");
                             toast.error(
-                              err instanceof Error ? err.message : "Failed to compress photo",
+                              err instanceof Error ? err.message : "Failed to upload photo",
                             );
                           } finally {
                             e.target.value = "";

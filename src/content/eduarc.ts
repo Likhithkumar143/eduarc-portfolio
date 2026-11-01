@@ -219,6 +219,18 @@ export const siteContentSchema = z.object({
     pathwaysLead: str.default(
       "Whether you are a student planning your next academic milestone or an institution structuring guidance for hundreds.",
     ),
+    pathway1Title: str.default("Clarity over Confusion"),
+    pathway1Desc: str.default(
+      "Avoid stream regrets after Class 10 or 12. Receive structured guidance to choose courses confidently with full family alignment.",
+    ),
+    pathway2Title: str.default("Institutional Guidance Hub"),
+    pathway2Desc: str.default(
+      "Equip your institution with systematic career guidance workshops, mentor sessions, and structured tracking for every student batch.",
+    ),
+    pathway3Title: str.default("Verified Mentorship Network"),
+    pathway3Desc: str.default(
+      "Connect certified educators and domain specialists with young minds seeking genuine academic direction and industry perspective.",
+    ),
   }),
   about: z.object({
     title: str,
@@ -240,8 +252,34 @@ export const siteContentSchema = z.object({
     problemsLead: str.default(
       "We understand the struggles. Here are some of the key problems students face today:",
     ),
+    challenge1Title: str.default("Confusion in Choosing Career Paths"),
+    challenge1Desc: str.default("Too many options, not enough clarity."),
+    challenge2Title: str.default("Lack of Proper Career Guidance"),
+    challenge2Desc: str.default("Limited access to expert advice and real-world insights."),
+    challenge3Title: str.default("Limited Awareness of Industry Opportunities"),
+    challenge3Desc: str.default("Not knowing about emerging fields and future trends."),
+    challenge4Title: str.default("Difficulty Finding the Right Skills & Certifications"),
+    challenge4Desc: str.default(
+      "Unclear about what to learn, where to learn and how to get certified.",
+    ),
     solutionsEyebrow: str.default("OUR SOLUTIONS"),
     solutionsTitle: str.default("How We Help You"),
+    solution1Title: str.default("Career Guidance"),
+    solution1Desc: str.default(
+      "Personalized career path suggestions based on your interests, skills and market trends.",
+    ),
+    solution2Title: str.default("Expert Mentorship"),
+    solution2Desc: str.default(
+      "Learn from industry professionals with real-world experience and practical advice.",
+    ),
+    solution3Title: str.default("Skill Development Programs"),
+    solution3Desc: str.default(
+      "Build in-demand skills through structured learning and hands-on projects.",
+    ),
+    solution4Title: str.default("Certification & Learning Programs"),
+    solution4Desc: str.default(
+      "Gain recognized certifications to boost your profile and career opportunities.",
+    ),
     missionEyebrow: str.default("OUR MISSION & VISION"),
     missionTitle: str.default("Building a Brighter Future"),
     missionText: str.default(
@@ -269,6 +307,36 @@ export const siteContentSchema = z.object({
     levelsLead: str.default(
       "Our features are calibrated to the exact developmental and academic stage of your student body.",
     ),
+    level1Title: str.default("Secondary Schools"),
+    level1Subtitle: str.default("Stream Selection & Foundation Planning"),
+    level1Badge: str.default("Class 9 & 10 Students and Parents"),
+    level1Item1: str.default("Stream evaluation workshops (Science, Commerce, Arts)"),
+    level1Item2: str.default("Aptitude and subject interest discovery"),
+    level1Item3: str.default("Interactive parent orientation sessions"),
+    level1Item4: str.default("Individual stream roadmap summaries"),
+    level2Title: str.default("Pre-University & Junior Colleges"),
+    level2Subtitle: str.default("Higher-Ed Pathways & Degree Alignment"),
+    level2Badge: str.default("Class 11 & 12 / PUC Students"),
+    level2Item1: str.default("Degree and university options exploration"),
+    level2Item2: str.default("Entrance exam timelines (CET, JEE, NEET, CUET, CLAT, etc.)"),
+    level2Item3: str.default("One-on-one academic mentor consultations"),
+    level2Item4: str.default("Targeted college selection roadmaps"),
+    level3Title: str.default("Colleges & Institutes"),
+    level3Subtitle: str.default("Postgraduate & Career Specialization"),
+    level3Badge: str.default("Undergraduate Students"),
+    level3Item1: str.default("Higher education & research opportunities"),
+    level3Item2: str.default("Emerging industry domains & skill prerequisites"),
+    level3Item3: str.default("Faculty-aligned guidance seminars"),
+    level3Item4: str.default("Academic assessment and roadmap planning"),
+    deliveryEyebrow: str.default("DELIVERY FORMAT"),
+    deliveryTitle: str.default("Flexible on-campus and hybrid formats."),
+    deliveryLead: str.default(
+      "Whether you prefer in-person auditorium seminars, classroom workshops, or structured hybrid sessions with parent participation, EDUARC seamlessly adapts to your institutional timetable.",
+    ),
+    deliveryOnCampusTitle: str.default("On-Campus Seminars"),
+    deliveryOnCampusLead: str.default("Direct mentor engagement"),
+    deliveryParentTitle: str.default("Parent Orientations"),
+    deliveryParentLead: str.default("Joint guidance clarity"),
     onboardingEyebrow: str.default("STRUCTURED ENGAGEMENT"),
     onboardingTitle: str.default("How we onboard your institution."),
     onboardingLead: str.default(
@@ -407,6 +475,9 @@ export const siteContentSchema = z.object({
       step3Body: str.default(
         "Your details remain confidential and are accessed exclusively by verified EDUARC counselling staff for educational planning.",
       ),
+      trust1: str.default("Trusted by Students & Families"),
+      trust2: str.default("Partnered with Schools & Colleges"),
+      trust3: str.default("Focused on Your Future"),
     })
     .default({
       badge: "Student & Institutional Enquiries",
@@ -423,6 +494,9 @@ export const siteContentSchema = z.object({
       step3Title: "3. Absolute Privacy & Integrity",
       step3Body:
         "Your details remain confidential and are accessed exclusively by verified EDUARC counselling staff for educational planning.",
+      trust1: "Trusted by Students & Families",
+      trust2: "Partnered with Schools & Colleges",
+      trust3: "Focused on Your Future",
     }),
   cta: z.object({ title: str, lead: str }),
   mentors: z.array(mentorProfileSchema).default([]),
@@ -500,6 +574,15 @@ export const defaultContent: SiteContent = {
     pathwaysTitle: "Guidance designed for your educational context.",
     pathwaysLead:
       "Whether you are a student planning your next academic milestone or an institution structuring guidance for hundreds.",
+    pathway1Title: "Clarity over Confusion",
+    pathway1Desc:
+      "Avoid stream regrets after Class 10 or 12. Receive structured guidance to choose courses confidently with full family alignment.",
+    pathway2Title: "Institutional Guidance Hub",
+    pathway2Desc:
+      "Equip your institution with systematic career guidance workshops, mentor sessions, and structured tracking for every student batch.",
+    pathway3Title: "Verified Mentorship Network",
+    pathway3Desc:
+      "Connect certified educators and domain specialists with young minds seeking genuine academic direction and industry perspective.",
   },
   about: {
     title: "About EduArc.",
@@ -520,8 +603,26 @@ export const defaultContent: SiteContent = {
     problemsTitle: "Common Challenges Students Face",
     problemsLead:
       "We understand the struggles. Here are some of the key problems students face today:",
+    challenge1Title: "Confusion in Choosing Career Paths",
+    challenge1Desc: "Too many options, not enough clarity.",
+    challenge2Title: "Lack of Proper Career Guidance",
+    challenge2Desc: "Limited access to expert advice and real-world insights.",
+    challenge3Title: "Limited Awareness of Industry Opportunities",
+    challenge3Desc: "Not knowing about emerging fields and future trends.",
+    challenge4Title: "Difficulty Finding the Right Skills & Certifications",
+    challenge4Desc: "Unclear about what to learn, where to learn and how to get certified.",
     solutionsEyebrow: "OUR SOLUTIONS",
     solutionsTitle: "How We Help You",
+    solution1Title: "Career Guidance",
+    solution1Desc:
+      "Personalized career path suggestions based on your interests, skills and market trends.",
+    solution2Title: "Expert Mentorship",
+    solution2Desc:
+      "Learn from industry professionals with real-world experience and practical advice.",
+    solution3Title: "Skill Development Programs",
+    solution3Desc: "Build in-demand skills through structured learning and hands-on projects.",
+    solution4Title: "Certification & Learning Programs",
+    solution4Desc: "Gain recognized certifications to boost your profile and career opportunities.",
     missionEyebrow: "OUR MISSION & VISION",
     missionTitle: "Building a Brighter Future",
     missionText:
@@ -584,6 +685,35 @@ export const defaultContent: SiteContent = {
     levelsTitle: "Designed for every critical academic transition.",
     levelsLead:
       "Our features are calibrated to the exact developmental and academic stage of your student body.",
+    level1Title: "Secondary Schools",
+    level1Subtitle: "Stream Selection & Foundation Planning",
+    level1Badge: "Class 9 & 10 Students and Parents",
+    level1Item1: "Stream evaluation workshops (Science, Commerce, Arts)",
+    level1Item2: "Aptitude and subject interest discovery",
+    level1Item3: "Interactive parent orientation sessions",
+    level1Item4: "Individual stream roadmap summaries",
+    level2Title: "Pre-University & Junior Colleges",
+    level2Subtitle: "Higher-Ed Pathways & Degree Alignment",
+    level2Badge: "Class 11 & 12 / PUC Students",
+    level2Item1: "Degree and university options exploration",
+    level2Item2: "Entrance exam timelines (CET, JEE, NEET, CUET, CLAT, etc.)",
+    level2Item3: "One-on-one academic mentor consultations",
+    level2Item4: "Targeted college selection roadmaps",
+    level3Title: "Colleges & Institutes",
+    level3Subtitle: "Postgraduate & Career Specialization",
+    level3Badge: "Undergraduate Students",
+    level3Item1: "Higher education & research opportunities",
+    level3Item2: "Emerging industry domains & skill prerequisites",
+    level3Item3: "Faculty-aligned guidance seminars",
+    level3Item4: "Academic assessment and roadmap planning",
+    deliveryEyebrow: "DELIVERY FORMAT",
+    deliveryTitle: "Flexible on-campus and hybrid formats.",
+    deliveryLead:
+      "Whether you prefer in-person auditorium seminars, classroom workshops, or structured hybrid sessions with parent participation, EDUARC seamlessly adapts to your institutional timetable.",
+    deliveryOnCampusTitle: "On-Campus Seminars",
+    deliveryOnCampusLead: "Direct mentor engagement",
+    deliveryParentTitle: "Parent Orientations",
+    deliveryParentLead: "Joint guidance clarity",
     onboardingEyebrow: "STRUCTURED ENGAGEMENT",
     onboardingTitle: "How we onboard your institution.",
     onboardingLead:
@@ -809,6 +939,9 @@ export const defaultContent: SiteContent = {
     step3Title: "3. Absolute Privacy & Integrity",
     step3Body:
       "Your details remain confidential and are accessed exclusively by verified EDUARC counselling staff for educational planning.",
+    trust1: "Trusted by Students & Families",
+    trust2: "Partnered with Schools & Colleges",
+    trust3: "Focused on Your Future",
   },
   cta: {
     title: "Let's build a brighter future together.",

@@ -101,15 +101,15 @@ export function PartnerContent() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-hairline text-xs text-brand-navy font-semibold">
               <div className="flex items-center gap-2">
                 <Users className="h-4 w-4 text-[#243B35] shrink-0" />
-                <span>Trusted by Students &amp; Families</span>
+                <span>{c.partnerPage?.trust1 || "Trusted by Students & Families"}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Building2 className="h-4 w-4 text-[#243B35] shrink-0" />
-                <span>Partnered with Schools &amp; Colleges</span>
+                <span>{c.partnerPage?.trust2 || "Partnered with Schools & Colleges"}</span>
               </div>
               <div className="flex items-center gap-2">
                 <ShieldCheck className="h-4 w-4 text-[#243B35] shrink-0" />
-                <span>Focused on Your Future</span>
+                <span>{c.partnerPage?.trust3 || "Focused on Your Future"}</span>
               </div>
             </div>
           </div>

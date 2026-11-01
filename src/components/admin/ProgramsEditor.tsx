@@ -30,7 +30,7 @@ import {
   Image as ImageIcon,
 } from "lucide-react";
 import { toast } from "sonner";
-import { uploadProgramImage } from "@/lib/admin.functions";
+import { uploadProgramImage, deleteStorageImage } from "@/lib/admin.functions";
 import { compressImage } from "@/lib/image-compression";
 import {
   type SiteContent,
@@ -158,6 +158,7 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
   const [uploadingImage, setUploadingImage] = useState(false);
 
   const uploadImageFn = useServerFn(uploadProgramImage);
+  const deleteImageFn = useServerFn(deleteStorageImage);
 
   // Filtered Programs
   const filtered = programs.filter((p) => {
@@ -214,6 +215,13 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
 
       const targetSessionId = form.id.trim() || slugify(form.institution || form.title) || "custom";
 
+      const oldImageUrl =
+        target === "card"
+          ? form.image
+          : target === "hero"
+            ? form.heroImage
+            : (form.gallery && form.gallery[galleryIdx]) || undefined;
+
       const res = await uploadImageFn({
         data: {
           fileName: `${target}.${compressed.extension}`,
@@ -222,6 +230,7 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
           sessionId: targetSessionId,
           type: target,
           galleryIndex: galleryIdx,
+          oldImageUrl,
         },
       });
 
@@ -333,6 +342,18 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
     if (deletingIndex === null) return;
     const toDelete = programs[deletingIndex];
     if (!toDelete) return;
+
+    // Clean up uploaded images in Supabase Storage
+    const imagesToClean = [toDelete.image, toDelete.heroImage, ...(toDelete.gallery || [])].filter(
+      Boolean,
+    );
+    for (const imgUrl of imagesToClean) {
+      try {
+        await deleteImageFn({ data: { url: imgUrl } });
+      } catch (err) {
+        console.warn("Could not delete program image from storage:", err);
+      }
+    }
 
     const updated = programs.filter((_, idx) => idx !== deletingIndex);
     update("conductedPrograms", updated);

@@ -103,15 +103,17 @@ export function FeaturesContent() {
                       <GraduationCap className="h-5 w-5" />
                     </div>
                     <div>
-                      <h3 className="text-base font-bold text-[#243B35]">Secondary Schools</h3>
+                      <h3 className="text-base font-bold text-[#243B35]">
+                        {c.featuresPage?.level1Title || "Secondary Schools"}
+                      </h3>
                       <p className="text-xs text-slate-500">
-                        Stream Selection & Foundation Planning
+                        {c.featuresPage?.level1Subtitle || "Stream Selection & Foundation Planning"}
                       </p>
                     </div>
                   </div>
 
                   <span className="inline-block text-[11px] font-semibold text-[#B47A4B] bg-[#F5F1E8] px-2.5 py-0.5 rounded-full border border-[#E2DBD0] mb-5">
-                    Class 9 & 10 Students and Parents
+                    {c.featuresPage?.level1Badge || "Class 9 & 10 Students and Parents"}
                   </span>
 
                   <div className="space-y-2.5">
@@ -121,19 +123,28 @@ export function FeaturesContent() {
                     <ul className="space-y-2">
                       <li className="flex items-start gap-2 text-xs text-slate-700">
                         <Check className="h-3.5 w-3.5 text-[#243B35] shrink-0 mt-0.5" />
-                        <span>Stream evaluation workshops (Science, Commerce, Arts)</span>
+                        <span>
+                          {c.featuresPage?.level1Item1 ||
+                            "Stream evaluation workshops (Science, Commerce, Arts)"}
+                        </span>
                       </li>
                       <li className="flex items-start gap-2 text-xs text-slate-700">
                         <Check className="h-3.5 w-3.5 text-[#243B35] shrink-0 mt-0.5" />
-                        <span>Aptitude and subject interest discovery</span>
+                        <span>
+                          {c.featuresPage?.level1Item2 || "Aptitude and subject interest discovery"}
+                        </span>
                       </li>
                       <li className="flex items-start gap-2 text-xs text-slate-700">
                         <Check className="h-3.5 w-3.5 text-[#243B35] shrink-0 mt-0.5" />
-                        <span>Interactive parent orientation sessions</span>
+                        <span>
+                          {c.featuresPage?.level1Item3 || "Interactive parent orientation sessions"}
+                        </span>
                       </li>
                       <li className="flex items-start gap-2 text-xs text-slate-700">
                         <Check className="h-3.5 w-3.5 text-[#243B35] shrink-0 mt-0.5" />
-                        <span>Individual stream roadmap summaries</span>
+                        <span>
+                          {c.featuresPage?.level1Item4 || "Individual stream roadmap summaries"}
+                        </span>
                       </li>
                     </ul>
                   </div>
@@ -167,16 +178,16 @@ export function FeaturesContent() {
                     </div>
                     <div>
                       <h3 className="text-base font-bold text-[#243B35]">
-                        Pre-University & Junior Colleges
+                        {c.featuresPage?.level2Title || "Pre-University & Junior Colleges"}
                       </h3>
                       <p className="text-xs text-slate-500">
-                        Higher-Ed Pathways & Degree Alignment
+                        {c.featuresPage?.level2Subtitle || "Higher-Ed Pathways & Degree Alignment"}
                       </p>
                     </div>
                   </div>
 
                   <span className="inline-block text-[11px] font-semibold text-[#243B35] bg-[#EDF3F0] px-2.5 py-0.5 rounded-full border border-[#D3DFDA] mb-5">
-                    Class 11 & 12 / PUC Students
+                    {c.featuresPage?.level2Badge || "Class 11 & 12 / PUC Students"}
                   </span>
 
                   <div className="space-y-2.5">
@@ -186,19 +197,30 @@ export function FeaturesContent() {
                     <ul className="space-y-2">
                       <li className="flex items-start gap-2 text-xs text-slate-700">
                         <Check className="h-3.5 w-3.5 text-[#243B35] shrink-0 mt-0.5" />
-                        <span>Degree and university options exploration</span>
+                        <span>
+                          {c.featuresPage?.level2Item1 ||
+                            "Degree and university options exploration"}
+                        </span>
                       </li>
                       <li className="flex items-start gap-2 text-xs text-slate-700">
                         <Check className="h-3.5 w-3.5 text-[#243B35] shrink-0 mt-0.5" />
-                        <span>Entrance exam timelines (CET, JEE, NEET, CUET, CLAT, etc.)</span>
+                        <span>
+                          {c.featuresPage?.level2Item2 ||
+                            "Entrance exam timelines (CET, JEE, NEET, CUET, CLAT, etc.)"}
+                        </span>
                       </li>
                       <li className="flex items-start gap-2 text-xs text-slate-700">
                         <Check className="h-3.5 w-3.5 text-[#243B35] shrink-0 mt-0.5" />
-                        <span>One-on-one academic mentor consultations</span>
+                        <span>
+                          {c.featuresPage?.level2Item3 ||
+                            "One-on-one academic mentor consultations"}
+                        </span>
                       </li>
                       <li className="flex items-start gap-2 text-xs text-slate-700">
                         <Check className="h-3.5 w-3.5 text-[#243B35] shrink-0 mt-0.5" />
-                        <span>Targeted college selection roadmaps</span>
+                        <span>
+                          {c.featuresPage?.level2Item4 || "Targeted college selection roadmaps"}
+                        </span>
                       </li>
                     </ul>
                   </div>
@@ -231,13 +253,17 @@ export function FeaturesContent() {
                       <Building2 className="h-5 w-5" />
                     </div>
                     <div>
-                      <h3 className="text-base font-bold text-[#243B35]">Colleges & Institutes</h3>
-                      <p className="text-xs text-slate-500">Postgraduate & Career Specialization</p>
+                      <h3 className="text-base font-bold text-[#243B35]">
+                        {c.featuresPage?.level3Title || "Colleges & Institutes"}
+                      </h3>
+                      <p className="text-xs text-slate-500">
+                        {c.featuresPage?.level3Subtitle || "Postgraduate & Career Specialization"}
+                      </p>
                     </div>
                   </div>
 
                   <span className="inline-block text-[11px] font-semibold text-[#243B35] bg-[#EFF4EE] px-2.5 py-0.5 rounded-full border border-[#DCE6DA] mb-5">
-                    Undergraduate Students
+                    {c.featuresPage?.level3Badge || "Undergraduate Students"}
                   </span>
 
                   <div className="space-y-2.5">
@@ -247,19 +273,30 @@ export function FeaturesContent() {
                     <ul className="space-y-2">
                       <li className="flex items-start gap-2 text-xs text-slate-700">
                         <Check className="h-3.5 w-3.5 text-[#243B35] shrink-0 mt-0.5" />
-                        <span>Higher education & research opportunities</span>
+                        <span>
+                          {c.featuresPage?.level3Item1 ||
+                            "Higher education & research opportunities"}
+                        </span>
                       </li>
                       <li className="flex items-start gap-2 text-xs text-slate-700">
                         <Check className="h-3.5 w-3.5 text-[#243B35] shrink-0 mt-0.5" />
-                        <span>Emerging industry domains & skill prerequisites</span>
+                        <span>
+                          {c.featuresPage?.level3Item2 ||
+                            "Emerging industry domains & skill prerequisites"}
+                        </span>
                       </li>
                       <li className="flex items-start gap-2 text-xs text-slate-700">
                         <Check className="h-3.5 w-3.5 text-[#243B35] shrink-0 mt-0.5" />
-                        <span>Faculty-aligned guidance seminars</span>
+                        <span>
+                          {c.featuresPage?.level3Item3 || "Faculty-aligned guidance seminars"}
+                        </span>
                       </li>
                       <li className="flex items-start gap-2 text-xs text-slate-700">
                         <Check className="h-3.5 w-3.5 text-[#243B35] shrink-0 mt-0.5" />
-                        <span>Academic assessment and roadmap planning</span>
+                        <span>
+                          {c.featuresPage?.level3Item4 ||
+                            "Academic assessment and roadmap planning"}
+                        </span>
                       </li>
                     </ul>
                   </div>
@@ -294,15 +331,14 @@ export function FeaturesContent() {
             <div className="lg:col-span-6 space-y-4">
               <Reveal>
                 <span className="text-xs font-semibold tracking-wider text-[#B47A4B] uppercase mb-2 block">
-                  DELIVERY FORMAT
+                  {c.featuresPage?.deliveryEyebrow || "DELIVERY FORMAT"}
                 </span>
                 <h2 className="text-3xl sm:text-4xl lg:text-[38px] font-semibold text-[#243B35] tracking-tight leading-snug">
-                  Flexible on-campus and hybrid formats.
+                  {c.featuresPage?.deliveryTitle || "Flexible on-campus and hybrid formats."}
                 </h2>
                 <p className="text-base sm:text-lg text-[#343A36] font-normal leading-relaxed max-w-lg">
-                  Whether you prefer in-person auditorium seminars, classroom workshops, or
-                  structured hybrid sessions with parent participation, EDUARC seamlessly adapts to
-                  your institutional timetable.
+                  {c.featuresPage?.deliveryLead ||
+                    "Whether you prefer in-person auditorium seminars, classroom workshops, or structured hybrid sessions with parent participation, EDUARC seamlessly adapts to your institutional timetable."}
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
@@ -312,10 +348,10 @@ export function FeaturesContent() {
                     </div>
                     <div>
                       <h4 className="text-sm sm:text-base font-medium text-[#243B35]">
-                        On-Campus Seminars
+                        {c.featuresPage?.deliveryOnCampusTitle || "On-Campus Seminars"}
                       </h4>
                       <p className="text-xs text-[#343A36]/80 font-normal">
-                        Direct mentor engagement
+                        {c.featuresPage?.deliveryOnCampusLead || "Direct mentor engagement"}
                       </p>
                     </div>
                   </div>
@@ -326,10 +362,10 @@ export function FeaturesContent() {
                     </div>
                     <div>
                       <h4 className="text-sm sm:text-base font-medium text-[#243B35]">
-                        Parent Orientations
+                        {c.featuresPage?.deliveryParentTitle || "Parent Orientations"}
                       </h4>
                       <p className="text-xs text-[#343A36]/80 font-normal">
-                        Joint guidance clarity
+                        {c.featuresPage?.deliveryParentLead || "Joint guidance clarity"}
                       </p>
                     </div>
                   </div>

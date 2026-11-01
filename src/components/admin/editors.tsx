@@ -332,7 +332,7 @@ export function HomeEditor({ draft, update }: EditorProps) {
 
       <Panel
         title="Tailored Solutions & Audience Pathways"
-        description="Headings for the 3 audience pathways (Students, Schools, Mentors)."
+        description="Headings and cards for the 3 audience pathways (Students, Schools, Mentors)."
       >
         <div className="grid gap-4 md:grid-cols-2">
           <TextField
@@ -355,6 +355,68 @@ export function HomeEditor({ draft, update }: EditorProps) {
           onChange={(pathwaysLead) => updateHome({ pathwaysLead })}
           placeholder="Whether you are a student planning your next academic milestone..."
         />
+
+        <div className="grid gap-5 md:grid-cols-3 pt-4 border-t border-hairline">
+          {/* Pathway 1 */}
+          <div className="rounded-2xl border border-border/80 bg-background/50 p-4 space-y-3">
+            <span className="text-xs font-bold text-brand-navy uppercase tracking-wider block">
+              Pathway 1: Students &amp; Parents
+            </span>
+            <TextField
+              label="Card Title"
+              value={home.pathway1Title || ""}
+              onChange={(pathway1Title) => updateHome({ pathway1Title })}
+              placeholder="Clarity over Confusion"
+            />
+            <TextField
+              label="Description"
+              long
+              value={home.pathway1Desc || ""}
+              onChange={(pathway1Desc) => updateHome({ pathway1Desc })}
+              placeholder="Avoid stream regrets after Class 10 or 12..."
+            />
+          </div>
+
+          {/* Pathway 2 */}
+          <div className="rounded-2xl border border-border/80 bg-background/50 p-4 space-y-3">
+            <span className="text-xs font-bold text-brand-navy uppercase tracking-wider block">
+              Pathway 2: Schools &amp; Colleges
+            </span>
+            <TextField
+              label="Card Title"
+              value={home.pathway2Title || ""}
+              onChange={(pathway2Title) => updateHome({ pathway2Title })}
+              placeholder="Institutional Guidance Hub"
+            />
+            <TextField
+              label="Description"
+              long
+              value={home.pathway2Desc || ""}
+              onChange={(pathway2Desc) => updateHome({ pathway2Desc })}
+              placeholder="Equip your institution with systematic career guidance..."
+            />
+          </div>
+
+          {/* Pathway 3 */}
+          <div className="rounded-2xl border border-border/80 bg-background/50 p-4 space-y-3">
+            <span className="text-xs font-bold text-brand-navy uppercase tracking-wider block">
+              Pathway 3: Academic Mentors
+            </span>
+            <TextField
+              label="Card Title"
+              value={home.pathway3Title || ""}
+              onChange={(pathway3Title) => updateHome({ pathway3Title })}
+              placeholder="Verified Mentorship Network"
+            />
+            <TextField
+              label="Description"
+              long
+              value={home.pathway3Desc || ""}
+              onChange={(pathway3Desc) => updateHome({ pathway3Desc })}
+              placeholder="Connect certified educators and domain specialists..."
+            />
+          </div>
+        </div>
       </Panel>
     </>
   );
@@ -419,7 +481,7 @@ export function AboutEditor({ draft, update }: EditorProps) {
       {/* 2. The Problem We Solve & Solutions */}
       <Panel
         title="Section: Challenges & Solutions"
-        description="Headings for the student struggles and solutions grid on the About page."
+        description="Headings, problem cards, and solution cards on the About page."
       >
         <div className="grid gap-4 md:grid-cols-2">
           <TextField
@@ -442,19 +504,176 @@ export function AboutEditor({ draft, update }: EditorProps) {
           onChange={(problemsLead) => updateAbout({ problemsLead })}
           placeholder="We understand the struggles..."
         />
-        <div className="grid gap-4 md:grid-cols-2 pt-2">
-          <TextField
-            label="Solutions Eyebrow"
-            value={about.solutionsEyebrow || ""}
-            onChange={(solutionsEyebrow) => updateAbout({ solutionsEyebrow })}
-            placeholder="OUR SOLUTIONS"
-          />
-          <TextField
-            label="Solutions Heading"
-            value={about.solutionsTitle || ""}
-            onChange={(solutionsTitle) => updateAbout({ solutionsTitle })}
-            placeholder="How We Help You"
-          />
+
+        {/* 4 Common Challenge Cards */}
+        <div className="pt-3 border-t border-hairline">
+          <span className="text-xs font-bold text-brand-navy uppercase tracking-wider block mb-3">
+            Common Student Struggles (4 Cards)
+          </span>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="rounded-2xl border border-border/80 bg-background/50 p-4 space-y-3">
+              <span className="text-[11px] font-bold text-muted-foreground uppercase">
+                Struggle 1
+              </span>
+              <TextField
+                label="Title"
+                value={about.challenge1Title || ""}
+                onChange={(challenge1Title) => updateAbout({ challenge1Title })}
+                placeholder="Confusion in Choosing Career Paths"
+              />
+              <TextField
+                label="Description"
+                value={about.challenge1Desc || ""}
+                onChange={(challenge1Desc) => updateAbout({ challenge1Desc })}
+                placeholder="Too many options, not enough clarity."
+              />
+            </div>
+
+            <div className="rounded-2xl border border-border/80 bg-background/50 p-4 space-y-3">
+              <span className="text-[11px] font-bold text-muted-foreground uppercase">
+                Struggle 2
+              </span>
+              <TextField
+                label="Title"
+                value={about.challenge2Title || ""}
+                onChange={(challenge2Title) => updateAbout({ challenge2Title })}
+                placeholder="Lack of Proper Career Guidance"
+              />
+              <TextField
+                label="Description"
+                value={about.challenge2Desc || ""}
+                onChange={(challenge2Desc) => updateAbout({ challenge2Desc })}
+                placeholder="Limited access to expert advice and real-world insights."
+              />
+            </div>
+
+            <div className="rounded-2xl border border-border/80 bg-background/50 p-4 space-y-3">
+              <span className="text-[11px] font-bold text-muted-foreground uppercase">
+                Struggle 3
+              </span>
+              <TextField
+                label="Title"
+                value={about.challenge3Title || ""}
+                onChange={(challenge3Title) => updateAbout({ challenge3Title })}
+                placeholder="Limited Awareness of Industry Opportunities"
+              />
+              <TextField
+                label="Description"
+                value={about.challenge3Desc || ""}
+                onChange={(challenge3Desc) => updateAbout({ challenge3Desc })}
+                placeholder="Not knowing about emerging fields and future trends."
+              />
+            </div>
+
+            <div className="rounded-2xl border border-border/80 bg-background/50 p-4 space-y-3">
+              <span className="text-[11px] font-bold text-muted-foreground uppercase">
+                Struggle 4
+              </span>
+              <TextField
+                label="Title"
+                value={about.challenge4Title || ""}
+                onChange={(challenge4Title) => updateAbout({ challenge4Title })}
+                placeholder="Difficulty Finding the Right Skills & Certifications"
+              />
+              <TextField
+                label="Description"
+                value={about.challenge4Desc || ""}
+                onChange={(challenge4Desc) => updateAbout({ challenge4Desc })}
+                placeholder="Unclear about what to learn, where to learn and how to get certified."
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* 4 Solutions Cards */}
+        <div className="pt-4 border-t border-hairline space-y-4">
+          <div className="grid gap-4 md:grid-cols-2">
+            <TextField
+              label="Solutions Eyebrow"
+              value={about.solutionsEyebrow || ""}
+              onChange={(solutionsEyebrow) => updateAbout({ solutionsEyebrow })}
+              placeholder="OUR SOLUTIONS"
+            />
+            <TextField
+              label="Solutions Heading"
+              value={about.solutionsTitle || ""}
+              onChange={(solutionsTitle) => updateAbout({ solutionsTitle })}
+              placeholder="How We Help You"
+            />
+          </div>
+
+          <span className="text-xs font-bold text-brand-navy uppercase tracking-wider block">
+            Our Solutions (4 Cards)
+          </span>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="rounded-2xl border border-border/80 bg-background/50 p-4 space-y-3">
+              <span className="text-[11px] font-bold text-brand-gold uppercase">Solution 1</span>
+              <TextField
+                label="Title"
+                value={about.solution1Title || ""}
+                onChange={(solution1Title) => updateAbout({ solution1Title })}
+                placeholder="Career Guidance"
+              />
+              <TextField
+                label="Description"
+                long
+                value={about.solution1Desc || ""}
+                onChange={(solution1Desc) => updateAbout({ solution1Desc })}
+                placeholder="Personalized career path suggestions based on your interests..."
+              />
+            </div>
+
+            <div className="rounded-2xl border border-border/80 bg-background/50 p-4 space-y-3">
+              <span className="text-[11px] font-bold text-brand-gold uppercase">Solution 2</span>
+              <TextField
+                label="Title"
+                value={about.solution2Title || ""}
+                onChange={(solution2Title) => updateAbout({ solution2Title })}
+                placeholder="Expert Mentorship"
+              />
+              <TextField
+                label="Description"
+                long
+                value={about.solution2Desc || ""}
+                onChange={(solution2Desc) => updateAbout({ solution2Desc })}
+                placeholder="Learn from industry professionals with real-world experience..."
+              />
+            </div>
+
+            <div className="rounded-2xl border border-border/80 bg-background/50 p-4 space-y-3">
+              <span className="text-[11px] font-bold text-brand-gold uppercase">Solution 3</span>
+              <TextField
+                label="Title"
+                value={about.solution3Title || ""}
+                onChange={(solution3Title) => updateAbout({ solution3Title })}
+                placeholder="Skill Development Programs"
+              />
+              <TextField
+                label="Description"
+                long
+                value={about.solution3Desc || ""}
+                onChange={(solution3Desc) => updateAbout({ solution3Desc })}
+                placeholder="Build in-demand skills through structured learning..."
+              />
+            </div>
+
+            <div className="rounded-2xl border border-border/80 bg-background/50 p-4 space-y-3">
+              <span className="text-[11px] font-bold text-brand-gold uppercase">Solution 4</span>
+              <TextField
+                label="Title"
+                value={about.solution4Title || ""}
+                onChange={(solution4Title) => updateAbout({ solution4Title })}
+                placeholder="Certification & Learning Programs"
+              />
+              <TextField
+                label="Description"
+                long
+                value={about.solution4Desc || ""}
+                onChange={(solution4Desc) => updateAbout({ solution4Desc })}
+                placeholder="Gain recognized certifications to boost your profile..."
+              />
+            </div>
+          </div>
         </div>
       </Panel>
 
@@ -568,8 +787,247 @@ export function FeaturesEditor({ draft, update }: EditorProps) {
       </Panel>
 
       <Panel
-        title="Feature Levels & Onboarding"
-        description="Headlines for the developmental transitions and 4-phase onboarding methodology."
+        title="Feature Levels (3 Transition Cards)"
+        description="Headlines and content for Secondary Schools, Pre-University, and Colleges."
+      >
+        <div className="grid gap-4 md:grid-cols-2">
+          <TextField
+            label="Feature Levels Eyebrow"
+            value={featuresPage.levelsEyebrow || ""}
+            onChange={(levelsEyebrow) => updateFeatures({ levelsEyebrow })}
+            placeholder="FEATURE LEVELS"
+          />
+          <TextField
+            label="Feature Levels Heading"
+            value={featuresPage.levelsTitle || ""}
+            onChange={(levelsTitle) => updateFeatures({ levelsTitle })}
+            placeholder="Designed for every critical academic transition."
+          />
+        </div>
+        <TextField
+          label="Feature Levels Lead"
+          long
+          value={featuresPage.levelsLead || ""}
+          onChange={(levelsLead) => updateFeatures({ levelsLead })}
+          placeholder="Our features are calibrated to the exact developmental stage..."
+        />
+
+        <div className="grid gap-6 md:grid-cols-3 pt-4 border-t border-hairline">
+          {/* Card 1: Secondary Schools */}
+          <div className="rounded-2xl border border-border/80 bg-background/50 p-4 space-y-3">
+            <span className="text-xs font-bold text-brand-navy uppercase tracking-wider block">
+              Level 1: Secondary Schools
+            </span>
+            <TextField
+              label="Card Title"
+              value={featuresPage.level1Title || ""}
+              onChange={(level1Title) => updateFeatures({ level1Title })}
+              placeholder="Secondary Schools"
+            />
+            <TextField
+              label="Subtitle"
+              value={featuresPage.level1Subtitle || ""}
+              onChange={(level1Subtitle) => updateFeatures({ level1Subtitle })}
+              placeholder="Stream Selection & Foundation Planning"
+            />
+            <TextField
+              label="Audience Badge"
+              value={featuresPage.level1Badge || ""}
+              onChange={(level1Badge) => updateFeatures({ level1Badge })}
+              placeholder="Class 9 & 10 Students and Parents"
+            />
+            <TextField
+              label="Included Item 1"
+              value={featuresPage.level1Item1 || ""}
+              onChange={(level1Item1) => updateFeatures({ level1Item1 })}
+              placeholder="Stream evaluation workshops..."
+            />
+            <TextField
+              label="Included Item 2"
+              value={featuresPage.level1Item2 || ""}
+              onChange={(level1Item2) => updateFeatures({ level1Item2 })}
+              placeholder="Aptitude and subject interest discovery"
+            />
+            <TextField
+              label="Included Item 3"
+              value={featuresPage.level1Item3 || ""}
+              onChange={(level1Item3) => updateFeatures({ level1Item3 })}
+              placeholder="Interactive parent orientation sessions"
+            />
+            <TextField
+              label="Included Item 4"
+              value={featuresPage.level1Item4 || ""}
+              onChange={(level1Item4) => updateFeatures({ level1Item4 })}
+              placeholder="Individual stream roadmap summaries"
+            />
+          </div>
+
+          {/* Card 2: Pre-University */}
+          <div className="rounded-2xl border border-border/80 bg-background/50 p-4 space-y-3">
+            <span className="text-xs font-bold text-brand-navy uppercase tracking-wider block">
+              Level 2: Pre-University
+            </span>
+            <TextField
+              label="Card Title"
+              value={featuresPage.level2Title || ""}
+              onChange={(level2Title) => updateFeatures({ level2Title })}
+              placeholder="Pre-University & Junior Colleges"
+            />
+            <TextField
+              label="Subtitle"
+              value={featuresPage.level2Subtitle || ""}
+              onChange={(level2Subtitle) => updateFeatures({ level2Subtitle })}
+              placeholder="Higher-Ed Pathways & Degree Alignment"
+            />
+            <TextField
+              label="Audience Badge"
+              value={featuresPage.level2Badge || ""}
+              onChange={(level2Badge) => updateFeatures({ level2Badge })}
+              placeholder="Class 11 & 12 / PUC Students"
+            />
+            <TextField
+              label="Included Item 1"
+              value={featuresPage.level2Item1 || ""}
+              onChange={(level2Item1) => updateFeatures({ level2Item1 })}
+              placeholder="Degree and university options exploration"
+            />
+            <TextField
+              label="Included Item 2"
+              value={featuresPage.level2Item2 || ""}
+              onChange={(level2Item2) => updateFeatures({ level2Item2 })}
+              placeholder="Entrance exam timelines..."
+            />
+            <TextField
+              label="Included Item 3"
+              value={featuresPage.level2Item3 || ""}
+              onChange={(level2Item3) => updateFeatures({ level2Item3 })}
+              placeholder="One-on-one academic mentor consultations"
+            />
+            <TextField
+              label="Included Item 4"
+              value={featuresPage.level2Item4 || ""}
+              onChange={(level2Item4) => updateFeatures({ level2Item4 })}
+              placeholder="Targeted college selection roadmaps"
+            />
+          </div>
+
+          {/* Card 3: Colleges */}
+          <div className="rounded-2xl border border-border/80 bg-background/50 p-4 space-y-3">
+            <span className="text-xs font-bold text-brand-navy uppercase tracking-wider block">
+              Level 3: Higher Ed
+            </span>
+            <TextField
+              label="Card Title"
+              value={featuresPage.level3Title || ""}
+              onChange={(level3Title) => updateFeatures({ level3Title })}
+              placeholder="Colleges & Institutes"
+            />
+            <TextField
+              label="Subtitle"
+              value={featuresPage.level3Subtitle || ""}
+              onChange={(level3Subtitle) => updateFeatures({ level3Subtitle })}
+              placeholder="Postgraduate & Career Specialization"
+            />
+            <TextField
+              label="Audience Badge"
+              value={featuresPage.level3Badge || ""}
+              onChange={(level3Badge) => updateFeatures({ level3Badge })}
+              placeholder="Undergraduate Students"
+            />
+            <TextField
+              label="Included Item 1"
+              value={featuresPage.level3Item1 || ""}
+              onChange={(level3Item1) => updateFeatures({ level3Item1 })}
+              placeholder="Higher education & research opportunities"
+            />
+            <TextField
+              label="Included Item 2"
+              value={featuresPage.level3Item2 || ""}
+              onChange={(level3Item2) => updateFeatures({ level3Item2 })}
+              placeholder="Emerging industry domains & skills"
+            />
+            <TextField
+              label="Included Item 3"
+              value={featuresPage.level3Item3 || ""}
+              onChange={(level3Item3) => updateFeatures({ level3Item3 })}
+              placeholder="Faculty-aligned guidance seminars"
+            />
+            <TextField
+              label="Included Item 4"
+              value={featuresPage.level3Item4 || ""}
+              onChange={(level3Item4) => updateFeatures({ level3Item4 })}
+              placeholder="Academic assessment and roadmap planning"
+            />
+          </div>
+        </div>
+      </Panel>
+
+      <Panel
+        title="Delivery Formats"
+        description="Settings for on-campus and hybrid seminar delivery options."
+      >
+        <div className="grid gap-4 md:grid-cols-2">
+          <TextField
+            label="Section Eyebrow"
+            value={featuresPage.deliveryEyebrow || ""}
+            onChange={(deliveryEyebrow) => updateFeatures({ deliveryEyebrow })}
+            placeholder="DELIVERY FORMAT"
+          />
+          <TextField
+            label="Section Title"
+            value={featuresPage.deliveryTitle || ""}
+            onChange={(deliveryTitle) => updateFeatures({ deliveryTitle })}
+            placeholder="Flexible on-campus and hybrid formats."
+          />
+        </div>
+        <TextField
+          label="Lead Description"
+          long
+          value={featuresPage.deliveryLead || ""}
+          onChange={(deliveryLead) => updateFeatures({ deliveryLead })}
+          placeholder="Whether you prefer in-person auditorium seminars..."
+        />
+        <div className="grid gap-4 md:grid-cols-2 pt-3 border-t border-hairline">
+          <div className="rounded-2xl border border-border/80 bg-background/50 p-4 space-y-3">
+            <span className="text-xs font-bold text-brand-navy uppercase tracking-wider block">
+              Format 1
+            </span>
+            <TextField
+              label="Title"
+              value={featuresPage.deliveryOnCampusTitle || ""}
+              onChange={(deliveryOnCampusTitle) => updateFeatures({ deliveryOnCampusTitle })}
+              placeholder="On-Campus Seminars"
+            />
+            <TextField
+              label="Subtitle"
+              value={featuresPage.deliveryOnCampusLead || ""}
+              onChange={(deliveryOnCampusLead) => updateFeatures({ deliveryOnCampusLead })}
+              placeholder="Direct mentor engagement"
+            />
+          </div>
+          <div className="rounded-2xl border border-border/80 bg-background/50 p-4 space-y-3">
+            <span className="text-xs font-bold text-brand-navy uppercase tracking-wider block">
+              Format 2
+            </span>
+            <TextField
+              label="Title"
+              value={featuresPage.deliveryParentTitle || ""}
+              onChange={(deliveryParentTitle) => updateFeatures({ deliveryParentTitle })}
+              placeholder="Parent Orientations"
+            />
+            <TextField
+              label="Subtitle"
+              value={featuresPage.deliveryParentLead || ""}
+              onChange={(deliveryParentLead) => updateFeatures({ deliveryParentLead })}
+              placeholder="Joint guidance clarity"
+            />
+          </div>
+        </div>
+      </Panel>
+
+      <Panel
+        title="Onboarding & Guidance Suite"
+        description="Headlines for the 4-phase onboarding methodology and guidance suite."
       >
         <div className="grid gap-4 md:grid-cols-2">
           <TextField
@@ -753,6 +1211,32 @@ export function PartnerEditor({ draft, update }: EditorProps) {
               placeholder="Your details remain confidential..."
             />
           </div>
+        </div>
+      </Panel>
+
+      <Panel
+        title="Trust Indicators (Bottom Badges)"
+        description="The three assurance badges displayed at the bottom of the /partner enquiry page."
+      >
+        <div className="grid gap-4 md:grid-cols-3">
+          <TextField
+            label="Trust Badge 1"
+            value={partnerPage.trust1 || ""}
+            onChange={(trust1) => updatePartner({ trust1 })}
+            placeholder="Trusted by Students & Families"
+          />
+          <TextField
+            label="Trust Badge 2"
+            value={partnerPage.trust2 || ""}
+            onChange={(trust2) => updatePartner({ trust2 })}
+            placeholder="Partnered with Schools & Colleges"
+          />
+          <TextField
+            label="Trust Badge 3"
+            value={partnerPage.trust3 || ""}
+            onChange={(trust3) => updatePartner({ trust3 })}
+            placeholder="Focused on Your Future"
+          />
         </div>
       </Panel>
     </>
