@@ -1,6 +1,6 @@
 # EduArc Website Audit, Repair & Optimization PRD
 
-**Project:** EduArc 
+**Project:** EduArc
 **Goal:** Audit, repair, secure, and optimize the existing website without unnecessarily rebuilding it.
 
 ---

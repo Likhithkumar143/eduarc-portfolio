@@ -23,7 +23,8 @@ export const reviewActionSchema = z
     email: z.string().optional(),
   })
   .refine(
-    (val) => Boolean((val.id && val.id.trim().length > 0) || (val.email && val.email.trim().length > 0)),
+    (val) =>
+      Boolean((val.id && val.id.trim().length > 0) || (val.email && val.email.trim().length > 0)),
     {
       message: "Must provide either review id or reviewer email",
     },
@@ -143,7 +144,9 @@ export const submitUserReview = createServerFn({ method: "POST" })
 
     const { error: saveErr } = await supabaseAdmin.from("site_content").upsert({
       id: "user_reviews",
-      data: { reviews: updatedStoredReviews } as unknown as import("@/integrations/supabase/types").Json,
+      data: {
+        reviews: updatedStoredReviews,
+      } as unknown as import("@/integrations/supabase/types").Json,
       updated_at: new Date().toISOString(),
     });
 
@@ -257,12 +260,18 @@ export const approveUserReview = createServerFn({ method: "POST" })
     const rawReviews = Array.isArray(
       userReviewsRow?.data && (userReviewsRow.data as Record<string, unknown>)["reviews"],
     )
-      ? ((userReviewsRow.data as Record<string, unknown>)["reviews"] as Array<Record<string, unknown>>)
+      ? ((userReviewsRow.data as Record<string, unknown>)["reviews"] as Array<
+          Record<string, unknown>
+        >)
       : [];
 
     const isMatch = (r: Record<string, unknown>) => {
       if (targetId && typeof r["id"] === "string" && r["id"] === targetId) return true;
-      if (targetEmail && typeof r["email"] === "string" && r["email"].toLowerCase().trim() === targetEmail)
+      if (
+        targetEmail &&
+        typeof r["email"] === "string" &&
+        r["email"].toLowerCase().trim() === targetEmail
+      )
         return true;
       return false;
     };
@@ -272,11 +281,18 @@ export const approveUserReview = createServerFn({ method: "POST" })
       throw new Error("Review submission not found");
     }
 
-    const reviewEmail = (typeof targetReview["email"] === "string" ? targetReview["email"] : targetEmail).toLowerCase().trim();
+    const reviewEmail = (
+      typeof targetReview["email"] === "string" ? targetReview["email"] : targetEmail
+    )
+      .toLowerCase()
+      .trim();
     const reviewName = typeof targetReview["name"] === "string" ? targetReview["name"] : "Reviewer";
     const reviewRole = typeof targetReview["role"] === "string" ? targetReview["role"] : "Student";
     const reviewRating = typeof targetReview["rating"] === "number" ? targetReview["rating"] : 5;
-    const reviewCategory = typeof targetReview["category"] === "string" ? targetReview["category"] : "Career Guidance Session";
+    const reviewCategory =
+      typeof targetReview["category"] === "string"
+        ? targetReview["category"]
+        : "Career Guidance Session";
     const reviewQuote = typeof targetReview["quote"] === "string" ? targetReview["quote"] : "";
     const reviewAvatar =
       typeof targetReview["avatar"] === "string" && targetReview["avatar"].trim().length > 0
@@ -284,7 +300,10 @@ export const approveUserReview = createServerFn({ method: "POST" })
         : reviewEmail
           ? getAvatarUrl(reviewEmail, reviewName)
           : "";
-    const reviewCreatedAt = typeof targetReview["createdAt"] === "string" ? targetReview["createdAt"] : new Date().toISOString();
+    const reviewCreatedAt =
+      typeof targetReview["createdAt"] === "string"
+        ? targetReview["createdAt"]
+        : new Date().toISOString();
 
     // 2. Mark as approved in user_reviews
     const updatedReviews = rawReviews.map((r) =>
@@ -386,12 +405,18 @@ export const rejectUserReview = createServerFn({ method: "POST" })
     const rawReviews = Array.isArray(
       userReviewsRow?.data && (userReviewsRow.data as Record<string, unknown>)["reviews"],
     )
-      ? ((userReviewsRow.data as Record<string, unknown>)["reviews"] as Array<Record<string, unknown>>)
+      ? ((userReviewsRow.data as Record<string, unknown>)["reviews"] as Array<
+          Record<string, unknown>
+        >)
       : [];
 
     const isMatch = (r: Record<string, unknown>) => {
       if (targetId && typeof r["id"] === "string" && r["id"] === targetId) return true;
-      if (targetEmail && typeof r["email"] === "string" && r["email"].toLowerCase().trim() === targetEmail)
+      if (
+        targetEmail &&
+        typeof r["email"] === "string" &&
+        r["email"].toLowerCase().trim() === targetEmail
+      )
         return true;
       return false;
     };
@@ -477,12 +502,18 @@ export const deleteUserReview = createServerFn({ method: "POST" })
     const rawReviews = Array.isArray(
       userReviewsRow?.data && (userReviewsRow.data as Record<string, unknown>)["reviews"],
     )
-      ? ((userReviewsRow.data as Record<string, unknown>)["reviews"] as Array<Record<string, unknown>>)
+      ? ((userReviewsRow.data as Record<string, unknown>)["reviews"] as Array<
+          Record<string, unknown>
+        >)
       : [];
 
     const isMatch = (r: Record<string, unknown>) => {
       if (targetId && typeof r["id"] === "string" && r["id"] === targetId) return true;
-      if (targetEmail && typeof r["email"] === "string" && r["email"].toLowerCase().trim() === targetEmail)
+      if (
+        targetEmail &&
+        typeof r["email"] === "string" &&
+        r["email"].toLowerCase().trim() === targetEmail
+      )
         return true;
       return false;
     };

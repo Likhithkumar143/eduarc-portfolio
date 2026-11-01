@@ -213,7 +213,7 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
       setCurrentMentor((prev) => ({ ...prev, imageUrl: result.dataUrl }));
       toast.success(
         `Photo optimized (${result.readableCompressedSize}, ${result.savedPercent}% space saved)! Click 'Apply & Publish Now' below to make it live.`,
-        { id: "mentor-photo" }
+        { id: "mentor-photo" },
       );
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Failed to process photo.";
@@ -244,12 +244,12 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
           await onSave(nextDraft);
           toast.success(
             `Photo compressed (${result.readableCompressedSize}, ${result.savedPercent}% saved) and published live for "${next[targetIdx].name}"!`,
-            { id: "mentor-quick-photo" }
+            { id: "mentor-quick-photo" },
           );
         } else {
           toast.success(
             `Photo compressed (${result.readableCompressedSize}, ${result.savedPercent}% saved) for "${next[targetIdx].name}"! Click Save to publish.`,
-            { id: "mentor-quick-photo" }
+            { id: "mentor-quick-photo" },
           );
         }
       }

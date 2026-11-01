@@ -142,8 +142,7 @@ export function ReceptionAdminPanel() {
     };
   }, [rows]);
 
-  const effectiveRoleFilter =
-    roleFilter === "mentor" && stats.mentors === 0 ? "all" : roleFilter;
+  const effectiveRoleFilter = roleFilter === "mentor" && stats.mentors === 0 ? "all" : roleFilter;
 
   // Filtered rows for data table
   const visibleRows = useMemo(() => {
@@ -263,7 +262,10 @@ export function ReceptionAdminPanel() {
           >
             <TrendingUp className="h-3.5 w-3.5 text-[#B47A4B]" />
             <span>Enquiries &amp; Progress Report</span>
-            <Badge variant={activeTab === "data" ? "gold" : "outline"} className="ml-1 text-[10px] py-0 px-1.5">
+            <Badge
+              variant={activeTab === "data" ? "gold" : "outline"}
+              className="ml-1 text-[10px] py-0 px-1.5"
+            >
               {stats.total}
             </Badge>
           </button>
@@ -361,16 +363,33 @@ export function ReceptionAdminPanel() {
                 )}
               >
                 <div className="flex items-center justify-between mb-1">
-                  <span className={cn("text-xs font-semibold", statusFilter === "new" ? "text-slate-300" : "text-muted-foreground")}>
+                  <span
+                    className={cn(
+                      "text-xs font-semibold",
+                      statusFilter === "new" ? "text-slate-300" : "text-muted-foreground",
+                    )}
+                  >
                     New &amp; Pending
                   </span>
                   <div className="h-2 w-2 rounded-full bg-slate-400" />
                 </div>
-                <span className={cn("text-2xl sm:text-3xl font-extrabold tracking-tight", statusFilter === "new" ? "text-white" : "text-[#243B35]")}>
+                <span
+                  className={cn(
+                    "text-2xl sm:text-3xl font-extrabold tracking-tight",
+                    statusFilter === "new" ? "text-white" : "text-[#243B35]",
+                  )}
+                >
                   {stats.newCount}
                 </span>
-                <p className={cn("mt-1 text-[11px]", statusFilter === "new" ? "text-slate-400" : "text-muted-foreground")}>
-                  {stats.total > 0 ? `${((stats.newCount / stats.total) * 100).toFixed(0)}% awaiting contact` : "No pending"}
+                <p
+                  className={cn(
+                    "mt-1 text-[11px]",
+                    statusFilter === "new" ? "text-slate-400" : "text-muted-foreground",
+                  )}
+                >
+                  {stats.total > 0
+                    ? `${((stats.newCount / stats.total) * 100).toFixed(0)}% awaiting contact`
+                    : "No pending"}
                 </p>
               </button>
 
@@ -386,15 +405,30 @@ export function ReceptionAdminPanel() {
                 )}
               >
                 <div className="flex items-center justify-between mb-1">
-                  <span className={cn("text-xs font-semibold", statusFilter === "contacted" ? "text-emerald-200" : "text-emerald-700")}>
+                  <span
+                    className={cn(
+                      "text-xs font-semibold",
+                      statusFilter === "contacted" ? "text-emerald-200" : "text-emerald-700",
+                    )}
+                  >
                     Contacted
                   </span>
                   <div className="h-2 w-2 rounded-full bg-emerald-500" />
                 </div>
-                <span className={cn("text-2xl sm:text-3xl font-extrabold tracking-tight", statusFilter === "contacted" ? "text-white" : "text-emerald-950")}>
+                <span
+                  className={cn(
+                    "text-2xl sm:text-3xl font-extrabold tracking-tight",
+                    statusFilter === "contacted" ? "text-white" : "text-emerald-950",
+                  )}
+                >
                   {stats.contactedCount}
                 </span>
-                <p className={cn("mt-1 text-[11px]", statusFilter === "contacted" ? "text-emerald-200" : "text-muted-foreground")}>
+                <p
+                  className={cn(
+                    "mt-1 text-[11px]",
+                    statusFilter === "contacted" ? "text-emerald-200" : "text-muted-foreground",
+                  )}
+                >
                   Initial outreach complete
                 </p>
               </button>
@@ -411,15 +445,30 @@ export function ReceptionAdminPanel() {
                 )}
               >
                 <div className="flex items-center justify-between mb-1">
-                  <span className={cn("text-xs font-semibold", statusFilter === "follow_up" ? "text-amber-200" : "text-amber-700")}>
+                  <span
+                    className={cn(
+                      "text-xs font-semibold",
+                      statusFilter === "follow_up" ? "text-amber-200" : "text-amber-700",
+                    )}
+                  >
                     Follow-up Required
                   </span>
                   <div className="h-2 w-2 rounded-full bg-amber-500" />
                 </div>
-                <span className={cn("text-2xl sm:text-3xl font-extrabold tracking-tight", statusFilter === "follow_up" ? "text-white" : "text-amber-950")}>
+                <span
+                  className={cn(
+                    "text-2xl sm:text-3xl font-extrabold tracking-tight",
+                    statusFilter === "follow_up" ? "text-white" : "text-amber-950",
+                  )}
+                >
                   {stats.followUpCount}
                 </span>
-                <p className={cn("mt-1 text-[11px]", statusFilter === "follow_up" ? "text-amber-200" : "text-muted-foreground")}>
+                <p
+                  className={cn(
+                    "mt-1 text-[11px]",
+                    statusFilter === "follow_up" ? "text-amber-200" : "text-muted-foreground",
+                  )}
+                >
                   Active scheduling ongoing
                 </p>
               </button>
@@ -436,15 +485,30 @@ export function ReceptionAdminPanel() {
                 )}
               >
                 <div className="flex items-center justify-between mb-1">
-                  <span className={cn("text-xs font-semibold", statusFilter === "resolved" ? "text-white/80" : "text-[#243B35]")}>
+                  <span
+                    className={cn(
+                      "text-xs font-semibold",
+                      statusFilter === "resolved" ? "text-white/80" : "text-[#243B35]",
+                    )}
+                  >
                     Resolved / Guided
                   </span>
                   <div className="h-2 w-2 rounded-full bg-[#B47A4B]" />
                 </div>
-                <span className={cn("text-2xl sm:text-3xl font-extrabold tracking-tight", statusFilter === "resolved" ? "text-white" : "text-[#243B35]")}>
+                <span
+                  className={cn(
+                    "text-2xl sm:text-3xl font-extrabold tracking-tight",
+                    statusFilter === "resolved" ? "text-white" : "text-[#243B35]",
+                  )}
+                >
                   {stats.resolvedCount}
                 </span>
-                <p className={cn("mt-1 text-[11px]", statusFilter === "resolved" ? "text-white/70" : "text-muted-foreground")}>
+                <p
+                  className={cn(
+                    "mt-1 text-[11px]",
+                    statusFilter === "resolved" ? "text-white/70" : "text-muted-foreground",
+                  )}
+                >
                   Roadmaps delivered
                 </p>
               </button>
@@ -594,9 +658,7 @@ export function ReceptionAdminPanel() {
               <div
                 className={cn(
                   "grid gap-2",
-                  stats.mentors > 0
-                    ? "grid-cols-2 sm:grid-cols-5"
-                    : "grid-cols-2 sm:grid-cols-4",
+                  stats.mentors > 0 ? "grid-cols-2 sm:grid-cols-5" : "grid-cols-2 sm:grid-cols-4",
                 )}
               >
                 <button
@@ -613,7 +675,10 @@ export function ReceptionAdminPanel() {
                     <FileText className="h-3.5 w-3.5" />
                     <span>All Leads</span>
                   </span>
-                  <Badge variant={effectiveRoleFilter === "all" ? "gold" : "outline"} className="text-[10px] py-0 px-1.5">
+                  <Badge
+                    variant={effectiveRoleFilter === "all" ? "gold" : "outline"}
+                    className="text-[10px] py-0 px-1.5"
+                  >
                     {stats.total}
                   </Badge>
                 </button>
@@ -632,7 +697,10 @@ export function ReceptionAdminPanel() {
                     <GraduationCap className="h-3.5 w-3.5" />
                     <span>Students</span>
                   </span>
-                  <Badge variant={effectiveRoleFilter === "student" ? "gold" : "outline"} className="text-[10px] py-0 px-1.5">
+                  <Badge
+                    variant={effectiveRoleFilter === "student" ? "gold" : "outline"}
+                    className="text-[10px] py-0 px-1.5"
+                  >
                     {stats.students}
                   </Badge>
                 </button>
@@ -651,7 +719,10 @@ export function ReceptionAdminPanel() {
                     <Users className="h-3.5 w-3.5" />
                     <span>Parents</span>
                   </span>
-                  <Badge variant={effectiveRoleFilter === "parent" ? "gold" : "outline"} className="text-[10px] py-0 px-1.5">
+                  <Badge
+                    variant={effectiveRoleFilter === "parent" ? "gold" : "outline"}
+                    className="text-[10px] py-0 px-1.5"
+                  >
                     {stats.parents}
                   </Badge>
                 </button>
@@ -670,7 +741,10 @@ export function ReceptionAdminPanel() {
                     <Building2 className="h-3.5 w-3.5" />
                     <span>Institutions</span>
                   </span>
-                  <Badge variant={effectiveRoleFilter === "institution" ? "gold" : "outline"} className="text-[10px] py-0 px-1.5">
+                  <Badge
+                    variant={effectiveRoleFilter === "institution" ? "gold" : "outline"}
+                    className="text-[10px] py-0 px-1.5"
+                  >
                     {stats.institutions}
                   </Badge>
                 </button>
@@ -690,7 +764,10 @@ export function ReceptionAdminPanel() {
                       <Sparkles className="h-3.5 w-3.5" />
                       <span>Mentors (Historical)</span>
                     </span>
-                    <Badge variant={effectiveRoleFilter === "mentor" ? "gold" : "outline"} className="text-[10px] py-0 px-1.5">
+                    <Badge
+                      variant={effectiveRoleFilter === "mentor" ? "gold" : "outline"}
+                      className="text-[10px] py-0 px-1.5"
+                    >
                       {stats.mentors}
                     </Badge>
                   </button>
@@ -791,7 +868,12 @@ export function ReceptionAdminPanel() {
               </div>
             ) : (
               visibleRows.map((r, i) => (
-                <EnquiryCard key={r.id} row={r} index={i} onOpenDetails={() => setActiveDetail(r)} />
+                <EnquiryCard
+                  key={r.id}
+                  row={r}
+                  index={i}
+                  onOpenDetails={() => setActiveDetail(r)}
+                />
               ))
             )}
           </div>
@@ -817,7 +899,8 @@ export function ReceptionAdminPanel() {
                 </>
               ) : (
                 <span className="text-muted-foreground">
-                  No reception password configured yet. Set a password below to allow reception staff to log in.
+                  No reception password configured yet. Set a password below to allow reception
+                  staff to log in.
                 </span>
               )}
             </div>
@@ -879,4 +962,3 @@ export function ReceptionAdminPanel() {
     </div>
   );
 }
-

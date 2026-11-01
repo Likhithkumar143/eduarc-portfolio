@@ -141,16 +141,8 @@ export function SiteHeader() {
                 </nav>
 
                 <div className="pt-6 mt-4 border-t border-hairline flex flex-col gap-3">
-                  <Button
-                    asChild
-                    variant="pill-gold"
-                    size="pill"
-                    className="w-full justify-center"
-                  >
-                    <Link
-                      to="/partner"
-                      onClick={() => setOpen(false)}
-                    >
+                  <Button asChild variant="pill-gold" size="pill" className="w-full justify-center">
+                    <Link to="/partner" onClick={() => setOpen(false)}>
                       Partner with us
                     </Link>
                   </Button>
@@ -160,10 +152,7 @@ export function SiteHeader() {
                     size="pill"
                     className="w-full justify-center"
                   >
-                    <Link
-                      to="/contact"
-                      onClick={() => setOpen(false)}
-                    >
+                    <Link to="/contact" onClick={() => setOpen(false)}>
                       Contact Support
                     </Link>
                   </Button>

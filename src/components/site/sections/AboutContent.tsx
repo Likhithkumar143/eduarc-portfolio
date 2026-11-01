@@ -134,7 +134,9 @@ function BigMentorImage({
       );
     }
     return (
-      <div className={cn("w-full h-full bg-brand-navy flex items-center justify-center", className)}>
+      <div
+        className={cn("w-full h-full bg-brand-navy flex items-center justify-center", className)}
+      >
         <span className="text-5xl font-bold text-white/25 tracking-wider">{initials(name)}</span>
       </div>
     );
@@ -182,7 +184,8 @@ export function AboutContent() {
     {
       icon: User,
       title: c.about.challenge2Title || "Lack of Proper Career Guidance",
-      description: c.about.challenge2Desc || "Limited access to expert advice and real-world insights.",
+      description:
+        c.about.challenge2Desc || "Limited access to expert advice and real-world insights.",
     },
     {
       icon: Building2,
@@ -192,7 +195,9 @@ export function AboutContent() {
     {
       icon: Settings,
       title: c.about.challenge4Title || "Difficulty Finding the Right Skills & Certifications",
-      description: c.about.challenge4Desc || "Unclear about what to learn, where to learn and how to get certified.",
+      description:
+        c.about.challenge4Desc ||
+        "Unclear about what to learn, where to learn and how to get certified.",
     },
   ];
 
@@ -581,7 +586,9 @@ export function AboutContent() {
                           <div className="absolute bottom-3 left-3 right-3">
                             <span className="bg-[#FAF9F5] border border-border inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[11px] font-medium text-brand-forest shadow-xs">
                               <MapPin className="h-3 w-3 text-brand-gold shrink-0" />
-                              <span className="truncate">{m.location || "Tumkur, Karnataka, India"}</span>
+                              <span className="truncate">
+                                {m.location || "Tumkur, Karnataka, India"}
+                              </span>
                             </span>
                           </div>
                         </div>
@@ -685,7 +692,7 @@ export function AboutContent() {
             <div
               className={cn(
                 "grid gap-8 max-w-6xl mx-auto",
-                mentors.length === 2 ? "md:grid-cols-2" : "md:grid-cols-2 lg:grid-cols-3"
+                mentors.length === 2 ? "md:grid-cols-2" : "md:grid-cols-2 lg:grid-cols-3",
               )}
             >
               {mentors.map((m, idx) => {
@@ -702,11 +709,7 @@ export function AboutContent() {
                 const guidanceChips =
                   m.howICanGuide && m.howICanGuide.length > 0
                     ? m.howICanGuide.slice(0, 3).map((g) => g.title)
-                    : [
-                        "Stream Selection",
-                        "Higher Education",
-                        "Career Roadmaps",
-                      ];
+                    : ["Stream Selection", "Higher Education", "Career Roadmaps"];
                 const shortDescription =
                   m.shortBio?.trim() ||
                   (m.about
@@ -820,4 +823,3 @@ export function AboutContent() {
     </>
   );
 }
-

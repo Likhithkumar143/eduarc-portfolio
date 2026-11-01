@@ -12,7 +12,7 @@ export type LogSecurityEventParams = {
   userAgent?: string | null;
   country?: string;
   actionTaken?: "logged" | "blocked" | "rate_limited" | "locked_out";
-  details?: Record<string, any> | null;
+  details?: Record<string, unknown> | null;
 };
 
 /**
@@ -123,4 +123,3 @@ export async function unblockIpAddress(ip: string): Promise<boolean> {
     return false;
   }
 }
-

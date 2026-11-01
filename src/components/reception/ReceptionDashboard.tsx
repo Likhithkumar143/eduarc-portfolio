@@ -23,15 +23,9 @@ import {
   Briefcase,
 } from "lucide-react";
 import { toast } from "sonner";
-import {
-  changeReceptionPassword,
-  receptionLogout,
-  type EnquiryRow,
-} from "@/lib/enquiry.functions";
+import { changeReceptionPassword, receptionLogout, type EnquiryRow } from "@/lib/enquiry.functions";
 import { enquiriesQuery, receptionStatusQuery } from "@/lib/reception-queries";
-import {
-  type EnquiryRole,
-} from "@/lib/enquiry";
+import { type EnquiryRole } from "@/lib/enquiry";
 import { exportStudentsToExcel } from "@/lib/export-excel";
 import { BrandLogo } from "@/components/site/BrandLogo";
 import { PasswordPanel } from "@/components/admin/PasswordPanel";
@@ -40,11 +34,7 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import {
-  normalizeStatus,
-  EnquiryCard,
-  EnquiryDetailModal,
-} from "./enquiry-components";
+import { normalizeStatus, EnquiryCard, EnquiryDetailModal } from "./enquiry-components";
 
 type RoleFilter = "all" | EnquiryRole;
 type StatusFilter = "all" | "new" | "contacted" | "follow_up" | "resolved";
@@ -103,8 +93,7 @@ export function ReceptionDashboard() {
     return c;
   }, [rows]);
 
-  const effectiveRoleFilter =
-    roleFilter === "mentor" && counts.mentor === 0 ? "all" : roleFilter;
+  const effectiveRoleFilter = roleFilter === "mentor" && counts.mentor === 0 ? "all" : roleFilter;
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -257,8 +246,8 @@ export function ReceptionDashboard() {
               Role-Based Enquiries &amp; Leads
             </h1>
             <p className="mt-1 text-xs text-muted-foreground">
-              Review live submissions across Students, Parents, and Institutions, follow up
-              with direct contact actions, and manage status progression.
+              Review live submissions across Students, Parents, and Institutions, follow up with
+              direct contact actions, and manage status progression.
             </p>
           </div>
           <div className="flex items-center gap-2 text-xs text-muted-foreground">

@@ -76,7 +76,9 @@ export function PartnerContent() {
                       </div>
                       <div className="space-y-0.5">
                         <h3 className="text-base font-medium text-brand-navy">{item.title}</h3>
-                        <p className="text-sm text-muted-foreground font-normal leading-relaxed">{item.body}</p>
+                        <p className="text-sm text-muted-foreground font-normal leading-relaxed">
+                          {item.body}
+                        </p>
                       </div>
                     </div>
                   );
@@ -121,4 +123,3 @@ export function PartnerContent() {
     </div>
   );
 }
-

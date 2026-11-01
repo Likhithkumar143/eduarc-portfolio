@@ -43,7 +43,11 @@ export function PageIntro({
             {title}
           </h1>
         </div>
-        {lead && <p className="type-lead mx-auto mt-5 max-w-2xl text-muted-foreground font-normal leading-relaxed">{lead}</p>}
+        {lead && (
+          <p className="type-lead mx-auto mt-5 max-w-2xl text-muted-foreground font-normal leading-relaxed">
+            {lead}
+          </p>
+        )}
         {children && <div className="mt-8 flex justify-center">{children}</div>}
       </div>
     </section>
@@ -71,7 +75,9 @@ export function SectionHeading({
     <Reveal className={cn(align === "center" ? "mx-auto text-center" : "", "max-w-3xl", className)}>
       {eyebrow && <p className="type-eyebrow">{eyebrow}</p>}
       <h2 className="type-headline mt-3 text-brand-navy font-semibold">{title}</h2>
-      {lead && <p className="type-lead mt-4 text-muted-foreground font-normal leading-relaxed">{lead}</p>}
+      {lead && (
+        <p className="type-lead mt-4 text-muted-foreground font-normal leading-relaxed">{lead}</p>
+      )}
     </Reveal>
   );
 }

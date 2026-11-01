@@ -118,7 +118,9 @@ export function inspectRequestThreat(
   let decodedPath = "";
   let fullTarget = "";
   try {
-    const parsed = new URL(urlStr.startsWith("http") ? urlStr : `https://eduarc-connect.in${urlStr}`);
+    const parsed = new URL(
+      urlStr.startsWith("http") ? urlStr : `https://eduarc-connect.in${urlStr}`,
+    );
     decodedPath = decodeURIComponent(parsed.pathname);
     fullTarget = decodeURIComponent(parsed.pathname + parsed.search);
   } catch {

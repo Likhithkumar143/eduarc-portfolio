@@ -124,14 +124,30 @@ export function SecurityAdminPanel() {
   const getSeverityBadge = (severity: SecuritySeverity) => {
     switch (severity) {
       case "critical":
-        return <Badge variant="destructive" className="bg-red-700 text-white font-bold">CRITICAL</Badge>;
+        return (
+          <Badge variant="destructive" className="bg-red-700 text-white font-bold">
+            CRITICAL
+          </Badge>
+        );
       case "high":
-        return <Badge variant="destructive" className="font-semibold">HIGH</Badge>;
+        return (
+          <Badge variant="destructive" className="font-semibold">
+            HIGH
+          </Badge>
+        );
       case "medium":
-        return <Badge variant="gold" className="font-medium">MEDIUM</Badge>;
+        return (
+          <Badge variant="gold" className="font-medium">
+            MEDIUM
+          </Badge>
+        );
       case "low":
       default:
-        return <Badge variant="secondary" className="font-medium">LOW</Badge>;
+        return (
+          <Badge variant="secondary" className="font-medium">
+            LOW
+          </Badge>
+        );
     }
   };
 
@@ -168,7 +184,9 @@ export function SecurityAdminPanel() {
             disabled={isRefetching || isLoading}
             className="text-xs"
           >
-            <RefreshCw className={cn("h-3.5 w-3.5 mr-1.5", (isRefetching || isLoading) && "animate-spin")} />
+            <RefreshCw
+              className={cn("h-3.5 w-3.5 mr-1.5", (isRefetching || isLoading) && "animate-spin")}
+            />
             Refresh
           </Button>
           <Button
@@ -269,11 +287,13 @@ export function SecurityAdminPanel() {
       <div className="rounded-2xl border border-hairline bg-white p-6 shadow-xs">
         <div className="flex items-center gap-2 mb-3">
           <Search className="h-4 w-4 text-brand-gold" />
-          <h2 className="text-sm font-bold text-brand-navy">IP Address Forensics & Investigation</h2>
+          <h2 className="text-sm font-bold text-brand-navy">
+            IP Address Forensics & Investigation
+          </h2>
         </div>
         <p className="text-xs text-muted-foreground mb-4">
-          Investigate any suspicious source IP to inspect its request frequency, threat severity, and
-          blocking history, or apply an immediate block.
+          Investigate any suspicious source IP to inspect its request frequency, threat severity,
+          and blocking history, or apply an immediate block.
         </p>
 
         <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-3">
@@ -328,8 +348,14 @@ export function SecurityAdminPanel() {
                 </div>
                 <p className="text-xs text-muted-foreground mt-0.5">
                   Total Incidents Logged: <strong>{investigationData.totalIncidents}</strong> ·
-                  First Seen: {investigationData.firstSeen ? new Date(investigationData.firstSeen).toLocaleString() : "Never"} ·
-                  Last Seen: {investigationData.lastSeen ? new Date(investigationData.lastSeen).toLocaleString() : "Never"}
+                  First Seen:{" "}
+                  {investigationData.firstSeen
+                    ? new Date(investigationData.firstSeen).toLocaleString()
+                    : "Never"}{" "}
+                  · Last Seen:{" "}
+                  {investigationData.lastSeen
+                    ? new Date(investigationData.lastSeen).toLocaleString()
+                    : "Never"}
                 </p>
               </div>
 
@@ -337,7 +363,9 @@ export function SecurityAdminPanel() {
                 <Button
                   size="sm"
                   variant={investigationData.isBlocked ? "outline" : "destructive"}
-                  onClick={() => handleToggleBlock(investigationData.ip, investigationData.isBlocked)}
+                  onClick={() =>
+                    handleToggleBlock(investigationData.ip, investigationData.isBlocked)
+                  }
                   className="text-xs"
                 >
                   {investigationData.isBlocked ? (
@@ -396,7 +424,9 @@ export function SecurityAdminPanel() {
                       <div className="min-w-0 flex items-center gap-2">
                         {getSeverityBadge(evt.severity)}
                         <span className="font-mono text-muted-foreground">{evt.method}</span>
-                        <span className="truncate text-brand-navy font-medium">{evt.description}</span>
+                        <span className="truncate text-brand-navy font-medium">
+                          {evt.description}
+                        </span>
                       </div>
                       <span className="text-muted-foreground text-[11px] shrink-0">
                         {new Date(evt.createdAt).toLocaleTimeString()}
@@ -423,7 +453,7 @@ export function SecurityAdminPanel() {
           </div>
 
           <div className="mt-3 divide-y divide-hairline/60">
-            {(!overview?.topSuspiciousIps || overview.topSuspiciousIps.length === 0) ? (
+            {!overview?.topSuspiciousIps || overview.topSuspiciousIps.length === 0 ? (
               <p className="py-6 text-center text-xs text-muted-foreground">
                 No repeat suspicious IP addresses detected.
               </p>
@@ -483,7 +513,7 @@ export function SecurityAdminPanel() {
           </div>
 
           <div className="mt-3 divide-y divide-hairline/60">
-            {(!overview?.activeBlockedIps || overview.activeBlockedIps.length === 0) ? (
+            {!overview?.activeBlockedIps || overview.activeBlockedIps.length === 0 ? (
               <p className="py-6 text-center text-xs text-muted-foreground">
                 No active IP blocks currently enforced.
               </p>
@@ -497,9 +527,7 @@ export function SecurityAdminPanel() {
                         Enforced
                       </Badge>
                     </div>
-                    <p className="text-[11px] text-muted-foreground mt-0.5 truncate">
-                      {b.reason}
-                    </p>
+                    <p className="text-[11px] text-muted-foreground mt-0.5 truncate">{b.reason}</p>
                   </div>
 
                   <Button
@@ -535,7 +563,7 @@ export function SecurityAdminPanel() {
         </div>
 
         <div className="mt-3 overflow-x-auto">
-          {(!overview?.recentEvents || overview.recentEvents.length === 0) ? (
+          {!overview?.recentEvents || overview.recentEvents.length === 0 ? (
             <p className="py-8 text-center text-xs text-muted-foreground">
               No security incidents recorded. System is operating normally.
             </p>
@@ -586,7 +614,10 @@ export function SecurityAdminPanel() {
                       </Badge>
                     </td>
                     <td className="py-2.5 text-right whitespace-nowrap text-muted-foreground text-[11px]">
-                      {new Date(e.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                      {new Date(e.createdAt).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
                     </td>
                   </tr>
                 ))}
@@ -598,4 +629,3 @@ export function SecurityAdminPanel() {
     </div>
   );
 }
-

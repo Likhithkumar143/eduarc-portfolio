@@ -51,7 +51,7 @@ describe("Image Compression Utility", () => {
     it("rejects non-image files with clear error message", async () => {
       const textFile = new File(["test content"], "document.txt", { type: "text/plain" });
       await expect(compressImage(textFile)).rejects.toThrow(
-        "Please select a valid image file (JPEG, PNG, WEBP, or AVIF)."
+        "Please select a valid image file (JPEG, PNG, WEBP, or AVIF).",
       );
     });
 
@@ -60,9 +60,8 @@ describe("Image Compression Utility", () => {
       Object.defineProperty(largeFile, "size", { value: 20 * 1024 * 1024 });
 
       await expect(compressImage(largeFile, { maxInputSizeMb: 15 })).rejects.toThrow(
-        /exceeds the 15MB maximum limit/
+        /exceeds the 15MB maximum limit/,
       );
     });
   });
 });
-

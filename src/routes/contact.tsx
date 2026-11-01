@@ -50,8 +50,10 @@ function ContactPage() {
             alt="EDUARC Educational Guidance and Counselling"
             className="h-full w-auto max-w-none absolute right-0 bottom-0 block"
             style={{
-              maskImage: "linear-gradient(to right, transparent 0%, transparent 8%, black 32%, black 100%)",
-              WebkitMaskImage: "linear-gradient(to right, transparent 0%, transparent 8%, black 32%, black 100%)",
+              maskImage:
+                "linear-gradient(to right, transparent 0%, transparent 8%, black 32%, black 100%)",
+              WebkitMaskImage:
+                "linear-gradient(to right, transparent 0%, transparent 8%, black 32%, black 100%)",
             }}
           />
           {/* Subtle gradient behind text to guarantee contrast across all viewports */}

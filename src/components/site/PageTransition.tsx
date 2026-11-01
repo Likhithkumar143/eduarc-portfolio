@@ -14,4 +14,3 @@ export function PageTransition({ children }: PageTransitionProps) {
     </div>
   );
 }
-

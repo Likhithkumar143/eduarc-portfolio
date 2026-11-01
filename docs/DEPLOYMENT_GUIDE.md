@@ -1,7 +1,7 @@
 # EduArc Deployment & Rollback Guide
 
 **Target Domain:** `https://eduarc-connect.in`  
-**Hosting Platform:** Vercel (recommended) / Node.js Nitro Serverless Engine  
+**Hosting Platform:** Vercel (recommended) / Nitro Serverless Engine  
 **Database:** Supabase PostgreSQL with Serverless RPC  
 **Branch:** `main`
 
@@ -9,7 +9,7 @@
 
 ## 1. Prerequisites & Environment Setup
 
-Before triggering a production deployment, ensure the following environment variables are securely configured in your deployment platform (e.g. Vercel Project Settings > Environment Variables):
+Configure the following environment variables in your deployment platform (e.g. Vercel Project Settings > Environment Variables):
 
 ### Required Environment Variables
 
@@ -25,7 +25,22 @@ Before triggering a production deployment, ensure the following environment vari
 
 ---
 
-## 2. Pre-Deployment Verification Pipeline
+## 2. Database Migrations
+
+Apply the migration scripts located in `drizzle/migrations/` sequentially using the Supabase SQL Editor:
+
+1. `0000_migration.sql` — Site content storage & brochure schema.
+2. `0001_partner_enquiries_and_reception.sql` — Baseline partner leads & reception credentials.
+3. `0002_role_based_enquiries_and_remarks.sql` — Role-based fields (`role`, `child_name`, `designation`, `remarks`).
+4. `0003_privacy_and_consent.sql` — DPDPA consent tracking.
+5. `0004_website_analytics.sql` — Privacy-first website analytics table.
+6. `0005_website_security.sql` — Security incidents & active IP blocklist tables.
+
+*Note: Application code includes automatic schema fallback for missing columns, so deployments will not crash even if migrations are applied after code deploy.*
+
+---
+
+## 3. Pre-Deployment Verification Pipeline
 
 Run all verification checks locally before approving a production release:
 
@@ -33,10 +48,13 @@ Run all verification checks locally before approving a production release:
 # 1. Typecheck
 npx tsc --noEmit
 
-# 2. Automated Test Suite (36 tests)
+# 2. Automated Test Suite (117 tests across 11 test suites)
 npm test
 
-# 3. Production Build Validation
+# 3. Linter & Formatting
+npx eslint src
+
+# 4. Production Build Validation
 npm run build
 ```
 
@@ -44,29 +62,19 @@ Both client assets (`.output/public`) and server bundle (`.output/server`) must 
 
 ---
 
-## 3. Deployment Steps (Vercel)
-
-1. Connect the GitHub repository `https://github.com/Likhithkumar143/eduarc-portfolio.git` to Vercel.
-2. Select Framework Preset: **Other** (or **Nitro / TanStack Start**).
-3. Build Command: `npm run build` (or `vite build`).
-4. Output Directory: `.output`.
-5. Ensure all required environment variables above are configured.
-6. Deploy.
-
----
-
 ## 4. Post-Deployment Verification Checklist
 
 Once deployed to `https://eduarc-connect.in`:
 
-1. **Public Navigation:** Visit `/`, `/about`, `/programs`, `/mentors`, `/features`, `/impact`, `/contact`, `/partner`. Confirm pages render without visual flaws or console errors.
-2. **Contact Page:** Confirm the hero counselor banner displays clearly, top icons are sharp and not washed out, and communication channel links work.
-3. **Partner Form Submission:** Fill out a test enquiry as "Student". Confirm success toast/confirmation screen appears and data records in `partner_enquiries`.
-4. **Staff Portals:**
+1. **Public Navigation:** Visit `/`, `/about`, `/programs`, `/mentors`, `/features`, `/contact`, `/partner`. Confirm pages render without visual flaws or console errors.
+2. **Magnetic Navigation & Transitions:** Hover over header navigation links; verify smooth dock scaling and smooth page transitions.
+3. **Progressive Images:** Verify images load progressively with blur placeholder and zero layout shift.
+4. **Partner Form Submission:** Fill out a test enquiry as "Student". Confirm paper plane animation triggers upon success and data records.
+5. **Staff Portals:**
    - Test `/reception`: Attempt login with reception password. Confirm enquiries dashboard renders.
-   - Test `/admin`: Log in with initial admin password. Confirm content editor tabs load.
-5. **Security Headers:** Inspect response headers in Chrome DevTools Network tab. Verify `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Strict-Transport-Security`, and `Content-Security-Policy` are present.
-6. **SEO & Crawlers:** Verify `https://eduarc-connect.in/robots.txt` and `https://eduarc-connect.in/sitemap.xml` return HTTP 200.
+   - Test `/admin`: Log in with initial admin password. Confirm content editor, analytics, and security monitoring tabs load.
+6. **Security Headers:** Inspect response headers in DevTools. Verify `nosniff`, `X-Frame-Options: DENY`, `Strict-Transport-Security`, and `Content-Security-Policy` are active.
+7. **SEO & Crawlers:** Verify `https://eduarc-connect.in/robots.txt` and `https://eduarc-connect.in/sitemap.xml` return HTTP 200.
 
 ---
 
@@ -74,16 +82,13 @@ Once deployed to `https://eduarc-connect.in`:
 
 ### 5.1 Code Rollback (Instant)
 
-If an unexpected runtime regression occurs post-deployment:
-
 1. In the Vercel Dashboard, navigate to **Deployments**.
 2. Locate the previous known-healthy deployment.
-3. Click the three dots `...` and select **Redeploy** or **Promote to Production**.
+3. Click the three dots `...` and select **Promote to Production**.
 4. Traffic will instantly route back to the previous immutable release bundle.
 
 ### 5.2 Database Rollback Strategy
 
-Database changes in EduArc are backward-compatible:
-
-- Columns added in migrations (`role`, `consent_given`, etc.) allow NULL values, so older code versions continue to execute queries without syntax errors.
-- The application code in `src/lib/enquiry.functions.ts` features automatic schema fallback: if a column is missing or rejected by remote check constraints, it polyfills defaults and writes to legacy columns gracefully.
+Database changes are strictly backward-compatible:
+- Columns added allow NULL values, allowing older code versions to function normally.
+- Server functions in `src/lib/enquiry.functions.ts` automatically fall back to baseline columns if new columns are missing.

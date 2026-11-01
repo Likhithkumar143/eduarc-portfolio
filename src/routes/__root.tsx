@@ -162,7 +162,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "author", content: "EDUARC" },
       { name: "theme-color", content: "#243B35" },
       { name: "google-site-verification", content: "googlee87f8b26b8c2d2b8" },
-      { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" },
+      {
+        name: "robots",
+        content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+      },
       { name: "googlebot", content: "index, follow, max-snippet:-1, max-image-preview:large" },
       { name: "application-name", content: "EDUARC" },
       { name: "apple-mobile-web-app-title", content: "EDUARC" },
@@ -186,7 +189,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:image:type", content: "image/jpeg" },
       { property: "og:image:width", content: "1600" },
       { property: "og:image:height", content: "1008" },
-      { property: "og:image:alt", content: "EDUARC — Career Guidance & Education Support Platform" },
+      {
+        property: "og:image:alt",
+        content: "EDUARC — Career Guidance & Education Support Platform",
+      },
 
       // Twitter / X Card
       { name: "twitter:card", content: "summary_large_image" },

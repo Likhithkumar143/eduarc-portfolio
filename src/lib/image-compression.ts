@@ -134,14 +134,14 @@ function loadImageFromFile(file: File | Blob): Promise<HTMLImageElement> {
  */
 export async function compressImage(
   file: File,
-  options: ImageCompressionOptions = {}
+  options: ImageCompressionOptions = {},
 ): Promise<CompressedImageResult> {
   const maxInputSizeMb = options.maxInputSizeMb ?? 15;
   const maxInputBytes = maxInputSizeMb * 1024 * 1024;
 
   if (file.size > maxInputBytes) {
     throw new Error(
-      `Photo file size (${formatBytes(file.size)}) exceeds the ${maxInputSizeMb}MB maximum limit. Please choose a smaller photo.`
+      `Photo file size (${formatBytes(file.size)}) exceeds the ${maxInputSizeMb}MB maximum limit. Please choose a smaller photo.`,
     );
   }
 
@@ -169,9 +169,7 @@ export async function compressImage(
   // Determine export format
   const canWebP = supportsWebPExport();
   const format: "image/webp" | "image/jpeg" =
-    options.preferredFormat === "image/jpeg" || !canWebP
-      ? "image/jpeg"
-      : "image/webp";
+    options.preferredFormat === "image/jpeg" || !canWebP ? "image/jpeg" : "image/webp";
 
   // Create canvas
   const canvas = document.createElement("canvas");
@@ -197,7 +195,7 @@ export async function compressImage(
   ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
 
   // Initial quality pass
-  let currentQuality = Math.min(1.0, Math.max(0.1, options.quality ?? 0.80));
+  let currentQuality = Math.min(1.0, Math.max(0.1, options.quality ?? 0.8));
   let dataUrl = canvas.toDataURL(format, currentQuality);
   let currentByteSize = getBase64ByteSize(dataUrl);
 

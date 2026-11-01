@@ -30,7 +30,9 @@ describe("Testimonials & Review Submissions", () => {
 
     it("generates a valid Gravatar avatar URL with identicon fallback from email", () => {
       const url = getGravatarUrl("test@example.com");
-      expect(url).toBe("https://www.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?s=200&d=identicon");
+      expect(url).toBe(
+        "https://www.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?s=200&d=identicon",
+      );
     });
 
     it("normalizes email case and whitespace before hashing", () => {
@@ -153,9 +155,7 @@ describe("Testimonials & Review Submissions", () => {
       expect(initialTestimonials.some((t) => t.email === "rahul@gmail.com")).toBe(true);
 
       // Admin declines
-      const updatedTestimonials = initialTestimonials.filter(
-        (t) => t.email !== "rahul@gmail.com",
-      );
+      const updatedTestimonials = initialTestimonials.filter((t) => t.email !== "rahul@gmail.com");
       expect(updatedTestimonials.some((t) => t.email === "rahul@gmail.com")).toBe(false);
     });
 
@@ -359,4 +359,3 @@ describe("Testimonials & Review Submissions", () => {
     });
   });
 });
-

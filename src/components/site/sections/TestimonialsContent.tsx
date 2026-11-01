@@ -284,9 +284,15 @@ export function TestimonialsContent() {
 
                     {/* Bottom: 5 Muted Terracotta Stars & Category Badge */}
                     <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-0.5 text-[#B47A4B]" aria-label="5 stars">
+                      <div
+                        className="flex items-center gap-0.5 text-[#B47A4B]"
+                        aria-label="5 stars"
+                      >
                         {Array.from({ length: rating }).map((_, starIdx) => (
-                          <Star key={starIdx} className="h-3.5 w-3.5 fill-[#B47A4B] text-[#B47A4B]" />
+                          <Star
+                            key={starIdx}
+                            className="h-3.5 w-3.5 fill-[#B47A4B] text-[#B47A4B]"
+                          />
                         ))}
                       </div>
 
@@ -450,11 +456,7 @@ export function TestimonialsContent() {
                     viewBox="0 0 60 30"
                     fill="none"
                   >
-                    <path
-                      d="M2,28 C20,28 35,5 55,8"
-                      strokeWidth="1.5"
-                      strokeDasharray="3 3"
-                    />
+                    <path d="M2,28 C20,28 35,5 55,8" strokeWidth="1.5" strokeDasharray="3 3" />
                   </svg>
                   <span className="font-serif italic text-xs font-semibold text-[#B47A4B]">
                     Your words make a difference!
@@ -523,7 +525,10 @@ export function TestimonialsContent() {
                       const img = e.currentTarget;
                       if (!img.dataset.fallbackApplied) {
                         img.dataset.fallbackApplied = "true";
-                        img.src = getGoogleMaterialAvatarSvg(modalForm.name || "User", modalForm.email);
+                        img.src = getGoogleMaterialAvatarSvg(
+                          modalForm.name || "User",
+                          modalForm.email,
+                        );
                       }
                     }}
                   />
@@ -672,4 +677,3 @@ export function TestimonialsContent() {
     </>
   );
 }
-

@@ -27,7 +27,7 @@ export type SecurityEventRecord = {
   userAgent: string | null;
   country: string;
   actionTaken: "logged" | "blocked" | "rate_limited" | "locked_out";
-  details?: Record<string, any> | null;
+  details?: Record<string, unknown> | null;
   createdAt: string;
 };
 
@@ -90,4 +90,3 @@ export type SecurityOverview = {
   };
   lastUpdated: string;
 };
-

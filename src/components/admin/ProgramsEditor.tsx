@@ -179,11 +179,7 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
   }
 
   // Handle Image Upload directly to Supabase Storage bucket 'programs'
-  async function handleImageFile(
-    file: File,
-    target: "card" | "hero" | "gallery",
-    galleryIdx = 0
-  ) {
+  async function handleImageFile(file: File, target: "card" | "hero" | "gallery", galleryIdx = 0) {
     try {
       setUploadingImage(true);
       toast.loading("Compressing photo to reduce storage size...", { id: "storage-upload" });
@@ -193,18 +189,17 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
         target === "card"
           ? { maxWidth: 960, maxHeight: 600, quality: 0.78, targetMaxBytes: 120 * 1024 }
           : target === "hero"
-            ? { maxWidth: 1280, maxHeight: 800, quality: 0.80, targetMaxBytes: 180 * 1024 }
+            ? { maxWidth: 1280, maxHeight: 800, quality: 0.8, targetMaxBytes: 180 * 1024 }
             : { maxWidth: 1000, maxHeight: 750, quality: 0.78, targetMaxBytes: 140 * 1024 };
 
       const compressed = await compressImage(file, compressionConfig);
 
       toast.loading(
         `Uploading compressed photo (${compressed.readableCompressedSize}, ${compressed.savedPercent}% space saved)...`,
-        { id: "storage-upload" }
+        { id: "storage-upload" },
       );
 
-      const targetSessionId =
-        form.id.trim() || slugify(form.institution || form.title) || "custom";
+      const targetSessionId = form.id.trim() || slugify(form.institution || form.title) || "custom";
 
       const res = await uploadImageFn({
         data: {
@@ -240,7 +235,7 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
       }
 
       toast.success(
-        `${label} uploaded! Reduced from ${compressed.readableOriginalSize} to ${compressed.readableCompressedSize} (${compressed.savedPercent}% space saved)`
+        `${label} uploaded! Reduced from ${compressed.readableOriginalSize} to ${compressed.readableCompressedSize} (${compressed.savedPercent}% space saved)`,
       );
     } catch (err) {
       toast.dismiss("storage-upload");
@@ -282,9 +277,7 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
     }
 
     // Check unique ID
-    const duplicate = programs.find(
-      (p, idx) => p.id === finalId && idx !== editingIndex
-    );
+    const duplicate = programs.find((p, idx) => p.id === finalId && idx !== editingIndex);
     if (duplicate) {
       toast.error(`A program with ID "${finalId}" already exists. Please pick a unique slug.`);
       setActiveTab("basic");
@@ -302,9 +295,7 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
 
     let updatedPrograms: ProgramSessionItem[];
     if (editingIndex !== null) {
-      updatedPrograms = programs.map((p, idx) =>
-        idx === editingIndex ? completedProgram : p
-      );
+      updatedPrograms = programs.map((p, idx) => (idx === editingIndex ? completedProgram : p));
       toast.success(`Updated "${completedProgram.institution}" program details`);
     } else {
       updatedPrograms = [completedProgram, ...programs];
@@ -357,9 +348,9 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
             Conducted Programs & Session Details
           </h2>
           <p className="text-xs sm:text-sm text-muted-foreground mt-1 max-w-2xl leading-relaxed">
-            Add, update, or remove conducted school and college sessions. Edits update both the
-            grid cards on <span className="font-semibold text-foreground">/programs</span> and
-            their individual session pages in real time.
+            Add, update, or remove conducted school and college sessions. Edits update both the grid
+            cards on <span className="font-semibold text-foreground">/programs</span> and their
+            individual session pages in real time.
           </p>
         </div>
 
@@ -578,7 +569,9 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
             <TabsContent value="basic" className="space-y-4 pt-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-1.5 sm:col-span-2">
-                  <Label className="text-xs font-bold text-brand-navy">Program Session Title *</Label>
+                  <Label className="text-xs font-bold text-brand-navy">
+                    Program Session Title *
+                  </Label>
                   <Input
                     value={form.title}
                     onChange={(e) => setForm({ ...form, title: e.target.value })}
@@ -667,7 +660,9 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label className="text-xs font-bold text-brand-navy">Badge Tag (Card Top-Right)</Label>
+                  <Label className="text-xs font-bold text-brand-navy">
+                    Badge Tag (Card Top-Right)
+                  </Label>
                   <Input
                     value={form.tag}
                     onChange={(e) => setForm({ ...form, tag: e.target.value })}
@@ -734,7 +729,9 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-1.5 sm:col-span-2">
-                  <Label className="text-xs font-bold text-brand-navy">Institution Official Name</Label>
+                  <Label className="text-xs font-bold text-brand-navy">
+                    Institution Official Name
+                  </Label>
                   <Input
                     value={form.institutionDetails.name}
                     onChange={(e) =>
@@ -749,7 +746,9 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label className="text-xs font-bold text-brand-navy">Institution Subtitle / Type</Label>
+                  <Label className="text-xs font-bold text-brand-navy">
+                    Institution Subtitle / Type
+                  </Label>
                   <Input
                     value={form.institutionDetails.type}
                     onChange={(e) =>
@@ -779,7 +778,9 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label className="text-xs font-bold text-brand-navy">Contact Person / Coordinator</Label>
+                  <Label className="text-xs font-bold text-brand-navy">
+                    Contact Person / Coordinator
+                  </Label>
                   <Input
                     value={form.institutionDetails.contactPerson}
                     onChange={(e) =>
@@ -869,7 +870,9 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
                   <span className="font-semibold text-emerald-800">
                     Automatic Image Compression Active:
                   </span>{" "}
-                  Photos are automatically scaled and compressed before uploading to Supabase Storage. This reduces storage consumption by up to 98% while keeping images crystal clear on high-resolution displays.
+                  Photos are automatically scaled and compressed before uploading to Supabase
+                  Storage. This reduces storage consumption by up to 98% while keeping images
+                  crystal clear on high-resolution displays.
                 </div>
               </div>
 
@@ -968,10 +971,7 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-                  {(form.gallery && form.gallery.length >= 5
-                    ? form.gallery
-                    : defaultSessionGallery
-                  )
+                  {(form.gallery && form.gallery.length >= 5 ? form.gallery : defaultSessionGallery)
                     .slice(0, 5)
                     .map((photoUrl, gIdx) => (
                       <div
@@ -1155,7 +1155,11 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
               disabled={isSaving}
               className="w-full sm:w-auto text-xs gap-1.5"
             >
-              {isSaving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Check className="h-3.5 w-3.5" />}
+              {isSaving ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              ) : (
+                <Check className="h-3.5 w-3.5" />
+              )}
               <span>{editingIndex !== null ? "Save Changes" : "Create Program"}</span>
             </Button>
           </DialogFooter>
@@ -1181,12 +1185,8 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
 
           {deletingIndex !== null && programs[deletingIndex] && (
             <div className="rounded-xl border border-hairline bg-surface/50 p-3 my-2 text-xs">
-              <p className="font-bold text-brand-navy">
-                {programs[deletingIndex]!.institution}
-              </p>
-              <p className="text-muted-foreground mt-0.5">
-                {programs[deletingIndex]!.title}
-              </p>
+              <p className="font-bold text-brand-navy">{programs[deletingIndex]!.institution}</p>
+              <p className="text-muted-foreground mt-0.5">{programs[deletingIndex]!.title}</p>
             </div>
           )}
 
@@ -1221,7 +1221,9 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
             <span>⚙️</span>
             <span>Programs Page Header & Intro Copy</span>
           </span>
-          <span className="text-[11px] text-muted-foreground group-open:rotate-180 transition-transform">▼</span>
+          <span className="text-[11px] text-muted-foreground group-open:rotate-180 transition-transform">
+            ▼
+          </span>
         </summary>
         <div className="pt-4 mt-3 border-t border-hairline space-y-3">
           <div className="space-y-1">

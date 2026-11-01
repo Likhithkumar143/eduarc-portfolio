@@ -150,9 +150,9 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
 
   const submittedReviews = userReviewsData?.reviews || [];
 
-  const [moderationTab, setModerationTab] = useState<
-    "pending" | "approved" | "rejected" | "all"
-  >("pending");
+  const [moderationTab, setModerationTab] = useState<"pending" | "approved" | "rejected" | "all">(
+    "pending",
+  );
 
   const pendingReviews = useMemo(
     () => submittedReviews.filter((r) => r.status === "pending"),
@@ -417,8 +417,7 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
       category: form.category?.trim() || "Career Guidance Session",
       email: form.email?.trim() || undefined,
       avatar:
-        form.avatar?.trim() ||
-        (form.email?.trim() ? getGravatarUrl(form.email.trim()) : undefined),
+        form.avatar?.trim() || (form.email?.trim() ? getGravatarUrl(form.email.trim()) : undefined),
     };
 
     let nextList: TestimonialItem[];
@@ -538,7 +537,10 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
                   User Review Submissions
                 </h3>
                 {pendingReviews.length > 0 ? (
-                  <Badge variant="warning" className="text-xs px-2.5 py-0.5 animate-pulse font-bold">
+                  <Badge
+                    variant="warning"
+                    className="text-xs px-2.5 py-0.5 animate-pulse font-bold"
+                  >
                     {pendingReviews.length} Awaiting Approval
                   </Badge>
                 ) : (
@@ -548,7 +550,9 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
                 )}
               </div>
               <p className="text-xs text-muted-foreground mt-0.5 max-w-xl">
-                Reviews submitted by students and parents on the website. User profile photos are automatically loaded from their email addresses. Reviews require admin approval before appearing publicly.
+                Reviews submitted by students and parents on the website. User profile photos are
+                automatically loaded from their email addresses. Reviews require admin approval
+                before appearing publicly.
               </p>
             </div>
           </div>
@@ -657,7 +661,9 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
             <span
               className={cn(
                 "ml-1 rounded-full px-1.5 py-0.2 text-[10px]",
-                moderationTab === "all" ? "bg-white/20 text-white" : "bg-muted text-muted-foreground",
+                moderationTab === "all"
+                  ? "bg-white/20 text-white"
+                  : "bg-muted text-muted-foreground",
               )}
             >
               {submittedReviews.length}
@@ -729,7 +735,10 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
 
                         {/* Status Badge */}
                         {r.status === "pending" && (
-                          <Badge variant="warning" className="text-[10px] py-0 px-2 font-bold gap-1">
+                          <Badge
+                            variant="warning"
+                            className="text-[10px] py-0 px-2 font-bold gap-1"
+                          >
                             <Clock className="h-3 w-3" />
                             <span>Awaiting Approval</span>
                           </Badge>
@@ -861,9 +870,7 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
               <Sparkles className="h-5 w-5" />
             </div>
             <div>
-              <h3 className="text-base sm:text-lg font-bold text-foreground">
-                Hero Banner Header
-              </h3>
+              <h3 className="text-base sm:text-lg font-bold text-foreground">Hero Banner Header</h3>
               <p className="text-xs text-muted-foreground">
                 Customize the testimonials page hero headline, badge, and description.
               </p>
@@ -892,8 +899,7 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
                 {page.badge || "TESTIMONIALS"}
               </span>
               <h4 className="text-lg sm:text-2xl font-black text-[#0F172A] tracking-tight leading-snug">
-                {page.title}{" "}
-                <span className="text-[#0F172A]">{page.titleHighlight}</span>
+                {page.title} <span className="text-[#0F172A]">{page.titleHighlight}</span>
               </h4>
               <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed max-w-sm">
                 {page.lead}
@@ -914,8 +920,16 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-muted-foreground pt-1">
-          <span>Visual Layout: <strong className="text-foreground">Fully Aligned (No Box Frame, Bottom-Flush)</strong></span>
-          <span>Source Asset: <code className="bg-surface px-1.5 py-0.5 rounded text-blue-600 font-mono">src/assets/testimonials/hero-banner.jpg (2187×892)</code></span>
+          <span>
+            Visual Layout:{" "}
+            <strong className="text-foreground">Fully Aligned (No Box Frame, Bottom-Flush)</strong>
+          </span>
+          <span>
+            Source Asset:{" "}
+            <code className="bg-surface px-1.5 py-0.5 rounded text-blue-600 font-mono">
+              src/assets/testimonials/hero-banner.jpg (2187×892)
+            </code>
+          </span>
         </div>
 
         {/* Header Content Form Fields */}
@@ -972,7 +986,8 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
                 Impact Numbers & Milestone Bar
               </h3>
               <p className="text-xs text-muted-foreground">
-                Update the 4 milestone metrics and success story banner shown on the testimonials page.
+                Update the 4 milestone metrics and success story banner shown on the testimonials
+                page.
               </p>
             </div>
           </div>
@@ -1177,14 +1192,19 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
 
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-2">
-                        <h4 className="text-sm font-bold text-foreground leading-tight">{t.name}</h4>
+                        <h4 className="text-sm font-bold text-foreground leading-tight">
+                          {t.name}
+                        </h4>
                         <span className="text-hairline" aria-hidden="true">
                           •
                         </span>
                         <span className="text-xs text-muted-foreground font-medium">{t.role}</span>
 
                         {t.category && (
-                          <Badge variant="outline" className="text-[10px] py-0 px-2 border-hairline">
+                          <Badge
+                            variant="outline"
+                            className="text-[10px] py-0 px-2 border-hairline"
+                          >
                             {t.category}
                           </Badge>
                         )}
@@ -1296,7 +1316,9 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
               </div>
 
               <div>
-                <Label className="text-xs font-medium text-foreground">Email Address (Optional)</Label>
+                <Label className="text-xs font-medium text-foreground">
+                  Email Address (Optional)
+                </Label>
                 <Input
                   type="email"
                   value={form.email || ""}
@@ -1515,8 +1537,10 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
             </DialogTitle>
             <DialogDescription className="text-xs text-muted-foreground mt-2 leading-relaxed">
               Are you sure you want to remove the testimonial for{" "}
-              <strong>{deleteTargetIndex !== null ? testimonials[deleteTargetIndex]?.name : ""}</strong>?
-              This will remove it from the public testimonials page once saved.
+              <strong>
+                {deleteTargetIndex !== null ? testimonials[deleteTargetIndex]?.name : ""}
+              </strong>
+              ? This will remove it from the public testimonials page once saved.
             </DialogDescription>
           </DialogHeader>
 
@@ -1547,4 +1571,3 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
     </div>
   );
 }
-

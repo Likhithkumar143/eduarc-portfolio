@@ -3,8 +3,8 @@ import type { AnalyticsEventType, TrackEventInput } from "./analytics.types";
 
 declare global {
   interface Window {
-    gtag?: (...args: any[]) => void;
-    dataLayer?: any[];
+    gtag?: (...args: unknown[]) => void;
+    dataLayer?: unknown[];
   }
 }
 
@@ -65,7 +65,11 @@ function detectDevice(): "mobile" | "tablet" | "desktop" {
   const ua = navigator.userAgent.toLowerCase();
   const width = window.innerWidth;
 
-  if (/(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk)/i.test(ua)) {
+  if (
+    /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk)/i.test(
+      ua,
+    )
+  ) {
     return "tablet";
   }
   if (/(mobi|ipod|phone|blackberry|opera mini|fennec|minimo)/i.test(ua) || width < 768) {
@@ -196,4 +200,3 @@ export function trackEnquirySubmit(role: string) {
   const currentPath = typeof window !== "undefined" ? window.location.pathname : "/partner";
   return trackEvent("enquiry_submit", currentPath, `role:${role}`);
 }
-

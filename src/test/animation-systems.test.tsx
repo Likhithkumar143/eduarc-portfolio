@@ -27,13 +27,7 @@ describe("Animation and Interaction Systems", () => {
 
     it("transitions to progressive-img-loaded and removes blur on load", () => {
       const onLoad = vi.fn();
-      render(
-        <ProgressiveImage
-          src="/test-photo.jpg"
-          alt="Test campus session"
-          onLoad={onLoad}
-        />,
-      );
+      render(<ProgressiveImage src="/test-photo.jpg" alt="Test campus session" onLoad={onLoad} />);
 
       const img = screen.getByRole("img");
       fireEvent.load(img);
@@ -44,12 +38,7 @@ describe("Animation and Interaction Systems", () => {
     });
 
     it("renders accessible error fallback when image fails to load", () => {
-      render(
-        <ProgressiveImage
-          src="/broken-image.jpg"
-          alt="Broken campus banner"
-        />,
-      );
+      render(<ProgressiveImage src="/broken-image.jpg" alt="Broken campus banner" />);
 
       const img = screen.getByRole("img");
       fireEvent.error(img);
@@ -108,11 +97,7 @@ describe("Animation and Interaction Systems", () => {
 
     it("does not render paper plane flight when submission fails or is rejected", () => {
       const { container } = render(
-        <PaperPlaneButton
-          isSubmitting={false}
-          isSuccess={false}
-          idleText="Retry Submission"
-        />,
+        <PaperPlaneButton isSubmitting={false} isSuccess={false} idleText="Retry Submission" />,
       );
 
       const flyingPlane = container.querySelector(".animate-paper-plane");
@@ -122,4 +107,3 @@ describe("Animation and Interaction Systems", () => {
     });
   });
 });
-

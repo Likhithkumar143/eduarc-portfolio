@@ -1,8 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  blockedIpCache,
-  inspectRequestThreat,
-} from "@/lib/security-detector";
+import { blockedIpCache, inspectRequestThreat } from "@/lib/security-detector";
 
 describe("Website Security Monitoring & Threat Detection (Phase 2)", () => {
   describe("SQL Injection (SQLi) Detection", () => {
@@ -14,7 +11,11 @@ describe("Website Security Monitoring & Threat Detection (Phase 2)", () => {
     });
 
     it("detects UNION SELECT injection", () => {
-      const threat = inspectRequestThreat("/mentors?search=test' UNION SELECT username,password FROM admin_credentials--", "GET", null);
+      const threat = inspectRequestThreat(
+        "/mentors?search=test' UNION SELECT username,password FROM admin_credentials--",
+        "GET",
+        null,
+      );
       expect(threat).not.toBeNull();
       expect(threat?.eventType).toBe("sql_injection_attempt");
       expect(threat?.severity).toBe("critical");
@@ -27,27 +28,43 @@ describe("Website Security Monitoring & Threat Detection (Phase 2)", () => {
     });
 
     it("allows harmless query parameters", () => {
-      const safe = inspectRequestThreat("/programs?query=career+guidance&sort=recent", "GET", "Mozilla/5.0");
+      const safe = inspectRequestThreat(
+        "/programs?query=career+guidance&sort=recent",
+        "GET",
+        "Mozilla/5.0",
+      );
       expect(safe).toBeNull();
     });
   });
 
   describe("Cross-Site Scripting (XSS) Detection", () => {
     it("detects script tag injection", () => {
-      const threat = inspectRequestThreat("/contact?name=<script>alert('pwned')</script>", "GET", null);
+      const threat = inspectRequestThreat(
+        "/contact?name=<script>alert('pwned')</script>",
+        "GET",
+        null,
+      );
       expect(threat).not.toBeNull();
       expect(threat?.eventType).toBe("xss_attempt");
       expect(threat?.severity).toBe("high");
     });
 
     it("detects inline event handler onerror attribute", () => {
-      const threat = inspectRequestThreat('/partner?ref="><img src=x onerror=alert(1)>', "GET", null);
+      const threat = inspectRequestThreat(
+        '/partner?ref="><img src=x onerror=alert(1)>',
+        "GET",
+        null,
+      );
       expect(threat).not.toBeNull();
       expect(threat?.eventType).toBe("xss_attempt");
     });
 
     it("detects javascript: pseudo-protocol", () => {
-      const threat = inspectRequestThreat("/testimonials?redirect=javascript:document.location='http://evil.com'", "GET", null);
+      const threat = inspectRequestThreat(
+        "/testimonials?redirect=javascript:document.location='http://evil.com'",
+        "GET",
+        null,
+      );
       expect(threat).not.toBeNull();
       expect(threat?.eventType).toBe("xss_attempt");
     });
@@ -119,4 +136,3 @@ describe("Website Security Monitoring & Threat Detection (Phase 2)", () => {
     });
   });
 });
-

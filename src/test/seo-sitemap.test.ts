@@ -175,5 +175,3 @@ describe("SEO, Sitemap & AI Search Readiness", () => {
     });
   });
 });
-
-

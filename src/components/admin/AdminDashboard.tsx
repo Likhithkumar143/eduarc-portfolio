@@ -126,21 +126,24 @@ const sections: Section[] = [
     id: "reception",
     label: "Reception & Leads",
     icon: UserRoundCheck,
-    description: "Live student & institutional enquiries, progress reports, lead statuses, and staff access.",
+    description:
+      "Live student & institutional enquiries, progress reports, lead statuses, and staff access.",
     Custom: ReceptionAdminPanel,
   },
   {
     id: "analytics",
     label: "Site Analytics",
     icon: BarChart3,
-    description: "Visitor volume, popular pages, acquisition sources, device usage, and enquiry conversions.",
+    description:
+      "Visitor volume, popular pages, acquisition sources, device usage, and enquiry conversions.",
     Custom: AnalyticsAdminPanel,
   },
   {
     id: "security-monitoring",
     label: "Security Monitoring",
     icon: ShieldAlert,
-    description: "Real-time threat detection, IP investigation, WAF audit logs, and active IP blocklist.",
+    description:
+      "Real-time threat detection, IP investigation, WAF audit logs, and active IP blocklist.",
     Custom: SecurityAdminPanel,
   },
   {
@@ -303,8 +306,18 @@ export function AdminDashboard() {
               <p className="mt-1 text-xs text-muted-foreground">{section.description}</p>
             </div>
             {sectionLinks[section.id] && (
-              <Button asChild variant="pill-outline" size="sm" className="self-start sm:self-auto bg-white/80">
-                <a href={sectionLinks[section.id]} target="_blank" rel="noreferrer" className="gap-1.5 text-xs">
+              <Button
+                asChild
+                variant="pill-outline"
+                size="sm"
+                className="self-start sm:self-auto bg-white/80"
+              >
+                <a
+                  href={sectionLinks[section.id]}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="gap-1.5 text-xs"
+                >
                   <ExternalLink className="h-3.5 w-3.5" />
                   <span>Open {sectionLinks[section.id]}</span>
                 </a>

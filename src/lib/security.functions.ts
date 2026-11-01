@@ -18,8 +18,8 @@ export const getSecurityOverview = createServerFn({ method: "GET" }).handler(
   async (): Promise<SecurityOverview> => {
     await requireAdmin();
 
-    let events: any[] = [];
-    let dbBlockedIps: any[] = [];
+    let events: Record<string, unknown>[] = [];
+    let dbBlockedIps: Record<string, unknown>[] = [];
 
     try {
       const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -97,9 +97,17 @@ export const getSecurityOverview = createServerFn({ method: "GET" }).handler(
     };
 
     // Calculate top suspicious IPs
-    const ipCounts = new Map<string, { count: number; highest: SecuritySeverity; lastSeen: string; country: string }>();
+    const ipCounts = new Map<
+      string,
+      { count: number; highest: SecuritySeverity; lastSeen: string; country: string }
+    >();
     for (const e of mappedEvents) {
-      const current = ipCounts.get(e.ip) || { count: 0, highest: "low", lastSeen: e.createdAt, country: e.country };
+      const current = ipCounts.get(e.ip) || {
+        count: 0,
+        highest: "low",
+        lastSeen: e.createdAt,
+        country: e.country,
+      };
       current.count++;
       if (e.severity === "critical") current.highest = "critical";
       else if (e.severity === "high" && current.highest !== "critical") current.highest = "high";
@@ -150,8 +158,8 @@ export const investigateIp = createServerFn({ method: "POST" })
   .handler(async ({ data }): Promise<IpInvestigationResult> => {
     await requireAdmin();
 
-    let events: any[] = [];
-    let blockInfo: any = null;
+    let events: Record<string, unknown>[] = [];
+    let blockInfo: Record<string, unknown> | null = null;
 
     try {
       const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -200,7 +208,8 @@ export const investigateIp = createServerFn({ method: "POST" })
       low: mappedEvents.filter((e) => e.severity === "low").length,
     };
 
-    const firstSeen = mappedEvents.length > 0 ? mappedEvents[mappedEvents.length - 1]?.createdAt || null : null;
+    const firstSeen =
+      mappedEvents.length > 0 ? mappedEvents[mappedEvents.length - 1]?.createdAt || null : null;
     const lastSeen = mappedEvents.length > 0 ? mappedEvents[0]?.createdAt || null : null;
 
     const memoryBlock = blockedIpCache.isBlocked(data.ip);
@@ -276,7 +285,7 @@ export const exportSecurityCsv = createServerFn({ method: "GET" }).handler(
   async (): Promise<{ filename: string; csv: string }> => {
     await requireAdmin();
 
-    let rows: any[] = [];
+    let rows: Record<string, unknown>[] = [];
     try {
       const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
       const { data, error } = await supabaseAdmin
@@ -304,7 +313,7 @@ export const exportSecurityCsv = createServerFn({ method: "GET" }).handler(
       "User Agent",
     ];
 
-    const escapeCsv = (val: any) => {
+    const escapeCsv = (val: unknown) => {
       if (val === null || val === undefined) return '""';
       const str = String(val).replace(/"/g, '""');
       return `"${str}"`;
@@ -333,4 +342,3 @@ export const exportSecurityCsv = createServerFn({ method: "GET" }).handler(
     return { filename, csv: csvLines.join("\n") };
   },
 );
-

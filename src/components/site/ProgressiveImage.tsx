@@ -77,18 +77,12 @@ export function ProgressiveImage({
 
   return (
     <div
-      className={cn(
-        "relative overflow-hidden bg-[#E8E0D1]/20 isolate",
-        className,
-      )}
+      className={cn("relative overflow-hidden bg-[#E8E0D1]/20 isolate", className)}
       style={containerStyle}
     >
       {/* LQIP Placeholder preview / shimmer while loading */}
       {!isLoaded && (
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 -z-10 overflow-hidden"
-        >
+        <div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden">
           {placeholderSrc ? (
             <img
               src={placeholderSrc}
@@ -124,4 +118,3 @@ export function ProgressiveImage({
     </div>
   );
 }
-

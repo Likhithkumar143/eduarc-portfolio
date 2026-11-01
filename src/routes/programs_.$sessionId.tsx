@@ -35,7 +35,9 @@ export const Route = createFileRoute("/programs_/$sessionId")({
   loader: async ({ params, context }): Promise<ProgramSessionData> => {
     let session = getProgramSessionById(params.sessionId);
     try {
-      const siteContent = context?.queryClient?.getQueryData<SiteContent>(siteContentQuery.queryKey);
+      const siteContent = context?.queryClient?.getQueryData<SiteContent>(
+        siteContentQuery.queryKey,
+      );
       if (siteContent?.conductedPrograms?.length) {
         const found = siteContent.conductedPrograms.find((p) => p.id === params.sessionId);
         if (found) session = found;
@@ -216,7 +218,9 @@ function ProgramSessionDetailPage() {
                   <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#EDF3F0] text-[#243B35]">
                     <Camera className="h-4 w-4" />
                   </div>
-                  <h2 className="text-lg font-bold text-brand-navy tracking-tight">Session Photos</h2>
+                  <h2 className="text-lg font-bold text-brand-navy tracking-tight">
+                    Session Photos
+                  </h2>
                 </div>
                 <span className="text-xs font-semibold text-muted-foreground">5 Photos</span>
               </div>
@@ -262,7 +266,9 @@ function ProgramSessionDetailPage() {
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#EDF3F0] text-[#243B35]">
                   <Landmark className="h-4 w-4" />
                 </div>
-                <h2 className="text-lg font-bold text-brand-navy tracking-tight">Institution Details</h2>
+                <h2 className="text-lg font-bold text-brand-navy tracking-tight">
+                  Institution Details
+                </h2>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-center">
@@ -336,7 +342,9 @@ function ProgramSessionDetailPage() {
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#EDF3F0] text-[#243B35]">
                   <FileText className="h-4 w-4" />
                 </div>
-                <h2 className="text-lg font-bold text-brand-navy tracking-tight">Session Summary</h2>
+                <h2 className="text-lg font-bold text-brand-navy tracking-tight">
+                  Session Summary
+                </h2>
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
@@ -372,7 +380,9 @@ function ProgramSessionDetailPage() {
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#F5F1E8] text-[#B47A4B]">
                   <Star className="h-4 w-4 fill-[#B47A4B] text-[#B47A4B]" />
                 </div>
-                <h2 className="text-lg font-bold text-brand-navy tracking-tight">Student Feedback</h2>
+                <h2 className="text-lg font-bold text-brand-navy tracking-tight">
+                  Student Feedback
+                </h2>
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
@@ -380,7 +390,9 @@ function ProgramSessionDetailPage() {
                 <div className="lg:col-span-3 text-center lg:text-left lg:border-r lg:border-hairline lg:pr-6">
                   <div className="text-4xl sm:text-5xl font-black text-brand-navy tracking-tight font-display">
                     {session.feedback.rating}
-                    <span className="text-xl sm:text-2xl font-normal text-muted-foreground">/5</span>
+                    <span className="text-xl sm:text-2xl font-normal text-muted-foreground">
+                      /5
+                    </span>
                   </div>
 
                   {/* 5 Stars */}
@@ -423,7 +435,8 @@ function ProgramSessionDetailPage() {
               Interested in a session for your school or college?
             </h3>
             <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
-              EDUARC conducts customized student workshops and academic guidance seminars across India.
+              EDUARC conducts customized student workshops and academic guidance seminars across
+              India.
             </p>
           </div>
 

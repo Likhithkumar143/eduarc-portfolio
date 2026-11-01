@@ -81,7 +81,12 @@ export function FeaturesContent() {
             {/* Decorative Doodle in sky */}
             <div className="hidden lg:block absolute -right-48 top-0 pointer-events-none select-none opacity-80">
               <svg className="w-28 h-16 text-[#B47A4B]/60" viewBox="0 0 120 70" fill="none">
-                <path d="M10,50 Q40,10 70,35 T110,20" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3,3" />
+                <path
+                  d="M10,50 Q40,10 70,35 T110,20"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeDasharray="3,3"
+                />
                 <path d="M108,12 L118,20 L108,26 Z" fill="currentColor" />
               </svg>
             </div>
@@ -99,7 +104,9 @@ export function FeaturesContent() {
                     </div>
                     <div>
                       <h3 className="text-base font-bold text-[#243B35]">Secondary Schools</h3>
-                      <p className="text-xs text-slate-500">Stream Selection & Foundation Planning</p>
+                      <p className="text-xs text-slate-500">
+                        Stream Selection & Foundation Planning
+                      </p>
                     </div>
                   </div>
 
@@ -159,8 +166,12 @@ export function FeaturesContent() {
                       <Compass className="h-5 w-5" />
                     </div>
                     <div>
-                      <h3 className="text-base font-bold text-[#243B35]">Pre-University & Junior Colleges</h3>
-                      <p className="text-xs text-slate-500">Higher-Ed Pathways & Degree Alignment</p>
+                      <h3 className="text-base font-bold text-[#243B35]">
+                        Pre-University & Junior Colleges
+                      </h3>
+                      <p className="text-xs text-slate-500">
+                        Higher-Ed Pathways & Degree Alignment
+                      </p>
                     </div>
                   </div>
 
@@ -289,7 +300,9 @@ export function FeaturesContent() {
                   Flexible on-campus and hybrid formats.
                 </h2>
                 <p className="text-base sm:text-lg text-[#343A36] font-normal leading-relaxed max-w-lg">
-                  Whether you prefer in-person auditorium seminars, classroom workshops, or structured hybrid sessions with parent participation, EDUARC seamlessly adapts to your institutional timetable.
+                  Whether you prefer in-person auditorium seminars, classroom workshops, or
+                  structured hybrid sessions with parent participation, EDUARC seamlessly adapts to
+                  your institutional timetable.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
@@ -298,8 +311,12 @@ export function FeaturesContent() {
                       <Calendar className="h-5 w-5" />
                     </div>
                     <div>
-                      <h4 className="text-sm sm:text-base font-medium text-[#243B35]">On-Campus Seminars</h4>
-                      <p className="text-xs text-[#343A36]/80 font-normal">Direct mentor engagement</p>
+                      <h4 className="text-sm sm:text-base font-medium text-[#243B35]">
+                        On-Campus Seminars
+                      </h4>
+                      <p className="text-xs text-[#343A36]/80 font-normal">
+                        Direct mentor engagement
+                      </p>
                     </div>
                   </div>
 
@@ -308,8 +325,12 @@ export function FeaturesContent() {
                       <Users className="h-5 w-5" />
                     </div>
                     <div>
-                      <h4 className="text-sm sm:text-base font-medium text-[#243B35]">Parent Orientations</h4>
-                      <p className="text-xs text-[#343A36]/80 font-normal">Joint guidance clarity</p>
+                      <h4 className="text-sm sm:text-base font-medium text-[#243B35]">
+                        Parent Orientations
+                      </h4>
+                      <p className="text-xs text-[#343A36]/80 font-normal">
+                        Joint guidance clarity
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -325,7 +346,9 @@ export function FeaturesContent() {
                     <div className="flex items-center justify-between pb-3 border-b border-hairline">
                       <div className="flex items-center gap-2">
                         <span className="h-2.5 w-2.5 rounded-full bg-[#243B35] animate-pulse" />
-                        <span className="text-xs font-bold text-[#243B35]">Active Session Roster</span>
+                        <span className="text-xs font-bold text-[#243B35]">
+                          Active Session Roster
+                        </span>
                       </div>
                       <span className="text-[10px] font-semibold text-[#243B35] bg-[#EDF3F0] px-2 py-0.5 rounded-full">
                         Flexible Schedule
@@ -338,23 +361,33 @@ export function FeaturesContent() {
                           <Presentation className="h-4 w-4 text-[#243B35]" />
                           <span className="font-semibold text-slate-800">Auditorium Keynote</span>
                         </div>
-                        <span className="text-[11px] font-medium text-slate-500">100–300 Students</span>
+                        <span className="text-[11px] font-medium text-slate-500">
+                          100–300 Students
+                        </span>
                       </div>
 
                       <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#FAF9F5] text-xs">
                         <div className="flex items-center gap-2.5">
                           <Users className="h-4 w-4 text-[#B47A4B]" />
-                          <span className="font-semibold text-slate-800">Classroom Aptitude Lab</span>
+                          <span className="font-semibold text-slate-800">
+                            Classroom Aptitude Lab
+                          </span>
                         </div>
-                        <span className="text-[11px] font-medium text-slate-500">30–50 Students</span>
+                        <span className="text-[11px] font-medium text-slate-500">
+                          30–50 Students
+                        </span>
                       </div>
 
                       <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#FAF9F5] text-xs">
                         <div className="flex items-center gap-2.5">
                           <HeartHandshake className="h-4 w-4 text-[#9AAB94]" />
-                          <span className="font-semibold text-slate-800">Joint Parent Orientation</span>
+                          <span className="font-semibold text-slate-800">
+                            Joint Parent Orientation
+                          </span>
                         </div>
-                        <span className="text-[11px] font-medium text-slate-500">Weekend / Evening</span>
+                        <span className="text-[11px] font-medium text-slate-500">
+                          Weekend / Evening
+                        </span>
                       </div>
                     </div>
 
@@ -379,7 +412,8 @@ export function FeaturesContent() {
                 {c.featuresPage?.onboardingEyebrow || "SMOOTH IMPLEMENTATION"}
               </span>
               <h2 className="text-3xl sm:text-4xl lg:text-[38px] font-semibold text-[#243B35] tracking-tight leading-snug">
-                {c.featuresPage?.onboardingTitle || "Four simple steps from consultation to roadmap delivery."}
+                {c.featuresPage?.onboardingTitle ||
+                  "Four simple steps from consultation to roadmap delivery."}
               </h2>
               <p className="mt-3 text-base sm:text-lg text-[#343A36] font-normal leading-relaxed">
                 {c.featuresPage?.onboardingLead ||
@@ -410,9 +444,7 @@ export function FeaturesContent() {
                       <span className="text-[10px] font-semibold text-[#B47A4B] uppercase tracking-wider block mt-0.5 mb-3">
                         {phase.timeline}
                       </span>
-                      <p className="text-xs text-slate-600 leading-relaxed">
-                        {phase.description}
-                      </p>
+                      <p className="text-xs text-slate-600 leading-relaxed">{phase.description}</p>
                     </div>
                   </div>
                 </Reveal>
@@ -470,7 +502,9 @@ export function FeaturesContent() {
                     <Layers className="h-4 w-4" />
                   </div>
                   <h4 className="text-sm font-bold text-[#243B35]">Structured Guidance Programs</h4>
-                  <p className="text-xs text-slate-600 leading-relaxed">Well-designed and age-appropriate sessions.</p>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    Well-designed and age-appropriate sessions.
+                  </p>
                 </div>
 
                 <div className="p-5 rounded-xl bg-white border border-hairline shadow-xs space-y-2">
@@ -478,7 +512,9 @@ export function FeaturesContent() {
                     <Award className="h-4 w-4" />
                   </div>
                   <h4 className="text-sm font-bold text-[#243B35]">Expert Mentors</h4>
-                  <p className="text-xs text-slate-600 leading-relaxed">Industry and academic professionals.</p>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    Industry and academic professionals.
+                  </p>
                 </div>
 
                 <div className="p-5 rounded-xl bg-white border border-hairline shadow-xs space-y-2">
@@ -486,7 +522,9 @@ export function FeaturesContent() {
                     <Users className="h-4 w-4" />
                   </div>
                   <h4 className="text-sm font-bold text-[#243B35]">Parent Involvement</h4>
-                  <p className="text-xs text-slate-600 leading-relaxed">Stronger alignment and confidence.</p>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    Stronger alignment and confidence.
+                  </p>
                 </div>
 
                 <div className="p-5 rounded-xl bg-white border border-hairline shadow-xs space-y-2">
@@ -494,7 +532,9 @@ export function FeaturesContent() {
                     <CheckCircle2 className="h-4 w-4" />
                   </div>
                   <h4 className="text-sm font-bold text-[#243B35]">Actionable Roadmaps</h4>
-                  <p className="text-xs text-slate-600 leading-relaxed">Every student walks away with a clear plan.</p>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    Every student walks away with a clear plan.
+                  </p>
                 </div>
               </div>
             </div>
@@ -514,7 +554,8 @@ export function FeaturesContent() {
                 Complete support, clear outcomes.
               </h2>
               <p className="mt-3 text-sm text-slate-600 leading-relaxed">
-                We provide everything your institution needs for successful implementation and lasting impact.
+                We provide everything your institution needs for successful implementation and
+                lasting impact.
               </p>
             </Reveal>
           </div>
@@ -567,9 +608,12 @@ export function FeaturesContent() {
               <span className="text-[10px] font-bold text-[#B47A4B] uppercase tracking-wider block">
                 CUSTOMIZATION
               </span>
-              <h3 className="text-lg sm:text-xl font-bold text-[#243B35]">Built around your needs.</h3>
+              <h3 className="text-lg sm:text-xl font-bold text-[#243B35]">
+                Built around your needs.
+              </h3>
               <p className="text-xs text-slate-600 leading-relaxed">
-                We tailor our programs based on your student strength, academic level and available timetable.
+                We tailor our programs based on your student strength, academic level and available
+                timetable.
               </p>
             </div>
 
@@ -594,4 +638,3 @@ export function FeaturesContent() {
     </>
   );
 }
-

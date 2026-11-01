@@ -1,6 +1,7 @@
 # EDUARC — Convert Existing Pages into a Continuous Scrolling Homepage
 
 ## Objective
+
 Transform the existing EDUARC website homepage into a seamless, vertically scrolling experience by reusing the existing website pages, sections, components, designs and content.
 
 IMPORTANT: Do not create new designs or duplicate existing pages. Use the actual existing pages and integrate their existing components into the homepage in the required order.
@@ -20,6 +21,7 @@ Integrate the existing pages/components in this order:
 ## 2. Reuse existing pages
 
 Before implementation:
+
 - Inspect all existing routes, page components and layouts.
 - Identify the existing About, Programs, Testimonials, Contact and Partnership pages.
 - Reuse their existing content, images, styling and functional components.
@@ -32,6 +34,7 @@ Before implementation:
 Render the existing page sections sequentially inside the main homepage route (`/`).
 
 Each section should:
+
 - Maintain its existing visual identity and functionality.
 - Fit naturally into the continuous homepage layout.
 - Have a unique section ID.
@@ -45,6 +48,7 @@ Do not embed entire page layouts inside the homepage if they contain duplicate n
 Keep the existing website header and navigation.
 
 Update navigation links to scroll to the corresponding homepage sections:
+
 - Home → Hero
 - About Us → Existing About section
 - Programs → Existing Programs section
@@ -67,6 +71,7 @@ Use smooth anchor scrolling and highlight the active navigation item based on th
 ## 6. Preserve existing functionality
 
 All existing functionality must continue working:
+
 - Program cards must open their existing program detail pages.
 - Mentor cards must open existing mentor profiles.
 - Institution links must open existing institution pages.

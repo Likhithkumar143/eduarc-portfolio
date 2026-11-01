@@ -16,10 +16,7 @@ import {
   Briefcase,
 } from "lucide-react";
 import { toast } from "sonner";
-import {
-  updateEnquiryStatus,
-  type EnquiryRow,
-} from "@/lib/enquiry.functions";
+import { updateEnquiryStatus, type EnquiryRow } from "@/lib/enquiry.functions";
 import { enquiriesQuery, receptionStatusQuery } from "@/lib/reception-queries";
 import {
   formatMobile,
@@ -38,7 +35,8 @@ export const dateFmt = new Intl.DateTimeFormat("en-IN", {
   year: "numeric",
 });
 export const timeFmt = new Intl.DateTimeFormat("en-IN", { hour: "numeric", minute: "2-digit" });
-export const when = (iso: string) => `${dateFmt.format(new Date(iso))}, ${timeFmt.format(new Date(iso))}`;
+export const when = (iso: string) =>
+  `${dateFmt.format(new Date(iso))}, ${timeFmt.format(new Date(iso))}`;
 
 export function normalizeStatus(
   st: string | null | undefined,
@@ -586,4 +584,3 @@ export function EnquiryDetailModal({ row, onClose }: { row: EnquiryRow; onClose:
     </div>
   );
 }
-

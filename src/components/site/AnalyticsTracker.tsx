@@ -24,11 +24,15 @@ export function AnalyticsTracker() {
   // Global click listener for telephone, email, WhatsApp, and CTA buttons
   useEffect(() => {
     function handleGlobalClick(e: MouseEvent) {
-      const target = (e.target as HTMLElement)?.closest("a, button") as HTMLAnchorElement | HTMLButtonElement | null;
+      const target = (e.target as HTMLElement)?.closest("a, button") as
+        HTMLAnchorElement | HTMLButtonElement | null;
       if (!target) return;
 
       // Skip admin interactions
-      if (window.location.pathname.startsWith("/admin") || window.location.pathname.startsWith("/reception")) {
+      if (
+        window.location.pathname.startsWith("/admin") ||
+        window.location.pathname.startsWith("/reception")
+      ) {
         return;
       }
 
@@ -83,4 +87,3 @@ export function AnalyticsTracker() {
 
   return null;
 }
-

@@ -18,12 +18,7 @@ import {
 import { PaperPlaneButton } from "@/components/site/PaperPlaneButton";
 import { submitEnquiry } from "@/lib/enquiry.functions";
 import { trackEnquirySubmit } from "@/lib/analytics-client";
-import {
-  educationLevels,
-  enquirySchema,
-  roleLabels,
-  type EnquiryInput,
-} from "@/lib/enquiry";
+import { educationLevels, enquirySchema, roleLabels, type EnquiryInput } from "@/lib/enquiry";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -154,9 +149,7 @@ export function PartnerForm() {
             : undefined,
         college: effectiveForm.role === "institution" ? effectiveForm.college.trim() : undefined,
         designation:
-          effectiveForm.role === "institution"
-            ? effectiveForm.designation.trim()
-            : undefined,
+          effectiveForm.role === "institution" ? effectiveForm.designation.trim() : undefined,
         remarks: effectiveForm.remarks.trim() ? effectiveForm.remarks.trim() : undefined,
         privacyConsent: effectiveForm.privacyConsent,
         marketingConsent: effectiveForm.marketingConsent,
@@ -482,8 +475,6 @@ export function PartnerForm() {
               </Field>
             </>
           )}
-
-
 
           {/* Two-Column Phone & WhatsApp Row with +91 Prepend */}
           <div className="grid gap-4 sm:grid-cols-2">

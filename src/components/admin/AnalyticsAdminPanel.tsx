@@ -114,7 +114,9 @@ export function AnalyticsAdminPanel() {
             disabled={isRefetching || isLoading}
             className="text-xs"
           >
-            <RefreshCw className={cn("h-3.5 w-3.5 mr-1.5", (isRefetching || isLoading) && "animate-spin")} />
+            <RefreshCw
+              className={cn("h-3.5 w-3.5 mr-1.5", (isRefetching || isLoading) && "animate-spin")}
+            />
             Refresh
           </Button>
           <Button
@@ -247,7 +249,9 @@ export function AnalyticsAdminPanel() {
 
         {dailyTrend.length === 0 || isLoading ? (
           <div className="flex h-44 items-center justify-center text-xs text-muted-foreground">
-            {isLoading ? "Loading traffic data..." : "No traffic activity logged in this period yet."}
+            {isLoading
+              ? "Loading traffic data..."
+              : "No traffic activity logged in this period yet."}
           </div>
         ) : (
           <div className="space-y-2">
@@ -307,7 +311,7 @@ export function AnalyticsAdminPanel() {
           </div>
 
           <div className="mt-3 divide-y divide-hairline/60">
-            {(!summary?.topPages || summary.topPages.length === 0) ? (
+            {!summary?.topPages || summary.topPages.length === 0 ? (
               <p className="py-6 text-center text-xs text-muted-foreground">
                 No page views recorded for this timeframe yet.
               </p>
@@ -336,7 +340,9 @@ export function AnalyticsAdminPanel() {
                   </div>
                   <div className="text-right shrink-0">
                     <span className="font-bold text-brand-navy">{item.count.toLocaleString()}</span>
-                    <span className="text-muted-foreground ml-1 text-[11px]">({item.percentage}%)</span>
+                    <span className="text-muted-foreground ml-1 text-[11px]">
+                      ({item.percentage}%)
+                    </span>
                   </div>
                 </div>
               ))
@@ -355,7 +361,7 @@ export function AnalyticsAdminPanel() {
           </div>
 
           <div className="mt-3 space-y-3">
-            {(!summary?.trafficSources || summary.trafficSources.length === 0) ? (
+            {!summary?.trafficSources || summary.trafficSources.length === 0 ? (
               <p className="py-6 text-center text-xs text-muted-foreground">
                 No referral sources recorded yet.
               </p>
@@ -419,7 +425,7 @@ export function AnalyticsAdminPanel() {
             {/* Device breakdown */}
             <div className="space-y-2">
               <span className="text-xs font-semibold text-brand-navy">Device Category</span>
-              {(!summary?.deviceBreakdown || summary.deviceBreakdown.length === 0) ? (
+              {!summary?.deviceBreakdown || summary.deviceBreakdown.length === 0 ? (
                 <p className="text-xs text-muted-foreground">No device data</p>
               ) : (
                 summary.deviceBreakdown.map((dev) => (
@@ -443,7 +449,7 @@ export function AnalyticsAdminPanel() {
             {/* Browser breakdown */}
             <div className="space-y-2">
               <span className="text-xs font-semibold text-brand-navy">Top Browsers</span>
-              {(!summary?.browserBreakdown || summary.browserBreakdown.length === 0) ? (
+              {!summary?.browserBreakdown || summary.browserBreakdown.length === 0 ? (
                 <p className="text-xs text-muted-foreground">No browser data</p>
               ) : (
                 summary.browserBreakdown.map((br) => (
@@ -464,7 +470,7 @@ export function AnalyticsAdminPanel() {
               Geographic Distribution
             </span>
             <div className="flex flex-wrap gap-2">
-              {(!summary?.geographicDistribution || summary.geographicDistribution.length === 0) ? (
+              {!summary?.geographicDistribution || summary.geographicDistribution.length === 0 ? (
                 <Badge variant="outline" className="text-xs">
                   India (Primary)
                 </Badge>
@@ -490,7 +496,7 @@ export function AnalyticsAdminPanel() {
           </div>
 
           <div className="mt-3 space-y-3">
-            {(!summary?.topEngagementActions || summary.topEngagementActions.length === 0) ? (
+            {!summary?.topEngagementActions || summary.topEngagementActions.length === 0 ? (
               <p className="py-6 text-center text-xs text-muted-foreground">
                 No high-intent clicks or enquiry submissions recorded yet.
               </p>
@@ -513,9 +519,7 @@ export function AnalyticsAdminPanel() {
                         <CheckCircle2 className="h-3.5 w-3.5 text-brand-gold shrink-0" />
                       )}
                       <span className="font-medium text-brand-navy truncate">
-                        {isForm
-                          ? `Enquiry: ${action.label.replace("role:", "")}`
-                          : action.label}
+                        {isForm ? `Enquiry: ${action.label.replace("role:", "")}` : action.label}
                       </span>
                     </div>
                     <Badge variant="secondary" className="font-bold text-xs shrink-0">
@@ -542,4 +546,3 @@ export function AnalyticsAdminPanel() {
     </div>
   );
 }
-

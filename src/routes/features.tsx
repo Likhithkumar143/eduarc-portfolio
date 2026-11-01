@@ -55,8 +55,10 @@ function FeaturesPage() {
             alt="EDUARC Institutional Students Learning Together"
             className="h-full w-auto max-w-none absolute right-0 bottom-0 block"
             style={{
-              maskImage: "linear-gradient(to right, transparent 0%, transparent 8%, black 32%, black 100%)",
-              WebkitMaskImage: "linear-gradient(to right, transparent 0%, transparent 8%, black 32%, black 100%)",
+              maskImage:
+                "linear-gradient(to right, transparent 0%, transparent 8%, black 32%, black 100%)",
+              WebkitMaskImage:
+                "linear-gradient(to right, transparent 0%, transparent 8%, black 32%, black 100%)",
             }}
           />
           {/* Subtle gradient behind text to guarantee contrast across all viewports */}
@@ -72,9 +74,7 @@ function FeaturesPage() {
 
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] xl:text-[44px] font-semibold text-[#243B35] tracking-tight leading-[1.18] sm:leading-[1.15]">
               Structured features for <br />
-              <span className="text-[#243B35]">
-                schools and colleges.
-              </span>
+              <span className="text-[#243B35]">schools and colleges.</span>
             </h1>
 
             <p className="mt-3 text-sm sm:text-base text-[#343A36] max-w-md lg:max-w-lg mx-auto sm:mx-0 font-normal leading-relaxed">

@@ -62,8 +62,7 @@ Avoid remounting persistent layout components unnecessarily.
 Responsive Behaviour
 Desktop: Full magnetic interaction.
 Tablet: Reduced magnetic movement.
-Mobile: Disable mouse-based magnetic effects and retain touch-friendly navigation.
-2. BLUR-UP IMAGE LOADING ANIMATION
+Mobile: Disable mouse-based magnetic effects and retain touch-friendly navigation. 2. BLUR-UP IMAGE LOADING ANIMATION
 
 Implement a Progressive Image Loading / LQIP system throughout the entire website.
 
@@ -190,8 +189,7 @@ Respect prefers-reduced-motion.
 Ensure animations work on slower devices.
 Ensure keyboard accessibility.
 Maintain good Core Web Vitals.
-Never delay navigation or form submission artificially.
-5. TECHNICAL IMPLEMENTATION
+Never delay navigation or form submission artificially. 5. TECHNICAL IMPLEMENTATION
 
 Before modifying anything, inspect the complete existing project.
 
@@ -211,17 +209,17 @@ Implement the three features using the existing architecture.
 Create reusable components and shared animation utilities rather than duplicating animation code throughout the project.
 
 6. STRICT PRESERVATION RULES
-Do not rebuild the website.
-Do not change existing page layouts.
-Do not modify existing URLs.
-Do not remove navigation links.
-Do not change website content.
-Do not replace existing images.
-Do not break form submissions.
-Do not alter existing API integrations.
-Do not introduce unnecessary dependencies.
-Do not add exaggerated animations.
-Preserve desktop, tablet and mobile functionality.
+   Do not rebuild the website.
+   Do not change existing page layouts.
+   Do not modify existing URLs.
+   Do not remove navigation links.
+   Do not change website content.
+   Do not replace existing images.
+   Do not break form submissions.
+   Do not alter existing API integrations.
+   Do not introduce unnecessary dependencies.
+   Do not add exaggerated animations.
+   Preserve desktop, tablet and mobile functionality.
 7. TESTING AND VERIFICATION
 
 Test all three systems:

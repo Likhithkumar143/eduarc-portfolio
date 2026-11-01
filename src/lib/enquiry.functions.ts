@@ -98,17 +98,17 @@ export const submitEnquiry = createServerFn({ method: "POST" })
       marketing_consent_timestamp: data.marketingConsent ? nowIso : null,
     };
 
-function isMissingColumnError(err: { message?: string } | null | undefined): boolean {
-  if (!err || !err.message) return false;
-  const msg = err.message.toLowerCase();
-  return (
-    msg.includes("column") ||
-    msg.includes("schema cache") ||
-    msg.includes("does not exist") ||
-    msg.includes("could not find") ||
-    msg.includes("pgrst204")
-  );
-}
+    function isMissingColumnError(err: { message?: string } | null | undefined): boolean {
+      if (!err || !err.message) return false;
+      const msg = err.message.toLowerCase();
+      return (
+        msg.includes("column") ||
+        msg.includes("schema cache") ||
+        msg.includes("does not exist") ||
+        msg.includes("could not find") ||
+        msg.includes("pgrst204")
+      );
+    }
 
     let { error } = await supabaseAdmin.from("partner_enquiries").insert(fullPayload);
 
@@ -119,7 +119,10 @@ function isMissingColumnError(err: { message?: string } | null | undefined): boo
       );
       const rolePrefix = data.role ? `[Role: ${data.role}] ` : "";
       const childPrefix = data.childName ? `[Child: ${data.childName}] ` : "";
-      const packedCollege = [rolePrefix + childPrefix, collegeVal || data.remarks || "Direct Enquiry"]
+      const packedCollege = [
+        rolePrefix + childPrefix,
+        collegeVal || data.remarks || "Direct Enquiry",
+      ]
         .filter(Boolean)
         .join(" ")
         .slice(0, 150);

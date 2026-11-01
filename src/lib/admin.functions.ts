@@ -107,9 +107,7 @@ export const uploadProgramImage = createServerFn({ method: "POST" })
       throw new Error(`Failed to upload image to Supabase Storage: ${uploadError.message}`);
     }
 
-    const { data: publicUrlData } = supabaseAdmin.storage
-      .from("programs")
-      .getPublicUrl(uniquePath);
+    const { data: publicUrlData } = supabaseAdmin.storage.from("programs").getPublicUrl(uniquePath);
 
     return {
       ok: true as const,

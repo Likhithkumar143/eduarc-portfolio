@@ -116,7 +116,10 @@ export const recordAnalyticsEvent = createServerFn({ method: "POST" })
 
       return { ok: true };
     } catch (err) {
-      console.warn("[analytics] Ingestion error:", err instanceof Error ? err.message : String(err));
+      console.warn(
+        "[analytics] Ingestion error:",
+        err instanceof Error ? err.message : String(err),
+      );
       return { ok: false };
     }
   });
@@ -149,7 +152,7 @@ export const getAnalyticsSummary = createServerFn({ method: "GET" })
     sinceDate.setDate(sinceDate.getDate() - days);
     const sinceIso = sinceDate.toISOString();
 
-    let events: any[] = [];
+    let events: Record<string, unknown>[] = [];
     try {
       const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
       const { data: rows, error } = await supabaseAdmin
@@ -170,19 +173,28 @@ export const getAnalyticsSummary = createServerFn({ method: "GET" })
     const totalPageviews = events.filter((e) => e.event_type === "page_view").length;
     const uniqueVisitorsSet = new Set(events.map((e) => e.visitor_id));
     const uniqueVisitors = uniqueVisitorsSet.size;
-    const newVisitors = new Set(events.filter((e) => e.is_new_visitor).map((e) => e.visitor_id)).size;
+    const newVisitors = new Set(events.filter((e) => e.is_new_visitor).map((e) => e.visitor_id))
+      .size;
     const returningVisitors = Math.max(0, uniqueVisitors - newVisitors);
     const totalEnquiries = events.filter((e) => e.event_type === "enquiry_submit").length;
-    const totalCtaClicks = events.filter((e) => e.event_type === "cta_click" || e.event_type === "contact_click").length;
-    const conversionRate = uniqueVisitors > 0 ? Number(((totalEnquiries / uniqueVisitors) * 100).toFixed(1)) : 0;
+    const totalCtaClicks = events.filter(
+      (e) => e.event_type === "cta_click" || e.event_type === "contact_click",
+    ).length;
+    const conversionRate =
+      uniqueVisitors > 0 ? Number(((totalEnquiries / uniqueVisitors) * 100).toFixed(1)) : 0;
 
     // Average session duration
     const durations = events.map((e) => e.duration_seconds || 0).filter((d) => d > 0);
     const avgDurationSeconds =
-      durations.length > 0 ? Math.round(durations.reduce((a, b) => a + b, 0) / durations.length) : 48;
+      durations.length > 0
+        ? Math.round(durations.reduce((a, b) => a + b, 0) / durations.length)
+        : 48;
 
     // Daily breakdown map
-    const dailyMap = new Map<string, { pageviews: number; visitors: Set<string>; enquiries: number }>();
+    const dailyMap = new Map<
+      string,
+      { pageviews: number; visitors: Set<string>; enquiries: number }
+    >();
     for (let i = days - 1; i >= 0; i--) {
       const d = new Date();
       d.setDate(d.getDate() - i);
@@ -279,7 +291,7 @@ export const exportAnalyticsCsv = createServerFn({ method: "GET" })
     const sinceDate = new Date();
     sinceDate.setDate(sinceDate.getDate() - days);
 
-    let rows: any[] = [];
+    let rows: Record<string, unknown>[] = [];
     try {
       const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
       const { data: queryRows, error } = await supabaseAdmin
@@ -310,7 +322,7 @@ export const exportAnalyticsCsv = createServerFn({ method: "GET" })
       "Session ID",
     ];
 
-    const escapeCsv = (val: any) => {
+    const escapeCsv = (val: unknown) => {
       if (val === null || val === undefined) return '""';
       const str = String(val).replace(/"/g, '""');
       return `"${str}"`;
@@ -340,4 +352,3 @@ export const exportAnalyticsCsv = createServerFn({ method: "GET" })
     const filename = `eduarc-analytics-${data.timeframe}-${new Date().toISOString().split("T")[0]}.csv`;
     return { filename, csv: csvLines.join("\n") };
   });
-

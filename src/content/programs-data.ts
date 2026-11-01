@@ -256,7 +256,8 @@ export const conductedPrograms: ProgramSessionData[] = [
     },
     summary: {
       text: "Through simulated group discussions, presentations, and active listening drills, students practiced expressing their ideas with clarity. The workshop also emphasized digital hygiene, time management, and building disciplined study routines.",
-      quote: "The interactive exercises helped me overcome my stage fear and speak with confidence.",
+      quote:
+        "The interactive exercises helped me overcome my stage fear and speak with confidence.",
       quoteAuthor: "Varun G, Class 9",
     },
     feedback: {
@@ -316,7 +317,8 @@ export const conductedPrograms: ProgramSessionData[] = [
           author: "Goutham S, B.Com",
         },
         {
-          quote: "Helped me understand the difference between theoretical degrees and applied skills.",
+          quote:
+            "Helped me understand the difference between theoretical degrees and applied skills.",
           author: "Lavanya C, B.A. Literature",
         },
         {
@@ -398,7 +400,8 @@ export const conductedPrograms: ProgramSessionData[] = [
     },
     summary: {
       text: "EDUARC educators provided students and attending parents with transparent comparative analyses of career stability, initial compensation, and growth curves across non-traditional domains, resolving anxieties around course selection.",
-      quote: "I discovered career paths in UX and data analytics that I had never considered before.",
+      quote:
+        "I discovered career paths in UX and data analytics that I had never considered before.",
       quoteAuthor: "Rohan P, Class 12",
     },
     feedback: {
@@ -406,7 +409,8 @@ export const conductedPrograms: ProgramSessionData[] = [
       totalResponses: 89,
       reviews: [
         {
-          quote: "My parents attended with me and we finally reached an agreement on my degree choice.",
+          quote:
+            "My parents attended with me and we finally reached an agreement on my degree choice.",
           author: "Anjali K, Class 12",
         },
         {

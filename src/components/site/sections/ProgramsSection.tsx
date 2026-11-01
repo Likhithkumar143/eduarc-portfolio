@@ -28,9 +28,7 @@ export function ProgramsSection({ id }: { id?: string }) {
   const [filter, setFilter] = useState<FilterType>("all");
 
   const programsList =
-    c.conductedPrograms && c.conductedPrograms.length > 0
-      ? c.conductedPrograms
-      : conductedPrograms;
+    c.conductedPrograms && c.conductedPrograms.length > 0 ? c.conductedPrograms : conductedPrograms;
 
   const filteredPrograms = useMemo(() => {
     if (filter === "all") return programsList;
@@ -171,7 +169,9 @@ export function ProgramsSection({ id }: { id?: string }) {
           {/* Empty Filter State (defensive fallback) */}
           {filteredPrograms.length === 0 && (
             <div className="text-center py-16 bg-white rounded-2xl border border-hairline">
-              <p className="text-sm font-semibold text-brand-navy">No programs found in this category.</p>
+              <p className="text-sm font-semibold text-brand-navy">
+                No programs found in this category.
+              </p>
               <Button
                 variant="pill-gold"
                 size="sm"
@@ -198,8 +198,8 @@ export function ProgramsSection({ id }: { id?: string }) {
                 Bring authentic career workshops to your campus.
               </h2>
               <p className="text-base sm:text-lg text-muted-foreground font-normal leading-relaxed">
-                We design and deliver interactive seminars, 1-on-1 counselor sessions, and structured
-                student roadmaps tailored to your school or college academic schedule.
+                We design and deliver interactive seminars, 1-on-1 counselor sessions, and
+                structured student roadmaps tailored to your school or college academic schedule.
               </p>
             </div>
 
@@ -220,4 +220,3 @@ export function ProgramsSection({ id }: { id?: string }) {
     </div>
   );
 }
-

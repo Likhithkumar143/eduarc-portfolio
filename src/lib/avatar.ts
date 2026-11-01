@@ -16,19 +16,51 @@ function md5cmn(q: number, a: number, b: number, x: number, s: number, t: number
   return safeAdd(bitRotateLeft(safeAdd(safeAdd(a, q), safeAdd(x, t)), s), b);
 }
 
-function md5ff(a: number, b: number, c: number, d: number, x: number, s: number, t: number): number {
+function md5ff(
+  a: number,
+  b: number,
+  c: number,
+  d: number,
+  x: number,
+  s: number,
+  t: number,
+): number {
   return md5cmn((b & c) | (~b & d), a, b, x, s, t);
 }
 
-function md5gg(a: number, b: number, c: number, d: number, x: number, s: number, t: number): number {
+function md5gg(
+  a: number,
+  b: number,
+  c: number,
+  d: number,
+  x: number,
+  s: number,
+  t: number,
+): number {
   return md5cmn((b & d) | (c & ~d), a, b, x, s, t);
 }
 
-function md5hh(a: number, b: number, c: number, d: number, x: number, s: number, t: number): number {
+function md5hh(
+  a: number,
+  b: number,
+  c: number,
+  d: number,
+  x: number,
+  s: number,
+  t: number,
+): number {
   return md5cmn(b ^ c ^ d, a, b, x, s, t);
 }
 
-function md5ii(a: number, b: number, c: number, d: number, x: number, s: number, t: number): number {
+function md5ii(
+  a: number,
+  b: number,
+  c: number,
+  d: number,
+  x: number,
+  s: number,
+  t: number,
+): number {
   return md5cmn(c ^ (b | ~d), a, b, x, s, t);
 }
 
@@ -236,7 +268,10 @@ export function getAvatarInitials(name: string): string {
 export function getGoogleMaterialAvatarSvg(name: string, emailOrSeed?: string): string {
   const initials = getAvatarInitials(name);
   const color = getGoogleColor(emailOrSeed || name);
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128"><circle cx="64" cy="64" r="64" fill="#${color}"/><text x="64" y="70" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="52" font-weight="600" fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle">${initials}</text></svg>`.replace(/\s+/g, " ").trim();
+  const svg =
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128"><circle cx="64" cy="64" r="64" fill="#${color}"/><text x="64" y="70" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="52" font-weight="600" fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle">${initials}</text></svg>`
+      .replace(/\s+/g, " ")
+      .trim();
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 }
 
@@ -269,5 +304,3 @@ export function getAvatarUrl(email: string, name = "User"): string {
 export function getInitialsAvatarUrl(name: string): string {
   return getGoogleInitialsAvatar(name);
 }
-
-

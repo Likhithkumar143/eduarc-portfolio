@@ -103,8 +103,8 @@ describe("Website Analytics System (Phase 1)", () => {
       };
 
       const parsed = trackEventInputSchema.parse(payloadWithPii);
-      expect((parsed as any).password).toBeUndefined();
-      expect((parsed as any).creditCard).toBeUndefined();
+      expect((parsed as unknown as Record<string, unknown>).password).toBeUndefined();
+      expect((parsed as unknown as Record<string, unknown>).creditCard).toBeUndefined();
     });
   });
 
@@ -130,9 +130,9 @@ describe("Website Analytics System (Phase 1)", () => {
     it("handles zero division safely when no visitors are logged", () => {
       const uniqueVisitors = 0;
       const enquiries = 0;
-      const conversionRate = uniqueVisitors > 0 ? Number(((enquiries / uniqueVisitors) * 100).toFixed(1)) : 0;
+      const conversionRate =
+        uniqueVisitors > 0 ? Number(((enquiries / uniqueVisitors) * 100).toFixed(1)) : 0;
       expect(conversionRate).toBe(0);
     });
   });
 });
-

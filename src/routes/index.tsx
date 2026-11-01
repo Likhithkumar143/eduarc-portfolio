@@ -260,7 +260,10 @@ function Index() {
             <SectionHeading
               eyebrow={c.home.journeyEyebrow || "The Student Journey"}
               title={c.home.journeyTitle || "Four intentional steps from confusion to clarity."}
-              lead={c.home.journeyLead || "We guide students through a structured methodology that replaces guesswork with verified academic insights."}
+              lead={
+                c.home.journeyLead ||
+                "We guide students through a structured methodology that replaces guesswork with verified academic insights."
+              }
             />
 
             <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -300,7 +303,10 @@ function Index() {
             <SectionHeading
               eyebrow={c.home.pathwaysEyebrow || "Tailored Solutions"}
               title={c.home.pathwaysTitle || "Guidance designed for your educational context."}
-              lead={c.home.pathwaysLead || "Whether you are a student planning your next academic milestone or an institution structuring guidance for hundreds."}
+              lead={
+                c.home.pathwaysLead ||
+                "Whether you are a student planning your next academic milestone or an institution structuring guidance for hundreds."
+              }
             />
 
             <div className="mt-14 grid gap-8 md:grid-cols-3">

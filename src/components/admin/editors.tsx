@@ -523,7 +523,8 @@ export function AboutEditor({ draft, update }: EditorProps) {
         />
         <div className="rounded-xl border border-brand-gold-border/80 bg-brand-gold-soft/50 p-3.5 text-xs text-brand-navy flex items-center justify-between gap-3">
           <span>
-            <strong>Mentor Profiles &amp; Roadmaps:</strong> Individual mentor details, photos, stats, and guidance roadmaps are managed in the <strong>Mentors</strong> tab.
+            <strong>Mentor Profiles &amp; Roadmaps:</strong> Individual mentor details, photos,
+            stats, and guidance roadmaps are managed in the <strong>Mentors</strong> tab.
           </span>
         </div>
       </Panel>
@@ -539,7 +540,10 @@ export function FeaturesEditor({ draft, update }: EditorProps) {
 
   return (
     <>
-      <Panel title="Features Hero Banner" description="Headings for the main features presentation.">
+      <Panel
+        title="Features Hero Banner"
+        description="Headings for the main features presentation."
+      >
         <div className="grid gap-4 md:grid-cols-2">
           <TextField
             label="Heading Start"
