@@ -92,7 +92,7 @@ export function PartnerContent() {
                 <img
                   src={studentJourneyBg}
                   alt="Student Guidance Journey towards Higher Education"
-                  className="w-full h-[260px] sm:h-[340px] md:h-[380px] object-cover object-left-bottom rounded-xl block mx-auto"
+                  className="w-full h-[280px] sm:h-[350px] md:h-[390px] object-cover object-[10%_80%] rounded-xl block mx-auto"
                 />
               </div>
             </div>

@@ -440,7 +440,7 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
               variant="default"
               size="sm"
               onClick={handleOpenAdd}
-              className="rounded-xl bg-brand text-brand-contrast hover:bg-brand/90 font-medium shadow-sm"
+              className="rounded-xl bg-brand text-white hover:bg-brand/90 font-medium shadow-sm"
             >
               <Plus className="h-4 w-4 mr-1.5" />
               Add Mentor
@@ -488,7 +488,10 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
               <Button onClick={handleRestoreDefault} variant="outline" className="rounded-xl">
                 <RotateCcw className="h-4 w-4 mr-1.5" /> Restore Default Profile
               </Button>
-              <Button onClick={handleOpenAdd} className="rounded-xl bg-brand text-brand-contrast">
+              <Button
+                onClick={handleOpenAdd}
+                className="rounded-xl bg-brand text-white hover:bg-brand/90 font-medium"
+              >
                 <Plus className="h-4 w-4 mr-1.5" /> Add New Mentor
               </Button>
             </div>
@@ -805,7 +808,7 @@ export function MentorsEditor({ draft, update, onSave, isSaving }: EditorProps) 
                           variant="default"
                           size="sm"
                           onClick={() => fileInputRef.current?.click()}
-                          className="rounded-xl bg-brand text-brand-contrast hover:bg-brand/90 text-xs font-medium cursor-pointer"
+                          className="rounded-xl bg-brand text-white hover:bg-brand/90 text-xs font-medium cursor-pointer"
                         >
                           <Upload className="h-3.5 w-3.5 mr-1.5" /> Upload from Computer
                         </Button>
