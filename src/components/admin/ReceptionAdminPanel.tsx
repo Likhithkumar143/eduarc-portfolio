@@ -111,6 +111,13 @@ export function ReceptionAdminPanel() {
     const pctFollowUp = total > 0 ? (followUpCount / total) * 100 : 0;
     const pctNew = total > 0 ? (newCount / total) * 100 : 0;
 
+    // Audience breakdown percentages
+    const audienceTotal = total;
+    const pctStudents = audienceTotal > 0 ? (students / audienceTotal) * 100 : 0;
+    const pctParents = audienceTotal > 0 ? (parents / audienceTotal) * 100 : 0;
+    const pctInstitutions = audienceTotal > 0 ? (institutions / audienceTotal) * 100 : 0;
+    const pctMentors = audienceTotal > 0 ? (mentors / audienceTotal) * 100 : 0;
+
     return {
       total,
       newCount,
@@ -128,8 +135,15 @@ export function ReceptionAdminPanel() {
       pctContacted,
       pctFollowUp,
       pctNew,
+      pctStudents,
+      pctParents,
+      pctInstitutions,
+      pctMentors,
     };
   }, [rows]);
+
+  const effectiveRoleFilter =
+    roleFilter === "mentor" && stats.mentors === 0 ? "all" : roleFilter;
 
   // Filtered rows for data table
   const visibleRows = useMemo(() => {
@@ -138,11 +152,11 @@ export function ReceptionAdminPanel() {
 
     return rows.filter((r) => {
       // Role filter check
-      if (roleFilter !== "all") {
+      if (effectiveRoleFilter !== "all") {
         const itemRole = (r.role || "student").toLowerCase();
-        if (roleFilter === "student" && itemRole !== "student" && itemRole !== "unknown")
+        if (effectiveRoleFilter === "student" && itemRole !== "student" && itemRole !== "unknown")
           return false;
-        if (roleFilter !== "student" && itemRole !== roleFilter) return false;
+        if (effectiveRoleFilter !== "student" && itemRole !== effectiveRoleFilter) return false;
       }
 
       // Status filter check
@@ -173,7 +187,7 @@ export function ReceptionAdminPanel() {
         (qDigits.length >= 3 && (r.phone.includes(qDigits) || r.whatsapp.includes(qDigits)))
       );
     });
-  }, [rows, roleFilter, statusFilter, query]);
+  }, [rows, effectiveRoleFilter, statusFilter, query]);
 
   function handleExportExcel() {
     if (rows.length === 0) {
@@ -182,14 +196,14 @@ export function ReceptionAdminPanel() {
     }
     const toExport =
       visibleRows.length > 0 &&
-      (roleFilter !== "all" || statusFilter !== "all" || query.trim().length > 0)
+      (effectiveRoleFilter !== "all" || statusFilter !== "all" || query.trim().length > 0)
         ? visibleRows
         : rows;
     const isFiltered = toExport.length !== rows.length;
     exportStudentsToExcel(
       toExport,
       isFiltered
-        ? `EDUARC_Admin_Enquiries_${roleFilter}_${statusFilter}_${new Date().toISOString().split("T")[0]}.xls`
+        ? `EDUARC_Admin_Enquiries_${effectiveRoleFilter}_${statusFilter}_${new Date().toISOString().split("T")[0]}.xls`
         : undefined,
     );
     toast.success(
@@ -230,7 +244,7 @@ export function ReceptionAdminPanel() {
   };
 
   const hasActiveFilters =
-    roleFilter !== "all" || statusFilter !== "all" || query.trim().length > 0;
+    effectiveRoleFilter !== "all" || statusFilter !== "all" || query.trim().length > 0;
 
   return (
     <div className="space-y-8">
@@ -243,11 +257,11 @@ export function ReceptionAdminPanel() {
             className={cn(
               "flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-bold transition-all cursor-pointer",
               activeTab === "data"
-                ? "bg-brand-navy text-white shadow-xs"
-                : "text-muted-foreground hover:text-brand-navy hover:bg-surface",
+                ? "bg-[#243B35] text-white shadow-xs"
+                : "text-muted-foreground hover:text-[#243B35] hover:bg-surface",
             )}
           >
-            <TrendingUp className="h-3.5 w-3.5 text-brand-gold" />
+            <TrendingUp className="h-3.5 w-3.5 text-[#B47A4B]" />
             <span>Enquiries &amp; Progress Report</span>
             <Badge variant={activeTab === "data" ? "gold" : "outline"} className="ml-1 text-[10px] py-0 px-1.5">
               {stats.total}
@@ -260,11 +274,11 @@ export function ReceptionAdminPanel() {
             className={cn(
               "flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-bold transition-all cursor-pointer",
               activeTab === "credentials"
-                ? "bg-brand-navy text-white shadow-xs"
-                : "text-muted-foreground hover:text-brand-navy hover:bg-surface",
+                ? "bg-[#243B35] text-white shadow-xs"
+                : "text-muted-foreground hover:text-[#243B35] hover:bg-surface",
             )}
           >
-            <KeyRound className="h-3.5 w-3.5 text-brand-gold" />
+            <KeyRound className="h-3.5 w-3.5 text-[#B47A4B]" />
             <span>Reception Desk Access</span>
           </button>
         </div>
@@ -312,22 +326,22 @@ export function ReceptionAdminPanel() {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-hairline">
               <div>
                 <div className="flex items-center gap-2">
-                  <TrendingUp className="h-4 w-4 text-brand-gold" />
+                  <TrendingUp className="h-4 w-4 text-[#B47A4B]" />
                   <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
                     Counselling &amp; Enquiries Progress Report
                   </span>
                 </div>
-                <h2 className="text-xl font-bold text-brand-navy mt-1">
+                <h2 className="text-xl font-bold text-[#243B35] mt-1 font-heading">
                   Lead Conversion &amp; Outreach Performance
                 </h2>
               </div>
               <div className="flex items-center gap-2 text-xs">
                 <span className="text-muted-foreground">Contact Outreach:</span>
-                <span className="font-bold text-brand-navy text-sm bg-brand-gold-soft px-2.5 py-0.5 rounded-lg border border-brand-gold-border">
+                <span className="font-bold text-[#243B35] text-sm bg-[#F5F1E8] px-2.5 py-0.5 rounded-lg border border-[#E2DBD0]">
                   {stats.contactRate}%
                 </span>
                 <span className="text-muted-foreground ml-2">Resolution Rate:</span>
-                <span className="font-bold text-brand-navy text-sm bg-emerald-50 text-emerald-800 px-2.5 py-0.5 rounded-lg border border-emerald-200">
+                <span className="font-bold text-[#243B35] text-sm bg-emerald-50 text-emerald-800 px-2.5 py-0.5 rounded-lg border border-emerald-200">
                   {stats.resolutionRate}%
                 </span>
               </div>
@@ -343,7 +357,7 @@ export function ReceptionAdminPanel() {
                   "p-4 rounded-2xl border text-left transition-all cursor-pointer shadow-2xs",
                   statusFilter === "new"
                     ? "border-slate-800 bg-slate-900 text-white ring-2 ring-slate-900"
-                    : "border-hairline bg-surface/50 hover:bg-white hover:border-brand-gold/40 hover:shadow-card",
+                    : "border-hairline bg-surface/50 hover:bg-white hover:border-[#243B35]/40 hover:shadow-card",
                 )}
               >
                 <div className="flex items-center justify-between mb-1">
@@ -352,7 +366,7 @@ export function ReceptionAdminPanel() {
                   </span>
                   <div className="h-2 w-2 rounded-full bg-slate-400" />
                 </div>
-                <span className={cn("text-2xl sm:text-3xl font-extrabold tracking-tight", statusFilter === "new" ? "text-white" : "text-brand-navy")}>
+                <span className={cn("text-2xl sm:text-3xl font-extrabold tracking-tight", statusFilter === "new" ? "text-white" : "text-[#243B35]")}>
                   {stats.newCount}
                 </span>
                 <p className={cn("mt-1 text-[11px]", statusFilter === "new" ? "text-slate-400" : "text-muted-foreground")}>
@@ -417,17 +431,17 @@ export function ReceptionAdminPanel() {
                 className={cn(
                   "p-4 rounded-2xl border text-left transition-all cursor-pointer shadow-2xs",
                   statusFilter === "resolved"
-                    ? "border-brand-navy bg-brand-navy text-white ring-2 ring-brand-navy"
-                    : "border-hairline bg-surface/50 hover:bg-white hover:border-brand-navy/30 hover:shadow-card",
+                    ? "border-[#243B35] bg-[#243B35] text-white ring-2 ring-[#243B35]"
+                    : "border-hairline bg-surface/50 hover:bg-white hover:border-[#243B35]/30 hover:shadow-card",
                 )}
               >
                 <div className="flex items-center justify-between mb-1">
-                  <span className={cn("text-xs font-semibold", statusFilter === "resolved" ? "text-white/80" : "text-brand-navy")}>
+                  <span className={cn("text-xs font-semibold", statusFilter === "resolved" ? "text-white/80" : "text-[#243B35]")}>
                     Resolved / Guided
                   </span>
-                  <div className="h-2 w-2 rounded-full bg-brand-gold" />
+                  <div className="h-2 w-2 rounded-full bg-[#B47A4B]" />
                 </div>
-                <span className={cn("text-2xl sm:text-3xl font-extrabold tracking-tight", statusFilter === "resolved" ? "text-white" : "text-brand-navy")}>
+                <span className={cn("text-2xl sm:text-3xl font-extrabold tracking-tight", statusFilter === "resolved" ? "text-white" : "text-[#243B35]")}>
                   {stats.resolvedCount}
                 </span>
                 <p className={cn("mt-1 text-[11px]", statusFilter === "resolved" ? "text-white/70" : "text-muted-foreground")}>
@@ -439,7 +453,7 @@ export function ReceptionAdminPanel() {
             {/* Segmented Pipeline Progress Bar */}
             <div className="space-y-2 pt-1">
               <div className="flex items-center justify-between text-xs text-muted-foreground">
-                <span className="font-semibold text-brand-navy">Pipeline Distribution</span>
+                <span className="font-semibold text-[#243B35]">Pipeline Distribution</span>
                 <span>
                   {stats.total > 0
                     ? `${stats.resolvedCount} of ${stats.total} total leads successfully closed`
@@ -451,7 +465,7 @@ export function ReceptionAdminPanel() {
                 {stats.pctResolved > 0 && (
                   <div
                     style={{ width: `${stats.pctResolved}%` }}
-                    className="bg-brand-navy rounded-l-full transition-all duration-500"
+                    className="bg-[#243B35] rounded-l-full transition-all duration-500"
                     title={`Resolved: ${stats.resolvedCount} (${stats.pctResolved.toFixed(1)}%)`}
                   />
                 )}
@@ -481,7 +495,7 @@ export function ReceptionAdminPanel() {
               {/* Progress Legend */}
               <div className="flex flex-wrap items-center gap-4 pt-1 text-[11px] text-muted-foreground">
                 <div className="flex items-center gap-1.5">
-                  <div className="h-2.5 w-2.5 rounded-full bg-brand-navy" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-[#243B35]" />
                   <span>Resolved ({stats.pctResolved.toFixed(0)}%)</span>
                 </div>
                 <div className="flex items-center gap-1.5">
@@ -499,27 +513,107 @@ export function ReceptionAdminPanel() {
               </div>
             </div>
 
+            {/* Segmented Audience Distribution Progress Bar */}
+            <div className="space-y-2 pt-2 border-t border-hairline/60">
+              <div className="flex items-center justify-between text-xs text-muted-foreground">
+                <span className="font-semibold text-[#243B35]">Audience Segment Distribution</span>
+                <span>
+                  {stats.total > 0
+                    ? `${stats.students} Students • ${stats.parents} Parents • ${stats.institutions} Institutions${stats.mentors > 0 ? ` • ${stats.mentors} Mentors` : ""}`
+                    : "0 enquiries"}
+                </span>
+              </div>
+
+              <div className="flex h-3 w-full overflow-hidden rounded-full bg-slate-100 p-0.5 border border-hairline">
+                {stats.pctStudents > 0 && (
+                  <div
+                    style={{ width: `${stats.pctStudents}%` }}
+                    className="bg-[#243B35] rounded-l-full transition-all duration-500"
+                    title={`Students: ${stats.students} (${stats.pctStudents.toFixed(1)}%)`}
+                  />
+                )}
+                {stats.pctParents > 0 && (
+                  <div
+                    style={{ width: `${stats.pctParents}%` }}
+                    className={cn(
+                      "bg-[#B47A4B] transition-all duration-500",
+                      stats.pctStudents === 0 && "rounded-l-full",
+                      stats.pctInstitutions === 0 && stats.pctMentors === 0 && "rounded-r-full",
+                    )}
+                    title={`Parents: ${stats.parents} (${stats.pctParents.toFixed(1)}%)`}
+                  />
+                )}
+                {stats.pctInstitutions > 0 && (
+                  <div
+                    style={{ width: `${stats.pctInstitutions}%` }}
+                    className={cn(
+                      "bg-[#9AAB94] transition-all duration-500",
+                      stats.pctStudents === 0 && stats.pctParents === 0 && "rounded-l-full",
+                      stats.pctMentors === 0 && "rounded-r-full",
+                    )}
+                    title={`Institutions: ${stats.institutions} (${stats.pctInstitutions.toFixed(1)}%)`}
+                  />
+                )}
+                {stats.pctMentors > 0 && (
+                  <div
+                    style={{ width: `${stats.pctMentors}%` }}
+                    className="bg-slate-400 rounded-r-full transition-all duration-500"
+                    title={`Mentors (Historical): ${stats.mentors} (${stats.pctMentors.toFixed(1)}%)`}
+                  />
+                )}
+              </div>
+
+              {/* Audience Distribution Legend */}
+              <div className="flex flex-wrap items-center gap-4 pt-1 text-[11px] text-muted-foreground">
+                <div className="flex items-center gap-1.5">
+                  <div className="h-2.5 w-2.5 rounded-full bg-[#243B35]" />
+                  <span>Students ({stats.pctStudents.toFixed(0)}%)</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="h-2.5 w-2.5 rounded-full bg-[#B47A4B]" />
+                  <span>Parents ({stats.pctParents.toFixed(0)}%)</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="h-2.5 w-2.5 rounded-full bg-[#9AAB94]" />
+                  <span>Institutions ({stats.pctInstitutions.toFixed(0)}%)</span>
+                </div>
+                {stats.mentors > 0 && (
+                  <div className="flex items-center gap-1.5">
+                    <div className="h-2.5 w-2.5 rounded-full bg-slate-400" />
+                    <span>Mentors Historical ({stats.pctMentors.toFixed(0)}%)</span>
+                  </div>
+                )}
+              </div>
+            </div>
+
             {/* Audience Segment Tabs */}
             <div className="pt-4 border-t border-hairline">
               <span className="text-xs font-semibold text-muted-foreground block mb-2.5">
                 Filter by Audience Category:
               </span>
-              <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+              <div
+                className={cn(
+                  "grid gap-2",
+                  stats.mentors > 0
+                    ? "grid-cols-2 sm:grid-cols-5"
+                    : "grid-cols-2 sm:grid-cols-4",
+                )}
+              >
                 <button
                   type="button"
                   onClick={() => setRoleFilter("all")}
                   className={cn(
                     "flex items-center justify-between p-2.5 rounded-xl border text-xs font-semibold transition-all cursor-pointer",
-                    roleFilter === "all"
-                      ? "border-brand-navy bg-brand-navy text-white shadow-xs"
-                      : "border-hairline bg-surface hover:border-brand-gold/40 hover:bg-white",
+                    effectiveRoleFilter === "all"
+                      ? "border-[#243B35] bg-[#243B35] text-white shadow-xs"
+                      : "border-hairline bg-surface hover:border-[#243B35]/40 hover:bg-white",
                   )}
                 >
                   <span className="flex items-center gap-1.5">
                     <FileText className="h-3.5 w-3.5" />
                     <span>All Leads</span>
                   </span>
-                  <Badge variant={roleFilter === "all" ? "gold" : "outline"} className="text-[10px] py-0 px-1.5">
+                  <Badge variant={effectiveRoleFilter === "all" ? "gold" : "outline"} className="text-[10px] py-0 px-1.5">
                     {stats.total}
                   </Badge>
                 </button>
@@ -529,16 +623,16 @@ export function ReceptionAdminPanel() {
                   onClick={() => setRoleFilter("student")}
                   className={cn(
                     "flex items-center justify-between p-2.5 rounded-xl border text-xs font-semibold transition-all cursor-pointer",
-                    roleFilter === "student"
-                      ? "border-brand-navy bg-brand-navy text-white shadow-xs"
-                      : "border-hairline bg-surface hover:border-brand-gold/40 hover:bg-white",
+                    effectiveRoleFilter === "student"
+                      ? "border-[#243B35] bg-[#243B35] text-white shadow-xs"
+                      : "border-hairline bg-surface hover:border-[#243B35]/40 hover:bg-white",
                   )}
                 >
                   <span className="flex items-center gap-1.5">
                     <GraduationCap className="h-3.5 w-3.5" />
                     <span>Students</span>
                   </span>
-                  <Badge variant={roleFilter === "student" ? "gold" : "outline"} className="text-[10px] py-0 px-1.5">
+                  <Badge variant={effectiveRoleFilter === "student" ? "gold" : "outline"} className="text-[10px] py-0 px-1.5">
                     {stats.students}
                   </Badge>
                 </button>
@@ -548,16 +642,16 @@ export function ReceptionAdminPanel() {
                   onClick={() => setRoleFilter("parent")}
                   className={cn(
                     "flex items-center justify-between p-2.5 rounded-xl border text-xs font-semibold transition-all cursor-pointer",
-                    roleFilter === "parent"
-                      ? "border-brand-navy bg-brand-navy text-white shadow-xs"
-                      : "border-hairline bg-surface hover:border-brand-gold/40 hover:bg-white",
+                    effectiveRoleFilter === "parent"
+                      ? "border-[#243B35] bg-[#243B35] text-white shadow-xs"
+                      : "border-hairline bg-surface hover:border-[#243B35]/40 hover:bg-white",
                   )}
                 >
                   <span className="flex items-center gap-1.5">
                     <Users className="h-3.5 w-3.5" />
                     <span>Parents</span>
                   </span>
-                  <Badge variant={roleFilter === "parent" ? "gold" : "outline"} className="text-[10px] py-0 px-1.5">
+                  <Badge variant={effectiveRoleFilter === "parent" ? "gold" : "outline"} className="text-[10px] py-0 px-1.5">
                     {stats.parents}
                   </Badge>
                 </button>
@@ -567,38 +661,40 @@ export function ReceptionAdminPanel() {
                   onClick={() => setRoleFilter("institution")}
                   className={cn(
                     "flex items-center justify-between p-2.5 rounded-xl border text-xs font-semibold transition-all cursor-pointer",
-                    roleFilter === "institution"
-                      ? "border-brand-navy bg-brand-navy text-white shadow-xs"
-                      : "border-hairline bg-surface hover:border-brand-gold/40 hover:bg-white",
+                    effectiveRoleFilter === "institution"
+                      ? "border-[#243B35] bg-[#243B35] text-white shadow-xs"
+                      : "border-hairline bg-surface hover:border-[#243B35]/40 hover:bg-white",
                   )}
                 >
                   <span className="flex items-center gap-1.5">
                     <Building2 className="h-3.5 w-3.5" />
                     <span>Institutions</span>
                   </span>
-                  <Badge variant={roleFilter === "institution" ? "gold" : "outline"} className="text-[10px] py-0 px-1.5">
+                  <Badge variant={effectiveRoleFilter === "institution" ? "gold" : "outline"} className="text-[10px] py-0 px-1.5">
                     {stats.institutions}
                   </Badge>
                 </button>
 
-                <button
-                  type="button"
-                  onClick={() => setRoleFilter("mentor")}
-                  className={cn(
-                    "flex items-center justify-between p-2.5 rounded-xl border text-xs font-semibold transition-all cursor-pointer col-span-2 sm:col-span-1",
-                    roleFilter === "mentor"
-                      ? "border-brand-navy bg-brand-navy text-white shadow-xs"
-                      : "border-hairline bg-surface hover:border-brand-gold/40 hover:bg-white",
-                  )}
-                >
-                  <span className="flex items-center gap-1.5">
-                    <Sparkles className="h-3.5 w-3.5" />
-                    <span>Mentors</span>
-                  </span>
-                  <Badge variant={roleFilter === "mentor" ? "gold" : "outline"} className="text-[10px] py-0 px-1.5">
-                    {stats.mentors}
-                  </Badge>
-                </button>
+                {stats.mentors > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setRoleFilter("mentor")}
+                    className={cn(
+                      "flex items-center justify-between p-2.5 rounded-xl border text-xs font-semibold transition-all cursor-pointer col-span-2 sm:col-span-1",
+                      effectiveRoleFilter === "mentor"
+                        ? "border-[#243B35] bg-[#243B35] text-white shadow-xs"
+                        : "border-hairline bg-surface hover:border-[#243B35]/40 hover:bg-white",
+                    )}
+                  >
+                    <span className="flex items-center gap-1.5">
+                      <Sparkles className="h-3.5 w-3.5" />
+                      <span>Mentors (Historical)</span>
+                    </span>
+                    <Badge variant={effectiveRoleFilter === "mentor" ? "gold" : "outline"} className="text-[10px] py-0 px-1.5">
+                      {stats.mentors}
+                    </Badge>
+                  </button>
+                )}
               </div>
             </div>
           </div>

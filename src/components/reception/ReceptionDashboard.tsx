@@ -54,7 +54,6 @@ const roleFilterTabs: { id: RoleFilter; label: string }[] = [
   { id: "student", label: "Students" },
   { id: "parent", label: "Parents" },
   { id: "institution", label: "Institutions" },
-  { id: "mentor", label: "Mentors" },
 ];
 
 const statusFilterTabs: { id: StatusFilter; label: string }[] = [
@@ -104,17 +103,20 @@ export function ReceptionDashboard() {
     return c;
   }, [rows]);
 
+  const effectiveRoleFilter =
+    roleFilter === "mentor" && counts.mentor === 0 ? "all" : roleFilter;
+
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
     const qDigits = q.replace(/\D/g, "");
 
     return rows.filter((r) => {
       // Role filter check
-      if (roleFilter !== "all") {
+      if (effectiveRoleFilter !== "all") {
         const itemRole = (r.role || "student").toLowerCase();
-        if (roleFilter === "student" && itemRole !== "student" && itemRole !== "unknown")
+        if (effectiveRoleFilter === "student" && itemRole !== "student" && itemRole !== "unknown")
           return false;
-        if (roleFilter !== "student" && itemRole !== roleFilter) return false;
+        if (effectiveRoleFilter !== "student" && itemRole !== effectiveRoleFilter) return false;
       }
 
       // Status filter check
@@ -145,7 +147,7 @@ export function ReceptionDashboard() {
         (qDigits.length >= 3 && (r.phone.includes(qDigits) || r.whatsapp.includes(qDigits)))
       );
     });
-  }, [rows, roleFilter, statusFilter, query]);
+  }, [rows, effectiveRoleFilter, statusFilter, query]);
 
   async function onLogout() {
     try {
@@ -165,14 +167,14 @@ export function ReceptionDashboard() {
     }
     const toExport =
       visible.length > 0 &&
-      (roleFilter !== "all" || statusFilter !== "all" || query.trim().length > 0)
+      (effectiveRoleFilter !== "all" || statusFilter !== "all" || query.trim().length > 0)
         ? visible
         : rows;
     const isFiltered = toExport.length !== rows.length;
     exportStudentsToExcel(
       toExport,
       isFiltered
-        ? `EDUARC_Enquiries_${roleFilter}_${statusFilter}_${new Date().toISOString().split("T")[0]}.xls`
+        ? `EDUARC_Enquiries_${effectiveRoleFilter}_${statusFilter}_${new Date().toISOString().split("T")[0]}.xls`
         : undefined,
     );
     toast.success(
@@ -183,7 +185,7 @@ export function ReceptionDashboard() {
   }
 
   const hasActiveFilters =
-    roleFilter !== "all" || statusFilter !== "all" || query.trim().length > 0;
+    effectiveRoleFilter !== "all" || statusFilter !== "all" || query.trim().length > 0;
 
   const clearFilters = () => {
     setRoleFilter("all");
@@ -250,39 +252,46 @@ export function ReceptionDashboard() {
         {/* Title area */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 pb-6 border-b border-hairline">
           <div>
-            <span className="type-eyebrow text-brand-gold">Reception Operations</span>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-brand-navy mt-1">
+            <span className="type-eyebrow text-[#B47A4B]">Reception Operations</span>
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#243B35] mt-1 font-heading">
               Role-Based Enquiries &amp; Leads
             </h1>
             <p className="mt-1 text-xs text-muted-foreground">
-              Review live submissions across Students, Parents, Institutions, and Mentors, follow up
+              Review live submissions across Students, Parents, and Institutions, follow up
               with direct contact actions, and manage status progression.
             </p>
           </div>
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <ShieldCheck className="h-4 w-4 text-brand-gold shrink-0" />
+            <ShieldCheck className="h-4 w-4 text-[#B47A4B] shrink-0" />
             <span>Authorized Reception Desk</span>
           </div>
         </div>
 
-        {/* 5 Summary Cards by Role */}
-        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+        {/* Summary Cards by Role */}
+        <div
+          className={cn(
+            "mt-8 grid gap-3",
+            counts.mentor > 0
+              ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-5"
+              : "grid-cols-2 sm:grid-cols-4",
+          )}
+        >
           <button
             type="button"
             onClick={() => setRoleFilter("all")}
-            aria-pressed={roleFilter === "all"}
+            aria-pressed={effectiveRoleFilter === "all"}
             className={cn(
               "rounded-2xl border p-4 text-left transition-all cursor-pointer shadow-xs",
-              roleFilter === "all"
-                ? "border-brand-navy bg-brand-navy text-white ring-2 ring-brand-navy"
-                : "border-hairline bg-white hover:border-brand-gold/40 hover:shadow-card",
+              effectiveRoleFilter === "all"
+                ? "border-[#243B35] bg-[#243B35] text-white ring-2 ring-[#243B35]"
+                : "border-hairline bg-white hover:border-[#243B35]/40 hover:shadow-card",
             )}
           >
             <div className="flex items-center justify-between">
               <span
                 className={cn(
                   "text-xs font-semibold",
-                  roleFilter === "all" ? "text-white/80" : "text-muted-foreground",
+                  effectiveRoleFilter === "all" ? "text-white/80" : "text-muted-foreground",
                 )}
               >
                 Total Enquiries
@@ -290,14 +299,14 @@ export function ReceptionDashboard() {
               <FileText
                 className={cn(
                   "h-4 w-4",
-                  roleFilter === "all" ? "text-brand-gold" : "text-brand-navy",
+                  effectiveRoleFilter === "all" ? "text-[#E8E0D1]" : "text-[#243B35]",
                 )}
               />
             </div>
             <span
               className={cn(
                 "mt-2 block text-2xl font-bold tracking-tight",
-                roleFilter === "all" ? "text-white" : "text-brand-navy",
+                effectiveRoleFilter === "all" ? "text-white" : "text-[#243B35]",
               )}
             >
               {counts.total}
@@ -307,19 +316,19 @@ export function ReceptionDashboard() {
           <button
             type="button"
             onClick={() => setRoleFilter("student")}
-            aria-pressed={roleFilter === "student"}
+            aria-pressed={effectiveRoleFilter === "student"}
             className={cn(
               "rounded-2xl border p-4 text-left transition-all cursor-pointer shadow-xs",
-              roleFilter === "student"
-                ? "border-brand-navy bg-brand-navy text-white ring-2 ring-brand-navy"
-                : "border-hairline bg-white hover:border-brand-gold/40 hover:shadow-card",
+              effectiveRoleFilter === "student"
+                ? "border-[#243B35] bg-[#243B35] text-white ring-2 ring-[#243B35]"
+                : "border-hairline bg-white hover:border-[#243B35]/40 hover:shadow-card",
             )}
           >
             <div className="flex items-center justify-between">
               <span
                 className={cn(
                   "text-xs font-semibold",
-                  roleFilter === "student" ? "text-white/80" : "text-muted-foreground",
+                  effectiveRoleFilter === "student" ? "text-white/80" : "text-muted-foreground",
                 )}
               >
                 Students
@@ -327,14 +336,14 @@ export function ReceptionDashboard() {
               <GraduationCap
                 className={cn(
                   "h-4 w-4",
-                  roleFilter === "student" ? "text-brand-gold" : "text-brand-navy",
+                  effectiveRoleFilter === "student" ? "text-[#E8E0D1]" : "text-[#243B35]",
                 )}
               />
             </div>
             <span
               className={cn(
                 "mt-2 block text-2xl font-bold tracking-tight",
-                roleFilter === "student" ? "text-white" : "text-brand-navy",
+                effectiveRoleFilter === "student" ? "text-white" : "text-[#243B35]",
               )}
             >
               {counts.student}
@@ -344,19 +353,19 @@ export function ReceptionDashboard() {
           <button
             type="button"
             onClick={() => setRoleFilter("parent")}
-            aria-pressed={roleFilter === "parent"}
+            aria-pressed={effectiveRoleFilter === "parent"}
             className={cn(
               "rounded-2xl border p-4 text-left transition-all cursor-pointer shadow-xs",
-              roleFilter === "parent"
-                ? "border-brand-navy bg-brand-navy text-white ring-2 ring-brand-navy"
-                : "border-hairline bg-white hover:border-brand-gold/40 hover:shadow-card",
+              effectiveRoleFilter === "parent"
+                ? "border-[#243B35] bg-[#243B35] text-white ring-2 ring-[#243B35]"
+                : "border-hairline bg-white hover:border-[#243B35]/40 hover:shadow-card",
             )}
           >
             <div className="flex items-center justify-between">
               <span
                 className={cn(
                   "text-xs font-semibold",
-                  roleFilter === "parent" ? "text-white/80" : "text-muted-foreground",
+                  effectiveRoleFilter === "parent" ? "text-white/80" : "text-muted-foreground",
                 )}
               >
                 Parents / Guardians
@@ -364,14 +373,14 @@ export function ReceptionDashboard() {
               <Users
                 className={cn(
                   "h-4 w-4",
-                  roleFilter === "parent" ? "text-brand-gold" : "text-brand-navy",
+                  effectiveRoleFilter === "parent" ? "text-[#E8E0D1]" : "text-[#243B35]",
                 )}
               />
             </div>
             <span
               className={cn(
                 "mt-2 block text-2xl font-bold tracking-tight",
-                roleFilter === "parent" ? "text-white" : "text-brand-navy",
+                effectiveRoleFilter === "parent" ? "text-white" : "text-[#243B35]",
               )}
             >
               {counts.parent}
@@ -381,19 +390,19 @@ export function ReceptionDashboard() {
           <button
             type="button"
             onClick={() => setRoleFilter("institution")}
-            aria-pressed={roleFilter === "institution"}
+            aria-pressed={effectiveRoleFilter === "institution"}
             className={cn(
               "rounded-2xl border p-4 text-left transition-all cursor-pointer shadow-xs",
-              roleFilter === "institution"
-                ? "border-brand-navy bg-brand-navy text-white ring-2 ring-brand-navy"
-                : "border-hairline bg-white hover:border-brand-gold/40 hover:shadow-card",
+              effectiveRoleFilter === "institution"
+                ? "border-[#243B35] bg-[#243B35] text-white ring-2 ring-[#243B35]"
+                : "border-hairline bg-white hover:border-[#243B35]/40 hover:shadow-card",
             )}
           >
             <div className="flex items-center justify-between">
               <span
                 className={cn(
                   "text-xs font-semibold",
-                  roleFilter === "institution" ? "text-white/80" : "text-muted-foreground",
+                  effectiveRoleFilter === "institution" ? "text-white/80" : "text-muted-foreground",
                 )}
               >
                 Institutions
@@ -401,56 +410,58 @@ export function ReceptionDashboard() {
               <Building2
                 className={cn(
                   "h-4 w-4",
-                  roleFilter === "institution" ? "text-brand-gold" : "text-brand-navy",
+                  effectiveRoleFilter === "institution" ? "text-[#E8E0D1]" : "text-[#243B35]",
                 )}
               />
             </div>
             <span
               className={cn(
                 "mt-2 block text-2xl font-bold tracking-tight",
-                roleFilter === "institution" ? "text-white" : "text-brand-navy",
+                effectiveRoleFilter === "institution" ? "text-white" : "text-[#243B35]",
               )}
             >
               {counts.institution}
             </span>
           </button>
 
-          <button
-            type="button"
-            onClick={() => setRoleFilter("mentor")}
-            aria-pressed={roleFilter === "mentor"}
-            className={cn(
-              "rounded-2xl border p-4 text-left transition-all cursor-pointer shadow-xs",
-              roleFilter === "mentor"
-                ? "border-brand-navy bg-brand-navy text-white ring-2 ring-brand-navy"
-                : "border-hairline bg-white hover:border-brand-gold/40 hover:shadow-card",
-            )}
-          >
-            <div className="flex items-center justify-between">
-              <span
-                className={cn(
-                  "text-xs font-semibold",
-                  roleFilter === "mentor" ? "text-white/80" : "text-muted-foreground",
-                )}
-              >
-                Mentors
-              </span>
-              <Sparkles
-                className={cn(
-                  "h-4 w-4",
-                  roleFilter === "mentor" ? "text-brand-gold" : "text-brand-navy",
-                )}
-              />
-            </div>
-            <span
+          {counts.mentor > 0 && (
+            <button
+              type="button"
+              onClick={() => setRoleFilter("mentor")}
+              aria-pressed={effectiveRoleFilter === "mentor"}
               className={cn(
-                "mt-2 block text-2xl font-bold tracking-tight",
-                roleFilter === "mentor" ? "text-white" : "text-brand-navy",
+                "rounded-2xl border p-4 text-left transition-all cursor-pointer shadow-xs",
+                effectiveRoleFilter === "mentor"
+                  ? "border-[#243B35] bg-[#243B35] text-white ring-2 ring-[#243B35]"
+                  : "border-hairline bg-white hover:border-[#243B35]/40 hover:shadow-card",
               )}
             >
-              {counts.mentor}
-            </span>
-          </button>
+              <div className="flex items-center justify-between">
+                <span
+                  className={cn(
+                    "text-xs font-semibold",
+                    effectiveRoleFilter === "mentor" ? "text-white/80" : "text-muted-foreground",
+                  )}
+                >
+                  Mentors (Historical)
+                </span>
+                <Sparkles
+                  className={cn(
+                    "h-4 w-4",
+                    effectiveRoleFilter === "mentor" ? "text-[#E8E0D1]" : "text-[#243B35]",
+                  )}
+                />
+              </div>
+              <span
+                className={cn(
+                  "mt-2 block text-2xl font-bold tracking-tight",
+                  effectiveRoleFilter === "mentor" ? "text-white" : "text-[#243B35]",
+                )}
+              >
+                {counts.mentor}
+              </span>
+            </button>
+          )}
         </div>
 
         {/* Filter Controls Bar */}

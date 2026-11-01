@@ -14,24 +14,24 @@ import {
   ShieldCheck,
   User,
   UserCheck,
-  Users,
 } from "lucide-react";
 import { submitEnquiry } from "@/lib/enquiry.functions";
 import {
   educationLevels,
-  enquiryRoles,
   enquirySchema,
   roleLabels,
   type EnquiryInput,
-  type EnquiryRole,
 } from "@/lib/enquiry";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
+type PartnerRole = "student" | "parent" | "institution";
+const partnerRoles: readonly PartnerRole[] = ["student", "parent", "institution"] as const;
+
 type FormState = {
-  role: EnquiryRole;
+  role: PartnerRole;
   fullName: string;
   phone: string;
   whatsapp: string;
@@ -40,7 +40,6 @@ type FormState = {
   childName: string;
   college: string;
   designation: string;
-  mentorExpertise: string;
   remarks: string;
   privacyConsent: boolean;
   marketingConsent: boolean;
@@ -56,7 +55,6 @@ const emptyState: FormState = {
   childName: "",
   college: "",
   designation: "",
-  mentorExpertise: "",
   remarks: "",
   privacyConsent: false,
   marketingConsent: false,
@@ -74,9 +72,7 @@ function validateForm(values: FormState): Errors {
     education: values.role === "student" || values.role === "parent" ? values.education : undefined,
     childName: values.role === "parent" ? values.childName || undefined : undefined,
     college: values.role === "institution" ? values.college : undefined,
-    designation:
-      values.role === "institution" || values.role === "mentor" ? values.designation : undefined,
-    mentorExpertise: values.role === "mentor" ? values.mentorExpertise : undefined,
+    designation: values.role === "institution" ? values.designation : undefined,
     remarks: values.remarks.trim() ? values.remarks.trim() : undefined,
     privacyConsent: values.privacyConsent,
     marketingConsent: values.marketingConsent,
@@ -119,15 +115,14 @@ export function PartnerForm() {
     setTouched((prev) => ({ ...prev, [k]: true }));
   };
 
-  const handleRoleChange = (newRole: EnquiryRole) => {
+  const handleRoleChange = (newRole: PartnerRole) => {
     setForm((prev) => ({
       ...prev,
       role: newRole,
       education: newRole === "student" || newRole === "parent" ? prev.education : "",
       childName: newRole === "parent" ? prev.childName : "",
       college: newRole === "institution" ? prev.college : "",
-      designation: newRole === "institution" || newRole === "mentor" ? prev.designation : "",
-      mentorExpertise: newRole === "mentor" ? prev.mentorExpertise : "",
+      designation: newRole === "institution" ? prev.designation : "",
     }));
   };
 
@@ -156,11 +151,9 @@ export function PartnerForm() {
             : undefined,
         college: effectiveForm.role === "institution" ? effectiveForm.college.trim() : undefined,
         designation:
-          effectiveForm.role === "institution" || effectiveForm.role === "mentor"
+          effectiveForm.role === "institution"
             ? effectiveForm.designation.trim()
             : undefined,
-        mentorExpertise:
-          effectiveForm.role === "mentor" ? effectiveForm.mentorExpertise.trim() : undefined,
         remarks: effectiveForm.remarks.trim() ? effectiveForm.remarks.trim() : undefined,
         privacyConsent: effectiveForm.privacyConsent,
         marketingConsent: effectiveForm.marketingConsent,
@@ -216,7 +209,6 @@ export function PartnerForm() {
     student: GraduationCap,
     parent: User,
     institution: Building2,
-    mentor: Users,
   };
 
   return (
@@ -242,8 +234,8 @@ export function PartnerForm() {
         <fieldset className="space-y-3">
           <legend className="text-sm font-bold text-brand-navy">1. I am a…</legend>
 
-          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
-            {enquiryRoles.map((r) => {
+          <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
+            {partnerRoles.map((r) => {
               const active = form.role === r;
               const Icon = roleIcons[r];
               const displayLabel =
@@ -480,67 +472,7 @@ export function PartnerForm() {
             </>
           )}
 
-          {/* Mentor Fields */}
-          {form.role === "mentor" && (
-            <>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <Field
-                  id="mentorName"
-                  label="Mentor Full Name"
-                  required
-                  error={show("fullName")}
-                  hint="Your full name"
-                >
-                  <Input
-                    id="mentorName"
-                    value={form.fullName}
-                    onChange={(e) => setField("fullName")(e.target.value)}
-                    onBlur={markTouched("fullName")}
-                    placeholder="e.g. Dr. Priya Nair"
-                    autoComplete="name"
-                    aria-invalid={Boolean(show("fullName"))}
-                    className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#243B35] focus-visible:ring-1 focus-visible:ring-[#243B35]"
-                  />
-                </Field>
 
-                <Field
-                  id="mentorDesignation"
-                  label="Professional Designation"
-                  required
-                  error={show("designation")}
-                  hint="Current role & organization"
-                >
-                  <Input
-                    id="mentorDesignation"
-                    value={form.designation}
-                    onChange={(e) => setField("designation")(e.target.value)}
-                    onBlur={markTouched("designation")}
-                    placeholder="e.g. Associate Professor / Senior Engineer"
-                    aria-invalid={Boolean(show("designation"))}
-                    className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#243B35] focus-visible:ring-1 focus-visible:ring-[#243B35]"
-                  />
-                </Field>
-              </div>
-
-              <Field
-                id="mentorExpertise"
-                label="Area of Mentorship Expertise"
-                required
-                error={show("mentorExpertise")}
-                hint="Key subjects, streams, or industries you guide students in"
-              >
-                <Input
-                  id="mentorExpertise"
-                  value={form.mentorExpertise}
-                  onChange={(e) => setField("mentorExpertise")(e.target.value)}
-                  onBlur={markTouched("mentorExpertise")}
-                  placeholder="e.g. Computer Science, Medicine, Commerce, Pure Sciences"
-                  aria-invalid={Boolean(show("mentorExpertise"))}
-                  className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#243B35] focus-visible:ring-1 focus-visible:ring-[#243B35]"
-                />
-              </Field>
-            </>
-          )}
 
           {/* Two-Column Phone & WhatsApp Row with +91 Prepend */}
           <div className="grid gap-4 sm:grid-cols-2">
