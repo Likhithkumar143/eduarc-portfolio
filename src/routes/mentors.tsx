@@ -259,8 +259,8 @@ function MentorProfilePage() {
         {/* Header Section */}
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
           <span className="type-eyebrow text-brand-gold">Empathetic & Credentialed Guidance</span>
-          <h1 className="mt-3 text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-semibold tracking-tight text-brand-navy leading-[1.15]">
-            Meet Our Academic Mentors
+          <h1 className="mt-3 text-2xl sm:text-4xl md:text-5xl lg:text-[54px] font-semibold tracking-tight text-brand-navy leading-[1.2] sm:leading-[1.15] break-words">
+            Meet Our <br className="sm:hidden" /> Academic Mentors
           </h1>
           <p className="mt-4 text-base sm:text-lg text-muted-foreground font-normal leading-relaxed">
             Guidance from university educators with genuine teaching and research experience. Click

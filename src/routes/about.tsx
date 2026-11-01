@@ -51,46 +51,42 @@ function AboutPage() {
           SECTION 1: HERO SECTION
           Empowering Students to Discover Their Future
          ========================================================================= */}
-      <section className="relative overflow-hidden bg-[#F5F1E8] border-b border-hairline/80 min-h-[340px] sm:min-h-[360px] lg:h-[360px] xl:h-[380px] flex items-end lg:items-center">
-        {/* Desktop & Laptop Illustration: Aligned directly to bottom-right flush with bottom border */}
-        <div className="hidden lg:flex absolute inset-y-0 right-0 pointer-events-none select-none z-0 items-end justify-end">
-          <img
-            src={aboutHeroImg}
-            alt="Empowering Students to Discover Their Future"
-            className="h-full w-auto max-w-none object-contain object-right-bottom block select-none pointer-events-none"
-          />
-        </div>
-
-        {/* Content Container */}
-        <div className="container-apple relative z-10 w-full">
-          <div className="pt-10 pb-8 sm:pt-12 sm:pb-10 lg:py-0 max-w-xl lg:max-w-lg xl:max-w-xl text-center sm:text-left">
-            <Reveal>
+      <section className="relative overflow-hidden bg-[#F5F1E8] border-b border-hairline/80 py-10 sm:py-14 lg:py-16">
+        <div className="container-apple">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Left Column: Academic Brand Copy */}
+            <div className="lg:col-span-7 text-center sm:text-left">
               <div className="inline-flex items-center gap-2 mb-3 justify-center sm:justify-start">
                 <span className="w-6 h-[2.5px] bg-[#B47A4B] inline-block rounded-full" />
-                <span className="text-xs font-bold tracking-wider text-[#243B35]/70 uppercase">
+                <span className="text-xs font-bold tracking-wider text-[#243B35]/80 uppercase">
                   About EduArc
                 </span>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] xl:text-[58px] font-semibold text-[#243B35] tracking-tight leading-[1.15]">
-                Empowering Students <br className="hidden sm:inline" />
+              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-[54px] xl:text-[58px] font-semibold text-[#243B35] tracking-tight leading-[1.2] sm:leading-[1.15]">
+                Empowering Students <br />
                 to Discover <span className="text-[#B47A4B]">Their Future.</span>
               </h1>
 
-              <p className="mt-4 text-base sm:text-lg text-[#343A36] max-w-lg mx-auto sm:mx-0 font-normal leading-relaxed">
+              <p className="mt-4 text-base sm:text-lg text-[#343A36] max-w-xl mx-auto sm:mx-0 font-normal leading-relaxed">
                 {c.about?.lead ||
                   "EduArc is a career guidance platform designed to help students make informed decisions about their future. We provide the right guidance, resources and support to turn your dreams into achievable goals."}
               </p>
-            </Reveal>
-          </div>
+            </div>
 
-          {/* Mobile & Tablet Illustration: rendered in-flow flush at the bottom edge */}
-          <div className="lg:hidden relative w-full flex items-end justify-center pt-2 overflow-hidden">
-            <img
-              src={aboutHeroImg}
-              alt="Empowering Students to Discover Their Future"
-              className="h-[180px] sm:h-[220px] md:h-[260px] w-auto max-w-full object-contain object-bottom block select-none pointer-events-none"
-            />
+            {/* Right Column: Framed Editorial Showcase Image */}
+            <div className="lg:col-span-5 flex justify-center lg:justify-end">
+              <div className="relative w-full max-w-md lg:max-w-none rounded-2xl overflow-hidden border border-hairline shadow-lift bg-white">
+                <div className="aspect-[16/10] w-full overflow-hidden relative">
+                  <img
+                    src={aboutHeroImg}
+                    alt="Empowering Students to Discover Their Future"
+                    className="h-full w-full object-cover object-right"
+                  />
+                  <div className="absolute inset-0 ring-1 ring-inset ring-black/5 rounded-2xl pointer-events-none" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

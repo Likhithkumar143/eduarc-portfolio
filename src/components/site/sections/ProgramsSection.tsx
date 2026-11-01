@@ -42,7 +42,7 @@ export function ProgramsSection({ id }: { id?: string }) {
       <section className="pt-10 md:pt-16 pb-6 md:pb-8">
         <div className="container-wide">
           <div className="max-w-3xl">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-semibold text-brand-navy tracking-tight leading-[1.15]">
+            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-[54px] font-semibold text-brand-navy tracking-tight leading-[1.18] sm:leading-[1.15]">
               {c.programsPage?.title || "Our Programs"}
             </h1>
             <p className="mt-3 sm:mt-4 text-base sm:text-lg text-muted-foreground font-normal leading-relaxed">

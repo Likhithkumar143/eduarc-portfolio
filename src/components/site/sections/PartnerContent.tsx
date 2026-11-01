@@ -50,8 +50,8 @@ export function PartnerContent() {
                 {c.partnerPage?.badge || "Student & Institutional Enquiries"}
               </span>
 
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] xl:text-[58px] font-semibold tracking-tight text-brand-navy leading-[1.15]">
-                {c.partnerPage?.title || "Start your guidance journey with EDUARC."}
+              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-[54px] xl:text-[58px] font-semibold tracking-tight text-brand-navy leading-[1.2] sm:leading-[1.15]">
+                Start your guidance <br className="sm:hidden" /> journey with EDUARC.
               </h1>
 
               <p className="text-base sm:text-lg text-muted-foreground font-normal leading-relaxed max-w-xl">
@@ -84,38 +84,14 @@ export function PartnerContent() {
               </div>
             </div>
 
-            {/* Student Journey Illustration with Floating Pathway Milestone Pills */}
+            {/* Student Journey Illustration */}
             <div className="relative pt-1 select-none">
-              <div className="relative rounded-2xl overflow-hidden bg-transparent">
+              <div className="relative rounded-2xl overflow-hidden border border-hairline shadow-lift bg-[#F5F1E8]/50 p-2 sm:p-3">
                 <img
                   src={studentJourneyBg}
                   alt="Student Guidance Journey towards Higher Education"
-                  className="w-full h-auto object-cover max-h-[380px] sm:max-h-[440px]"
+                  className="w-full h-[260px] sm:h-[340px] md:h-[380px] object-cover object-left-bottom rounded-xl block mx-auto"
                 />
-
-                {/* Milestone 1: Higher Education */}
-                <div className="absolute top-[30%] right-[14%] sm:right-[18%] flex items-center gap-2 rounded-xl bg-white px-3 py-1.5 shadow-xs border border-hairline text-[11px] sm:text-xs font-bold text-brand-navy">
-                  <div className="flex h-5 w-5 items-center justify-center rounded-md bg-[#EDF3F0] text-[#243B35]">
-                    <GraduationCap className="h-3.5 w-3.5" />
-                  </div>
-                  <span>Higher Education</span>
-                </div>
-
-                {/* Milestone 2: Career Options */}
-                <div className="absolute top-[50%] right-[6%] sm:right-[10%] flex items-center gap-2 rounded-xl bg-white px-3 py-1.5 shadow-xs border border-hairline text-[11px] sm:text-xs font-bold text-brand-navy">
-                  <div className="flex h-5 w-5 items-center justify-center rounded-md bg-[#F5F1E8] text-[#B47A4B]">
-                    <Briefcase className="h-3.5 w-3.5" />
-                  </div>
-                  <span>Career Options</span>
-                </div>
-
-                {/* Milestone 3: Your Future */}
-                <div className="absolute top-[70%] right-[10%] sm:right-[14%] flex items-center gap-2 rounded-xl bg-white px-3 py-1.5 shadow-xs border border-hairline text-[11px] sm:text-xs font-bold text-brand-navy">
-                  <div className="flex h-5 w-5 items-center justify-center rounded-md bg-[#EFF4EE] text-[#9AAB94]">
-                    <Compass className="h-3.5 w-3.5" />
-                  </div>
-                  <span>Your Future</span>
-                </div>
               </div>
             </div>
 
