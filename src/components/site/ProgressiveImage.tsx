@@ -124,3 +124,4 @@ export function ProgressiveImage({
     </div>
   );
 }
+

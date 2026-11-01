@@ -98,25 +98,39 @@ export const submitEnquiry = createServerFn({ method: "POST" })
       marketing_consent_timestamp: data.marketingConsent ? nowIso : null,
     };
 
+function isMissingColumnError(err: { message?: string } | null | undefined): boolean {
+  if (!err || !err.message) return false;
+  const msg = err.message.toLowerCase();
+  return (
+    msg.includes("column") ||
+    msg.includes("schema cache") ||
+    msg.includes("does not exist") ||
+    msg.includes("could not find") ||
+    msg.includes("pgrst204")
+  );
+}
+
     let { error } = await supabaseAdmin.from("partner_enquiries").insert(fullPayload);
 
     // If new columns are not yet applied in remote Supabase, fall back gracefully to legacy schema
-    if (
-      error &&
-      error.message &&
-      (error.message.includes("column") || error.message.includes("schema")) &&
-      error.message.includes("does not exist")
-    ) {
+    if (error && isMissingColumnError(error)) {
       console.warn(
-        "[submitEnquiry] Role columns not found in database; falling back to legacy schema.",
+        `[submitEnquiry] Column missing in database (${error.message}); falling back to legacy schema with preserved context.`,
       );
+      const rolePrefix = data.role ? `[Role: ${data.role}] ` : "";
+      const childPrefix = data.childName ? `[Child: ${data.childName}] ` : "";
+      const packedCollege = [rolePrefix + childPrefix, collegeVal || data.remarks || "Direct Enquiry"]
+        .filter(Boolean)
+        .join(" ")
+        .slice(0, 150);
+
       const basePayload = {
         full_name: data.fullName,
         phone: data.phone,
         whatsapp: data.whatsapp,
         email: data.email,
-        college: collegeVal || "Not specified",
-        education: educationVal || "Not specified",
+        college: packedCollege.length >= 2 ? packedCollege : "Direct Enquiry",
+        education: (educationVal || "General Guidance").slice(0, 100),
       };
       const retry = await supabaseAdmin.from("partner_enquiries").insert(basePayload);
       error = retry.error;
@@ -163,12 +177,7 @@ export const listEnquiries = createServerFn({ method: "GET" }).handler(async () 
     .limit(2000);
 
   // If new columns are missing in remote DB, fall back to legacy columns and polyfill defaults
-  if (
-    error &&
-    error.message &&
-    (error.message.includes("column") || error.message.includes("schema")) &&
-    error.message.includes("does not exist")
-  ) {
+  if (error && isMissingColumnError(error)) {
     const fallback = await supabaseAdmin
       .from("partner_enquiries")
       .select(
