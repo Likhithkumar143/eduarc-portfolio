@@ -25,9 +25,28 @@ Configure the following environment variables in your deployment platform (e.g. 
 
 ---
 
-## 2. Database Migrations
+## 2. Database Setup & Migrations
 
-Apply the migration scripts located in `drizzle/migrations/` sequentially using the Supabase SQL Editor:
+### Option A: One-Shot Complete Schema (Recommended)
+Execute the consolidated all-in-one SQL script in the **Supabase SQL Editor**:
+- [`supabase/schema.sql`](file:///c:/Users/Home/Desktop/eduarc-connect-portfolio-backup-20261031/supabase/schema.sql) (or `drizzle/migrations/schema_all_in_one.sql`)
+
+This script creates and configures the entire database in one run:
+- Extensions (`pgcrypto`, `uuid-ossp`)
+- All 7 core tables with indices:
+  1. `site_content`
+  2. `admin_credentials`
+  3. `reception_credentials`
+  4. `partner_enquiries` (including role selection, consent, and remarks)
+  5. `analytics_events` (visitor tracking & funnel metrics)
+  6. `security_events` (WAF threat logs & forensic audit)
+  7. `blocked_ips` (active IP blocklist)
+- Row Level Security (RLS) policies for all tables
+- Role permissions and grants (`anon`, `authenticated`, `service_role`)
+- Supabase Storage bucket (`programs`) configuration and public read policy
+
+### Option B: Incremental Migrations
+Alternatively, apply the individual migration scripts located in `drizzle/migrations/` sequentially:
 
 1. `0000_migration.sql` — Site content storage & brochure schema.
 2. `0001_partner_enquiries_and_reception.sql` — Baseline partner leads & reception credentials.
