@@ -3,6 +3,7 @@ import { getRequest, useSession } from "@tanstack/react-start/server";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { hashPassword, passwordProblem, verifyPassword } from "./password.server";
 import { checkRateLimit, getClientIp, LOGIN_RATE_LIMIT_OPTIONS } from "./rate-limit.server";
+import { logSecurityEvent } from "./security.server";
 
 export type StaffRole = "admin" | "reception";
 type SessionData = { ok?: boolean; v?: string };
@@ -160,6 +161,14 @@ export async function staffLogin(
   const rateCheck = checkRateLimit(`login:${role}:${ip || "unknown"}`, LOGIN_RATE_LIMIT_OPTIONS);
   if (!rateCheck.allowed) {
     const minutes = Math.max(1, Math.ceil(rateCheck.retryAfterSeconds / 60));
+    void logSecurityEvent({
+      ip: ip || "unknown",
+      eventType: "rate_limit_exceeded",
+      severity: "medium",
+      description: `Rate limit triggered on ${role} login from IP ${ip || "unknown"}`,
+      path: `/${role}`,
+      actionTaken: "rate_limited",
+    });
     return {
       ok: false,
       message: `Too many login attempts. Please try again in ${minutes} minute${minutes === 1 ? "" : "s"}.`,
@@ -193,6 +202,16 @@ export async function staffLogin(
     if (!valid) {
       const attempts = creds.failed_attempts + 1;
       const lock = attempts >= MAX_FAILED_ATTEMPTS;
+      void logSecurityEvent({
+        ip: ip || "unknown",
+        eventType: "failed_login",
+        severity: lock ? "high" : "medium",
+        description: lock
+          ? `Staff account locked for ${role} after ${attempts} consecutive failed attempts`
+          : `Failed password verification for role "${role}"`,
+        path: `/${role}`,
+        actionTaken: lock ? "locked_out" : "logged",
+      });
       await credTable(role)
         .update({
           failed_attempts: lock ? 0 : attempts,

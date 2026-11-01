@@ -1,3 +1,6 @@
+import { getClientIp } from "./lib/rate-limit.server";
+import { blockedIpCache, inspectRequestThreat } from "./lib/security-detector";
+import { logSecurityEvent } from "./lib/security.server";
 import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";

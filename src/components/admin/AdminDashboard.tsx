@@ -15,6 +15,7 @@ import {
   LogOut,
   Mail,
   Settings2,
+  ShieldAlert,
   Sparkles,
   TrendingUp,
   Undo2,
@@ -46,6 +47,7 @@ import {
 import { PasswordPanel } from "./PasswordPanel";
 import { ReceptionAdminPanel } from "./ReceptionAdminPanel";
 import { AnalyticsAdminPanel } from "./AnalyticsAdminPanel";
+import { SecurityAdminPanel } from "./SecurityAdminPanel";
 
 type Section = {
   id: string;
@@ -133,6 +135,13 @@ const sections: Section[] = [
     icon: BarChart3,
     description: "Visitor volume, popular pages, acquisition sources, device usage, and enquiry conversions.",
     Custom: AnalyticsAdminPanel,
+  },
+  {
+    id: "security-monitoring",
+    label: "Security Monitoring",
+    icon: ShieldAlert,
+    description: "Real-time threat detection, IP investigation, WAF audit logs, and active IP blocklist.",
+    Custom: SecurityAdminPanel,
   },
   {
     id: "security",

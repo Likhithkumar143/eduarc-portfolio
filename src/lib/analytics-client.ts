@@ -196,3 +196,4 @@ export function trackEnquirySubmit(role: string) {
   const currentPath = typeof window !== "undefined" ? window.location.pathname : "/partner";
   return trackEvent("enquiry_submit", currentPath, `role:${role}`);
 }
+

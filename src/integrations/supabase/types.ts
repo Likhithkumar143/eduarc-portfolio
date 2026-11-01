@@ -8,6 +8,84 @@ export type Database = {
   };
   public: {
     Tables: {
+      blocked_ips: {
+        Row: {
+          blocked_by: string;
+          created_at: string;
+          expires_at: string | null;
+          id: string;
+          ip: string;
+          reason: string;
+          severity: string;
+        };
+        Insert: {
+          blocked_by?: string;
+          created_at?: string;
+          expires_at?: string | null;
+          id?: string;
+          ip: string;
+          reason: string;
+          severity?: string;
+        };
+        Update: {
+          blocked_by?: string;
+          created_at?: string;
+          expires_at?: string | null;
+          id?: string;
+          ip?: string;
+          reason?: string;
+          severity?: string;
+        };
+        Relationships: [];
+      };
+      security_events: {
+        Row: {
+          action_taken: string;
+          country: string | null;
+          created_at: string;
+          description: string;
+          details: Json | null;
+          event_type: string;
+          id: string;
+          ip: string;
+          method: string;
+          path: string;
+          severity: string;
+          status_code: number;
+          user_agent: string | null;
+        };
+        Insert: {
+          action_taken?: string;
+          country?: string | null;
+          created_at?: string;
+          description: string;
+          details?: Json | null;
+          event_type: string;
+          id?: string;
+          ip: string;
+          method?: string;
+          path: string;
+          severity: string;
+          status_code?: number;
+          user_agent?: string | null;
+        };
+        Update: {
+          action_taken?: string;
+          country?: string | null;
+          created_at?: string;
+          description?: string;
+          details?: Json | null;
+          event_type?: string;
+          id?: string;
+          ip?: string;
+          method?: string;
+          path?: string;
+          severity?: string;
+          status_code?: number;
+          user_agent?: string | null;
+        };
+        Relationships: [];
+      };
       analytics_events: {
         Row: {
           browser: string | null;

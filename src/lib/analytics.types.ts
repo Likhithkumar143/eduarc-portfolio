@@ -62,3 +62,4 @@ export type AnalyticsSummary = {
   geographicDistribution: TopItem[];
   lastUpdated: string;
 };
+
