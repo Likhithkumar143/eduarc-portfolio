@@ -192,40 +192,31 @@ describe("SiteHeader & Mobile Navigation Drawer", () => {
     expect(document.body.style.overflow).toBe("");
   });
 
-  it("correctly highlights Features tab and not Contact tab when Features is selected on homepage", () => {
-    // Setup dummy section element in DOM
-    const featuresSection = document.createElement("section");
-    featuresSection.id = "features";
-    featuresSection.scrollIntoView = vi.fn();
-    document.body.appendChild(featuresSection);
-
-    const contactSection = document.createElement("section");
-    contactSection.id = "contact";
-    contactSection.scrollIntoView = vi.fn();
-    document.body.appendChild(contactSection);
-
+  it("renders direct route links to dedicated pages without hijacking with homepage scroll", () => {
     render(<SiteHeader />);
 
-    // Find the desktop navigation links
+    // Direct route links exist with exact destination hrefs
+    const aboutLink = screen.getByRole("link", { name: /^about$/i });
     const featuresLink = screen.getByRole("link", { name: /^features$/i });
     const contactLink = screen.getByRole("link", { name: /^contact$/i });
 
-    expect(featuresLink).toBeInTheDocument();
-    expect(contactLink).toBeInTheDocument();
+    expect(aboutLink).toHaveAttribute("href", "/about");
+    expect(featuresLink).toHaveAttribute("href", "/features");
+    expect(contactLink).toHaveAttribute("href", "/contact");
+  });
 
-    // Click "Features" link
-    fireEvent.click(featuresLink);
+  it("correctly highlights active tab when current route matches", async () => {
+    const routerMock = await import("@tanstack/react-router");
+    (routerMock.useRouterState as ReturnType<typeof vi.fn>).mockReturnValue("/features");
 
-    // Verify scrollIntoView was called on featuresSection
-    expect(featuresSection.scrollIntoView).toHaveBeenCalled();
+    render(<SiteHeader />);
+
+    const featuresLink = screen.getByRole("link", { name: /^features$/i });
+    const contactLink = screen.getByRole("link", { name: /^contact$/i });
 
     // Features link should have active styling (font-semibold and active indicator class)
     expect(featuresLink).toHaveClass("font-semibold");
     // Contact link should NOT have active styling
     expect(contactLink).not.toHaveClass("font-semibold");
-
-    // Clean up DOM
-    featuresSection.remove();
-    contactSection.remove();
   });
 });

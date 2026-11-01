@@ -15,107 +15,15 @@ export const navItems = [
   { to: "/contact", label: "Contact" },
 ] as const;
 
-const sectionIdMap: Record<string, string> = {
-  "/about": "about",
-  "/features": "features",
-  "/testimonials": "testimonials",
-  "/contact": "contact",
-};
-
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const menuRef = useRef<HTMLDivElement>(null);
-  const isHomePage = pathname === "/";
-  const [activeSection, setActiveSection] = useState<string>("hero");
-  const isManualScrollRef = useRef(false);
-  const manualScrollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  const handleSectionNavigate = (sectionId: string) => {
-    setActiveSection(sectionId);
-    isManualScrollRef.current = true;
-    if (manualScrollTimerRef.current) {
-      clearTimeout(manualScrollTimerRef.current);
-    }
-
-    const targetEl = document.getElementById(sectionId);
-    if (targetEl) {
-      targetEl.scrollIntoView({ behavior: "smooth" });
-      history.replaceState(null, "", `#${sectionId}`);
-    }
-
-    manualScrollTimerRef.current = setTimeout(() => {
-      isManualScrollRef.current = false;
-    }, 1000);
-  };
-
-  // Robust scroll spy for active navigation on homepage
-  useEffect(() => {
-    if (!isHomePage) return;
-
-    // Check hash on mount
-    if (typeof window !== "undefined" && window.location.hash) {
-      const hash = window.location.hash.replace("#", "");
-      if (["hero", "about", "features", "contact", "testimonials"].includes(hash)) {
-        setActiveSection(hash);
-      }
-    }
-
-    const sectionIds = [
-      "hero",
-      "about",
-      "features",
-      "contact",
-      "testimonials",
-    ];
-
-    const updateActiveSection = () => {
-      if (isManualScrollRef.current) return;
-
-      const scrollY = window.scrollY;
-      const viewportHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
-
-      // Bottom of page detection -> activate testimonials
-      if (scrollY + viewportHeight >= documentHeight - 60) {
-        setActiveSection("testimonials");
-        return;
-      }
-
-      // 100px reading line below sticky header
-      const readingLine = 100;
-
-      // Check sections in reverse (bottom to top)
-      for (let i = sectionIds.length - 1; i >= 0; i--) {
-        const id = sectionIds[i]!;
-        const el = document.getElementById(id);
-        if (!el) continue;
-
-        const rect = el.getBoundingClientRect();
-        if (rect.top <= readingLine) {
-          setActiveSection(id);
-          return;
-        }
-      }
-
-      setActiveSection("hero");
-    };
-
-    updateActiveSection();
-
-    window.addEventListener("scroll", updateActiveSection, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", updateActiveSection);
-      if (manualScrollTimerRef.current) {
-        clearTimeout(manualScrollTimerRef.current);
-      }
-    };
-  }, [isHomePage]);
 
   // Close menu on route change
   useEffect(() => {
@@ -170,21 +78,12 @@ export function SiteHeader() {
           {/* Desktop Navigation */}
           <nav className="hidden items-center gap-7 lg:gap-9 md:flex" aria-label="Main navigation">
             {navItems.map((item) => {
-              const sectionId = sectionIdMap[item.to];
-              const isActive = isHomePage
-                ? activeSection === sectionId
-                : pathname.startsWith(item.to);
+              const isActive = pathname === item.to || pathname.startsWith(item.to + "/");
 
               return (
                 <Link
                   key={item.to}
                   to={item.to}
-                  onClick={(e) => {
-                    if (isHomePage && sectionId) {
-                      e.preventDefault();
-                      handleSectionNavigate(sectionId);
-                    }
-                  }}
                   className={cn(
                     "text-[14px] font-medium transition-colors duration-150 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm px-1 py-0.5",
                     isActive
@@ -238,24 +137,13 @@ export function SiteHeader() {
                   aria-label="Mobile navigation"
                 >
                   {navItems.map((item) => {
-                    const sectionId = sectionIdMap[item.to];
-                    const isActive = isHomePage
-                      ? activeSection === sectionId
-                      : pathname.startsWith(item.to);
+                    const isActive = pathname === item.to || pathname.startsWith(item.to + "/");
 
                     return (
                       <Link
                         key={item.to}
                         to={item.to}
-                        onClick={(e) => {
-                          setOpen(false);
-                          if (isHomePage && sectionId) {
-                            e.preventDefault();
-                            setTimeout(() => {
-                              handleSectionNavigate(sectionId);
-                            }, 50);
-                          }
-                        }}
+                        onClick={() => setOpen(false)}
                         className={cn(
                           "py-4 text-lg font-semibold transition-colors flex items-center justify-between",
                           isActive
@@ -292,15 +180,7 @@ export function SiteHeader() {
                   >
                     <Link
                       to="/contact"
-                      onClick={(e) => {
-                        setOpen(false);
-                        if (isHomePage) {
-                          e.preventDefault();
-                          setTimeout(() => {
-                            handleSectionNavigate("contact");
-                          }, 50);
-                        }
-                      }}
+                      onClick={() => setOpen(false)}
                     >
                       Contact Support
                     </Link>

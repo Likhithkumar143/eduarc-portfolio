@@ -123,8 +123,8 @@ function Index() {
         c.home.pathway2Desc ||
         "Equip your institution with systematic career guidance workshops, mentor sessions, and structured tracking for every student batch.",
       cta: "Explore Features",
-      targetSection: "features",
-      routeTo: undefined,
+      targetSection: undefined,
+      routeTo: "/features" as const,
       highlight: "Partner Onboarding",
     },
     {
