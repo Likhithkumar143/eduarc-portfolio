@@ -223,6 +223,17 @@ export function TestimonialsContent() {
       <section className="py-12 md:py-16">
         <div className="container-apple">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {localTestimonials.length === 0 && (
+              <div className="col-span-full text-center py-16 bg-white rounded-2xl border border-hairline shadow-xs">
+                <Quote className="h-10 w-10 text-muted-foreground/40 mx-auto mb-3" />
+                <p className="text-base font-semibold text-brand-navy">
+                  No testimonials published yet.
+                </p>
+                <p className="text-xs sm:text-sm text-muted-foreground mt-1 max-w-md mx-auto">
+                  Be the first to share your experience with EDUARC using the review form below!
+                </p>
+              </div>
+            )}
             {localTestimonials.map((t, idx) => {
               const avatarSrc = getAvatarSrc(t, idx);
               const rating = t.rating ?? 5;

@@ -27,9 +27,11 @@ import {
   ThumbsUp,
   ThumbsDown,
   Camera,
+  RotateCcw,
 } from "lucide-react";
 import { toast } from "sonner";
-import { type SiteContent, type TestimonialItem, initials } from "@/content/eduarc";
+import { type SiteContent, type TestimonialItem, initials, defaultContent } from "@/content/eduarc";
+import { siteContentQuery } from "@/lib/site-content";
 import heroBannerImg from "@/assets/testimonials/hero-banner.jpg";
 import ananyaImg from "@/assets/testimonials/ananya.jpg";
 import priyaImg from "@/assets/testimonials/priya.jpg";
@@ -210,6 +212,7 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
       toast.success(`Approved & published review from "${review.name}" to the live site!`);
 
       await queryClient.invalidateQueries({ queryKey: ["admin-user-reviews"] });
+      await queryClient.invalidateQueries({ queryKey: siteContentQuery.queryKey });
 
       if (res.approvedItem) {
         const cleanEmail = review.email.toLowerCase().trim();
@@ -227,6 +230,9 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
           nextList = [res.approvedItem as TestimonialItem, ...testimonials];
         }
         update("testimonials", nextList);
+        if (onSave) {
+          await onSave({ ...draft, testimonials: nextList });
+        }
       }
     } catch (err) {
       toast.dismiss("mod-action");
@@ -247,6 +253,7 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
       toast.info(`Review from "${review.name}" declined.`);
 
       await queryClient.invalidateQueries({ queryKey: ["admin-user-reviews"] });
+      await queryClient.invalidateQueries({ queryKey: siteContentQuery.queryKey });
 
       const cleanEmail = review.email.toLowerCase().trim();
       const nextList = testimonials.filter(
@@ -254,6 +261,9 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
       );
       if (nextList.length !== testimonials.length) {
         update("testimonials", nextList);
+        if (onSave) {
+          await onSave({ ...draft, testimonials: nextList });
+        }
       }
     } catch (err) {
       toast.dismiss("mod-action");
@@ -275,6 +285,7 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
       toast.success("Review submission deleted.");
 
       await queryClient.invalidateQueries({ queryKey: ["admin-user-reviews"] });
+      await queryClient.invalidateQueries({ queryKey: siteContentQuery.queryKey });
 
       const cleanEmail = review.email.toLowerCase().trim();
       const nextList = testimonials.filter(
@@ -282,10 +293,21 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
       );
       if (nextList.length !== testimonials.length) {
         update("testimonials", nextList);
+        if (onSave) {
+          await onSave({ ...draft, testimonials: nextList });
+        }
       }
     } catch (err) {
       toast.dismiss("mod-action");
       toast.error(err instanceof Error ? err.message : "Failed to delete submission");
+    }
+  }
+
+  async function handleRestoreDefaults() {
+    update("testimonials", defaultContent.testimonials);
+    toast.success("Restored reference testimonials");
+    if (onSave) {
+      await onSave({ ...draft, testimonials: defaultContent.testimonials });
     }
   }
 
@@ -487,16 +509,28 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
             </p>
           </div>
 
-          <Button
-            type="button"
-            variant="pill-gold"
-            size="sm"
-            onClick={handleAddNew}
-            className="gap-1.5 shrink-0 shadow-sm cursor-pointer"
-          >
-            <Plus className="h-4 w-4" />
-            <span>Add Testimonial</span>
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={handleRestoreDefaults}
+              className="rounded-xl text-xs"
+            >
+              <RotateCcw className="h-3.5 w-3.5 mr-1.5" />
+              Reset to Default
+            </Button>
+            <Button
+              type="button"
+              variant="pill-gold"
+              size="sm"
+              onClick={handleAddNew}
+              className="gap-1.5 shrink-0 shadow-sm cursor-pointer"
+            >
+              <Plus className="h-4 w-4" />
+              <span>Add Testimonial</span>
+            </Button>
+          </div>
         </div>
 
         {/* Search Filter */}
@@ -1155,12 +1189,42 @@ export function TestimonialsEditor({ draft, update, onSave, isSaving }: EditorPr
         {filteredTestimonials.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-hairline bg-surface/30 p-12 text-center">
             <Quote className="h-8 w-8 text-muted-foreground/40 mx-auto mb-3" />
-            <p className="text-sm font-semibold text-foreground">No testimonials found</p>
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-sm font-semibold text-foreground">
+              {testimonials.length === 0
+                ? "No testimonials published"
+                : "No testimonials match your filter"}
+            </p>
+            <p className="text-xs text-muted-foreground mt-1 max-w-md mx-auto">
               {searchQuery
                 ? "No items match your search. Try different keywords."
-                : "Click 'Add Testimonial' above to create your first entry."}
+                : testimonials.length === 0
+                  ? "All testimonials have been removed. You can approve incoming user reviews from above, add a custom testimonial, or restore the default reference list."
+                  : "Try clearing your search query."}
             </p>
+            {!searchQuery && testimonials.length === 0 && (
+              <div className="mt-4 flex items-center justify-center gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={handleRestoreDefaults}
+                  className="rounded-xl text-xs"
+                >
+                  <RotateCcw className="h-3.5 w-3.5 mr-1.5" />
+                  Restore Default List
+                </Button>
+                <Button
+                  type="button"
+                  variant="pill-gold"
+                  size="sm"
+                  onClick={handleAddNew}
+                  className="rounded-xl text-xs"
+                >
+                  <Plus className="h-3.5 w-3.5 mr-1.5" />
+                  Add Testimonial
+                </Button>
+              </div>
+            )}
           </div>
         ) : (
           filteredTestimonials.map((t) => {

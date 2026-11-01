@@ -934,12 +934,18 @@ export function mergeContent(saved: unknown): SiteContent {
     merged[key] =
       Array.isArray(def) || typeof def !== "object" ? value : { ...def, ...(value as object) };
   }
-  // If testimonials only has old template placeholders (< 3 items), default to the 6 complete reference testimonials
-  if (!Array.isArray(merged["testimonials"]) || (merged["testimonials"] as unknown[]).length < 3) {
+  if (!Array.isArray(merged["testimonials"])) {
     merged["testimonials"] = defaultContent.testimonials;
   }
   const parsed = siteContentSchema.safeParse(merged);
   if (parsed.success) return parsed.data;
+
+  // If saved testimonials failed validation, fall back to default testimonials
+  if (merged["testimonials"]) {
+    const fallback = { ...merged, testimonials: defaultContent.testimonials };
+    const retry = siteContentSchema.safeParse(fallback);
+    if (retry.success) return retry.data;
+  }
 
   // If saved mentors failed validation due to old schema, fall back to updated default mentors
   if (merged["mentors"]) {
