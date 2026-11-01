@@ -108,11 +108,11 @@ export const LOGIN_RATE_LIMIT_OPTIONS: RateLimitOptions = {
 };
 
 /**
- * Enquiry submission rate limiter: 5 submissions per 10 minutes per IP.
+ * Enquiry submission rate limiter: 5 submissions per 5 minutes per IP.
  */
 export const ENQUIRY_RATE_LIMIT_OPTIONS: RateLimitOptions = {
   maxRequests: 5,
-  windowMs: 10 * 60 * 1000, // 10 minutes
+  windowMs: 5 * 60 * 1000, // 5 minutes
 };
 
 /**
