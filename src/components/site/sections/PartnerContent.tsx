@@ -39,14 +39,14 @@ export function PartnerContent() {
   ];
 
   return (
-    <div className="relative isolate overflow-hidden bg-[#FEFAF1]">
+    <div className="relative isolate overflow-hidden bg-[#FAF9F5]">
       <main className="container-wide py-10 sm:py-14 lg:py-18">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.18fr] lg:items-start lg:gap-14 xl:gap-20">
           {/* Left Column: Context, Promises & Journey Artwork */}
           <div className="flex flex-col justify-between space-y-8 lg:space-y-10">
             {/* Header copy */}
             <div className="space-y-4">
-              <span className="inline-flex items-center rounded-full bg-[#EBF5F3] px-3.5 py-1.5 text-xs font-semibold text-[#1C5153] border border-[#D1EAE5]">
+              <span className="inline-flex items-center rounded-full bg-[#F5F1E8] px-3.5 py-1.5 text-xs font-semibold text-[#B47A4B] border border-[#E2DBD0]">
                 {c.partnerPage?.badge || "Student & Institutional Enquiries"}
               </span>
 
@@ -71,7 +71,7 @@ export function PartnerContent() {
                   const Icon = item.icon;
                   return (
                     <div key={item.title} className="flex items-start gap-4">
-                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#3B7A75] text-white shadow-xs">
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#243B35] text-white shadow-xs">
                         <Icon className="h-5 w-5" />
                       </div>
                       <div className="space-y-0.5">
@@ -86,7 +86,7 @@ export function PartnerContent() {
 
             {/* Student Journey Illustration with Floating Pathway Milestone Pills */}
             <div className="relative pt-1 select-none">
-              <div className="relative rounded-3xl overflow-hidden bg-transparent">
+              <div className="relative rounded-2xl overflow-hidden bg-transparent">
                 <img
                   src={studentJourneyBg}
                   alt="Student Guidance Journey towards Higher Education"
@@ -94,24 +94,24 @@ export function PartnerContent() {
                 />
 
                 {/* Milestone 1: Higher Education */}
-                <div className="absolute top-[30%] right-[14%] sm:right-[18%] flex items-center gap-2 rounded-xl bg-white px-3 py-1.5 shadow-[0_4px_14px_rgba(20,39,68,0.08)] border border-white/80 text-[11px] sm:text-xs font-bold text-brand-navy">
-                  <div className="flex h-5 w-5 items-center justify-center rounded-md bg-[#E0F2FE] text-[#0284C7]">
+                <div className="absolute top-[30%] right-[14%] sm:right-[18%] flex items-center gap-2 rounded-xl bg-white px-3 py-1.5 shadow-xs border border-hairline text-[11px] sm:text-xs font-bold text-brand-navy">
+                  <div className="flex h-5 w-5 items-center justify-center rounded-md bg-[#EDF3F0] text-[#243B35]">
                     <GraduationCap className="h-3.5 w-3.5" />
                   </div>
                   <span>Higher Education</span>
                 </div>
 
                 {/* Milestone 2: Career Options */}
-                <div className="absolute top-[50%] right-[6%] sm:right-[10%] flex items-center gap-2 rounded-xl bg-white px-3 py-1.5 shadow-[0_4px_14px_rgba(20,39,68,0.08)] border border-white/80 text-[11px] sm:text-xs font-bold text-brand-navy">
-                  <div className="flex h-5 w-5 items-center justify-center rounded-md bg-[#CCFBF1] text-[#0D9488]">
+                <div className="absolute top-[50%] right-[6%] sm:right-[10%] flex items-center gap-2 rounded-xl bg-white px-3 py-1.5 shadow-xs border border-hairline text-[11px] sm:text-xs font-bold text-brand-navy">
+                  <div className="flex h-5 w-5 items-center justify-center rounded-md bg-[#F5F1E8] text-[#B47A4B]">
                     <Briefcase className="h-3.5 w-3.5" />
                   </div>
                   <span>Career Options</span>
                 </div>
 
                 {/* Milestone 3: Your Future */}
-                <div className="absolute top-[70%] right-[10%] sm:right-[14%] flex items-center gap-2 rounded-xl bg-white px-3 py-1.5 shadow-[0_4px_14px_rgba(20,39,68,0.08)] border border-white/80 text-[11px] sm:text-xs font-bold text-brand-navy">
-                  <div className="flex h-5 w-5 items-center justify-center rounded-md bg-[#EDE9FE] text-[#7C3AED]">
+                <div className="absolute top-[70%] right-[10%] sm:right-[14%] flex items-center gap-2 rounded-xl bg-white px-3 py-1.5 shadow-xs border border-hairline text-[11px] sm:text-xs font-bold text-brand-navy">
+                  <div className="flex h-5 w-5 items-center justify-center rounded-md bg-[#EFF4EE] text-[#9AAB94]">
                     <Compass className="h-3.5 w-3.5" />
                   </div>
                   <span>Your Future</span>
@@ -120,17 +120,17 @@ export function PartnerContent() {
             </div>
 
             {/* Bottom Trust Indicators */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-[#E8DBBF]/60 text-xs text-brand-navy font-semibold">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-hairline text-xs text-brand-navy font-semibold">
               <div className="flex items-center gap-2">
-                <Users className="h-4 w-4 text-[#1E5450] shrink-0" />
+                <Users className="h-4 w-4 text-[#243B35] shrink-0" />
                 <span>Trusted by Students &amp; Families</span>
               </div>
               <div className="flex items-center gap-2">
-                <Building2 className="h-4 w-4 text-[#1E5450] shrink-0" />
+                <Building2 className="h-4 w-4 text-[#243B35] shrink-0" />
                 <span>Partnered with Schools &amp; Colleges</span>
               </div>
               <div className="flex items-center gap-2">
-                <ShieldCheck className="h-4 w-4 text-[#1E5450] shrink-0" />
+                <ShieldCheck className="h-4 w-4 text-[#243B35] shrink-0" />
                 <span>Focused on Your Future</span>
               </div>
             </div>

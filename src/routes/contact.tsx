@@ -39,9 +39,9 @@ function ContactPage() {
   const { contactPage } = useSiteContent();
 
   return (
-    <div className="bg-[#FAFDFB] min-h-screen">
+    <div className="bg-[#FAF9F5] min-h-screen">
       {/* 1. Hero Section - Sleek, Borderless Hero Banner matching Features Hero layout */}
-      <section className="relative overflow-hidden bg-[#E6FFFF] border-b border-slate-200/60 min-h-[340px] sm:min-h-[360px] lg:h-[360px] xl:h-[380px] flex items-end lg:items-center">
+      <section className="relative overflow-hidden bg-[#F5F1E8] border-b border-hairline/80 min-h-[340px] sm:min-h-[360px] lg:h-[360px] xl:h-[380px] flex items-end lg:items-center">
         {/* Desktop Illustration: Aligned directly to bottom-right flush with bottom border */}
         <div className="hidden lg:flex absolute inset-y-0 right-0 pointer-events-none select-none z-0 items-end justify-end">
           <img
@@ -55,11 +55,11 @@ function ContactPage() {
         <div className="container-apple relative z-10 w-full">
           <div className="pt-10 pb-8 sm:pt-12 sm:pb-10 lg:py-0 max-w-xl lg:max-w-lg xl:max-w-xl text-center sm:text-left">
             <Reveal>
-              <span className="text-xs font-bold tracking-wider text-[#1C5153] uppercase mb-3 block">
+              <span className="text-xs font-bold tracking-wider text-[#B47A4B] uppercase mb-3 block">
                 {contactPage.badge || "Get in Touch"}
               </span>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-[42px] xl:text-[46px] font-extrabold text-[#0D2436] tracking-tight leading-[1.15]">
+              <h1 className="text-3xl sm:text-4xl lg:text-[42px] xl:text-[46px] font-extrabold text-[#243B35] tracking-tight leading-[1.15]">
                 {contactPage.title} <br className="hidden sm:inline" />
                 {contactPage.titleHighlight}
               </h1>
@@ -70,20 +70,20 @@ function ContactPage() {
 
               {/* 3 Value Pills */}
               <div className="mt-6 flex flex-wrap items-center justify-center sm:justify-start gap-2.5 sm:gap-3">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-xs border border-slate-200/90 shadow-2xs text-xs font-semibold text-slate-700">
-                  <span className="flex items-center justify-center w-5 h-5 rounded-full bg-[#EBF5F3] text-[#1C5153]">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-hairline shadow-xs text-xs font-semibold text-slate-700">
+                  <span className="flex items-center justify-center w-5 h-5 rounded-full bg-[#EDF3F0] text-[#243B35]">
                     <MessageCircle className="w-3 h-3" />
                   </span>
                   {contactPage.pill1 || "Quick Response"}
                 </div>
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-xs border border-slate-200/90 shadow-2xs text-xs font-semibold text-slate-700">
-                  <span className="flex items-center justify-center w-5 h-5 rounded-full bg-[#EBF5F3] text-[#1C5153]">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-hairline shadow-xs text-xs font-semibold text-slate-700">
+                  <span className="flex items-center justify-center w-5 h-5 rounded-full bg-[#EDF3F0] text-[#243B35]">
                     <ShieldCheck className="w-3 h-3" />
                   </span>
                   {contactPage.pill2 || "Dedicated Support"}
                 </div>
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-xs border border-slate-200/90 shadow-2xs text-xs font-semibold text-slate-700">
-                  <span className="flex items-center justify-center w-5 h-5 rounded-full bg-[#EBF5F3] text-[#1C5153]">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-hairline shadow-xs text-xs font-semibold text-slate-700">
+                  <span className="flex items-center justify-center w-5 h-5 rounded-full bg-[#EDF3F0] text-[#243B35]">
                     <UserCheck className="w-3 h-3" />
                   </span>
                   {contactPage.pill3 || "Real People"}

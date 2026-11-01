@@ -186,10 +186,10 @@ export function SiteHeader() {
                     }
                   }}
                   className={cn(
-                    "text-[14px] font-medium transition-colors duration-150 hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold rounded-sm px-1 py-0.5",
+                    "text-[14px] font-medium transition-colors duration-150 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm px-1 py-0.5",
                     isActive
-                      ? "text-brand-navy font-semibold relative after:absolute after:-bottom-1.5 after:left-1 after:right-1 after:h-[2px] after:bg-brand-gold after:rounded-full"
-                      : "text-foreground/75",
+                      ? "text-primary font-semibold relative after:absolute after:-bottom-1.5 after:left-1 after:right-1 after:h-[2px] after:bg-accent after:rounded-full"
+                      : "text-foreground/80",
                   )}
                 >
                   {item.label}
@@ -211,7 +211,7 @@ export function SiteHeader() {
           {/* Mobile Menu Toggle Button */}
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border text-foreground hover:bg-surface md:hidden transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold cursor-pointer"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border text-foreground hover:bg-surface md:hidden transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary cursor-pointer"
             onClick={() => setOpen((prev) => !prev)}
             aria-label={open ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={open}
@@ -259,12 +259,12 @@ export function SiteHeader() {
                         className={cn(
                           "py-4 text-lg font-semibold transition-colors flex items-center justify-between",
                           isActive
-                            ? "text-brand-navy font-bold"
-                            : "text-foreground hover:text-brand-navy",
+                            ? "text-primary font-bold"
+                            : "text-foreground hover:text-primary",
                         )}
                       >
                         <span>{item.label}</span>
-                        <ArrowUpRight className="h-4 w-4 text-brand-gold" />
+                        <ArrowUpRight className="h-4 w-4 text-accent" />
                       </Link>
                     );
                   })}
@@ -314,7 +314,7 @@ export function SiteHeader() {
                   <span>Helpline:</span>
                   <a
                     href="tel:+919901436625"
-                    className="font-semibold text-brand-navy hover:underline"
+                    className="font-semibold text-primary hover:underline"
                   >
                     +91 99014 36625
                   </a>
@@ -323,7 +323,7 @@ export function SiteHeader() {
                   <span>Email:</span>
                   <a
                     href="mailto:connect@eduarc.in"
-                    className="font-semibold text-brand-gold hover:underline"
+                    className="font-semibold text-accent hover:underline"
                   >
                     connect@eduarc.in
                   </a>
@@ -332,7 +332,7 @@ export function SiteHeader() {
                   <Link
                     to="/privacy-policy"
                     onClick={() => setOpen(false)}
-                    className="text-[11px] text-muted-foreground hover:text-brand-navy hover:underline"
+                    className="text-[11px] text-muted-foreground hover:text-primary hover:underline"
                   >
                     Privacy Policy &amp; Data Protection
                   </Link>

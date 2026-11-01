@@ -51,7 +51,7 @@ export function PageIntro({
 }
 
 export function GradientText({ children }: { children: ReactNode }) {
-  return <span className="text-gradient-gold">{children}</span>;
+  return <span className="text-brand-terracotta font-medium">{children}</span>;
 }
 
 export function SectionHeading({
@@ -88,28 +88,28 @@ export function CtaBand({
     <section className="relative isolate overflow-hidden bg-surface border-t border-hairline/80">
       <div className="container-apple py-20 md:py-28">
         <Reveal>
-          <div className="glass-dark mx-auto max-w-4xl rounded-3xl p-10 text-center md:p-16 border border-brand-gold/30 shadow-card">
-            <p className="type-eyebrow text-brand-gold">Next Steps</p>
-            <h2 className="type-headline mx-auto max-w-2xl mt-2 text-white">
+          <div className="bg-brand-forest mx-auto max-w-4xl rounded-2xl p-10 text-center md:p-16 border border-brand-forest/20 shadow-card">
+            <p className="type-eyebrow text-brand-ivory/80">Next Steps</p>
+            <h2 className="type-headline mx-auto max-w-2xl mt-2 text-[#FAF9F5]">
               {title ?? cta.title}
             </h2>
-            <p className="type-lead mx-auto mt-4 max-w-xl text-ink-muted leading-relaxed">
+            <p className="type-lead mx-auto mt-4 max-w-xl text-[#E8E0D1]/90 leading-relaxed">
               {lead ?? cta.lead}
             </p>
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
               <Button
                 asChild
-                variant="pill-gold"
+                variant="default"
                 size="pill"
-                className="w-full sm:w-auto justify-center"
+                className="bg-[#FAF9F5] text-brand-forest hover:bg-[#E8E0D1] w-full sm:w-auto justify-center font-medium"
               >
                 <Link to="/partner">Partner with us</Link>
               </Button>
               <Button
                 asChild
-                variant="pill-outline"
+                variant="outline"
                 size="pill"
-                className="border-white/20 text-white hover:bg-white/10 hover:text-white w-full sm:w-auto justify-center"
+                className="border-[#E8E0D1]/40 text-[#FAF9F5] hover:bg-[#FAF9F5]/10 hover:text-[#FAF9F5] w-full sm:w-auto justify-center"
               >
                 <Link to="/contact" className="gap-1.5 justify-center">
                   <span>Contact Our Team</span>

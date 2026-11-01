@@ -209,23 +209,23 @@ function Index() {
 
           {/* Hero Visual Showcase */}
           <div className="container-wide relative mt-8 md:mt-12 flex justify-center">
-            <div className="relative w-fit max-w-full rounded-3xl overflow-hidden border border-border shadow-lift bg-[#ebedf0]/40">
+            <div className="relative w-fit max-w-full rounded-2xl overflow-hidden border border-border shadow-lift bg-[#E8E0D1]/20">
               <img
                 src={heroImg}
                 alt="High school and college students collaborating with notebooks and laptop on campus"
                 width={1264}
                 height={848}
-                className="block h-auto w-auto max-w-full max-h-[min(540px,68vh)] rounded-3xl object-contain"
+                className="block h-auto w-auto max-w-full max-h-[min(540px,68vh)] rounded-2xl object-contain"
                 loading="eager"
               />
 
-              {/* Apple-style floating badge 1 */}
-              <div className="glass absolute left-3 top-3 sm:left-5 sm:top-5 hidden sm:flex items-center gap-2.5 sm:gap-3 rounded-2xl p-2.5 sm:p-3.5 border border-white/80 shadow-card">
-                <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-brand-navy text-brand-gold shrink-0">
-                  <Map className="h-4 w-4 sm:h-5 sm:w-5" />
+              {/* Floating badge 1 */}
+              <div className="bg-[#FAF9F5] absolute left-3 top-3 sm:left-5 sm:top-5 hidden sm:flex items-center gap-2.5 sm:gap-3 rounded-xl p-2.5 sm:p-3 border border-border shadow-xs">
+                <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-lg bg-brand-forest text-brand-gold shrink-0">
+                  <Map className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
                 </div>
                 <div className="text-left">
-                  <p className="text-[11px] sm:text-xs font-semibold text-brand-navy">
+                  <p className="text-[11px] sm:text-xs font-semibold text-brand-forest">
                     {c.home.badge1Title || "Tailored Direction"}
                   </p>
                   <p className="text-[10px] sm:text-[11px] text-muted-foreground">
@@ -234,13 +234,13 @@ function Index() {
                 </div>
               </div>
 
-              {/* Apple-style floating badge 2 */}
-              <div className="glass absolute right-3 bottom-3 sm:right-5 sm:bottom-5 hidden sm:flex items-center gap-2.5 sm:gap-3 rounded-2xl p-2.5 sm:p-3.5 border border-white/80 shadow-card">
-                <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-brand-gold-soft border border-brand-gold-border text-brand-navy shrink-0">
-                  <CalendarCheck className="h-4 w-4 sm:h-5 sm:w-5 text-brand-gold" />
+              {/* Floating badge 2 */}
+              <div className="bg-[#FAF9F5] absolute right-3 bottom-3 sm:right-5 sm:bottom-5 hidden sm:flex items-center gap-2.5 sm:gap-3 rounded-xl p-2.5 sm:p-3 border border-border shadow-xs">
+                <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-lg bg-brand-gold-soft border border-brand-gold-border text-brand-forest shrink-0">
+                  <CalendarCheck className="h-4 w-4 sm:h-4.5 sm:w-4.5 text-brand-gold" />
                 </div>
                 <div className="text-left">
-                  <p className="text-[11px] sm:text-xs font-semibold text-brand-navy">
+                  <p className="text-[11px] sm:text-xs font-semibold text-brand-forest">
                     {c.home.badge2Title || "Verified Mentorship"}
                   </p>
                   <p className="text-[10px] sm:text-[11px] text-muted-foreground">

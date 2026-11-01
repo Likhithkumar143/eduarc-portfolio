@@ -15,8 +15,10 @@ const badgeVariants = cva(
         destructive:
           "border-transparent bg-destructive text-destructive-foreground shadow-xs hover:bg-destructive/90",
         outline: "text-foreground border-border",
-        gold: "border-brand-gold-border bg-brand-gold-soft text-brand-navy font-semibold",
-        navy: "border-transparent bg-brand-navy text-white font-medium",
+        gold: "border-border bg-secondary text-primary font-semibold",
+        terracotta: "border-accent/30 bg-[#F7EFE9] text-accent font-semibold",
+        sage: "border-[#9AAB94]/40 bg-[#EFF4EE] text-primary font-semibold",
+        navy: "border-transparent bg-primary text-primary-foreground font-medium",
       },
     },
     defaultVariants: {

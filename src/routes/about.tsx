@@ -46,12 +46,12 @@ function AboutPage() {
   const c = useSiteContent();
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#FAF9F5]">
       {/* =========================================================================
           SECTION 1: HERO SECTION
           Empowering Students to Discover Their Future
          ========================================================================= */}
-      <section className="relative overflow-hidden bg-[#F5F5F5] border-b border-slate-200/60 min-h-[340px] sm:min-h-[360px] lg:h-[360px] xl:h-[380px] flex items-end lg:items-center">
+      <section className="relative overflow-hidden bg-[#F5F1E8] border-b border-hairline/80 min-h-[340px] sm:min-h-[360px] lg:h-[360px] xl:h-[380px] flex items-end lg:items-center">
         {/* Desktop & Laptop Illustration: Aligned directly to bottom-right flush with bottom border */}
         <div className="hidden lg:flex absolute inset-y-0 right-0 pointer-events-none select-none z-0 items-end justify-end">
           <img
@@ -66,15 +66,15 @@ function AboutPage() {
           <div className="pt-10 pb-8 sm:pt-12 sm:pb-10 lg:py-0 max-w-xl lg:max-w-lg xl:max-w-xl text-center sm:text-left">
             <Reveal>
               <div className="inline-flex items-center gap-2 mb-3 justify-center sm:justify-start">
-                <span className="w-6 h-[2.5px] bg-[#E07A2B] inline-block rounded-full" />
-                <span className="text-xs font-bold tracking-wider text-slate-500 uppercase">
+                <span className="w-6 h-[2.5px] bg-[#B47A4B] inline-block rounded-full" />
+                <span className="text-xs font-bold tracking-wider text-[#243B35]/70 uppercase">
                   About EduArc
                 </span>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[44px] xl:text-[48px] font-extrabold text-[#0D2436] tracking-tight leading-[1.15]">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[44px] xl:text-[48px] font-extrabold text-[#243B35] tracking-tight leading-[1.15]">
                 Empowering Students <br className="hidden sm:inline" />
-                to Discover <span className="text-[#E07A2B]">Their Future.</span>
+                to Discover <span className="text-[#B47A4B]">Their Future.</span>
               </h1>
 
               <p className="mt-4 text-sm sm:text-base text-slate-600 max-w-lg mx-auto sm:mx-0 leading-relaxed">
@@ -102,22 +102,22 @@ function AboutPage() {
           SECTION 7: BOTTOM CTA BANNER
           Your Future Starts With The Right Guidance.
          ========================================================================= */}
-      <section className="bg-gradient-to-r from-blue-50/70 via-indigo-50/40 to-blue-50/70 border-t border-slate-200/70 py-6 sm:py-8">
+      <section className="bg-[#EDF3F0] border-t border-hairline py-8 sm:py-10">
         <div className="container-apple">
           <Reveal>
             <div className="flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-left">
               {/* Paper Airplane & Headline */}
               <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
-                <div className="flex items-center gap-2 text-[#E07A2B]">
+                <div className="flex items-center gap-2 text-[#B47A4B]">
                   <Send className="w-6 h-6 rotate-[-20deg]" />
                 </div>
 
-                <div className="hidden sm:block h-9 w-[1px] bg-slate-300" />
+                <div className="hidden sm:block h-9 w-[1px] bg-[#E2DBD0]" />
 
                 <div>
-                  <h3 className="text-base sm:text-lg font-extrabold text-[#0D2436] tracking-tight leading-snug">
+                  <h3 className="text-base sm:text-lg font-extrabold text-[#243B35] tracking-tight leading-snug">
                     Your Future Starts With <br className="hidden sm:inline" />
-                    The <span className="text-[#E07A2B]">Right Guidance.</span>
+                    The <span className="text-[#B47A4B]">Right Guidance.</span>
                   </h3>
                 </div>
               </div>
@@ -130,7 +130,7 @@ function AboutPage() {
               {/* Action Button */}
               <Button
                 asChild
-                className="rounded-full bg-[#0B1B2B] hover:bg-[#152D47] text-white text-xs font-semibold px-6 py-2.5 h-10 shadow-sm shrink-0 gap-2"
+                className="rounded-full bg-[#243B35] hover:bg-[#1A2C27] text-white text-xs font-semibold px-6 py-2.5 h-10 shadow-xs shrink-0 gap-2 cursor-pointer"
               >
                 <Link to="/partner">
                   <span>Get Started</span>

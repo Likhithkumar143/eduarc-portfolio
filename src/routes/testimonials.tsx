@@ -50,9 +50,9 @@ function TestimonialsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen bg-[#FAF9F5]">
       {/* 1. Hero Section - Sleek, Borderless Hero Banner matching Features Hero layout */}
-      <section className="relative overflow-hidden bg-[#F2F7FD] border-b border-slate-200/60 min-h-[340px] sm:min-h-[360px] lg:h-[360px] xl:h-[380px] flex items-end lg:items-center">
+      <section className="relative overflow-hidden bg-[#F5F1E8] border-b border-hairline/80 min-h-[340px] sm:min-h-[360px] lg:h-[360px] xl:h-[380px] flex items-end lg:items-center">
         {/* Desktop Illustration: Aligned directly to bottom-right flush with bottom border */}
         <div className="hidden lg:flex absolute inset-y-0 right-0 pointer-events-none select-none z-0 items-end justify-end">
           <img
@@ -66,13 +66,13 @@ function TestimonialsPage() {
         <div className="container-apple relative z-10 w-full">
           <div className="pt-10 pb-8 sm:pt-12 sm:pb-10 lg:py-0 max-w-xl lg:max-w-lg xl:max-w-xl text-center sm:text-left">
             <Reveal>
-              <span className="text-xs font-bold tracking-wider text-blue-600 uppercase mb-3 block">
+              <span className="text-xs font-bold tracking-wider text-[#B47A4B] uppercase mb-3 block">
                 {pageContent.badge || "TESTIMONIALS"}
               </span>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-[42px] xl:text-[46px] font-extrabold text-[#0F172A] tracking-tight leading-[1.15]">
+              <h1 className="text-3xl sm:text-4xl lg:text-[42px] xl:text-[46px] font-extrabold text-[#243B35] tracking-tight leading-[1.15]">
                 {pageContent.title} <br className="hidden sm:inline" />
-                <span className="text-[#0F172A]">{pageContent.titleHighlight}</span>
+                <span className="text-[#B47A4B]">{pageContent.titleHighlight}</span>
               </h1>
 
               <p className="mt-4 text-sm sm:text-base text-slate-600 max-w-lg mx-auto sm:mx-0 leading-relaxed">

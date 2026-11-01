@@ -45,9 +45,9 @@ function FeaturesPage() {
   const c = useSiteContent();
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen bg-[#FAF9F5]">
       {/* 1. Hero Section - Sleek, Borderless Hero Banner with Features Hero Image */}
-      <section className="relative overflow-hidden bg-[#EFF6FE] border-b border-slate-200/60 min-h-[340px] sm:min-h-[360px] lg:h-[360px] xl:h-[380px] flex items-end lg:items-center">
+      <section className="relative overflow-hidden bg-[#F5F1E8] border-b border-hairline/80 min-h-[340px] sm:min-h-[360px] lg:h-[360px] xl:h-[380px] flex items-end lg:items-center">
         {/* Desktop & Laptop Illustration: Aligned directly to bottom-right flush with bottom border */}
         <div className="hidden lg:flex absolute inset-y-0 right-0 pointer-events-none select-none z-0 items-end justify-end">
           <img
@@ -61,13 +61,13 @@ function FeaturesPage() {
         <div className="container-apple relative z-10 w-full">
           <div className="pt-10 pb-8 sm:pt-12 sm:pb-10 lg:py-0 max-w-xl lg:max-w-lg xl:max-w-xl text-center sm:text-left">
             <Reveal>
-              <span className="text-xs font-bold tracking-wider text-blue-600 uppercase mb-3 block">
+              <span className="text-xs font-bold tracking-wider text-[#B47A4B] uppercase mb-3 block">
                 INSTITUTIONAL FEATURES
               </span>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-[42px] xl:text-[46px] font-extrabold text-[#0F172A] tracking-tight leading-[1.15]">
+              <h1 className="text-3xl sm:text-4xl lg:text-[42px] xl:text-[46px] font-extrabold text-[#243B35] tracking-tight leading-[1.15]">
                 Structured features for{" "}
-                <span className="text-[#0F172A]">
+                <span className="text-[#243B35]">
                   schools and colleges.
                 </span>
               </h1>
@@ -80,7 +80,7 @@ function FeaturesPage() {
               <div className="mt-6 flex flex-wrap gap-3 items-center justify-center sm:justify-start">
                 <Button
                   asChild
-                  className="rounded-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs font-semibold px-5 py-2.5 h-10 shadow-sm gap-1.5"
+                  className="rounded-full bg-[#243B35] hover:bg-[#1A2C27] text-white text-xs font-semibold px-5 py-2.5 h-10 shadow-xs gap-1.5 cursor-pointer"
                 >
                   <Link to="/partner">
                     <span>Request Institutional Proposal</span>
@@ -90,7 +90,7 @@ function FeaturesPage() {
                 <Button
                   asChild
                   variant="outline"
-                  className="rounded-full border-slate-300 bg-white/90 hover:bg-white text-slate-700 text-xs font-medium px-4 py-2.5 h-10 shadow-2xs"
+                  className="rounded-full border-[#243B35] bg-transparent hover:bg-[#243B35]/10 text-[#243B35] text-xs font-medium px-4 py-2.5 h-10 cursor-pointer"
                 >
                   <Link to="/contact">Speak with Partnerships Team</Link>
                 </Button>
@@ -113,15 +113,15 @@ function FeaturesPage() {
       <FeaturesContent />
 
       {/* 7. Institutional Bottom CTA Banner */}
-      <section className="py-16 md:py-24 bg-[#F8FAFC]">
+      <section className="py-16 md:py-24 bg-[#FAF9F5]">
         <div className="container-apple">
-          <div className="rounded-3xl bg-gradient-to-r from-[#EFF6FF] via-[#F0F7FF] to-[#E0EFFF] border border-blue-200/70 p-8 sm:p-12 relative overflow-hidden shadow-sm">
+          <div className="rounded-2xl bg-[#F5F1E8] border border-hairline p-8 sm:p-12 relative overflow-hidden shadow-sm">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
               <div className="lg:col-span-8 space-y-3 text-center sm:text-left">
-                <span className="text-[11px] font-bold tracking-wider text-blue-600 uppercase block">
+                <span className="text-[11px] font-bold tracking-wider text-[#B47A4B] uppercase block">
                   LET'S WORK TOGETHER
                 </span>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0F172A] tracking-tight">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#243B35] tracking-tight">
                   Partner with EDUARC
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-600 max-w-lg mx-auto sm:mx-0 leading-relaxed">
@@ -130,7 +130,7 @@ function FeaturesPage() {
                 <div className="pt-2 flex flex-wrap gap-3 items-center justify-center sm:justify-start">
                   <Button
                     asChild
-                    className="rounded-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs font-semibold px-5 py-2.5 h-10 shadow-sm gap-1.5"
+                    className="rounded-full bg-[#243B35] hover:bg-[#1A2C27] text-white text-xs font-semibold px-5 py-2.5 h-10 shadow-xs gap-1.5 cursor-pointer"
                   >
                     <Link to="/partner">
                       <span>Request Institutional Proposal</span>
@@ -140,7 +140,7 @@ function FeaturesPage() {
                   <Button
                     asChild
                     variant="outline"
-                    className="rounded-full border-slate-300 bg-white/90 hover:bg-white text-slate-700 text-xs font-medium px-4 py-2.5 h-10 shadow-2xs"
+                    className="rounded-full border-[#243B35] bg-transparent hover:bg-[#243B35]/10 text-[#243B35] text-xs font-medium px-4 py-2.5 h-10 cursor-pointer"
                   >
                     <Link to="/about">Learn More</Link>
                   </Button>
@@ -149,14 +149,14 @@ function FeaturesPage() {
 
               {/* Right Side Callout Script Artifact */}
               <div className="lg:col-span-4 flex items-center justify-center lg:justify-end">
-                <div className="text-center sm:text-left rotate-[-2deg] p-4 rounded-2xl bg-white/70 backdrop-blur-xs border border-white/80 shadow-xs">
-                  <p className="font-serif italic font-bold text-[#1E40AF] text-sm sm:text-base leading-tight tracking-wide drop-shadow-2xs">
+                <div className="text-center sm:text-left rotate-[-2deg] p-4 rounded-xl bg-white border border-hairline shadow-xs">
+                  <p className="font-serif italic font-bold text-[#243B35] text-sm sm:text-base leading-tight tracking-wide">
                     Better Guidance
                     <br />
-                    <span className="text-indigo-800">Brighter Futures</span>
+                    <span className="text-[#B47A4B]">Brighter Futures</span>
                   </p>
                   <svg
-                    className="w-20 sm:w-24 h-3 text-blue-600 stroke-current mt-1 mx-auto sm:mx-0"
+                    className="w-20 sm:w-24 h-3 text-[#B47A4B] stroke-current mt-1 mx-auto sm:mx-0"
                     viewBox="0 0 100 12"
                     fill="none"
                   >

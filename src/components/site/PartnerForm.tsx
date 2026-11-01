@@ -261,15 +261,15 @@ export function PartnerForm() {
                   className={cn(
                     "relative flex flex-col items-center justify-center gap-2 rounded-2xl border p-3.5 sm:p-4 text-center transition-all cursor-pointer min-h-[96px]",
                     active
-                      ? "border-[#1E5450] bg-[#1E5450] text-white shadow-md ring-1 ring-[#1E5450]"
-                      : "border-hairline bg-white text-brand-navy hover:border-[#1E5450]/40 hover:bg-surface/50",
+                      ? "border-[#243B35] bg-[#243B35] text-white shadow-xs ring-1 ring-[#243B35]"
+                      : "border-hairline bg-white text-brand-navy hover:border-[#243B35]/40 hover:bg-surface/50",
                   )}
                   aria-pressed={active}
                 >
                   <Icon
                     className={cn(
                       "h-6 w-6 transition-transform",
-                      active ? "text-white scale-110" : "text-[#1E5450]",
+                      active ? "text-white scale-110" : "text-[#243B35]",
                     )}
                   />
                   <span className="text-xs font-semibold leading-tight">{displayLabel}</span>
@@ -287,7 +287,7 @@ export function PartnerForm() {
         {/* Step 2: Role Details Header */}
         <div className="space-y-4 pt-1">
           <div className="flex items-center gap-2 border-b border-hairline/60 pb-2.5">
-            <UserCheck className="h-4 w-4 text-[#1E5450] shrink-0" />
+            <UserCheck className="h-4 w-4 text-[#243B35] shrink-0" />
             <h3 className="text-sm font-bold text-brand-navy">
               2. {roleLabels[form.role]} Details
             </h3>
@@ -311,7 +311,7 @@ export function PartnerForm() {
                   placeholder="e.g. Rahul Sharma"
                   autoComplete="name"
                   aria-invalid={Boolean(show("fullName"))}
-                  className="h-11 rounded-xl border-hairline bg-white text-sm placeholder:text-muted-foreground/60 focus-visible:border-[#1E5450] focus-visible:ring-1 focus-visible:ring-[#1E5450]"
+                  className="h-11 rounded-xl border-hairline bg-white text-sm placeholder:text-muted-foreground/60 focus-visible:border-[#243B35] focus-visible:ring-1 focus-visible:ring-[#243B35]"
                 />
               </Field>
 
@@ -333,8 +333,8 @@ export function PartnerForm() {
                         className={cn(
                           "rounded-xl border px-3 py-2 text-xs font-semibold transition-all cursor-pointer text-center",
                           active
-                            ? "border-[#1E5450] bg-[#1E5450]/10 text-[#1E5450] font-bold ring-1 ring-[#1E5450]"
-                            : "border-hairline bg-white text-foreground/80 hover:border-[#1E5450]/40",
+                            ? "border-[#243B35] bg-[#243B35]/10 text-[#243B35] font-bold ring-1 ring-[#243B35]"
+                            : "border-hairline bg-white text-foreground/80 hover:border-[#243B35]/40",
                         )}
                         aria-pressed={active}
                       >
@@ -365,7 +365,7 @@ export function PartnerForm() {
                   placeholder="e.g. Suresh Kumar"
                   autoComplete="name"
                   aria-invalid={Boolean(show("fullName"))}
-                  className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#1E5450] focus-visible:ring-1 focus-visible:ring-[#1E5450]"
+                  className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#243B35] focus-visible:ring-1 focus-visible:ring-[#243B35]"
                 />
               </Field>
 
@@ -387,8 +387,8 @@ export function PartnerForm() {
                         className={cn(
                           "rounded-xl border px-3 py-2 text-xs font-semibold transition-all cursor-pointer text-center",
                           active
-                            ? "border-[#1E5450] bg-[#1E5450]/10 text-[#1E5450] font-bold ring-1 ring-[#1E5450]"
-                            : "border-hairline bg-white text-foreground/80 hover:border-[#1E5450]/40",
+                            ? "border-[#243B35] bg-[#243B35]/10 text-[#243B35] font-bold ring-1 ring-[#243B35]"
+                            : "border-hairline bg-white text-foreground/80 hover:border-[#243B35]/40",
                         )}
                         aria-pressed={active}
                       >
@@ -412,7 +412,7 @@ export function PartnerForm() {
                   onChange={(e) => setField("childName")(e.target.value)}
                   onBlur={markTouched("childName")}
                   placeholder="e.g. Ananya Kumar"
-                  className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#1E5450] focus-visible:ring-1 focus-visible:ring-[#1E5450]"
+                  className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#243B35] focus-visible:ring-1 focus-visible:ring-[#243B35]"
                 />
               </Field>
             </>
@@ -437,7 +437,7 @@ export function PartnerForm() {
                     placeholder="e.g. Dr. Ramesh Rao"
                     autoComplete="name"
                     aria-invalid={Boolean(show("fullName"))}
-                    className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#1E5450] focus-visible:ring-1 focus-visible:ring-[#1E5450]"
+                    className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#243B35] focus-visible:ring-1 focus-visible:ring-[#243B35]"
                   />
                 </Field>
 
@@ -455,7 +455,7 @@ export function PartnerForm() {
                     onBlur={markTouched("designation")}
                     placeholder="e.g. Principal / Director / Counsellor"
                     aria-invalid={Boolean(show("designation"))}
-                    className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#1E5450] focus-visible:ring-1 focus-visible:ring-[#1E5450]"
+                    className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#243B35] focus-visible:ring-1 focus-visible:ring-[#243B35]"
                   />
                 </Field>
               </div>
@@ -474,7 +474,7 @@ export function PartnerForm() {
                   onBlur={markTouched("college")}
                   placeholder="e.g. St. Joseph's Pre-University College"
                   aria-invalid={Boolean(show("college"))}
-                  className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#1E5450] focus-visible:ring-1 focus-visible:ring-[#1E5450]"
+                  className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#243B35] focus-visible:ring-1 focus-visible:ring-[#243B35]"
                 />
               </Field>
             </>
@@ -499,7 +499,7 @@ export function PartnerForm() {
                     placeholder="e.g. Dr. Priya Nair"
                     autoComplete="name"
                     aria-invalid={Boolean(show("fullName"))}
-                    className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#1E5450] focus-visible:ring-1 focus-visible:ring-[#1E5450]"
+                    className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#243B35] focus-visible:ring-1 focus-visible:ring-[#243B35]"
                   />
                 </Field>
 
@@ -517,7 +517,7 @@ export function PartnerForm() {
                     onBlur={markTouched("designation")}
                     placeholder="e.g. Associate Professor / Senior Engineer"
                     aria-invalid={Boolean(show("designation"))}
-                    className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#1E5450] focus-visible:ring-1 focus-visible:ring-[#1E5450]"
+                    className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#243B35] focus-visible:ring-1 focus-visible:ring-[#243B35]"
                   />
                 </Field>
               </div>
@@ -536,7 +536,7 @@ export function PartnerForm() {
                   onBlur={markTouched("mentorExpertise")}
                   placeholder="e.g. Computer Science, Medicine, Commerce, Pure Sciences"
                   aria-invalid={Boolean(show("mentorExpertise"))}
-                  className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#1E5450] focus-visible:ring-1 focus-visible:ring-[#1E5450]"
+                  className="h-11 rounded-xl border-hairline bg-white text-sm focus-visible:border-[#243B35] focus-visible:ring-1 focus-visible:ring-[#243B35]"
                 />
               </Field>
             </>
@@ -548,7 +548,7 @@ export function PartnerForm() {
               <Label htmlFor="phone" className="text-xs font-semibold text-brand-navy">
                 Contact Phone Number <span className="text-destructive">*</span>
               </Label>
-              <div className="mt-1.5 flex rounded-xl border border-hairline bg-white shadow-2xs focus-within:border-[#1E5450] focus-within:ring-1 focus-within:ring-[#1E5450] overflow-hidden">
+              <div className="mt-1.5 flex rounded-xl border border-hairline bg-white shadow-2xs focus-within:border-[#243B35] focus-within:ring-1 focus-within:ring-[#243B35] overflow-hidden">
                 <span className="flex items-center justify-center bg-surface border-r border-hairline px-3 text-xs font-semibold text-muted-foreground select-none">
                   +91
                 </span>
@@ -581,7 +581,7 @@ export function PartnerForm() {
                   "mt-1.5 flex rounded-xl border border-hairline bg-white shadow-2xs overflow-hidden",
                   sameAsPhone
                     ? "bg-surface text-muted-foreground cursor-not-allowed"
-                    : "focus-within:border-[#1E5450] focus-within:ring-1 focus-within:ring-[#1E5450]",
+                    : "focus-within:border-[#243B35] focus-within:ring-1 focus-within:ring-[#243B35]",
                 )}
               >
                 <span className="flex items-center justify-center bg-surface border-r border-hairline px-3 text-xs font-semibold text-muted-foreground select-none">
@@ -623,7 +623,7 @@ export function PartnerForm() {
                 setSameAsPhone(next);
                 if (next) setField("whatsapp")(form.phone);
               }}
-              className="h-4 w-4 rounded data-[state=checked]:bg-[#1E5450] data-[state=checked]:border-[#1E5450]"
+              className="h-4 w-4 rounded data-[state=checked]:bg-[#243B35] data-[state=checked]:border-[#243B35]"
             />
             <Label
               htmlFor="sameAsPhone"
@@ -652,7 +652,7 @@ export function PartnerForm() {
                 placeholder="name@example.com"
                 autoComplete="email"
                 aria-invalid={Boolean(show("email"))}
-                className="w-full h-11 pl-10 pr-3 text-sm text-foreground rounded-xl border border-hairline bg-white outline-none placeholder:text-muted-foreground/60 focus:border-[#1E5450] focus:ring-1 focus:ring-[#1E5450] shadow-2xs"
+                className="w-full h-11 pl-10 pr-3 text-sm text-foreground rounded-xl border border-hairline bg-white outline-none placeholder:text-muted-foreground/60 focus:border-[#243B35] focus:ring-1 focus:ring-[#243B35] shadow-2xs"
               />
             </div>
           </Field>
@@ -682,7 +682,7 @@ export function PartnerForm() {
                 maxLength={500}
                 rows={3}
                 placeholder="Share your questions, career goals, requirements, or additional information here..."
-                className="w-full rounded-xl border border-hairline bg-white p-3 pr-9 text-sm text-foreground outline-none placeholder:text-muted-foreground/60 focus:border-[#1E5450] focus:ring-1 focus:ring-[#1E5450] shadow-2xs resize-none"
+                className="w-full rounded-xl border border-hairline bg-white p-3 pr-9 text-sm text-foreground outline-none placeholder:text-muted-foreground/60 focus:border-[#243B35] focus:ring-1 focus:ring-[#243B35] shadow-2xs resize-none"
               />
               <PenLine className="absolute bottom-3 right-3 h-4 w-4 text-muted-foreground/60 pointer-events-none" />
             </div>
@@ -712,15 +712,15 @@ export function PartnerForm() {
 
           {/* Student & Minor Privacy Notice (DPDPA 2023) */}
           {form.role === "student" && (
-            <div className="rounded-xl border border-[#F5E6B8] bg-[#FDF8E8] p-3.5 flex items-start gap-3 text-xs leading-relaxed">
-              <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#D97706]/20 text-[#D97706] mt-0.5">
+            <div className="rounded-xl border border-hairline bg-[#F5F1E8] p-3.5 flex items-start gap-3 text-xs leading-relaxed">
+              <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#B47A4B]/20 text-[#B47A4B] mt-0.5">
                 <Lock className="h-3 w-3" />
               </div>
               <div className="space-y-0.5">
-                <p className="font-bold text-[#92400E]">
+                <p className="font-bold text-[#243B35]">
                   Student &amp; Minor Privacy Notice (DPDPA, 2023)
                 </p>
-                <p className="text-[11.5px] text-[#A16207] leading-relaxed">
+                <p className="text-[11.5px] text-slate-700 leading-relaxed">
                   If you are under 18 years of age, our academic roadmap and career guidance
                   sessions will involve your parents or legal guardian. Please ensure your parent or
                   guardian is aware of and consents to the educational guidance enquiry.
@@ -730,13 +730,13 @@ export function PartnerForm() {
           )}
 
           {form.role === "parent" && (
-            <div className="rounded-xl border border-[#F5E6B8] bg-[#FDF8E8] p-3.5 flex items-start gap-3 text-xs leading-relaxed">
-              <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#D97706]/20 text-[#D97706] mt-0.5">
+            <div className="rounded-xl border border-hairline bg-[#F5F1E8] p-3.5 flex items-start gap-3 text-xs leading-relaxed">
+              <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#B47A4B]/20 text-[#B47A4B] mt-0.5">
                 <Lock className="h-3 w-3" />
               </div>
               <div className="space-y-0.5">
-                <p className="font-bold text-[#92400E]">Parental &amp; Guardian Authority</p>
-                <p className="text-[11.5px] text-[#A16207] leading-relaxed">
+                <p className="font-bold text-[#243B35]">Parental &amp; Guardian Authority</p>
+                <p className="text-[11.5px] text-slate-700 leading-relaxed">
                   As a parent or legal guardian, you are submitting this enquiry on behalf of your
                   ward. EDUARC will use these details strictly to provide the educational guidance
                   requested for your child.
@@ -760,7 +760,7 @@ export function PartnerForm() {
                   }}
                   onBlur={markTouched("privacyConsent")}
                   aria-invalid={Boolean(show("privacyConsent"))}
-                  className="mt-0.5 h-4 w-4 rounded-full data-[state=checked]:bg-[#1E5450] data-[state=checked]:border-[#1E5450]"
+                  className="mt-0.5 h-4 w-4 rounded-full data-[state=checked]:bg-[#243B35] data-[state=checked]:border-[#243B35]"
                 />
                 <Label
                   htmlFor="privacyConsent"
@@ -771,7 +771,7 @@ export function PartnerForm() {
                     to="/privacy-policy"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-semibold text-[#1E5450] hover:text-brand-navy underline underline-offset-2 transition-colors inline-flex items-center gap-0.5"
+                    className="font-semibold text-[#243B35] hover:text-brand-navy underline underline-offset-2 transition-colors inline-flex items-center gap-0.5"
                     onClick={(e) => e.stopPropagation()}
                   >
                     Privacy Policy
@@ -795,7 +795,7 @@ export function PartnerForm() {
                 onCheckedChange={(checked) =>
                   setForm((prev) => ({ ...prev, marketingConsent: Boolean(checked) }))
                 }
-                className="mt-0.5 h-4 w-4 rounded-full data-[state=checked]:bg-[#1E5450] data-[state=checked]:border-[#1E5450]"
+                className="mt-0.5 h-4 w-4 rounded-full data-[state=checked]:bg-[#243B35] data-[state=checked]:border-[#243B35]"
               />
               <Label
                 htmlFor="marketingConsent"
@@ -823,7 +823,7 @@ export function PartnerForm() {
             <button
               type="submit"
               disabled={busy}
-              className="w-full h-12 rounded-xl bg-gradient-to-r from-[#DFB76C] to-[#C99C4B] hover:from-[#D4A95B] hover:to-[#BD8E3A] text-brand-navy font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full h-12 rounded-xl bg-[#243B35] hover:bg-[#1A2C27] text-white font-bold text-sm shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {busy ? (
                 <>

@@ -103,7 +103,7 @@ function ProgramSessionDetailPage() {
   }
 
   return (
-    <div className="bg-[#f8fafc] min-h-screen pb-20 md:pb-28">
+    <div className="bg-[#FAF9F5] min-h-screen pb-20 md:pb-28">
       <div className="container-wide pt-6 md:pt-10">
         {/* 1. Breadcrumb Back Navigation */}
         <div className="mb-6">
@@ -123,10 +123,10 @@ function ProgramSessionDetailPage() {
             <div className="lg:col-span-7">
               <Reveal>
                 <div className="flex flex-wrap items-center gap-2 mb-4">
-                  <div className="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100 shadow-2xs">
+                  <div className="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold bg-[#F5F1E8] text-[#B47A4B] border border-[#E2DBD0] shadow-xs">
                     <span>{session.category}</span>
                   </div>
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white text-brand-navy border border-hairline shadow-2xs">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white text-brand-navy border border-hairline shadow-xs">
                     <Landmark className="h-3.5 w-3.5 text-brand-gold" />
                     <span>{session.institution}</span>
                   </div>
@@ -210,7 +210,7 @@ function ProgramSessionDetailPage() {
             <div className="rounded-2xl sm:rounded-3xl border border-hairline/90 bg-white p-6 sm:p-8 shadow-xs">
               <div className="flex items-center justify-between pb-4 border-b border-hairline/70">
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#EDF3F0] text-[#243B35]">
                     <Camera className="h-4 w-4" />
                   </div>
                   <h2 className="text-lg font-bold text-brand-navy tracking-tight">Session Photos</h2>
@@ -256,7 +256,7 @@ function ProgramSessionDetailPage() {
           <Reveal delay={200}>
             <div className="rounded-2xl sm:rounded-3xl border border-hairline/90 bg-white p-6 sm:p-8 shadow-xs">
               <div className="flex items-center gap-2.5 pb-4 border-b border-hairline/70 mb-6">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#EDF3F0] text-[#243B35]">
                   <Landmark className="h-4 w-4" />
                 </div>
                 <h2 className="text-lg font-bold text-brand-navy tracking-tight">Institution Details</h2>
@@ -265,7 +265,7 @@ function ProgramSessionDetailPage() {
               <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-center">
                 {/* Left: School Identity */}
                 <div className="md:col-span-7 flex items-start gap-4">
-                  <div className="flex h-14 w-14 sm:h-16 sm:w-16 shrink-0 items-center justify-center rounded-2xl bg-blue-50/80 border border-blue-100 text-blue-600 shadow-xs">
+                  <div className="flex h-14 w-14 sm:h-16 sm:w-16 shrink-0 items-center justify-center rounded-2xl bg-[#F5F1E8] border border-[#E2DBD0] text-[#243B35] shadow-xs">
                     <School className="h-7 w-7 sm:h-8 sm:w-8" />
                   </div>
                   <div>
@@ -330,7 +330,7 @@ function ProgramSessionDetailPage() {
           <Reveal delay={250}>
             <div className="rounded-2xl sm:rounded-3xl border border-hairline/90 bg-white p-6 sm:p-8 shadow-xs">
               <div className="flex items-center gap-2.5 pb-4 border-b border-hairline/70 mb-6">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#EDF3F0] text-[#243B35]">
                   <FileText className="h-4 w-4" />
                 </div>
                 <h2 className="text-lg font-bold text-brand-navy tracking-tight">Session Summary</h2>
@@ -346,8 +346,8 @@ function ProgramSessionDetailPage() {
 
                 {/* Right: Featured Quote Card */}
                 <div className="lg:col-span-5">
-                  <div className="rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50/70 to-indigo-50/40 p-6 relative">
-                    <Quote className="h-8 w-8 text-blue-400/80 mb-2 rotate-180" />
+                  <div className="rounded-2xl border border-hairline bg-[#F5F1E8] p-6 relative">
+                    <Quote className="h-8 w-8 text-[#B47A4B] mb-2 rotate-180" />
                     <p className="text-sm sm:text-base font-semibold italic text-brand-navy leading-relaxed">
                       "{session.summary.quote}"
                     </p>
@@ -366,8 +366,8 @@ function ProgramSessionDetailPage() {
           <Reveal delay={300}>
             <div className="rounded-2xl sm:rounded-3xl border border-hairline/90 bg-white p-6 sm:p-8 shadow-xs">
               <div className="flex items-center gap-2.5 pb-4 border-b border-hairline/70 mb-6">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
-                  <Star className="h-4 w-4 fill-blue-600" />
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#F5F1E8] text-[#B47A4B]">
+                  <Star className="h-4 w-4 fill-[#B47A4B] text-[#B47A4B]" />
                 </div>
                 <h2 className="text-lg font-bold text-brand-navy tracking-tight">Student Feedback</h2>
               </div>
@@ -383,7 +383,7 @@ function ProgramSessionDetailPage() {
                   {/* 5 Stars */}
                   <div className="mt-2.5 flex items-center justify-center lg:justify-start gap-1">
                     {[1, 2, 3, 4, 5].map((s) => (
-                      <Star key={s} className="h-4 w-4 fill-amber-400 text-amber-400" />
+                      <Star key={s} className="h-4 w-4 fill-[#B47A4B] text-[#B47A4B]" />
                     ))}
                   </div>
 

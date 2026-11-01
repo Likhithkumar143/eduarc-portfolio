@@ -10,25 +10,27 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow-sm hover:bg-brand-navy-deep active:scale-[0.99]",
+          "bg-primary text-primary-foreground shadow-xs hover:bg-brand-navy-deep active:scale-[0.99]",
         destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90 active:scale-[0.99]",
+          "bg-destructive text-destructive-foreground shadow-xs hover:bg-destructive/90 active:scale-[0.99]",
         outline:
-          "border border-border bg-background shadow-xs hover:bg-secondary hover:text-foreground active:scale-[0.99]",
+          "border border-primary text-primary bg-transparent shadow-2xs hover:bg-primary/10 hover:text-primary active:scale-[0.99]",
         secondary:
-          "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80 active:scale-[0.99]",
+          "bg-secondary text-secondary-foreground border border-border shadow-2xs hover:bg-secondary/80 active:scale-[0.99]",
         ghost: "hover:bg-secondary hover:text-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
-        gold: "bg-brand-gold text-brand-navy font-semibold shadow-xs hover:bg-brand-gold-hover active:scale-[0.98]",
-        pill: "rounded-full bg-primary text-primary-foreground font-medium tracking-tight shadow-sm hover:bg-brand-navy-deep active:scale-[0.98]",
+        link: "text-accent underline-offset-4 hover:underline hover:text-brand-gold-hover",
+        gold: "bg-primary text-primary-foreground font-semibold shadow-xs hover:bg-brand-navy-deep active:scale-[0.98]",
+        pill: "rounded-full bg-primary text-primary-foreground font-medium tracking-tight shadow-xs hover:bg-brand-navy-deep active:scale-[0.98]",
         "pill-gold":
-          "rounded-full bg-brand-gold text-brand-navy font-semibold tracking-tight shadow-sm hover:bg-brand-gold-hover active:scale-[0.98]",
+          "rounded-full bg-primary text-primary-foreground font-semibold tracking-tight shadow-xs hover:bg-brand-navy-deep active:scale-[0.98]",
         "pill-outline":
-          "rounded-full border border-border text-foreground font-medium tracking-tight bg-background/80 hover:border-brand-navy hover:text-brand-navy active:scale-[0.98]",
+          "rounded-full border border-primary text-primary font-medium tracking-tight bg-transparent hover:bg-primary/10 hover:text-primary active:scale-[0.98]",
+        "pill-terracotta":
+          "rounded-full bg-accent text-accent-foreground font-semibold tracking-tight shadow-xs hover:bg-brand-gold-hover active:scale-[0.98]",
         "pill-light":
-          "rounded-full bg-white text-brand-navy font-medium tracking-tight shadow-sm hover:bg-brand-gold-soft active:scale-[0.98]",
+          "rounded-full bg-secondary text-secondary-foreground font-medium tracking-tight border border-border shadow-xs hover:bg-white active:scale-[0.98]",
         "text-link":
-          "h-auto px-0 text-brand-navy font-medium tracking-tight hover:underline underline-offset-4 inline-flex items-center gap-1",
+          "h-auto px-0 text-accent font-medium tracking-tight hover:underline underline-offset-4 inline-flex items-center gap-1 hover:text-brand-gold-hover",
       },
       size: {
         default: "h-9 px-4 py-2",

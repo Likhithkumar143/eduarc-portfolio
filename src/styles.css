@@ -1,22 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
 @import "tailwindcss" source(none);
-@source "../src";
 @import "tw-animate-css";
+@source "../src";
 
 @custom-variant dark (&:is(.dark *));
 
 /*
- * EDUARC Design System — Apple-inspired Navy & Gold
- * System typography (SF Pro on Apple devices), generous whitespace,
- * calm surfaces, deep navy authority + refined gold accents.
+ * EDUARC Design System — Academic Timeless Palette
+ * Headings: Lora (Editorial serif prestige)
+ * Body: DM Sans (Crisp, human-centred readability)
+ * Primary: Forest Green (#243B35)
+ * Secondary: Warm Ivory (#E8E0D1)
+ * Accent: Muted Terracotta (#B47A4B)
+ * Primary Text: Charcoal (#343A36)
+ * Main Background: Off White (#FAF9F5)
+ * Secondary Accent: Sage Green (#9AAB94)
  */
 
 @theme inline {
   --font-sans:
-    -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue",
-    "Segoe UI", Roboto, Arial, sans-serif;
+    "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
   --font-display:
-    -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "Segoe UI", Roboto,
-    Arial, sans-serif;
+    "Lora", Georgia, "Times New Roman", serif;
+  --font-serif:
+    "Lora", Georgia, "Times New Roman", serif;
+  --font-heading:
+    "Lora", Georgia, "Times New Roman", serif;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -47,7 +56,17 @@
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
 
-  /* Brand Navy & Gold + Apple-inspired surfaces */
+  /* New Academic Color Palette */
+  --color-brand-forest: var(--brand-forest);
+  --color-brand-forest-deep: var(--brand-forest-deep);
+  --color-brand-ivory: var(--brand-ivory);
+  --color-brand-ivory-light: var(--brand-ivory-light);
+  --color-brand-terracotta: var(--brand-terracotta);
+  --color-brand-charcoal: var(--brand-charcoal);
+  --color-brand-offwhite: var(--brand-offwhite);
+  --color-brand-sage: var(--brand-sage);
+
+  /* Preserved Aliases for Complete Backwards Compatibility */
   --color-brand: var(--brand);
   --color-brand-navy: var(--brand-navy);
   --color-brand-navy-deep: var(--brand-navy-deep);
@@ -55,8 +74,8 @@
   --color-brand-gold-hover: var(--brand-gold-hover);
   --color-brand-gold-soft: var(--brand-gold-soft);
   --color-brand-gold-border: var(--brand-gold-border);
-  --color-brand-teal: var(--brand-gold);
-  --color-brand-teal-soft: var(--brand-gold-soft);
+  --color-brand-teal: var(--brand-teal);
+  --color-brand-teal-soft: var(--brand-teal-soft);
   --color-link: var(--link);
   --color-surface: var(--surface);
   --color-surface-raised: var(--surface-raised);
@@ -86,81 +105,97 @@
 }
 
 :root {
-  --radius: 0.875rem;
+  --radius: 0.75rem;
 
-  /* Apple-inspired neutrals from brief */
-  --background: #ffffff;
-  --foreground: #263548; /* Body text */
-  --surface: #f5f7fa; /* Soft surface */
-  --surface-raised: #ffffff;
-  --hairline: #e9eef5; /* Border */
-  --border: #e9eef5;
-  --input: #e9eef5;
-  --muted: #f5f7fa;
-  --muted-foreground: #607289;
+  /* Timeless Academic Palette */
+  --brand-forest: #243B35;         /* Primary: Forest Green */
+  --brand-forest-deep: #1A2C27;    /* Darker Forest Green */
+  --brand-forest-soft: #EDF3F0;    /* Soft Forest Green tint */
+  --brand-ivory: #E8E0D1;          /* Secondary: Warm Ivory */
+  --brand-ivory-light: #F5F1E8;    /* Soft Warm Ivory surface */
+  --brand-terracotta: #B47A4B;     /* Accent: Muted Terracotta */
+  --brand-terracotta-hover: #9E673B;
+  --brand-terracotta-soft: #F7EFE9;
+  --brand-charcoal: #343A36;       /* Primary Text: Charcoal */
+  --brand-offwhite: #FAF9F5;       /* Main Background: Off White */
+  --brand-sage: #9AAB94;           /* Secondary Accent: Sage Green */
+  --brand-sage-soft: #EFF4EE;
 
-  /* EDUARC Brand Identity: Navy & Gold */
-  --brand: #142744; /* Deep navy */
-  --brand-navy: #142744;
-  --brand-navy-deep: #0e1b30;
-  --brand-gold: #c9a45c; /* Gold accent */
-  --brand-gold-hover: #b38f45;
-  --brand-gold-soft: #fbf8f1; /* Warm gold surface */
-  --brand-gold-border: #e8dbbf;
-  --brand-teal: #c9a45c;
-  --brand-teal-soft: #fbf8f1;
-  --link: #142744;
+  /* Semantic UI Tokens */
+  --background: #FAF9F5;           /* Off White */
+  --foreground: #343A36;           /* Charcoal */
+  --surface: #F5F1E8;              /* Warm Ivory surface */
+  --surface-raised: #FFFFFF;
+  --hairline: #E2DBD0;             /* Subtle Neutral Border */
+  --border: #E2DBD0;
+  --input: #E2DBD0;
+  --muted: #F4F0E8;
+  --muted-foreground: #616A64;     /* Muted Charcoal */
 
-  --card: #ffffff;
-  --card-foreground: #263548;
-  --popover: #ffffff;
-  --popover-foreground: #263548;
-  --primary: #142744;
-  --primary-foreground: #ffffff;
-  --secondary: #f5f7fa;
-  --secondary-foreground: #142744;
-  --accent: #fbf8f1;
-  --accent-foreground: #142744;
-  --destructive: #d9383a;
-  --destructive-foreground: #ffffff;
-  --success: #1b8754;
-  --success-soft: #eaf6ef;
-  --warning: #c9a45c;
-  --warning-soft: #fbf8f1;
-  --ring: #c9a45c;
+  --primary: #243B35;              /* Forest Green */
+  --primary-foreground: #FAF9F5;   /* Off White */
+  --secondary: #E8E0D1;            /* Warm Ivory */
+  --secondary-foreground: #243B35; /* Forest Green */
+  --accent: #B47A4B;               /* Muted Terracotta */
+  --accent-foreground: #FAF9F5;
+  --destructive: #A33333;
+  --destructive-foreground: #FAF9F5;
+  --success: #243B35;
+  --success-soft: #EFF4EE;
+  --warning: #B47A4B;
+  --warning-soft: #F7EFE9;
+  --ring: #243B35;
 
-  /* Dark Navy "Ink" sections */
-  --ink: #142744;
-  --ink-foreground: #ffffff;
-  --ink-muted: #b8c4d4;
+  /* Map existing brand tokens to Academic palette */
+  --brand: #243B35;
+  --brand-navy: #243B35;           /* Mapped to Forest Green */
+  --brand-navy-deep: #1A2C27;
+  --brand-gold: #B47A4B;           /* Mapped to Muted Terracotta */
+  --brand-gold-hover: #9E673B;
+  --brand-gold-soft: #F5F1E8;      /* Warm Ivory */
+  --brand-gold-border: #E2DBD0;
+  --brand-teal: #9AAB94;           /* Sage Green */
+  --brand-teal-soft: #EFF4EE;
+  --link: #B47A4B;                 /* Muted Terracotta */
 
-  --nav: rgba(255, 255, 255, 0.88);
-  --glass: rgba(255, 255, 255, 0.85);
-  --glass-border: rgba(233, 238, 245, 0.95);
-  --glass-dark: rgba(20, 39, 68, 0.92);
-  --glass-dark-border: rgba(201, 164, 92, 0.28);
-  --shadow-glass: 0 4px 20px -2px rgba(20, 39, 68, 0.05), 0 1px 3px 0 rgba(20, 39, 68, 0.03);
+  --card: #FFFFFF;
+  --card-foreground: #343A36;
+  --popover: #FAF9F5;
+  --popover-foreground: #343A36;
 
-  --gradient-brand: linear-gradient(135deg, #142744 0%, #1e3860 60%, #142744 100%);
-  --gradient-gold: linear-gradient(135deg, #c9a45c 0%, #ddbf76 50%, #b89347 100%);
-  --gradient-soft: radial-gradient(120% 80% at 50% 0%, #fbf8f1 0%, #ffffff 70%);
-  --gradient-ink: linear-gradient(180deg, #142744 0%, #0e1b30 100%);
-  --shadow-card: 0 1px 3px rgba(20, 39, 68, 0.04), 0 6px 18px -4px rgba(20, 39, 68, 0.06);
-  --shadow-lift: 0 4px 6px -2px rgba(20, 39, 68, 0.04), 0 16px 36px -6px rgba(20, 39, 68, 0.09);
+  /* Deep Forest Green "Ink" sections */
+  --ink: #243B35;
+  --ink-foreground: #FAF9F5;
+  --ink-muted: #C5D2C2;            /* Sage tint on Forest */
 
-  --chart-1: #142744;
-  --chart-2: #c9a45c;
-  --chart-3: #2d5084;
-  --chart-4: #e8dbbf;
-  --chart-5: #607289;
+  --nav: rgba(250, 249, 245, 0.94);
+  --glass: rgba(250, 249, 245, 0.92);
+  --glass-border: #E2DBD0;
+  --glass-dark: rgba(36, 59, 53, 0.98);
+  --glass-dark-border: rgba(232, 224, 209, 0.18);
+  --shadow-glass: 0 4px 16px -2px rgba(36, 59, 53, 0.04), 0 1px 3px 0 rgba(36, 59, 53, 0.02);
+
+  /* Subtle academic paper shadows and natural gradients */
+  --gradient-brand: linear-gradient(135deg, #243B35 0%, #1D302B 100%);
+  --gradient-gold: linear-gradient(135deg, #B47A4B 0%, #C48D5E 100%);
+  --gradient-soft: radial-gradient(120% 80% at 50% 0%, #F5F1E8 0%, #FAF9F5 100%);
+  --gradient-ink: linear-gradient(180deg, #243B35 0%, #1A2C27 100%);
+  --shadow-card: 0 1px 3px rgba(36, 59, 53, 0.03), 0 4px 12px -2px rgba(36, 59, 53, 0.05);
+  --shadow-lift: 0 4px 12px -2px rgba(36, 59, 53, 0.06), 0 12px 24px -6px rgba(36, 59, 53, 0.08);
+
+  --chart-1: #243B35;
+  --chart-2: #B47A4B;
+  --chart-3: #9AAB94;
+  --chart-4: #E8E0D1;
+  --chart-5: #616A64;
   --sidebar: var(--surface);
   --sidebar-foreground: var(--foreground);
-  --sidebar-primary: var(--brand);
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: var(--brand-gold-soft);
-  --sidebar-accent-foreground: var(--brand);
+  --sidebar-primary: var(--brand-forest);
+  --sidebar-primary-foreground: #FAF9F5;
+  --sidebar-accent: var(--brand-ivory);
+  --sidebar-accent-foreground: var(--brand-forest);
   --sidebar-border: var(--hairline);
-  --sidebar-ring: var(--brand-gold);
+  --sidebar-ring: var(--brand-forest);
 }
 
 @layer base {
@@ -180,69 +215,72 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     font-size: 16px;
-    line-height: 1.5;
-    letter-spacing: -0.015em;
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    color: var(--brand-forest, #243B35);
+    letter-spacing: -0.02em;
   }
 
   ::selection {
-    background: #fbf8f1;
-    color: #142744;
+    background: #E8E0D1;
+    color: #243B35;
   }
 }
 
-/* Typography scale (Apple-like) */
+/* Typography scale (Academic Prestige) */
 @utility type-hero {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(2rem, 5vw, 4.5rem);
-  line-height: 1.08;
-  letter-spacing: -0.035em;
+  font-size: clamp(2rem, 5vw, 4.25rem);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  color: var(--brand-forest, #243B35);
 }
 
 @utility type-headline {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(1.65rem, 3.8vw, 3rem);
-  line-height: 1.12;
-  letter-spacing: -0.028em;
+  font-size: clamp(1.65rem, 3.5vw, 2.75rem);
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  color: var(--brand-forest, #243B35);
 }
 
 @utility type-title {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(1.35rem, 2.2vw, 1.875rem);
-  line-height: 1.18;
-  letter-spacing: -0.02em;
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--brand-forest, #243B35);
 }
 
 @utility type-lead {
   font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
-  line-height: 1.45;
-  letter-spacing: -0.012em;
-  font-weight: 500;
-  color: var(--muted-foreground);
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  font-weight: 400;
+  color: var(--muted-foreground, #616A64);
 }
 
 @utility type-eyebrow {
   font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--brand-gold);
+  color: var(--brand-terracotta, #B47A4B);
 }
 
 @utility text-gradient-brand {
-  background: var(--gradient-brand);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--brand-forest, #243B35);
 }
 
 @utility text-gradient-gold {
-  background: var(--gradient-gold);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--brand-terracotta, #B47A4B);
 }
 
 @utility bg-gradient-brand {
@@ -271,8 +309,8 @@
 
 @utility glass-nav {
   background-color: var(--nav);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(140%) blur(12px);
+  backdrop-filter: saturate(140%) blur(12px);
 }
 
 @utility container-apple {
@@ -293,37 +331,31 @@
   padding-right: clamp(1rem, 3vw, 1.5rem);
 }
 
-/* Glass surfaces */
+/* Restrained Academic Surfaces */
 @utility glass {
-  background-color: var(--glass);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  backdrop-filter: saturate(180%) blur(20px);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--shadow-glass);
+  background-color: var(--card);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--shadow-card);
 }
 
 @utility glass-dark {
-  background-color: var(--glass-dark);
-  -webkit-backdrop-filter: saturate(160%) blur(20px);
-  backdrop-filter: saturate(160%) blur(20px);
+  background-color: var(--brand-forest);
   border: 1px solid var(--glass-dark-border);
 }
 
 @utility hover-lift {
   transition:
-    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .hover-lift:hover {
-  transform: translateY(-4px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-lift);
 }
 
 @utility glow-ring {
-  box-shadow:
-    0 0 0 1px var(--glass-dark-border),
-    0 20px 50px -15px rgba(201, 164, 92, 0.3);
+  box-shadow: 0 0 0 1px var(--hairline);
 }
 
 /* Subtle Scroll Reveal */

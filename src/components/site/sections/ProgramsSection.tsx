@@ -37,7 +37,7 @@ export function ProgramsSection({ id }: { id?: string }) {
   }, [filter, programsList]);
 
   return (
-    <div id={id} className="bg-[#f8fafc]">
+    <div id={id} className="bg-[#FAF9F5]">
       {/* 1. Header Section */}
       <section className="pt-10 md:pt-16 pb-6 md:pb-8">
         <div className="container-wide">

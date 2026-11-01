@@ -75,7 +75,7 @@ export function ContactContent() {
             <p className="text-[11px] font-bold tracking-widest uppercase text-slate-400">
               CONTACT INFORMATION
             </p>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0D2436] tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#243B35] tracking-tight">
               {contactPage.channelsTitle || "Multiple Ways to Reach Us"}
             </h2>
             <p className="text-xs sm:text-sm text-slate-600">
@@ -89,17 +89,17 @@ export function ContactContent() {
             {/* Phone Card */}
             <a
               href={phoneHref(contact.phone)}
-              className="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-[#1E5450]/40 transition-all flex flex-col justify-between group"
+              className="bg-white rounded-2xl p-5 border border-hairline shadow-xs hover:shadow-card hover:border-brand-forest/40 transition-all flex flex-col justify-between group"
             >
               <div className="flex items-center justify-between">
-                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#1E5450] text-white shadow-xs">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-brand-forest text-white shadow-xs">
                   <Phone className="w-4 h-4" />
                 </div>
-                <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-[#1E5450] group-hover:translate-x-0.5 transition-all" />
+                <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-brand-forest group-hover:translate-x-0.5 transition-all" />
               </div>
               <div className="mt-5 space-y-1">
                 <h3 className="text-sm font-bold text-slate-900">Phone</h3>
-                <p className="text-sm font-semibold text-slate-800 group-hover:text-[#1E5450] transition-colors">
+                <p className="text-sm font-semibold text-slate-800 group-hover:text-brand-forest transition-colors">
                   {contact.phone}
                 </p>
                 <p className="text-xs text-slate-500">
@@ -111,17 +111,17 @@ export function ContactContent() {
             {/* Email Card */}
             <a
               href={`mailto:${contact.email}`}
-              className="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-[#1C5153]/40 transition-all flex flex-col justify-between group"
+              className="bg-white rounded-2xl p-5 border border-hairline shadow-xs hover:shadow-card hover:border-brand-forest/40 transition-all flex flex-col justify-between group"
             >
               <div className="flex items-center justify-between">
-                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#1C5153] text-white shadow-xs">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-brand-forest text-white shadow-xs">
                   <Mail className="w-4 h-4" />
                 </div>
-                <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-[#1C5153] group-hover:translate-x-0.5 transition-all" />
+                <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-brand-forest group-hover:translate-x-0.5 transition-all" />
               </div>
               <div className="mt-5 space-y-1">
                 <h3 className="text-sm font-bold text-slate-900">Email</h3>
-                <p className="text-sm font-semibold text-slate-800 group-hover:text-[#1C5153] transition-colors break-all">
+                <p className="text-sm font-semibold text-slate-800 group-hover:text-brand-forest transition-colors break-all">
                   {contact.email}
                 </p>
                 <p className="text-xs text-slate-500">
@@ -135,17 +135,17 @@ export function ContactContent() {
               href="https://maps.google.com/?q=Bengaluru,Karnataka,India"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-[#1E5450]/40 transition-all flex flex-col justify-between group"
+              className="bg-white rounded-2xl p-5 border border-hairline shadow-xs hover:shadow-card hover:border-brand-forest/40 transition-all flex flex-col justify-between group"
             >
               <div className="flex items-center justify-between">
-                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#1E5450] text-white shadow-xs">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-brand-forest text-white shadow-xs">
                   <Compass className="w-4 h-4" />
                 </div>
-                <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-[#1E5450] group-hover:translate-x-0.5 transition-all" />
+                <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-brand-forest group-hover:translate-x-0.5 transition-all" />
               </div>
               <div className="mt-5 space-y-1">
                 <h3 className="text-sm font-bold text-slate-900">Our Location</h3>
-                <p className="text-sm font-semibold text-slate-800 group-hover:text-[#1E5450] transition-colors">
+                <p className="text-sm font-semibold text-slate-800 group-hover:text-brand-forest transition-colors">
                   {contact.location || "Bengaluru, Karnataka, India"}
                 </p>
                 <p className="text-xs text-slate-500">
@@ -159,17 +159,17 @@ export function ContactContent() {
               href={websiteHref(contact.website)}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-[#1C5153]/40 transition-all flex flex-col justify-between group"
+              className="bg-white rounded-2xl p-5 border border-hairline shadow-xs hover:shadow-card hover:border-brand-forest/40 transition-all flex flex-col justify-between group"
             >
               <div className="flex items-center justify-between">
-                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#1C5153] text-white shadow-xs">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-brand-forest text-white shadow-xs">
                   <Globe className="w-4 h-4" />
                 </div>
-                <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-[#1C5153] group-hover:translate-x-0.5 transition-all" />
+                <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-brand-forest group-hover:translate-x-0.5 transition-all" />
               </div>
               <div className="mt-5 space-y-1">
                 <h3 className="text-sm font-bold text-slate-900">Website</h3>
-                <p className="text-sm font-semibold text-slate-800 group-hover:text-[#1C5153] transition-colors">
+                <p className="text-sm font-semibold text-slate-800 group-hover:text-brand-forest transition-colors">
                   {contact.website}
                 </p>
                 <p className="text-xs text-slate-500">
@@ -280,15 +280,15 @@ export function ContactContent() {
           </div>
 
           {/* 4. Dual Engagement Section ("Ready to Connect?" & "Send Us a Message") */}
-          <div className="rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden bg-white grid grid-cols-1 lg:grid-cols-12 mt-6">
+          <div className="rounded-2xl border border-hairline shadow-xs overflow-hidden bg-white grid grid-cols-1 lg:grid-cols-12 mt-6">
             {/* Left Box: We're Here for What's Next */}
-            <div className="lg:col-span-5 bg-[#EBF5F3] p-6 sm:p-8 lg:p-10 flex flex-col justify-between relative overflow-hidden">
+            <div className="lg:col-span-5 bg-[#F5F1E8] p-6 sm:p-8 lg:p-10 flex flex-col justify-between relative overflow-hidden">
               <div className="space-y-4 relative z-10">
-                <span className="text-[11px] font-bold text-[#1C5153] uppercase tracking-wider block">
+                <span className="text-[11px] font-bold text-[#B47A4B] uppercase tracking-wider block">
                   {contactPage.connectEyebrow || "— Ready to Connect?"}
                 </span>
 
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-[#0D2436] tracking-tight leading-snug">
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-[#243B35] tracking-tight leading-snug">
                   {contactPage.connectTitle || "We’re Here for What’s Next"}
                 </h3>
 
@@ -306,13 +306,13 @@ export function ContactContent() {
                   >
                     <path
                       d="M 10,40 Q 75,5 155,20"
-                      stroke="#1C5153"
+                      stroke="#243B35"
                       strokeWidth="1.5"
                       strokeDasharray="4 4"
                       opacity="0.35"
                     />
                   </svg>
-                  <div className="absolute top-1 right-6 text-[#1C5153] transform rotate-12">
+                  <div className="absolute top-1 right-6 text-[#B47A4B] transform rotate-12">
                     <Send className="w-5 h-5 -rotate-45" />
                   </div>
                 </div>
@@ -322,52 +322,52 @@ export function ContactContent() {
               <div className="space-y-2.5 relative z-10 pt-4">
                 <Link
                   to="/partner"
-                  className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-white/70 hover:bg-white border border-[#D1EAE5] text-[#0D2436] text-xs sm:text-sm font-semibold transition-all shadow-2xs hover:shadow-xs group"
+                  className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-white hover:bg-[#FAF9F5] border border-hairline text-[#243B35] text-xs sm:text-sm font-semibold transition-all shadow-xs group"
                 >
-                  <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-[#EBF5F3] text-[#1C5153] group-hover:scale-110 transition-transform">
+                  <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-[#FAF9F5] text-[#243B35] group-hover:scale-110 transition-transform">
                     <Compass className="w-4 h-4" />
                   </span>
                   <span>Career Guidance</span>
-                  <ArrowRight className="w-3.5 h-3.5 ml-auto text-slate-400 group-hover:text-[#1C5153] group-hover:translate-x-0.5 transition-all" />
+                  <ArrowRight className="w-3.5 h-3.5 ml-auto text-slate-400 group-hover:text-[#B47A4B] group-hover:translate-x-0.5 transition-all" />
                 </Link>
 
                 <Link
                   to="/mentors"
-                  className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-white/70 hover:bg-white border border-[#D1EAE5] text-[#0D2436] text-xs sm:text-sm font-semibold transition-all shadow-2xs hover:shadow-xs group"
+                  className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-white hover:bg-[#FAF9F5] border border-hairline text-[#243B35] text-xs sm:text-sm font-semibold transition-all shadow-xs group"
                 >
-                  <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-[#EBF5F3] text-[#1C5153] group-hover:scale-110 transition-transform">
+                  <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-[#FAF9F5] text-[#243B35] group-hover:scale-110 transition-transform">
                     <Users className="w-4 h-4" />
                   </span>
                   <span>Mentor Support</span>
-                  <ArrowRight className="w-3.5 h-3.5 ml-auto text-slate-400 group-hover:text-[#1C5153] group-hover:translate-x-0.5 transition-all" />
+                  <ArrowRight className="w-3.5 h-3.5 ml-auto text-slate-400 group-hover:text-[#B47A4B] group-hover:translate-x-0.5 transition-all" />
                 </Link>
 
                 <Link
                   to="/partner"
-                  className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-white/70 hover:bg-white border border-[#D1EAE5] text-[#0D2436] text-xs sm:text-sm font-semibold transition-all shadow-2xs hover:shadow-xs group"
+                  className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-white hover:bg-[#FAF9F5] border border-hairline text-[#243B35] text-xs sm:text-sm font-semibold transition-all shadow-xs group"
                 >
-                  <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-[#EBF5F3] text-[#1C5153] group-hover:scale-110 transition-transform">
+                  <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-[#FAF9F5] text-[#243B35] group-hover:scale-110 transition-transform">
                     <Building2 className="w-4 h-4" />
                   </span>
                   <span>Institution Partnership</span>
-                  <ArrowRight className="w-3.5 h-3.5 ml-auto text-slate-400 group-hover:text-[#1C5153] group-hover:translate-x-0.5 transition-all" />
+                  <ArrowRight className="w-3.5 h-3.5 ml-auto text-slate-400 group-hover:text-[#B47A4B] group-hover:translate-x-0.5 transition-all" />
                 </Link>
 
                 <a
                   href={`mailto:${contact.email}?subject=General%20Enquiry`}
-                  className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-white/70 hover:bg-white border border-[#D1EAE5] text-[#0D2436] text-xs sm:text-sm font-semibold transition-all shadow-2xs hover:shadow-xs group"
+                  className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-white hover:bg-[#FAF9F5] border border-hairline text-[#243B35] text-xs sm:text-sm font-semibold transition-all shadow-xs group"
                 >
-                  <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-[#EBF5F3] text-[#1C5153] group-hover:scale-110 transition-transform">
+                  <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-[#FAF9F5] text-[#243B35] group-hover:scale-110 transition-transform">
                     <MessageSquare className="w-4 h-4" />
                   </span>
                   <span>General Enquiries</span>
-                  <ArrowRight className="w-3.5 h-3.5 ml-auto text-slate-400 group-hover:text-[#1C5153] group-hover:translate-x-0.5 transition-all" />
+                  <ArrowRight className="w-3.5 h-3.5 ml-auto text-slate-400 group-hover:text-[#B47A4B] group-hover:translate-x-0.5 transition-all" />
                 </a>
               </div>
 
               {/* Decorative background botanical corner motif */}
               <div
-                className="absolute -bottom-8 -left-8 w-44 h-44 pointer-events-none opacity-20 text-[#1C5153]"
+                className="absolute -bottom-8 -left-8 w-44 h-44 pointer-events-none opacity-10 text-[#243B35]"
                 aria-hidden="true"
               >
                 <svg viewBox="0 0 100 100" fill="currentColor">
@@ -381,10 +381,10 @@ export function ContactContent() {
             <div className="lg:col-span-7 bg-white p-6 sm:p-8 lg:p-10 flex flex-col justify-between space-y-6">
               <div className="space-y-5">
                 <div>
-                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#FEF3C7] text-[#92400E] border border-[#FDE68A] inline-block mb-2">
+                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#F5F1E8] text-[#B47A4B] border border-[#E2DBD0] inline-block mb-2">
                     {contactPage.messageBadge || "Quick Contact"}
                   </span>
-                  <h3 className="text-2xl sm:text-3xl font-extrabold text-[#0D2436] tracking-tight">
+                  <h3 className="text-2xl sm:text-3xl font-extrabold text-[#243B35] tracking-tight">
                     {contactPage.messageTitle || "Send Us a Message"}
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
@@ -403,15 +403,15 @@ export function ContactContent() {
                         key={topic.id}
                         type="button"
                         onClick={() => setSelectedTopic(topic.id)}
-                        className={`p-3.5 rounded-2xl border text-center flex flex-col items-center justify-center gap-2 transition-all cursor-pointer ${
+                        className={`p-3.5 rounded-xl border text-center flex flex-col items-center justify-center gap-2 transition-all cursor-pointer ${
                           isSelected
-                            ? "bg-[#EBF5F3] border-[#1E5450] text-[#1E5450] ring-1 ring-[#1E5450]/30 shadow-2xs font-bold"
-                            : "bg-white border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50/60 font-semibold"
+                            ? "bg-[#EDF3F0] border-[#243B35] text-[#243B35] ring-1 ring-[#243B35]/30 shadow-xs font-bold"
+                            : "bg-white border-hairline text-slate-700 hover:border-slate-300 hover:bg-[#FAF9F5] font-semibold"
                         }`}
                       >
                         <div
-                          className={`flex items-center justify-center w-8 h-8 rounded-xl ${
-                            isSelected ? "bg-[#1E5450] text-white" : "bg-[#EBF5F3] text-[#1C5153]"
+                          className={`flex items-center justify-center w-8 h-8 rounded-lg ${
+                            isSelected ? "bg-[#243B35] text-white" : "bg-[#F5F1E8] text-[#243B35]"
                           }`}
                         >
                           <Icon className="w-4 h-4" />
@@ -427,7 +427,7 @@ export function ContactContent() {
                   {currentTopic.isInternal ? (
                     <Link
                       to={currentTopic.targetHref}
-                      className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold bg-[#1E5450] hover:bg-[#153D3A] text-white shadow-xs transition-colors"
+                      className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold bg-[#243B35] hover:bg-[#1A2C27] text-white shadow-xs transition-colors cursor-pointer"
                     >
                       <span>Proceed with {currentTopic.title}</span>
                       <ArrowRight className="w-4 h-4" />
@@ -435,7 +435,7 @@ export function ContactContent() {
                   ) : (
                     <a
                       href={currentTopic.targetHref}
-                      className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold bg-[#1E5450] hover:bg-[#153D3A] text-white shadow-xs transition-colors"
+                      className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold bg-[#243B35] hover:bg-[#1A2C27] text-white shadow-xs transition-colors cursor-pointer"
                     >
                       <span>Send Message for {currentTopic.title}</span>
                       <ArrowRight className="w-4 h-4" />
@@ -444,13 +444,13 @@ export function ContactContent() {
                 </div>
 
                 {/* Direct Conversation Callout Box */}
-                <div className="rounded-2xl bg-[#F0F7FA] border border-[#D5E7EF] p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="rounded-xl bg-[#FAF9F5] border border-hairline p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-start sm:items-center gap-3.5">
-                    <div className="flex items-center justify-center w-11 h-11 rounded-full bg-[#E0EDF3] text-[#0A66C2] shrink-0">
+                    <div className="flex items-center justify-center w-11 h-11 rounded-full bg-[#EDF3F0] text-[#243B35] shrink-0 border border-[#D3DFDA]">
                       <Headphones className="w-5 h-5" />
                     </div>
                     <div className="space-y-0.5">
-                      <h4 className="text-sm font-bold text-slate-900">
+                      <h4 className="text-sm font-bold text-[#243B35]">
                         {contactPage.directCallTitle || "Prefer a direct conversation?"}
                       </h4>
                       <p className="text-xs text-slate-600 leading-relaxed">
@@ -468,7 +468,7 @@ export function ContactContent() {
                   <a
                     href={phoneHref(contact.phone)}
                     aria-label={`Call ${contact.phone}`}
-                    className="flex items-center justify-center w-10 h-10 rounded-full bg-[#1E5450] hover:bg-[#153D3A] text-white shrink-0 shadow-xs transition-colors self-end sm:self-auto"
+                    className="flex items-center justify-center w-10 h-10 rounded-full bg-[#243B35] hover:bg-[#1A2C27] text-white shrink-0 shadow-xs transition-colors self-end sm:self-auto cursor-pointer"
                   >
                     <ArrowRight className="w-4 h-4" />
                   </a>
@@ -477,10 +477,10 @@ export function ContactContent() {
 
               {/* Signature Footer */}
               <div className="pt-2 flex items-center justify-end gap-3 text-slate-700 select-none">
-                <span className="font-serif italic text-lg sm:text-xl font-bold text-[#1C5153]/85 tracking-wide">
+                <span className="font-serif italic text-lg sm:text-xl font-bold text-[#243B35]/85 tracking-wide">
                   {contactPage.signature || "“We’d love to hear from you!”"}
                 </span>
-                <div className="flex items-center gap-1 text-[#1C5153]/70">
+                <div className="flex items-center gap-1 text-[#B47A4B]">
                   <svg
                     width="44"
                     height="20"

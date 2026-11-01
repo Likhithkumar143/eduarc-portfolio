@@ -35,7 +35,7 @@ export const Route = createFileRoute("/partner")({
 
 function PartnerPage() {
   return (
-    <div className="min-h-screen bg-[#FEFAF1]">
+    <div className="min-h-screen bg-[#FAF9F5]">
       <PartnerContent />
     </div>
   );

@@ -74,7 +74,7 @@ function MentorAvatar({
       );
     }
     return (
-      <div className="w-12 h-12 rounded-full bg-[#0D2436] text-white flex items-center justify-center font-bold text-sm shrink-0 border border-slate-200 shadow-sm">
+      <div className="w-12 h-12 rounded-full bg-brand-forest text-white flex items-center justify-center font-bold text-sm shrink-0 border border-border shadow-sm">
         {initials(name)}
       </div>
     );
@@ -202,7 +202,7 @@ export function AboutContent() {
       description:
         c.about.solution1Desc ||
         "Personalized career path suggestions based on your interests, skills and market trends.",
-      color: "bg-orange-50 text-[#E07A2B] border-orange-100",
+      color: "bg-[#F5F1E8] text-[#B47A4B] border-[#E2DBD0]",
     },
     {
       icon: Users,
@@ -210,7 +210,7 @@ export function AboutContent() {
       description:
         c.about.solution2Desc ||
         "Learn from industry professionals with real-world experience and practical advice.",
-      color: "bg-blue-50 text-blue-600 border-blue-100",
+      color: "bg-[#EDF3F0] text-[#243B35] border-[#D3DFDA]",
     },
     {
       icon: GraduationCap,
@@ -218,7 +218,7 @@ export function AboutContent() {
       description:
         c.about.solution3Desc ||
         "Build in-demand skills through structured learning and hands-on projects.",
-      color: "bg-emerald-50 text-emerald-600 border-emerald-100",
+      color: "bg-[#EFF4EE] text-[#9AAB94] border-[#DCE6DA]",
     },
     {
       icon: Award,
@@ -226,7 +226,7 @@ export function AboutContent() {
       description:
         c.about.solution4Desc ||
         "Gain recognized certifications to boost your profile and career opportunities.",
-      color: "bg-purple-50 text-purple-600 border-purple-100",
+      color: "bg-[#F5F1E8] text-[#243B35] border-[#E2DBD0]",
     },
   ];
 
@@ -243,13 +243,13 @@ export function AboutContent() {
             <div className="lg:col-span-6 text-center sm:text-left">
               <Reveal>
                 <div className="inline-flex items-center gap-2 mb-3 justify-center sm:justify-start">
-                  <span className="w-6 h-[2.5px] bg-[#E07A2B] inline-block rounded-full" />
+                  <span className="w-6 h-[2.5px] bg-[#B47A4B] inline-block rounded-full" />
                   <span className="text-xs font-bold tracking-wider text-slate-500 uppercase">
                     {c.about.whoWeAreEyebrow || "WHO WE ARE"}
                   </span>
                 </div>
 
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0D2436] tracking-tight">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#243B35] tracking-tight">
                   {c.about.whoWeAreTitle || "What is EduArc?"}
                 </h2>
 
@@ -262,7 +262,7 @@ export function AboutContent() {
                 <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-around sm:justify-start sm:gap-10">
                   {/* Item 1 */}
                   <div className="text-center sm:text-left">
-                    <div className="w-10 h-10 rounded-xl bg-orange-50/80 text-[#E07A2B] flex items-center justify-center mb-2 mx-auto sm:mx-0">
+                    <div className="w-10 h-10 rounded-xl bg-[#F5F1E8] text-[#B47A4B] flex items-center justify-center mb-2 mx-auto sm:mx-0 border border-[#E2DBD0]">
                       <Users className="w-5 h-5" />
                     </div>
                     <p className="text-xs sm:text-sm font-semibold text-slate-800 leading-tight">
@@ -274,7 +274,7 @@ export function AboutContent() {
 
                   {/* Item 2 */}
                   <div className="text-center sm:text-left">
-                    <div className="w-10 h-10 rounded-xl bg-orange-50/80 text-[#E07A2B] flex items-center justify-center mb-2 mx-auto sm:mx-0">
+                    <div className="w-10 h-10 rounded-xl bg-[#EDF3F0] text-[#243B35] flex items-center justify-center mb-2 mx-auto sm:mx-0 border border-[#D3DFDA]">
                       <Lightbulb className="w-5 h-5" />
                     </div>
                     <p className="text-xs sm:text-sm font-semibold text-slate-800 leading-tight">
@@ -286,7 +286,7 @@ export function AboutContent() {
 
                   {/* Item 3 */}
                   <div className="text-center sm:text-left">
-                    <div className="w-10 h-10 rounded-xl bg-orange-50/80 text-[#E07A2B] flex items-center justify-center mb-2 mx-auto sm:mx-0">
+                    <div className="w-10 h-10 rounded-xl bg-[#EFF4EE] text-[#9AAB94] flex items-center justify-center mb-2 mx-auto sm:mx-0 border border-[#DCE6DA]">
                       <Rocket className="w-5 h-5" />
                     </div>
                     <p className="text-xs sm:text-sm font-semibold text-slate-800 leading-tight">
@@ -317,20 +317,20 @@ export function AboutContent() {
           SECTION 3: THE PROBLEM WE SOLVE
           Common Challenges Students Face
          ========================================================================= */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-[#F8FAFC] border-y border-slate-200/60">
+      <section className="py-16 sm:py-20 lg:py-24 bg-[#FAF9F5] border-y border-hairline/80">
         <div className="container-apple">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             {/* Left Header */}
             <div className="lg:col-span-5 text-center sm:text-left">
               <Reveal>
                 <div className="inline-flex items-center gap-2 mb-3 justify-center sm:justify-start">
-                  <span className="w-6 h-[2.5px] bg-[#E07A2B] inline-block rounded-full" />
+                  <span className="w-6 h-[2.5px] bg-[#B47A4B] inline-block rounded-full" />
                   <span className="text-xs font-bold tracking-wider text-slate-500 uppercase">
                     {c.about.problemsEyebrow || "THE PROBLEM WE SOLVE"}
                   </span>
                 </div>
 
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0D2436] tracking-tight leading-tight">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#243B35] tracking-tight leading-tight">
                   {c.about.problemsTitle || "Common Challenges Students Face"}
                 </h2>
 
@@ -348,12 +348,12 @@ export function AboutContent() {
                   const Icon = item.icon;
                   return (
                     <Reveal key={item.title} delay={idx * 60}>
-                      <div className="flex items-start gap-4 p-4 rounded-xl bg-white/60 hover:bg-white border border-transparent hover:border-slate-200/80 transition-all shadow-2xs">
-                        <div className="w-10 h-10 rounded-full bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center shrink-0 mt-0.5 font-bold">
+                      <div className="flex items-start gap-4 p-4 rounded-xl bg-white hover:bg-white border border-hairline hover:border-brand-forest/30 transition-all shadow-xs">
+                        <div className="w-10 h-10 rounded-full bg-[#EDF3F0] border border-[#D3DFDA] text-[#243B35] flex items-center justify-center shrink-0 mt-0.5 font-bold">
                           <Icon className="w-5 h-5" />
                         </div>
                         <div>
-                          <h3 className="text-sm sm:text-base font-bold text-[#0D2436] leading-snug">
+                          <h3 className="text-sm sm:text-base font-bold text-[#243B35] leading-snug">
                             {item.title}
                           </h3>
                           <p className="mt-1 text-xs sm:text-sm text-slate-500 leading-relaxed">
@@ -379,12 +379,12 @@ export function AboutContent() {
           <Reveal>
             <div className="text-center sm:text-left mb-12">
               <div className="inline-flex items-center gap-2 mb-3 justify-center sm:justify-start">
-                <span className="w-6 h-[2.5px] bg-[#E07A2B] inline-block rounded-full" />
+                <span className="w-6 h-[2.5px] bg-[#B47A4B] inline-block rounded-full" />
                 <span className="text-xs font-bold tracking-wider text-slate-500 uppercase">
                   {c.about.solutionsEyebrow || "OUR SOLUTIONS"}
                 </span>
               </div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0D2436] tracking-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#243B35] tracking-tight">
                 {c.about.solutionsTitle || "How We Help You"}
               </h2>
             </div>
@@ -396,14 +396,14 @@ export function AboutContent() {
               const Icon = item.icon;
               return (
                 <Reveal key={item.title} delay={idx * 75}>
-                  <div className="h-full p-6 sm:p-7 rounded-2xl border border-slate-200/80 bg-white hover:border-[#E07A2B]/40 hover:shadow-card transition-all flex flex-col justify-between">
+                  <div className="h-full p-6 sm:p-7 rounded-2xl border border-hairline bg-white hover:border-[#B47A4B]/40 hover:shadow-card transition-all flex flex-col justify-between">
                     <div>
                       <div
                         className={`w-12 h-12 rounded-full flex items-center justify-center mb-5 border ${item.color}`}
                       >
                         <Icon className="w-5 h-5" />
                       </div>
-                      <h3 className="text-base sm:text-lg font-bold text-[#0D2436] leading-snug">
+                      <h3 className="text-base sm:text-lg font-bold text-[#243B35] leading-snug">
                         {item.title}
                       </h3>
                       <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -422,31 +422,31 @@ export function AboutContent() {
           SECTION 5: OUR MISSION & VISION
           Building a Brighter Future
          ========================================================================= */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-[#F8FAFC] border-y border-slate-200/60">
+      <section className="py-16 sm:py-20 lg:py-24 bg-[#F5F1E8] border-y border-hairline/80">
         <div className="container-apple">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             {/* Left Mission & Vision Blocks */}
             <div className="lg:col-span-7 text-center sm:text-left">
               <Reveal>
                 <div className="inline-flex items-center gap-2 mb-3 justify-center sm:justify-start">
-                  <span className="w-6 h-[2.5px] bg-[#E07A2B] inline-block rounded-full" />
+                  <span className="w-6 h-[2.5px] bg-[#B47A4B] inline-block rounded-full" />
                   <span className="text-xs font-bold tracking-wider text-slate-500 uppercase">
                     OUR MISSION &amp; VISION
                   </span>
                 </div>
 
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0D2436] tracking-tight">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#243B35] tracking-tight">
                   {c.about.missionTitle || "Building a Brighter Future"}
                 </h2>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-8 pt-6 border-t border-slate-200/80">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-8 pt-6 border-t border-hairline">
                   {/* Mission */}
                   <div>
                     <div className="flex items-center gap-3 mb-2 justify-center sm:justify-start">
-                      <div className="w-8 h-8 rounded-full bg-orange-50 text-[#E07A2B] flex items-center justify-center">
+                      <div className="w-8 h-8 rounded-full bg-[#FAF9F5] text-[#B47A4B] border border-[#E2DBD0] flex items-center justify-center">
                         <Target className="w-4 h-4" />
                       </div>
-                      <h3 className="text-base font-bold text-[#0D2436]">Mission</h3>
+                      <h3 className="text-base font-bold text-[#243B35]">Mission</h3>
                     </div>
                     <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                       {c.about.missionText ||
@@ -457,10 +457,10 @@ export function AboutContent() {
                   {/* Vision */}
                   <div>
                     <div className="flex items-center gap-3 mb-2 justify-center sm:justify-start">
-                      <div className="w-8 h-8 rounded-full bg-orange-50 text-[#E07A2B] flex items-center justify-center">
+                      <div className="w-8 h-8 rounded-full bg-[#FAF9F5] text-[#9AAB94] border border-[#E2DBD0] flex items-center justify-center">
                         <Eye className="w-4 h-4" />
                       </div>
-                      <h3 className="text-base font-bold text-[#0D2436]">Vision</h3>
+                      <h3 className="text-base font-bold text-[#243B35]">Vision</h3>
                     </div>
                     <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                       {c.about.visionText ||
@@ -558,7 +558,7 @@ export function AboutContent() {
                     <div className="rounded-2xl sm:rounded-3xl border border-hairline bg-surface/50 p-2 sm:p-2.5 shadow-card hover:border-brand-gold/40 transition-all">
                       <div className="grid lg:grid-cols-12 gap-5 lg:gap-7 items-center bg-white rounded-xl sm:rounded-2xl p-4 sm:p-5 lg:p-6 border border-border">
                         {/* Left Column: Sleek Mentor Portrait */}
-                        <div className="lg:col-span-4 relative w-full h-[220px] sm:h-[250px] lg:h-[285px] rounded-xl sm:rounded-2xl overflow-hidden shadow-lift bg-[#ebedf0]/40 group">
+                        <div className="lg:col-span-4 relative w-full h-[220px] sm:h-[250px] lg:h-[285px] rounded-xl sm:rounded-2xl overflow-hidden shadow-lift bg-[#E8E0D1]/20 group">
                           <BigMentorImage
                             imageUrl={m.imageUrl}
                             name={m.name}
@@ -568,7 +568,7 @@ export function AboutContent() {
 
                           {/* Top Left Floating Badge */}
                           <div className="absolute top-3 left-3">
-                            <span className="glass inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold text-brand-navy shadow-card">
+                            <span className="bg-[#FAF9F5] border border-border inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold text-brand-forest shadow-xs">
                               <Sparkles className="h-3 w-3 text-brand-gold" />
                               Verified Mentor
                             </span>
@@ -576,7 +576,7 @@ export function AboutContent() {
 
                           {/* Bottom Location Badge */}
                           <div className="absolute bottom-3 left-3 right-3">
-                            <span className="glass inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[11px] font-medium text-brand-navy shadow-card">
+                            <span className="bg-[#FAF9F5] border border-border inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[11px] font-medium text-brand-forest shadow-xs">
                               <MapPin className="h-3 w-3 text-brand-gold shrink-0" />
                               <span className="truncate">{m.location || "Tumkur, Karnataka, India"}</span>
                             </span>
@@ -714,7 +714,7 @@ export function AboutContent() {
                   <Reveal key={m.id || m.name} delay={idx * 60}>
                     <div className="flex flex-col h-full rounded-3xl border border-hairline bg-white shadow-card overflow-hidden hover:border-brand-gold/40 hover:shadow-lift transition-all">
                       {/* Big Mentor Image Banner */}
-                      <div className="relative w-full aspect-[16/10] bg-[#ebedf0]/40 overflow-hidden group">
+                      <div className="relative w-full aspect-[16/10] bg-[#E8E0D1]/20 overflow-hidden group">
                         <BigMentorImage
                           imageUrl={m.imageUrl}
                           name={m.name}
@@ -722,14 +722,14 @@ export function AboutContent() {
                           className="transition-transform duration-700 ease-out group-hover:scale-105"
                         />
                         <div className="absolute top-3 left-3">
-                          <span className="glass inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold text-brand-navy shadow-card">
+                          <span className="bg-[#FAF9F5] border border-border inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold text-brand-forest shadow-xs">
                             <Sparkles className="h-3 w-3 text-brand-gold" />
                             Verified
                           </span>
                         </div>
                         {m.location && (
                           <div className="absolute bottom-3 left-3 right-3">
-                            <span className="glass inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[11px] font-medium text-brand-navy shadow-card">
+                            <span className="bg-[#FAF9F5] border border-border inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[11px] font-medium text-brand-forest shadow-xs">
                               <MapPin className="h-3 w-3 text-brand-gold shrink-0" />
                               <span className="truncate">{m.location}</span>
                             </span>

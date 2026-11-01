@@ -8,17 +8,17 @@ export function SiteFooter() {
   const { contact } = useSiteContent();
 
   return (
-    <footer className="border-t border-hairline/80 bg-background/80 backdrop-blur-xs py-2.5 sm:py-3 text-xs text-muted-foreground">
-      <div className="container-wide flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+    <footer className="border-t border-[#1A2C27] bg-[#243B35] py-5 sm:py-6 text-xs text-[#E8E0D1]">
+      <div className="container-wide flex flex-col sm:flex-row items-center justify-between gap-4">
         {/* Left: Brand Logo & Copyright */}
         <div className="flex items-center gap-3 text-center sm:text-left">
           <Link to="/" className="inline-block transition-opacity hover:opacity-90">
-            <BrandLogo className="scale-90 origin-left" />
+            <BrandLogo light className="scale-90 origin-left" />
           </Link>
-          <span className="text-hairline/80" aria-hidden="true">
+          <span className="text-[#9AAB94]/40" aria-hidden="true">
             |
           </span>
-          <p>© 2026 EDUARC Connect. All rights reserved.</p>
+          <p className="text-[#E8E0D1]/85">© 2026 EDUARC Connect. All rights reserved.</p>
         </div>
 
         {/* Right: Contact details, Privacy Policy & Portal Icons */}
@@ -26,38 +26,38 @@ export function SiteFooter() {
           {/* Email */}
           <a
             href={`mailto:${contact.email}`}
-            className="inline-flex items-center gap-1.5 hover:text-brand-navy transition-colors"
+            className="inline-flex items-center gap-1.5 text-[#E8E0D1] hover:text-[#FAF9F5] transition-colors"
           >
-            <Mail className="h-3 w-3 text-[#1E5450]" />
+            <Mail className="h-3.5 w-3.5 text-[#9AAB94]" />
             <span>{contact.email}</span>
           </a>
 
-          <span className="text-hairline/80" aria-hidden="true">
+          <span className="text-[#9AAB94]/40" aria-hidden="true">
             ·
           </span>
 
           {/* Contact Phone Number */}
           <a
             href={phoneHref(contact.phone)}
-            className="inline-flex items-center gap-1.5 hover:text-brand-navy transition-colors"
+            className="inline-flex items-center gap-1.5 text-[#E8E0D1] hover:text-[#FAF9F5] transition-colors"
           >
-            <Phone className="h-3 w-3 text-[#1E5450]" />
+            <Phone className="h-3.5 w-3.5 text-[#9AAB94]" />
             <span>{contact.phone}</span>
           </a>
 
-          <span className="text-hairline/80" aria-hidden="true">
+          <span className="text-[#9AAB94]/40" aria-hidden="true">
             ·
           </span>
 
           {/* Privacy Policy */}
           <Link
             to="/privacy-policy"
-            className="hover:text-brand-navy hover:underline transition-colors font-medium"
+            className="text-[#E8E0D1] hover:text-[#FAF9F5] hover:underline transition-colors font-medium"
           >
             Privacy Policy
           </Link>
 
-          <span className="text-hairline/80" aria-hidden="true">
+          <span className="text-[#9AAB94]/40" aria-hidden="true">
             ·
           </span>
 
@@ -67,7 +67,7 @@ export function SiteFooter() {
               to="/reception"
               title="Reception Desk"
               aria-label="Reception Desk"
-              className="flex h-6 w-6 items-center justify-center rounded-md border border-hairline/80 bg-surface/50 text-muted-foreground hover:border-[#1E5450]/40 hover:bg-[#EBF5F3] hover:text-[#1E5450] transition-all shadow-2xs"
+              className="flex h-6 w-6 items-center justify-center rounded-md border border-[#9AAB94]/30 bg-[#1A2C27] text-[#E8E0D1] hover:bg-[#2F4A42] hover:text-[#FAF9F5] hover:border-[#9AAB94]/60 transition-all shadow-2xs"
             >
               <UserCheck className="h-3 w-3" />
             </Link>
@@ -76,7 +76,7 @@ export function SiteFooter() {
               to="/admin"
               title="Admin Portal"
               aria-label="Admin Portal"
-              className="flex h-6 w-6 items-center justify-center rounded-md border border-hairline/80 bg-surface/50 text-muted-foreground hover:border-[#1E5450]/40 hover:bg-[#EBF5F3] hover:text-[#1E5450] transition-all shadow-2xs"
+              className="flex h-6 w-6 items-center justify-center rounded-md border border-[#9AAB94]/30 bg-[#1A2C27] text-[#E8E0D1] hover:bg-[#2F4A42] hover:text-[#FAF9F5] hover:border-[#9AAB94]/60 transition-all shadow-2xs"
             >
               <Shield className="h-3 w-3" />
             </Link>

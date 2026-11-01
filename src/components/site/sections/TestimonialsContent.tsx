@@ -271,7 +271,7 @@ export function TestimonialsContent() {
                         </div>
 
                         {/* Subtle circular quote badge */}
-                        <div className="h-8 w-8 rounded-full bg-blue-50/80 border border-blue-100/60 flex items-center justify-center text-blue-400 shrink-0">
+                        <div className="h-8 w-8 rounded-full bg-[#F5F1E8] border border-[#E2DBD0] flex items-center justify-center text-[#B47A4B] shrink-0">
                           <Quote className="h-3.5 w-3.5" />
                         </div>
                       </div>
@@ -282,11 +282,11 @@ export function TestimonialsContent() {
                       </blockquote>
                     </div>
 
-                    {/* Bottom: 5 Gold Stars & Category Badge */}
+                    {/* Bottom: 5 Muted Terracotta Stars & Category Badge */}
                     <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-0.5 text-amber-400" aria-label="5 stars">
+                      <div className="flex items-center gap-0.5 text-[#B47A4B]" aria-label="5 stars">
                         {Array.from({ length: rating }).map((_, starIdx) => (
-                          <Star key={starIdx} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                          <Star key={starIdx} className="h-3.5 w-3.5 fill-[#B47A4B] text-[#B47A4B]" />
                         ))}
                       </div>
 
@@ -302,18 +302,18 @@ export function TestimonialsContent() {
 
           {/* 3. Impact Metrics & Success Story Banner */}
           <Reveal delay={200}>
-            <div className="mt-12 rounded-3xl border border-blue-100/90 bg-[#F0F7FF] p-5 sm:p-6 lg:p-7 shadow-xs">
+            <div className="mt-12 rounded-2xl border border-hairline bg-[#F5F1E8] p-5 sm:p-6 lg:p-7 shadow-xs">
               <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6 lg:gap-6 xl:gap-8">
                 {/* Left Stats Section */}
                 <div className="flex items-center gap-3 sm:gap-4 lg:gap-5 flex-1 min-w-0">
-                  <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-full bg-blue-100/90 text-blue-600 flex items-center justify-center shrink-0 shadow-2xs">
+                  <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-full bg-brand-forest text-white flex items-center justify-center shrink-0 shadow-xs">
                     <Users className="h-5 w-5" />
                   </div>
 
                   <div className="flex-1 min-w-0 grid grid-cols-2 sm:grid-cols-4 items-center">
                     {/* Stat 1: Programs Conducted */}
                     <div className="min-w-0 pr-3 sm:pr-4 lg:pr-5">
-                      <p className="text-lg sm:text-xl lg:text-[22px] xl:text-2xl font-black text-[#0F172A] tracking-tight tabular-nums whitespace-nowrap">
+                      <p className="text-lg sm:text-xl lg:text-[22px] xl:text-2xl font-black text-[#243B35] tracking-tight tabular-nums whitespace-nowrap">
                         {stats.programsConducted}
                       </p>
                       <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5 leading-snug line-clamp-2">
@@ -322,8 +322,8 @@ export function TestimonialsContent() {
                     </div>
 
                     {/* Stat 2: Institutions Partnered */}
-                    <div className="min-w-0 pl-3 sm:px-4 lg:px-5 border-l border-blue-200/70">
-                      <p className="text-lg sm:text-xl lg:text-[22px] xl:text-2xl font-black text-[#0F172A] tracking-tight tabular-nums whitespace-nowrap">
+                    <div className="min-w-0 pl-3 sm:px-4 lg:px-5 border-l border-hairline">
+                      <p className="text-lg sm:text-xl lg:text-[22px] xl:text-2xl font-black text-[#243B35] tracking-tight tabular-nums whitespace-nowrap">
                         {stats.institutionsPartnered}
                       </p>
                       <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5 leading-snug line-clamp-2">
@@ -332,8 +332,8 @@ export function TestimonialsContent() {
                     </div>
 
                     {/* Stat 3: Students Reached */}
-                    <div className="min-w-0 pt-3 sm:pt-0 pr-3 sm:px-4 lg:px-5 sm:border-l sm:border-blue-200/70">
-                      <p className="text-lg sm:text-xl lg:text-[22px] xl:text-2xl font-black text-[#0F172A] tracking-tight tabular-nums whitespace-nowrap">
+                    <div className="min-w-0 pt-3 sm:pt-0 pr-3 sm:px-4 lg:px-5 sm:border-l sm:border-hairline">
+                      <p className="text-lg sm:text-xl lg:text-[22px] xl:text-2xl font-black text-[#243B35] tracking-tight tabular-nums whitespace-nowrap">
                         {stats.studentsReached}
                       </p>
                       <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5 leading-snug line-clamp-2">
@@ -342,8 +342,8 @@ export function TestimonialsContent() {
                     </div>
 
                     {/* Stat 4: Average Rating */}
-                    <div className="min-w-0 pt-3 sm:pt-0 pl-3 sm:pl-4 lg:pl-5 border-l border-blue-200/70">
-                      <p className="text-lg sm:text-xl lg:text-[22px] xl:text-2xl font-black text-[#0F172A] tracking-tight tabular-nums whitespace-nowrap">
+                    <div className="min-w-0 pt-3 sm:pt-0 pl-3 sm:pl-4 lg:pl-5 border-l border-hairline">
+                      <p className="text-lg sm:text-xl lg:text-[22px] xl:text-2xl font-black text-[#243B35] tracking-tight tabular-nums whitespace-nowrap">
                         {stats.averageRating}
                       </p>
                       <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5 leading-snug line-clamp-2">
@@ -354,12 +354,12 @@ export function TestimonialsContent() {
                 </div>
 
                 {/* Vertical Divider for Desktop */}
-                <div className="hidden lg:block h-12 w-px bg-blue-200/70 shrink-0" />
+                <div className="hidden lg:block h-12 w-px bg-hairline shrink-0" />
 
                 {/* Right Call To Action with 3D Books Illustration */}
-                <div className="flex items-center justify-between gap-4 lg:shrink-0 pt-4 lg:pt-0 border-t lg:border-t-0 border-blue-200/60 max-w-sm lg:max-w-[280px] xl:max-w-xs">
+                <div className="flex items-center justify-between gap-4 lg:shrink-0 pt-4 lg:pt-0 border-t lg:border-t-0 border-hairline max-w-sm lg:max-w-[280px] xl:max-w-xs">
                   <div className="min-w-0">
-                    <h4 className="text-sm sm:text-base font-bold text-[#0F172A] leading-snug">
+                    <h4 className="text-sm sm:text-base font-bold text-[#243B35] leading-snug">
                       {stats.ctaTitle}
                     </h4>
                     <p className="text-xs text-slate-600 mt-0.5 line-clamp-2 leading-relaxed">
@@ -369,7 +369,7 @@ export function TestimonialsContent() {
                       <Button
                         asChild
                         size="sm"
-                        className="rounded-full bg-[#1E40AF] hover:bg-[#1D4ED8] text-white text-xs font-semibold px-4 py-2 gap-1.5 shadow-sm"
+                        className="rounded-full bg-brand-forest hover:bg-brand-forest-deep text-white text-xs font-semibold px-4 py-2 gap-1.5 shadow-xs cursor-pointer"
                       >
                         <Link to="/programs">
                           <span>{stats.ctaButtonText}</span>
@@ -393,15 +393,15 @@ export function TestimonialsContent() {
 
           {/* 4. Share Your Experience Form */}
           <Reveal delay={250}>
-            <div className="mt-8 rounded-2xl border border-slate-200/80 bg-white p-6 sm:p-8 shadow-xs">
+            <div className="mt-8 rounded-2xl border border-hairline bg-white p-6 sm:p-8 shadow-xs">
               <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
                 {/* Left Header */}
                 <div className="flex items-start gap-4">
-                  <div className="h-12 w-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 shadow-2xs">
+                  <div className="h-12 w-12 rounded-full bg-[#EDF3F0] text-[#243B35] flex items-center justify-center shrink-0 shadow-xs">
                     <Mail className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="text-base sm:text-lg font-bold text-[#0F172A]">
+                    <h3 className="text-base sm:text-lg font-bold text-[#243B35]">
                       Share Your Experience
                     </h3>
                     <p className="text-xs sm:text-[13px] text-slate-600 mt-0.5">
@@ -426,12 +426,12 @@ export function TestimonialsContent() {
                         value={emailInput}
                         onChange={(e) => setEmailInput(e.target.value)}
                         placeholder="yourname@example.com"
-                        className="pl-9 h-10 rounded-full border-slate-200 text-xs bg-slate-50/50 focus-visible:bg-white"
+                        className="pl-9 h-10 rounded-full border-hairline text-xs bg-[#FAF9F5] focus-visible:bg-white"
                       />
                     </div>
                     <Button
                       type="submit"
-                      className="w-full sm:w-auto shrink-0 rounded-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs font-semibold px-5 h-10 gap-1.5 shadow-sm cursor-pointer"
+                      className="w-full sm:w-auto shrink-0 rounded-full bg-brand-forest hover:bg-brand-forest-deep text-white text-xs font-semibold px-5 h-10 gap-1.5 shadow-xs cursor-pointer"
                     >
                       <Send className="h-3 w-3" />
                       <span>Send Review</span>
@@ -444,9 +444,9 @@ export function TestimonialsContent() {
                 </div>
 
                 {/* Right Decorative Message */}
-                <div className="hidden xl:flex items-center gap-2 text-blue-600 select-none">
+                <div className="hidden xl:flex items-center gap-2 text-[#B47A4B] select-none">
                   <svg
-                    className="w-16 h-8 text-blue-400/80 stroke-current"
+                    className="w-16 h-8 text-[#B47A4B]/80 stroke-current"
                     viewBox="0 0 60 30"
                     fill="none"
                   >
@@ -456,7 +456,7 @@ export function TestimonialsContent() {
                       strokeDasharray="3 3"
                     />
                   </svg>
-                  <span className="font-serif italic text-xs font-semibold text-blue-700">
+                  <span className="font-serif italic text-xs font-semibold text-[#B47A4B]">
                     Your words make a difference!
                   </span>
                 </div>
@@ -468,10 +468,10 @@ export function TestimonialsContent() {
 
       {/* Share Review Dialog Modal */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="sm:max-w-[480px] p-6 rounded-3xl">
+        <DialogContent className="sm:max-w-[480px] p-6 rounded-2xl">
           <DialogHeader>
-            <DialogTitle className="text-lg font-bold text-[#0F172A] flex items-center gap-2">
-              <MessageSquare className="h-4 w-4 text-blue-600" />
+            <DialogTitle className="text-lg font-bold text-[#243B35] flex items-center gap-2">
+              <MessageSquare className="h-4 w-4 text-[#B47A4B]" />
               <span>Share Your Review</span>
             </DialogTitle>
             <DialogDescription className="text-xs text-slate-500">
@@ -506,9 +506,9 @@ export function TestimonialsContent() {
             </div>
 
             {/* Profile Photo: Upload custom photo or auto-load from Gmail / Google */}
-            <div className="rounded-2xl border border-slate-200/90 bg-slate-50/80 p-3">
+            <div className="rounded-xl border border-hairline bg-[#FAF9F5] p-3">
               <div className="flex items-center gap-3.5">
-                <div className="relative h-13 w-13 rounded-full overflow-hidden bg-slate-100 border-2 border-blue-400/80 shadow-2xs shrink-0 flex items-center justify-center">
+                <div className="relative h-13 w-13 rounded-full overflow-hidden bg-slate-100 border-2 border-[#243B35]/40 shadow-xs shrink-0 flex items-center justify-center">
                   <img
                     key={modalForm.avatar || modalForm.email || modalForm.name}
                     src={
@@ -553,8 +553,8 @@ export function TestimonialsContent() {
                   </p>
 
                   <div className="mt-2 flex items-center gap-2">
-                    <label className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 hover:text-slate-900 cursor-pointer shadow-2xs transition-colors">
-                      <Camera className="h-3.5 w-3.5 text-blue-600" />
+                    <label className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-white border border-hairline text-slate-700 hover:bg-slate-100 hover:text-slate-900 cursor-pointer shadow-xs transition-colors">
+                      <Camera className="h-3.5 w-3.5 text-brand-forest" />
                       <span>{modalForm.avatar ? "Change Photo" : "Upload Photo"}</span>
                       <input
                         type="file"
@@ -600,12 +600,12 @@ export function TestimonialsContent() {
                       key={star}
                       type="button"
                       onClick={() => setModalForm({ ...modalForm, rating: star })}
-                      className="cursor-pointer text-amber-400 hover:scale-110 transition-transform"
+                      className="cursor-pointer text-[#B47A4B] hover:scale-110 transition-transform"
                     >
                       <Star
                         className={`h-4 w-4 ${
                           star <= modalForm.rating
-                            ? "fill-amber-400 text-amber-400"
+                            ? "fill-[#B47A4B] text-[#B47A4B]"
                             : "text-slate-200"
                         }`}
                       />
@@ -661,7 +661,7 @@ export function TestimonialsContent() {
                 type="submit"
                 size="sm"
                 disabled={isSubmitting}
-                className="rounded-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs font-semibold px-5"
+                className="rounded-full bg-brand-forest hover:bg-brand-forest-deep text-white text-xs font-semibold px-5 cursor-pointer"
               >
                 {isSubmitting ? "Submitting..." : "Submit Review"}
               </Button>

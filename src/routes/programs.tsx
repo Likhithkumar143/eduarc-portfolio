@@ -33,7 +33,7 @@ export const Route = createFileRoute("/programs")({
 
 function ProgramsPage() {
   return (
-    <div className="bg-[#f8fafc] min-h-screen">
+    <div className="bg-[#FAF9F5] min-h-screen">
       <ProgramsSection />
     </div>
   );

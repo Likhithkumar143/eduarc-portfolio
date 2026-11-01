@@ -158,7 +158,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "EDUARC, career guidance, education support, career counselling Bangalore, student mentorship India, school guidance workshops, college admission guidance, stream selection after 10th, career planning after 12th, academic counselling, Karnataka education consultancy, Ambitious to Achievement",
       },
       { name: "author", content: "EDUARC" },
-      { name: "theme-color", content: "#142744" },
+      { name: "theme-color", content: "#243B35" },
       { name: "google-site-verification", content: "googlee87f8b26b8c2d2b8" },
       { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" },
       { name: "googlebot", content: "index, follow, max-snippet:-1, max-image-preview:large" },
@@ -202,6 +202,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:image", content: "https://eduarc-connect.in/og-image.jpg" },
     ],
     links: [
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      {
+        rel: "preconnect",
+        href: "https://fonts.gstatic.com",
+        crossOrigin: "anonymous",
+      },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Lora:ital,wght@0,400..700;1,400..700&display=swap",
+      },
       {
         rel: "stylesheet",
         href: appCss,
@@ -229,10 +239,10 @@ function RootShell({ children }: { children: ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body className="min-h-full flex flex-col bg-background text-foreground antialiased selection:bg-brand-gold-soft selection:text-brand-navy">
+      <body className="min-h-full flex flex-col bg-background text-foreground antialiased selection:bg-[#E8E0D1] selection:text-[#243B35]">
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-brand-navy focus:text-white focus:rounded-md focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-gold"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#243B35] focus:text-[#FAF9F5] focus:rounded-md focus:shadow-md focus:outline-none focus:ring-2 focus:ring-[#B47A4B]"
         >
           Skip to main content
         </a>
