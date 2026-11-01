@@ -204,8 +204,7 @@ function MentorModalImage({
 
 function MentorProfilePage() {
   const content = useSiteContent();
-  const mentors =
-    content.mentors && content.mentors.length > 0 ? content.mentors : defaultContent.mentors;
+  const mentors = Array.isArray(content.mentors) ? content.mentors : defaultContent.mentors;
 
   const [selectedMentor, setSelectedMentor] = useState<MentorProfile | null>(null);
   const [copied, setCopied] = useState(false);

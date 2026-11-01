@@ -173,7 +173,7 @@ function getMentorExpertise(m: MentorProfile): string {
 
 export function AboutContent() {
   const c = useSiteContent();
-  const mentors = c.mentors && c.mentors.length > 0 ? c.mentors : defaultContent.mentors;
+  const mentors = Array.isArray(c.mentors) ? c.mentors : defaultContent.mentors;
 
   const dynamicChallenges = [
     {

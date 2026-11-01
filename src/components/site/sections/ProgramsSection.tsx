@@ -27,8 +27,7 @@ export function ProgramsSection({ id }: { id?: string }) {
   const c = useSiteContent();
   const [filter, setFilter] = useState<FilterType>("all");
 
-  const programsList =
-    c.conductedPrograms && c.conductedPrograms.length > 0 ? c.conductedPrograms : conductedPrograms;
+  const programsList = Array.isArray(c.conductedPrograms) ? c.conductedPrograms : conductedPrograms;
 
   const filteredPrograms = useMemo(() => {
     if (filter === "all") return programsList;
@@ -168,18 +167,27 @@ export function ProgramsSection({ id }: { id?: string }) {
 
           {/* Empty Filter State (defensive fallback) */}
           {filteredPrograms.length === 0 && (
-            <div className="text-center py-16 bg-white rounded-2xl border border-hairline">
-              <p className="text-sm font-semibold text-brand-navy">
-                No programs found in this category.
+            <div className="text-center py-16 bg-white rounded-2xl border border-hairline shadow-xs">
+              <p className="text-base font-semibold text-brand-navy">
+                {programsList.length === 0
+                  ? "No programs currently scheduled"
+                  : "No programs found in this category"}
               </p>
-              <Button
-                variant="pill-gold"
-                size="sm"
-                className="mt-4"
-                onClick={() => setFilter("all")}
-              >
-                Reset Filter
-              </Button>
+              <p className="text-xs sm:text-sm text-muted-foreground mt-1 max-w-md mx-auto">
+                {programsList.length === 0
+                  ? "New guidance cohorts, school seminars, and college workshops will be announced here soon."
+                  : "Try resetting your filter to view all conducted programs."}
+              </p>
+              {programsList.length > 0 && filter !== "all" && (
+                <Button
+                  variant="pill-gold"
+                  size="sm"
+                  className="mt-4"
+                  onClick={() => setFilter("all")}
+                >
+                  Reset Filter
+                </Button>
+              )}
             </div>
           )}
         </div>

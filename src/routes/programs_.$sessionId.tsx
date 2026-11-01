@@ -86,10 +86,7 @@ function ProgramSessionDetailPage() {
   const c = useSiteContent();
 
   const session = useMemo(() => {
-    const list =
-      c.conductedPrograms && c.conductedPrograms.length > 0
-        ? c.conductedPrograms
-        : conductedPrograms;
+    const list = Array.isArray(c.conductedPrograms) ? c.conductedPrograms : conductedPrograms;
     const match = list.find((p) => p.id === loaderSession?.id);
     return match || loaderSession;
   }, [c.conductedPrograms, loaderSession]);

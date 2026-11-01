@@ -26,6 +26,7 @@ import {
   Search,
   Quote,
   AlertCircle,
+  RotateCcw,
   Image as ImageIcon,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -120,10 +121,9 @@ function createEmptyProgram(): ProgramSessionItem {
 }
 
 export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps) {
-  const programs: ProgramSessionItem[] =
-    draft.conductedPrograms && draft.conductedPrograms.length > 0
-      ? draft.conductedPrograms
-      : defaultConductedPrograms;
+  const programs: ProgramSessionItem[] = Array.isArray(draft.conductedPrograms)
+    ? draft.conductedPrograms
+    : defaultConductedPrograms;
 
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState<"all" | "school" | "college">("all");
@@ -136,6 +136,19 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
 
   // Delete Confirmation State
   const [deletingIndex, setDeletingIndex] = useState<number | null>(null);
+
+  // Restore defaults
+  async function handleRestoreDefaults() {
+    update("conductedPrograms", defaultConductedPrograms);
+    toast.success("Restored default program catalog");
+    if (onSave) {
+      try {
+        await onSave({ ...draft, conductedPrograms: defaultConductedPrograms });
+      } catch {
+        // error handled
+      }
+    }
+  }
 
   // Image Upload Refs
   const cardImageInputRef = useRef<HTMLInputElement>(null);
@@ -354,16 +367,28 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
           </p>
         </div>
 
-        <Button
-          type="button"
-          onClick={handleOpenAdd}
-          variant="pill-gold"
-          size="pill"
-          className="shrink-0 gap-2 shadow-xs"
-        >
-          <Plus className="h-4 w-4" />
-          <span>Add New Program</span>
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={handleRestoreDefaults}
+            className="rounded-xl text-xs"
+          >
+            <RotateCcw className="h-3.5 w-3.5 mr-1.5" />
+            Reset to Default
+          </Button>
+          <Button
+            type="button"
+            onClick={handleOpenAdd}
+            variant="pill-gold"
+            size="pill"
+            className="shrink-0 gap-2 shadow-xs"
+          >
+            <Plus className="h-4 w-4" />
+            <span>Add New Program</span>
+          </Button>
+        </div>
       </div>
 
       {/* 2. Filter & Search Bar */}
@@ -517,24 +542,73 @@ export function ProgramsEditor({ draft, update, onSave, isSaving }: EditorProps)
         })}
       </div>
 
-      {filtered.length === 0 && (
-        <div className="rounded-2xl border border-hairline bg-white p-12 text-center">
-          <p className="text-sm font-semibold text-brand-navy">No program sessions found</p>
-          <p className="text-xs text-muted-foreground mt-1">
-            Try adjusting your search query or add a new program.
+      {programs.length === 0 ? (
+        <div className="rounded-2xl border border-hairline bg-white p-12 text-center shadow-xs">
+          <Layers className="mx-auto h-12 w-12 text-muted-foreground/50" strokeWidth={1.5} />
+          <h3 className="mt-3 text-base font-bold text-brand-navy">
+            No program sessions published
+          </h3>
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1 max-w-md mx-auto">
+            All programs have been deleted. You can create a new program from scratch or restore the
+            default catalog.
           </p>
-          <Button
-            type="button"
-            variant="pill-gold"
-            size="sm"
-            onClick={handleOpenAdd}
-            className="mt-4"
-          >
-            <Plus className="h-3.5 w-3.5 mr-1" />
-            <span>Add Program</span>
-          </Button>
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={handleRestoreDefaults}
+              className="rounded-xl text-xs"
+            >
+              <RotateCcw className="h-3.5 w-3.5 mr-1.5" />
+              Restore Default Catalog
+            </Button>
+            <Button
+              type="button"
+              variant="pill-gold"
+              size="sm"
+              onClick={handleOpenAdd}
+              className="rounded-xl text-xs"
+            >
+              <Plus className="h-3.5 w-3.5 mr-1.5" />
+              <span>Add New Program</span>
+            </Button>
+          </div>
         </div>
-      )}
+      ) : filtered.length === 0 ? (
+        <div className="rounded-2xl border border-hairline bg-white p-12 text-center">
+          <p className="text-sm font-semibold text-brand-navy">
+            No matching program sessions found
+          </p>
+          <p className="text-xs text-muted-foreground mt-1">
+            Try adjusting your search query or filter.
+          </p>
+          <div className="mt-4 flex items-center justify-center gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setSearch("");
+                setTypeFilter("all");
+              }}
+              className="rounded-xl text-xs"
+            >
+              Clear Filters
+            </Button>
+            <Button
+              type="button"
+              variant="pill-gold"
+              size="sm"
+              onClick={handleOpenAdd}
+              className="rounded-xl text-xs"
+            >
+              <Plus className="h-3.5 w-3.5 mr-1.5" />
+              <span>Add New Program</span>
+            </Button>
+          </div>
+        </div>
+      ) : null}
 
       {/* 4. Edit / Add Program Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
