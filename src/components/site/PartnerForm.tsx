@@ -15,6 +15,7 @@ import {
   User,
   UserCheck,
 } from "lucide-react";
+import { PaperPlaneButton } from "@/components/site/PaperPlaneButton";
 import { submitEnquiry } from "@/lib/enquiry.functions";
 import { trackEnquirySubmit } from "@/lib/analytics-client";
 import {
@@ -98,6 +99,7 @@ export function PartnerForm() {
   const [busy, setBusy] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const [doneName, setDoneName] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [honeypot, setHoneypot] = useState("");
 
   const effectiveForm: FormState = {
@@ -162,12 +164,19 @@ export function PartnerForm() {
 
       await submit({ data: { ...payload, website: honeypot } });
       trackEnquirySubmit(effectiveForm.role);
-      setDoneName(effectiveForm.fullName.trim().split(/\s+/)[0] ?? "");
-      setForm(emptyState);
-      setSameAsPhone(false);
-      setTouched({});
-      setSubmitted(false);
+      setIsSuccess(true);
+      const firstName = effectiveForm.fullName.trim().split(/\s+/)[0] ?? "";
+
+      setTimeout(() => {
+        setDoneName(firstName);
+        setForm(emptyState);
+        setSameAsPhone(false);
+        setTouched({});
+        setSubmitted(false);
+        setIsSuccess(false);
+      }, 1100);
     } catch (err: unknown) {
+      setIsSuccess(false);
       const msg =
         err instanceof Error
           ? err.message
@@ -184,15 +193,15 @@ export function PartnerForm() {
         className="rounded-3xl border border-hairline bg-white p-8 md:p-12 text-center shadow-xl animate-in fade-in zoom-in-95 duration-300"
         role="status"
       >
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-gold-soft border border-brand-gold-border text-brand-navy shadow-sm">
-          <CheckCircle2 className="h-8 w-8 text-brand-gold" strokeWidth={2} />
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-forest/10 border border-brand-forest/20 text-brand-forest shadow-sm">
+          <CheckCircle2 className="h-8 w-8 text-[#243B35]" strokeWidth={2} />
         </div>
         <h2 className="text-2xl font-bold tracking-tight text-brand-navy mt-6">
-          Thank you{doneName ? `, ${doneName}` : ""}.
+          Thank you! Your enquiry has been submitted successfully.
         </h2>
         <p className="mt-3 text-sm text-muted-foreground leading-relaxed max-w-md mx-auto">
-          Your guidance request has been received securely. An academic counsellor from EDUARC will
-          review your details and reach out on your provided contact details to discuss next steps.
+          Our team will get back to you soon. An academic counsellor from EDUARC will review your
+          details and reach out on your provided contact details to discuss next steps.
         </p>
         <div className="mt-8 flex justify-center">
           <button
@@ -754,23 +763,15 @@ export function PartnerForm() {
 
           {/* Submit Action */}
           <div className="pt-2">
-            <button
+            <PaperPlaneButton
               type="submit"
               disabled={busy}
-              className="w-full h-12 rounded-xl bg-[#243B35] hover:bg-[#1A2C27] text-white font-semibold text-[15px] shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
-            >
-              {busy ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin mr-1.5" />
-                  <span>Submitting Enquiry…</span>
-                </>
-              ) : (
-                <>
-                  <span>Submit Guidance Request</span>
-                  <SendHorizontal className="h-4 w-4 ml-1" />
-                </>
-              )}
-            </button>
+              isSubmitting={busy}
+              isSuccess={isSuccess}
+              idleText="Submit Guidance Request"
+              submittingText="Submitting Enquiry…"
+              successText="Submitted Successfully"
+            />
 
             <p className="mt-3 text-center text-[11px] text-muted-foreground flex items-center justify-center gap-1.5">
               <Lock className="h-3.5 w-3.5 text-muted-foreground shrink-0" />

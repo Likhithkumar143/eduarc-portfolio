@@ -18,6 +18,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { Reveal } from "@/components/site/Reveal";
+import { ProgressiveImage } from "@/components/site/ProgressiveImage";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useSiteContent, siteContentQuery } from "@/lib/site-content";
@@ -192,10 +193,12 @@ function ProgramSessionDetailPage() {
               <Reveal delay={100}>
                 <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl sm:rounded-3xl border border-hairline/90 bg-white p-2 shadow-card">
                   <div className="relative h-full w-full overflow-hidden rounded-xl sm:rounded-2xl">
-                    <img
+                    <ProgressiveImage
                       src={session.heroImage}
                       alt={`${session.institution} Session Presentation`}
-                      className="h-full w-full object-cover"
+                      priority={true}
+                      className="h-full w-full"
+                      imgClassName="h-full w-full object-cover"
                     />
                   </div>
                 </div>
@@ -222,11 +225,11 @@ function ProgramSessionDetailPage() {
               <div className="mt-6 grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-5 items-stretch">
                 {/* Large Main Photo */}
                 <div className="md:col-span-6 overflow-hidden rounded-xl sm:rounded-2xl border border-hairline shadow-2xs aspect-[4/3] md:aspect-auto md:h-full">
-                  <img
+                  <ProgressiveImage
                     src={session.gallery[0]}
                     alt={`${session.institution} Main Presentation`}
-                    className="h-full w-full object-cover transition-transform duration-500 hover:scale-102"
-                    loading="lazy"
+                    className="h-full w-full"
+                    imgClassName="h-full w-full object-cover transition-transform duration-500 hover:scale-102"
                   />
                 </div>
 
@@ -237,11 +240,11 @@ function ProgramSessionDetailPage() {
                       key={pIdx}
                       className="overflow-hidden rounded-xl border border-hairline shadow-2xs aspect-[16/10]"
                     >
-                      <img
+                      <ProgressiveImage
                         src={photo}
                         alt={`${session.institution} Session Photo ${pIdx + 2}`}
-                        className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
-                        loading="lazy"
+                        className="h-full w-full"
+                        imgClassName="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
                       />
                     </div>
                   ))}

@@ -10,6 +10,7 @@ import {
   CalendarCheck,
 } from "lucide-react";
 import heroImg from "@/assets/hero-students-clean.jpg";
+import { ProgressiveImage } from "@/components/site/ProgressiveImage";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Reveal } from "@/components/site/Reveal";
@@ -210,13 +211,14 @@ function Index() {
           {/* Hero Visual Showcase */}
           <div className="container-wide relative mt-8 md:mt-12 flex justify-center">
             <div className="relative w-fit max-w-full rounded-2xl overflow-hidden border border-border shadow-lift bg-[#E8E0D1]/20">
-              <img
+              <ProgressiveImage
                 src={heroImg}
                 alt="High school and college students collaborating with notebooks and laptop on campus"
                 width={1264}
                 height={848}
-                className="block h-auto w-auto max-w-full max-h-[min(540px,68vh)] rounded-2xl object-contain"
-                loading="eager"
+                priority={true}
+                className="w-full max-w-full rounded-2xl"
+                imgClassName="block h-auto w-auto max-w-full max-h-[min(540px,68vh)] rounded-2xl object-contain mx-auto"
               />
 
               {/* Floating badge 1 */}

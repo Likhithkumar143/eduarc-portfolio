@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { BrandLogo } from "./BrandLogo";
+import { MagneticDockNav } from "./MagneticDockNav";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -75,27 +76,8 @@ export function SiteHeader() {
         <div className="container-wide flex h-16 items-center justify-between">
           <BrandLogo />
 
-          {/* Desktop Navigation */}
-          <nav className="hidden items-center gap-7 lg:gap-9 md:flex" aria-label="Main navigation">
-            {navItems.map((item) => {
-              const isActive = pathname === item.to || pathname.startsWith(item.to + "/");
-
-              return (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  className={cn(
-                    "text-[14px] font-medium transition-colors duration-150 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm px-1 py-0.5",
-                    isActive
-                      ? "text-primary font-semibold relative after:absolute after:-bottom-1.5 after:left-1 after:right-1 after:h-[2px] after:bg-accent after:rounded-full"
-                      : "text-foreground/80",
-                  )}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
-          </nav>
+          {/* Desktop Navigation with macOS Dock Magnetic Hover and Sliding Indicator */}
+          <MagneticDockNav />
 
           {/* Desktop Action CTA */}
           <div className="hidden md:flex items-center gap-3">

@@ -1,220 +1,268 @@
-EDUARC CONNECT – COMBINED WEBSITE SECURITY & SITE ANALYTICS SYSTEM
+EDUARC CONNECT – COMPLETE PREMIUM INTERACTION & ANIMATION SYSTEM
 
 Website: https://eduarc-connect.in
 
-Build a complete Website Security Monitoring and Essential Site Analytics System for my existing website.
+I want to implement three premium interactive animation systems throughout my existing website.
 
-The objective is to monitor website security, detect suspicious activities, understand legitimate website traffic and measure important visitor engagement.
+The overall design should feel elegant, sophisticated, fluid and professionally art-directed.
 
-This must be a functional system connected to the existing website backend and database, not just a dashboard design.
+Use the existing EduArc Connect brand identity:
 
-1. SYSTEM ARCHITECTURE
+Forest Green: #243B35
+Warm Ivory: #E8E0D1
+Muted Terracotta: #B47A4B
+Charcoal: #343A36
+Off White: #FAF9F5
+Sage Green: #9AAB94
 
-Create two separate modules:
+Typography:
 
-A. Website Security Monitoring. B. Essential Website Analytics.
+Headings: Lora.
+Body and navigation: DM Sans.
 
-Both modules should be accessible from one private administrator dashboard.
+IMPORTANT: This is an enhancement of the existing website, NOT a complete redesign.
 
-Keep their databases, permissions, retention policies and data processing separate wherever appropriate.
+1. MAGNETIC DOCK NAVIGATION ANIMATION
 
-2. WEBSITE SECURITY MONITORING
+Enhance the existing desktop header navigation with a subtle macOS Dock-inspired magnetic interaction.
 
-Collect security-related information:
+Hover Behaviour
 
-Source IP addresses.
-Request timestamps.
-Requested URLs and endpoints.
-HTTP methods.
-Response status codes.
-User-agent information.
-Failed login attempts.
-Unauthorised access attempts.
-Suspicious requests.
-Rate-limit violations.
-API abuse.
-Bot activity.
-Server errors.
-Security actions and blocking history.
+When the mouse moves over a navigation item:
 
-Detect indicators of:
+The hovered item smoothly enlarges.
+Nearby navigation items scale proportionally based on cursor distance.
+Add subtle magnetic movement towards the cursor.
+Use smooth spring-based animation.
+Keep text readable and navigation stable.
 
-SQL injection.
-Cross-site scripting.
-URL and directory probing.
-Authentication attacks.
-Automated bot abuse.
-Excessive request frequency.
-Suspicious API access.
-Restricted resource access.
+Suggested scaling:
 
-Provide Critical, High, Medium and Low severity levels with detection explanations.
+Normal: 1.0.
+Nearby items: 1.04–1.08.
+Hovered item: 1.10–1.15.
+Active Navigation Indicator
+Add a smooth sliding active-page indicator.
+Move it between navigation items when routes change.
+Detect the active route using TanStack Router.
+Support browser back and forward navigation.
+Keep the active indicator correctly synchronised with the current URL.
+Page Transition Animation
 
-Implement appropriate defensive controls:
+When switching pages:
 
-Rate limiting.
-Login throttling.
-Input validation.
-CSRF protection where applicable.
-Secure authentication.
-Security headers.
-WAF integration.
-Temporary IP blocking.
+Fade out the current page.
+Fade in the next page.
+Add a subtle upward movement of approximately 8–12px.
+Use a 250–350ms transition.
+Keep navigation responsive without artificial loading delays.
 
-Allow authorised administrators to investigate suspicious IP addresses and review security event histories.
+Avoid remounting persistent layout components unnecessarily.
 
-3. ESSENTIAL WEBSITE ANALYTICS
+Responsive Behaviour
+Desktop: Full magnetic interaction.
+Tablet: Reduced magnetic movement.
+Mobile: Disable mouse-based magnetic effects and retain touch-friendly navigation.
+2. BLUR-UP IMAGE LOADING ANIMATION
 
-Track only information necessary to understand website performance.
+Implement a Progressive Image Loading / LQIP system throughout the entire website.
 
-Collect:
+Image Loading Behaviour
 
-Total unique visitors.
-Daily, weekly and monthly visitors.
-Page views.
-Popular pages.
-Traffic sources.
-Referring websites.
-Approximate geographical distribution.
-Device categories.
-Browser categories.
-New versus returning visitor counts.
-Average session duration.
-Contact button clicks.
-Phone and email link clicks.
-Enquiry button clicks.
-Successful form submission events.
+For every existing image:
 
-Track sessions using privacy-conscious identifiers.
+Display a small blurred image preview immediately.
+Load the original high-resolution image in the background.
+Smoothly transition from blurred to sharp after loading.
+Remove the placeholder after successful loading.
+Preserve image dimensions to prevent layout shifts.
+Animation Settings
+Initial blur: 15–20px.
+Final blur: 0px.
+Initial opacity: 0.8.
+Final opacity: 1.
+Transition duration: 350–600ms.
+Easing: Smooth ease-out.
+Apply To
+Homepage hero images.
+Programme images.
+Mentor profiles.
+About page images.
+Cards and thumbnails.
+Gallery images.
+Blog images.
+Footer images.
+All other existing website images.
+Image Performance
+Use WebP or AVIF where supported.
+Generate lightweight low-resolution placeholders.
+Use lazy loading for below-the-fold images.
+Prioritise hero images and important above-the-fold content.
+Avoid preloading every image.
+Reuse browser and CDN caching.
+Use responsive image sizes.
+Avoid unnecessary JavaScript.
+Reusable Image Component
 
-Do not collect unnecessary personal information or invasive browsing behaviour.
+Inspect the existing image architecture and implement a reusable ProgressiveImage component where appropriate.
 
-4. ADMIN DASHBOARD
+It should support:
 
-Create a secure dashboard at:
+Original image URL.
+Low-resolution placeholder.
+Alt text.
+Aspect ratio.
+Responsive image sources.
+Loading priority.
+Error fallback.
 
-/admin/dashboard
+Do not replace existing images or change their content.
 
-Include these sections:
+3. PAPER PLANE FORM SUBMISSION ANIMATION
 
-Overview
-Total visitors.
-Total page views.
-Security events.
-Blocked requests.
-Failed login attempts.
-Enquiry conversions.
-Website Analytics
-Traffic charts.
-Most visited pages.
-Traffic sources.
-Device distribution.
-Geographic distribution.
-Engagement metrics.
-Enquiry conversion statistics.
-Security Monitoring
-Recent security events.
-Suspicious IP addresses.
-Failed authentication attempts.
-Rate-limit violations.
-Critical security alerts.
-Blocked requests.
-IP Investigation
-Search by IP address.
-Review security events.
-Inspect request frequency.
-View blocking history.
-Review relevant request information.
-Reports
-Daily, weekly and monthly reports.
-Website traffic reports.
-Security incident reports.
-CSV exports.
-5. ALERTS AND NOTIFICATIONS
+Implement a subtle paper plane flying animation for all relevant forms.
 
-Provide configurable alerts for:
+Trigger Conditions
 
-Critical security incidents.
-Repeated failed login attempts.
-Suspicious admin access.
-Unusual API traffic.
-Excessive request frequency.
-Significant traffic anomalies.
+The animation must ONLY start after the backend confirms successful form submission.
 
-Provide administrator dashboard notifications and optional email notifications.
+Never play the animation when:
 
-6. PRIVACY AND DATA MANAGEMENT
+Validation fails.
+The API returns an error.
+The network request fails.
+The submission is unsuccessful.
+Animation Sequence
+Visitor clicks Submit.
+Validate the form.
+Send the existing submission request.
+Wait for confirmed backend success.
+Temporarily disable the submit button.
+A small paper plane emerges from the button.
+The paper plane flies diagonally upwards and slightly right.
+The plane gently rotates and fades away.
+Display a success checkmark.
+Change the button text to "Submitted Successfully".
+Animation Settings
+Duration: 800–1200ms.
+Horizontal movement: 80–120px.
+Vertical movement: -90 to -140px.
+Rotation: 10–20 degrees.
+Opacity: 1 to 0.
+Smooth ease-out animation.
+Success Message
 
-Collect only data required for website security and essential performance measurement.
+Display:
 
-Do not collect:
+"Thank you! Your enquiry has been submitted successfully. Our team will get back to you soon."
 
-Passwords.
-Authentication tokens.
-Keystrokes.
-Mouse movements.
-Private form contents.
-Payment details.
-Precise GPS location.
-Invasive browser fingerprints.
-Unnecessary personal profiles.
-Session recordings by default.
+Failed Submission
 
-Apply appropriate privacy notices, consent controls where required, IP access restrictions, encryption, retention periods and automatic deletion.
+If submission fails:
 
-Use pseudonymous identifiers for analytics. Keep identifiable security logs restricted to authorised personnel.
+Do not show the paper plane.
+Preserve entered form data.
+Display an understandable error message.
+Re-enable the submit button.
+Allow the visitor to retry.
+Apply To Existing Forms
+Contact form.
+Student enquiry form.
+Programme enquiry form.
+Admission enquiry form.
+Other relevant existing forms.
 
-7. SECURITY AND ACCESS CONTROL
-Protect all admin routes.
-Enforce server-side authorisation.
-Implement role-based access control.
-Protect analytics and security APIs.
-Apply rate limiting.
-Maintain administrator audit logs.
-Prevent public access to internal data.
-Secure database access.
-Validate all incoming events.
-8. TECHNICAL IMPLEMENTATION
+Do not change existing API endpoints, field names or validation rules unnecessarily.
 
-First inspect the existing website codebase.
+4. ANIMATION AND PERFORMANCE INTEGRATION
 
-Identify its frontend framework, backend, database, hosting provider and authentication architecture.
+All three animation systems must work together without conflicting.
 
-Implement the system using compatible technologies.
+Requirements:
 
-Use server-side logging for security events and appropriate analytics event tracking for website performance.
+Use the existing Motion / Framer Motion library if already installed.
+Otherwise, use lightweight CSS animations where practical.
+Avoid unnecessary animation dependencies.
+Keep animations GPU-friendly.
+Avoid layout shifts.
+Prevent unnecessary React re-renders.
+Respect prefers-reduced-motion.
+Ensure animations work on slower devices.
+Ensure keyboard accessibility.
+Maintain good Core Web Vitals.
+Never delay navigation or form submission artificially.
+5. TECHNICAL IMPLEMENTATION
 
-Integrate a WAF such as Cloudflare if supported by the hosting environment.
+Before modifying anything, inspect the complete existing project.
 
-Do not create fake metrics or simulated visitor data.
+Identify:
 
-Do not rebuild the existing website or break its functionality.
+Frontend framework.
+TanStack Router configuration.
+Header and navigation components.
+Existing form components.
+Image loading architecture.
+Existing animation libraries.
+CSS and styling architecture.
+Backend form submission logic.
 
-Ensure tracking does not significantly affect website loading performance.
+Implement the three features using the existing architecture.
 
-9. TESTING
+Create reusable components and shared animation utilities rather than duplicating animation code throughout the project.
 
-Verify:
+6. STRICT PRESERVATION RULES
+Do not rebuild the website.
+Do not change existing page layouts.
+Do not modify existing URLs.
+Do not remove navigation links.
+Do not change website content.
+Do not replace existing images.
+Do not break form submissions.
+Do not alter existing API integrations.
+Do not introduce unnecessary dependencies.
+Do not add exaggerated animations.
+Preserve desktop, tablet and mobile functionality.
+7. TESTING AND VERIFICATION
 
-Visitor counting.
-Page view tracking.
-Traffic source reporting.
-Enquiry event tracking.
-IP logging.
-Suspicious request detection.
-Failed login detection.
-Rate limiting.
-IP blocking and unblocking.
-Security alerts.
-Admin access controls.
-Database storage.
-Data retention.
-CSV exports.
-Mobile responsiveness.
-FINAL OBJECTIVE
+Test all three systems:
 
-Create a unified EduArc Connect Security and Analytics Centre.
+Navigation
+Magnetic hover interaction.
+Nearby item scaling.
+Active route indicator.
+Browser back and forward.
+Page transitions.
+Mobile navigation.
+Images
+Blur placeholder visibility.
+Full-resolution loading.
+Smooth sharp-image transition.
+Lazy loading.
+Image caching.
+Broken image fallback.
+No layout shifts.
+Forms
+Successful submission animation.
+Failed submission handling.
+Validation errors.
+Duplicate submission prevention.
+Retry functionality.
+Mobile compatibility.
 
-I should be able to understand how many people visit the website, which pages perform well, where traffic originates, how many enquiries are generated and whether anyone is attempting suspicious or unauthorised activities.
+Run TypeScript checks and the production build.
 
-The system must use real backend data, remain secure, respect visitor privacy and operate reliably in production.
+Do not mark the task complete until all three features work with actual website components and real backend responses.
+
+FINAL DESIGN OBJECTIVE
+
+Transform EduArc Connect into a polished, interactive and premium educational website.
+
+The website should feature:
+
+Magnetic and fluid navigation.
+Instant-feeling progressive image loading.
+Delightful paper plane submission feedback.
+
+All animations should be subtle, elegant, fast and consistent with the Forest Green, Warm Ivory and Terracotta brand identity.
+
+The final result must feel intentionally designed by a professional frontend developer, not like a generic AI-generated template.

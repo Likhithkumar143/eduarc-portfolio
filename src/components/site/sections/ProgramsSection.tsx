@@ -10,6 +10,7 @@ import {
   GraduationCap,
 } from "lucide-react";
 import { Reveal } from "@/components/site/Reveal";
+import { ProgressiveImage } from "@/components/site/ProgressiveImage";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useSiteContent } from "@/lib/site-content";
@@ -116,13 +117,14 @@ export function ProgramsSection({ id }: { id?: string }) {
                     <div>
                       {/* Campus Image Frame */}
                       <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl sm:rounded-2xl bg-surface">
-                        <img
+                        <ProgressiveImage
                           src={program.image}
                           alt={`${program.institution} - ${program.title}`}
-                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          loading={idx < 3 ? "eager" : "lazy"}
+                          priority={idx < 3}
+                          className="h-full w-full"
+                          imgClassName="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />
-                        <div className="absolute top-2.5 right-2.5">
+                        <div className="absolute top-2.5 right-2.5 z-10">
                           <Badge
                             variant="gold"
                             className="bg-white/95 text-[10px] font-semibold tracking-wide backdrop-blur-xs shadow-xs"

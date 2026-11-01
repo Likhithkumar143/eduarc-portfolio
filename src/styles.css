@@ -478,12 +478,89 @@
     transform: none;
     transition: none;
   }
+  .page-enter-active {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .progressive-img {
+    transition: none;
+  }
+  .progressive-img-loading {
+    filter: none;
+    opacity: 1;
+    transform: none;
+  }
+  .animate-paper-plane {
+    animation: none;
+  }
   .loader {
     animation: none;
   }
   html {
     scroll-behavior: auto;
   }
+}
+
+/* Page Transition Animation */
+@keyframes page-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-enter-active {
+  animation: page-enter 300ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
+}
+
+/* Progressive Image Loading Animation */
+.progressive-img {
+  transition: filter 500ms cubic-bezier(0.22, 1, 0.36, 1), opacity 450ms ease-out, transform 500ms ease-out;
+  will-change: filter, opacity, transform;
+}
+
+.progressive-img-loading {
+  filter: blur(18px);
+  opacity: 0.8;
+  transform: scale(1.02);
+}
+
+.progressive-img-loaded {
+  filter: blur(0px);
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Paper Plane Form Submission Animation */
+@keyframes paper-plane-fly {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  30% {
+    transform: translate(35px, -35px) rotate(14deg) scale(1.08);
+    opacity: 0.95;
+  }
+  70% {
+    transform: translate(80px, -85px) rotate(18deg) scale(0.85);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(110px, -120px) rotate(20deg) scale(0.5);
+    opacity: 0;
+  }
+}
+
+.animate-paper-plane {
+  animation: paper-plane-fly 1000ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  will-change: transform, opacity;
+  pointer-events: none;
 }
 
 /* Site Loader */

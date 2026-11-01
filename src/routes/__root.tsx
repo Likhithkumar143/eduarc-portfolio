@@ -15,6 +15,7 @@ import appCss from "../styles.css?url";
 import { reportError } from "../lib/error-reporting";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { PageTransition } from "@/components/site/PageTransition";
 import { AnalyticsTracker } from "@/components/site/AnalyticsTracker";
 import { Toaster } from "@/components/ui/sonner";
 import { siteContentQuery } from "@/lib/site-content";
@@ -276,8 +277,10 @@ function RootComponent() {
       <AnalyticsTracker />
       {!isAdmin && <SiteHeader />}
       <main id="main-content" className="flex-1 focus:outline-none">
-        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-        <Outlet />
+        {/* Required: nested routes render here with subtle upward fade transition */}
+        <PageTransition>
+          <Outlet />
+        </PageTransition>
       </main>
       {!isAdmin && <SiteFooter />}
       <Toaster position="top-center" />

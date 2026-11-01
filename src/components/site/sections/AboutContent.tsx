@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/site/Reveal";
+import { ProgressiveImage } from "@/components/site/ProgressiveImage";
 import { useSiteContent } from "@/lib/site-content";
 import { defaultContent, initials, type MentorProfile } from "@/content/eduarc";
 import { cn } from "@/lib/utils";
@@ -301,10 +302,11 @@ export function AboutContent() {
             <div className="lg:col-span-6">
               <Reveal delay={150}>
                 <div className="relative rounded-2xl overflow-hidden shadow-lg border border-slate-200/80 group">
-                  <img
+                  <ProgressiveImage
                     src={aboutDeskImg}
                     alt="Study desk with books and laptop"
-                    className="w-full h-[280px] sm:h-[320px] md:h-[360px] object-cover block"
+                    className="w-full h-[280px] sm:h-[320px] md:h-[360px]"
+                    imgClassName="w-full h-full object-cover"
                   />
                 </div>
               </Reveal>
@@ -475,10 +477,11 @@ export function AboutContent() {
             <div className="lg:col-span-5">
               <Reveal delay={150}>
                 <div className="relative rounded-2xl overflow-hidden shadow-lg border border-slate-200/80">
-                  <img
+                  <ProgressiveImage
                     src={aboutVisionImg}
                     alt="Person with backpack standing atop mountain summit at sunrise"
-                    className="w-full h-[220px] sm:h-[260px] md:h-[280px] object-cover block"
+                    className="w-full h-[220px] sm:h-[260px] md:h-[280px]"
+                    imgClassName="w-full h-full object-cover"
                   />
                 </div>
               </Reveal>
