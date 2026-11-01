@@ -52,16 +52,16 @@ function AboutPage() {
           Empowering Students to Discover Their Future
          ========================================================================= */}
       {/* 1. Hero Section - Full-Bleed Edge-to-Edge Academic Hero Banner */}
-      <section className="relative overflow-hidden bg-[#F5F5F5] border-b border-hairline/80 min-h-[380px] sm:min-h-[420px] lg:h-[440px] xl:h-[480px] flex items-center">
+      <section className="relative overflow-hidden bg-[#F5F5F5] border-b border-hairline/80 min-h-[280px] sm:h-[300px] md:h-[320px] lg:h-[340px] xl:h-[350px] flex items-center">
         {/* Desktop & Tablet Background Banner: Edge-to-edge horizontally, locked right-bottom with left fade */}
         <div className="hidden sm:block absolute inset-y-0 right-0 h-full w-full pointer-events-none select-none z-0 overflow-hidden">
           <img
             src={aboutHeroImg}
             alt="Empowering Students to Discover Their Future"
-            className="h-full w-full object-cover object-right-bottom block"
+            className="h-full w-auto max-w-none absolute right-0 bottom-0 block"
             style={{
-              maskImage: "linear-gradient(to right, transparent 0%, transparent 12%, black 38%, black 100%)",
-              WebkitMaskImage: "linear-gradient(to right, transparent 0%, transparent 12%, black 38%, black 100%)",
+              maskImage: "linear-gradient(to right, transparent 0%, transparent 8%, black 32%, black 100%)",
+              WebkitMaskImage: "linear-gradient(to right, transparent 0%, transparent 8%, black 32%, black 100%)",
             }}
           />
           {/* Subtle gradient behind text to guarantee contrast across all viewports */}
@@ -70,20 +70,20 @@ function AboutPage() {
 
         {/* Content Container */}
         <div className="container-apple relative z-10 w-full">
-          <div className="pt-10 pb-4 sm:py-14 md:py-16 lg:py-20 max-w-xl text-center sm:text-left">
-            <div className="inline-flex items-center gap-2 mb-3 justify-center sm:justify-start">
+          <div className="py-6 sm:py-8 md:py-10 lg:py-12 max-w-lg lg:max-w-xl text-center sm:text-left">
+            <div className="inline-flex items-center gap-2 mb-2 justify-center sm:justify-start">
               <span className="w-6 h-[2.5px] bg-[#B47A4B] inline-block rounded-full" />
               <span className="text-xs font-bold tracking-wider text-[#243B35]/80 uppercase">
                 About EduArc
               </span>
             </div>
 
-            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-[54px] xl:text-[58px] font-semibold text-[#243B35] tracking-tight leading-[1.2] sm:leading-[1.15]">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] xl:text-[44px] font-semibold text-[#243B35] tracking-tight leading-[1.18] sm:leading-[1.15]">
               Empowering Students <br />
               to Discover <span className="text-[#B47A4B]">Their Future.</span>
             </h1>
 
-            <p className="mt-4 text-base sm:text-lg text-[#343A36] max-w-lg mx-auto sm:mx-0 font-normal leading-relaxed">
+            <p className="mt-3 text-sm sm:text-base text-[#343A36] max-w-md lg:max-w-lg mx-auto sm:mx-0 font-normal leading-relaxed">
               {c.about?.lead ||
                 "EduArc is a career guidance platform designed to help students make informed decisions about their future. We provide the right guidance, resources and support to turn your dreams into achievable goals."}
             </p>

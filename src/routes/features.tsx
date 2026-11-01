@@ -47,16 +47,16 @@ function FeaturesPage() {
   return (
     <div className="min-h-screen bg-[#FAF9F5]">
       {/* 1. Hero Section - Full-Bleed Edge-to-Edge Academic Hero Banner */}
-      <section className="relative overflow-hidden bg-[#EFF6FE] border-b border-hairline/80 min-h-[380px] sm:min-h-[420px] lg:h-[440px] xl:h-[480px] flex items-center">
+      <section className="relative overflow-hidden bg-[#EFF6FE] border-b border-hairline/80 min-h-[280px] sm:h-[300px] md:h-[320px] lg:h-[340px] xl:h-[350px] flex items-center">
         {/* Desktop & Tablet Background Banner: Edge-to-edge horizontally, locked right-bottom with left fade */}
         <div className="hidden sm:block absolute inset-y-0 right-0 h-full w-full pointer-events-none select-none z-0 overflow-hidden">
           <img
             src={featuresHeroImg}
             alt="EDUARC Institutional Students Learning Together"
-            className="h-full w-full object-cover object-right-bottom block"
+            className="h-full w-auto max-w-none absolute right-0 bottom-0 block"
             style={{
-              maskImage: "linear-gradient(to right, transparent 0%, transparent 12%, black 38%, black 100%)",
-              WebkitMaskImage: "linear-gradient(to right, transparent 0%, transparent 12%, black 38%, black 100%)",
+              maskImage: "linear-gradient(to right, transparent 0%, transparent 8%, black 32%, black 100%)",
+              WebkitMaskImage: "linear-gradient(to right, transparent 0%, transparent 8%, black 32%, black 100%)",
             }}
           />
           {/* Subtle gradient behind text to guarantee contrast across all viewports */}
@@ -65,24 +65,24 @@ function FeaturesPage() {
 
         {/* Content Container */}
         <div className="container-apple relative z-10 w-full">
-          <div className="pt-10 pb-4 sm:py-14 md:py-16 lg:py-20 max-w-xl text-center sm:text-left">
-            <span className="text-xs font-semibold tracking-wider text-[#B47A4B] uppercase mb-3 block">
+          <div className="py-6 sm:py-8 md:py-10 lg:py-12 max-w-lg lg:max-w-xl text-center sm:text-left">
+            <span className="text-xs font-semibold tracking-wider text-[#B47A4B] uppercase mb-2 block">
               INSTITUTIONAL FEATURES
             </span>
 
-            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-[54px] xl:text-[58px] font-semibold text-[#243B35] tracking-tight leading-[1.2] sm:leading-[1.15]">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] xl:text-[44px] font-semibold text-[#243B35] tracking-tight leading-[1.18] sm:leading-[1.15]">
               Structured features for <br />
               <span className="text-[#243B35]">
                 schools and colleges.
               </span>
             </h1>
 
-            <p className="mt-4 text-base sm:text-lg text-[#343A36] max-w-lg mx-auto sm:mx-0 font-normal leading-relaxed">
+            <p className="mt-3 text-sm sm:text-base text-[#343A36] max-w-md lg:max-w-lg mx-auto sm:mx-0 font-normal leading-relaxed">
               {c.featuresPage?.lead ||
                 "Designed to guide, support and empower students — and give institutions full visibility."}
             </p>
 
-            <div className="mt-6 flex flex-wrap gap-3 items-center justify-center sm:justify-start">
+            <div className="mt-5 flex flex-wrap gap-3 items-center justify-center sm:justify-start">
               <Button
                 asChild
                 className="rounded-full bg-[#243B35] hover:bg-[#1A2C27] text-white text-sm font-semibold px-5 py-2.5 h-10 shadow-xs gap-1.5 cursor-pointer"
