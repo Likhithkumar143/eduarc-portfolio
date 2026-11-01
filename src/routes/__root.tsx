@@ -15,6 +15,7 @@ import appCss from "../styles.css?url";
 import { reportError } from "../lib/error-reporting";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { AnalyticsTracker } from "@/components/site/AnalyticsTracker";
 import { Toaster } from "@/components/ui/sonner";
 import { siteContentQuery } from "@/lib/site-content";
 import { Button } from "@/components/ui/button";
@@ -272,6 +273,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <AnalyticsTracker />
       {!isAdmin && <SiteHeader />}
       <main id="main-content" className="flex-1 focus:outline-none">
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}

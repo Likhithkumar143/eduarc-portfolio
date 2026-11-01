@@ -8,6 +8,60 @@ export type Database = {
   };
   public: {
     Tables: {
+      analytics_events: {
+        Row: {
+          browser: string | null;
+          country: string | null;
+          created_at: string;
+          device_type: string | null;
+          duration_seconds: number | null;
+          event_label: string | null;
+          event_type: string;
+          id: string;
+          is_new_visitor: boolean | null;
+          os: string | null;
+          path: string;
+          referrer: string | null;
+          session_id: string;
+          source: string | null;
+          visitor_id: string;
+        };
+        Insert: {
+          browser?: string | null;
+          country?: string | null;
+          created_at?: string;
+          device_type?: string | null;
+          duration_seconds?: number | null;
+          event_label?: string | null;
+          event_type: string;
+          id?: string;
+          is_new_visitor?: boolean | null;
+          os?: string | null;
+          path: string;
+          referrer?: string | null;
+          session_id: string;
+          source?: string | null;
+          visitor_id: string;
+        };
+        Update: {
+          browser?: string | null;
+          country?: string | null;
+          created_at?: string;
+          device_type?: string | null;
+          duration_seconds?: number | null;
+          event_label?: string | null;
+          event_type?: string;
+          id?: string;
+          is_new_visitor?: boolean | null;
+          os?: string | null;
+          path?: string;
+          referrer?: string | null;
+          session_id?: string;
+          source?: string | null;
+          visitor_id?: string;
+        };
+        Relationships: [];
+      };
       admin_credentials: {
         Row: {
           failed_attempts: number;

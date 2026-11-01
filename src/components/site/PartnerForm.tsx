@@ -16,6 +16,7 @@ import {
   UserCheck,
 } from "lucide-react";
 import { submitEnquiry } from "@/lib/enquiry.functions";
+import { trackEnquirySubmit } from "@/lib/analytics-client";
 import {
   educationLevels,
   enquirySchema,
@@ -160,6 +161,7 @@ export function PartnerForm() {
       };
 
       await submit({ data: { ...payload, website: honeypot } });
+      trackEnquirySubmit(effectiveForm.role);
       setDoneName(effectiveForm.fullName.trim().split(/\s+/)[0] ?? "");
       setForm(emptyState);
       setSameAsPhone(false);

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState, type ComponentType } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import {
+  BarChart3,
   Check,
   ExternalLink,
   GraduationCap,
@@ -44,6 +45,7 @@ import {
 } from "./editors";
 import { PasswordPanel } from "./PasswordPanel";
 import { ReceptionAdminPanel } from "./ReceptionAdminPanel";
+import { AnalyticsAdminPanel } from "./AnalyticsAdminPanel";
 
 type Section = {
   id: string;
@@ -124,6 +126,13 @@ const sections: Section[] = [
     icon: UserRoundCheck,
     description: "Live student & institutional enquiries, progress reports, lead statuses, and staff access.",
     Custom: ReceptionAdminPanel,
+  },
+  {
+    id: "analytics",
+    label: "Site Analytics",
+    icon: BarChart3,
+    description: "Visitor volume, popular pages, acquisition sources, device usage, and enquiry conversions.",
+    Custom: AnalyticsAdminPanel,
   },
   {
     id: "security",
