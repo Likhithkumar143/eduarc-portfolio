@@ -14,11 +14,8 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FeaturesRouteImport } from './routes/features'
-import { Route as ImpactRouteImport } from './routes/impact'
-import { Route as MentorRouteImport } from './routes/mentor'
 import { Route as MentorsRouteImport } from './routes/mentors'
 import { Route as PartnerRouteImport } from './routes/partner'
-import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as ProgramsRouteImport } from './routes/programs'
 import { Route as ReceptionRouteImport } from './routes/reception'
@@ -50,16 +47,6 @@ const FeaturesRoute = FeaturesRouteImport.update({
   path: '/features',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ImpactRoute = ImpactRouteImport.update({
-  id: '/impact',
-  path: '/impact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MentorRoute = MentorRouteImport.update({
-  id: '/mentor',
-  path: '/mentor',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const MentorsRoute = MentorsRouteImport.update({
   id: '/mentors',
   path: '/mentors',
@@ -68,11 +55,6 @@ const MentorsRoute = MentorsRouteImport.update({
 const PartnerRoute = PartnerRouteImport.update({
   id: '/partner',
   path: '/partner',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PricingRoute = PricingRouteImport.update({
-  id: '/pricing',
-  path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
@@ -107,11 +89,8 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/contact': typeof ContactRoute
   '/features': typeof FeaturesRoute
-  '/impact': typeof ImpactRoute
-  '/mentor': typeof MentorRoute
   '/mentors': typeof MentorsRoute
   '/partner': typeof PartnerRoute
-  '/pricing': typeof PricingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/programs': typeof ProgramsRoute
   '/reception': typeof ReceptionRoute
@@ -124,11 +103,8 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/contact': typeof ContactRoute
   '/features': typeof FeaturesRoute
-  '/impact': typeof ImpactRoute
-  '/mentor': typeof MentorRoute
   '/mentors': typeof MentorsRoute
   '/partner': typeof PartnerRoute
-  '/pricing': typeof PricingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/programs': typeof ProgramsRoute
   '/reception': typeof ReceptionRoute
@@ -142,11 +118,8 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/contact': typeof ContactRoute
   '/features': typeof FeaturesRoute
-  '/impact': typeof ImpactRoute
-  '/mentor': typeof MentorRoute
   '/mentors': typeof MentorsRoute
   '/partner': typeof PartnerRoute
-  '/pricing': typeof PricingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/programs': typeof ProgramsRoute
   '/reception': typeof ReceptionRoute
@@ -161,11 +134,8 @@ export interface FileRouteTypes {
     | '/admin'
     | '/contact'
     | '/features'
-    | '/impact'
-    | '/mentor'
     | '/mentors'
     | '/partner'
-    | '/pricing'
     | '/privacy-policy'
     | '/programs'
     | '/reception'
@@ -178,11 +148,8 @@ export interface FileRouteTypes {
     | '/admin'
     | '/contact'
     | '/features'
-    | '/impact'
-    | '/mentor'
     | '/mentors'
     | '/partner'
-    | '/pricing'
     | '/privacy-policy'
     | '/programs'
     | '/reception'
@@ -195,11 +162,8 @@ export interface FileRouteTypes {
     | '/admin'
     | '/contact'
     | '/features'
-    | '/impact'
-    | '/mentor'
     | '/mentors'
     | '/partner'
-    | '/pricing'
     | '/privacy-policy'
     | '/programs'
     | '/reception'
@@ -213,11 +177,8 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   ContactRoute: typeof ContactRoute
   FeaturesRoute: typeof FeaturesRoute
-  ImpactRoute: typeof ImpactRoute
-  MentorRoute: typeof MentorRoute
   MentorsRoute: typeof MentorsRoute
   PartnerRoute: typeof PartnerRoute
-  PricingRoute: typeof PricingRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ProgramsRoute: typeof ProgramsRoute
   ReceptionRoute: typeof ReceptionRoute
@@ -262,20 +223,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FeaturesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/impact': {
-      id: '/impact'
-      path: '/impact'
-      fullPath: '/impact'
-      preLoaderRoute: typeof ImpactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/mentor': {
-      id: '/mentor'
-      path: '/mentor'
-      fullPath: '/mentor'
-      preLoaderRoute: typeof MentorRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/mentors': {
       id: '/mentors'
       path: '/mentors'
@@ -288,13 +235,6 @@ declare module '@tanstack/react-router' {
       path: '/partner'
       fullPath: '/partner'
       preLoaderRoute: typeof PartnerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/pricing': {
-      id: '/pricing'
-      path: '/pricing'
-      fullPath: '/pricing'
-      preLoaderRoute: typeof PricingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy-policy': {
@@ -341,11 +281,8 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   ContactRoute: ContactRoute,
   FeaturesRoute: FeaturesRoute,
-  ImpactRoute: ImpactRoute,
-  MentorRoute: MentorRoute,
   MentorsRoute: MentorsRoute,
   PartnerRoute: PartnerRoute,
-  PricingRoute: PricingRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   ProgramsRoute: ProgramsRoute,
   ReceptionRoute: ReceptionRoute,
