@@ -259,10 +259,10 @@ function MentorProfilePage() {
         {/* Header Section */}
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
           <span className="type-eyebrow text-brand-gold">Empathetic & Credentialed Guidance</span>
-          <h1 className="mt-3 text-3xl font-bold tracking-tight text-brand-navy sm:text-4xl md:text-5xl">
+          <h1 className="mt-3 text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-semibold tracking-tight text-brand-navy leading-[1.15]">
             Meet Our Academic Mentors
           </h1>
-          <p className="mt-4 text-sm text-muted-foreground sm:text-base leading-relaxed">
+          <p className="mt-4 text-base sm:text-lg text-muted-foreground font-normal leading-relaxed">
             Guidance from university educators with genuine teaching and research experience. Click
             on any mentor card to view their complete academic background, guidance roadmap, and
             connect directly.
@@ -329,7 +329,7 @@ function MentorProfilePage() {
                 {/* Bottom Content Area */}
                 <div className="absolute inset-x-0 bottom-0 p-6 flex flex-col justify-end text-white">
                   <div className="flex items-center gap-2">
-                    <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white drop-shadow-xs">
+                    <h3 className="text-xl sm:text-2xl font-medium tracking-tight text-white drop-shadow-xs">
                       {mentor.name}
                     </h3>
                     <span
@@ -436,7 +436,7 @@ function MentorProfilePage() {
                       <Sparkles className="h-3 w-3 text-brand-navy" />
                       {selectedMentor.role || "Career Guidance & Student Counselling Mentor"}
                     </Badge>
-                    <h2 className="text-2xl sm:text-3xl font-bold text-brand-navy tracking-tight">
+                    <h2 className="text-2xl sm:text-3xl font-semibold text-brand-navy tracking-tight">
                       {selectedMentor.name}
                     </h2>
                     <p className="mt-1 text-xs sm:text-sm font-semibold text-muted-foreground">

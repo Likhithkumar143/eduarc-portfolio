@@ -39,11 +39,11 @@ export function PageIntro({
       <div className="container-apple pb-14 pt-16 text-center md:pb-20 md:pt-24">
         <div>
           <p className="type-eyebrow">{eyebrow}</p>
-          <h1 className="type-hero mx-auto mt-4 max-w-4xl text-brand-navy tracking-tight">
+          <h1 className="type-hero mx-auto mt-4 max-w-4xl text-brand-navy tracking-tight font-semibold">
             {title}
           </h1>
         </div>
-        {lead && <p className="type-lead mx-auto mt-5 max-w-2xl text-muted-foreground">{lead}</p>}
+        {lead && <p className="type-lead mx-auto mt-5 max-w-2xl text-muted-foreground font-normal leading-relaxed">{lead}</p>}
         {children && <div className="mt-8 flex justify-center">{children}</div>}
       </div>
     </section>
@@ -70,8 +70,8 @@ export function SectionHeading({
   return (
     <Reveal className={cn(align === "center" ? "mx-auto text-center" : "", "max-w-3xl", className)}>
       {eyebrow && <p className="type-eyebrow">{eyebrow}</p>}
-      <h2 className="type-headline mt-3 text-brand-navy">{title}</h2>
-      {lead && <p className="type-lead mt-4 text-muted-foreground leading-relaxed">{lead}</p>}
+      <h2 className="type-headline mt-3 text-brand-navy font-semibold">{title}</h2>
+      {lead && <p className="type-lead mt-4 text-muted-foreground font-normal leading-relaxed">{lead}</p>}
     </Reveal>
   );
 }
@@ -90,10 +90,10 @@ export function CtaBand({
         <Reveal>
           <div className="bg-brand-forest mx-auto max-w-4xl rounded-2xl p-10 text-center md:p-16 border border-brand-forest/20 shadow-card">
             <p className="type-eyebrow text-brand-ivory/80">Next Steps</p>
-            <h2 className="type-headline mx-auto max-w-2xl mt-2 text-[#FAF9F5]">
+            <h2 className="type-headline mx-auto max-w-2xl mt-2 text-[#FAF9F5] font-semibold">
               {title ?? cta.title}
             </h2>
-            <p className="type-lead mx-auto mt-4 max-w-xl text-[#E8E0D1]/90 leading-relaxed">
+            <p className="type-lead mx-auto mt-4 max-w-xl text-[#E8E0D1]/90 font-normal leading-relaxed">
               {lead ?? cta.lead}
             </p>
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
@@ -101,7 +101,7 @@ export function CtaBand({
                 asChild
                 variant="default"
                 size="pill"
-                className="bg-[#FAF9F5] text-brand-forest hover:bg-[#E8E0D1] w-full sm:w-auto justify-center font-medium"
+                className="bg-[#FAF9F5] text-brand-forest hover:bg-[#E8E0D1] w-full sm:w-auto justify-center font-semibold"
               >
                 <Link to="/partner">Partner with us</Link>
               </Button>

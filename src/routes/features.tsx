@@ -61,18 +61,18 @@ function FeaturesPage() {
         <div className="container-apple relative z-10 w-full">
           <div className="pt-10 pb-8 sm:pt-12 sm:pb-10 lg:py-0 max-w-xl lg:max-w-lg xl:max-w-xl text-center sm:text-left">
             <Reveal>
-              <span className="text-xs font-bold tracking-wider text-[#B47A4B] uppercase mb-3 block">
+              <span className="text-xs font-semibold tracking-wider text-[#B47A4B] uppercase mb-3 block">
                 INSTITUTIONAL FEATURES
               </span>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-[42px] xl:text-[46px] font-extrabold text-[#243B35] tracking-tight leading-[1.15]">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] xl:text-[58px] font-semibold text-[#243B35] tracking-tight leading-[1.15]">
                 Structured features for{" "}
                 <span className="text-[#243B35]">
                   schools and colleges.
                 </span>
               </h1>
 
-              <p className="mt-4 text-sm sm:text-base text-slate-600 max-w-lg mx-auto sm:mx-0 leading-relaxed">
+              <p className="mt-4 text-base sm:text-lg text-[#343A36] max-w-lg mx-auto sm:mx-0 font-normal leading-relaxed">
                 {c.featuresPage?.lead ||
                   "Designed to guide, support and empower students — and give institutions full visibility."}
               </p>
@@ -80,7 +80,7 @@ function FeaturesPage() {
               <div className="mt-6 flex flex-wrap gap-3 items-center justify-center sm:justify-start">
                 <Button
                   asChild
-                  className="rounded-full bg-[#243B35] hover:bg-[#1A2C27] text-white text-xs font-semibold px-5 py-2.5 h-10 shadow-xs gap-1.5 cursor-pointer"
+                  className="rounded-full bg-[#243B35] hover:bg-[#1A2C27] text-white text-sm font-semibold px-5 py-2.5 h-10 shadow-xs gap-1.5 cursor-pointer"
                 >
                   <Link to="/partner">
                     <span>Request Institutional Proposal</span>
@@ -90,7 +90,7 @@ function FeaturesPage() {
                 <Button
                   asChild
                   variant="outline"
-                  className="rounded-full border-[#243B35] bg-transparent hover:bg-[#243B35]/10 text-[#243B35] text-xs font-medium px-4 py-2.5 h-10 cursor-pointer"
+                  className="rounded-full border-[#243B35] bg-transparent hover:bg-[#243B35]/10 text-[#243B35] text-sm font-semibold px-4 py-2.5 h-10 cursor-pointer"
                 >
                   <Link to="/contact">Speak with Partnerships Team</Link>
                 </Button>
@@ -121,16 +121,16 @@ function FeaturesPage() {
                 <span className="text-[11px] font-bold tracking-wider text-[#B47A4B] uppercase block">
                   LET'S WORK TOGETHER
                 </span>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#243B35] tracking-tight">
+                <h2 className="text-3xl sm:text-4xl lg:text-[38px] font-semibold text-[#243B35] tracking-tight leading-snug">
                   Partner with EDUARC
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-600 max-w-lg mx-auto sm:mx-0 leading-relaxed">
+                <p className="text-sm sm:text-base text-[#343A36] max-w-lg mx-auto sm:mx-0 font-normal leading-relaxed">
                   Let's build brighter futures for your students, together.
                 </p>
                 <div className="pt-2 flex flex-wrap gap-3 items-center justify-center sm:justify-start">
                   <Button
                     asChild
-                    className="rounded-full bg-[#243B35] hover:bg-[#1A2C27] text-white text-xs font-semibold px-5 py-2.5 h-10 shadow-xs gap-1.5 cursor-pointer"
+                    className="rounded-full bg-[#243B35] hover:bg-[#1A2C27] text-white text-sm font-semibold px-5 py-2.5 h-10 shadow-xs gap-1.5 cursor-pointer"
                   >
                     <Link to="/partner">
                       <span>Request Institutional Proposal</span>
@@ -140,7 +140,7 @@ function FeaturesPage() {
                   <Button
                     asChild
                     variant="outline"
-                    className="rounded-full border-[#243B35] bg-transparent hover:bg-[#243B35]/10 text-[#243B35] text-xs font-medium px-4 py-2.5 h-10 cursor-pointer"
+                    className="rounded-full border-[#243B35] bg-transparent hover:bg-[#243B35]/10 text-[#243B35] text-sm font-semibold px-4 py-2.5 h-10 cursor-pointer"
                   >
                     <Link to="/about">Learn More</Link>
                   </Button>

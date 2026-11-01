@@ -72,12 +72,12 @@ function AboutPage() {
                 </span>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[44px] xl:text-[48px] font-extrabold text-[#243B35] tracking-tight leading-[1.15]">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] xl:text-[58px] font-semibold text-[#243B35] tracking-tight leading-[1.15]">
                 Empowering Students <br className="hidden sm:inline" />
                 to Discover <span className="text-[#B47A4B]">Their Future.</span>
               </h1>
 
-              <p className="mt-4 text-sm sm:text-base text-slate-600 max-w-lg mx-auto sm:mx-0 leading-relaxed">
+              <p className="mt-4 text-base sm:text-lg text-[#343A36] max-w-lg mx-auto sm:mx-0 font-normal leading-relaxed">
                 {c.about?.lead ||
                   "EduArc is a career guidance platform designed to help students make informed decisions about their future. We provide the right guidance, resources and support to turn your dreams into achievable goals."}
               </p>
@@ -115,7 +115,7 @@ function AboutPage() {
                 <div className="hidden sm:block h-9 w-[1px] bg-[#E2DBD0]" />
 
                 <div>
-                  <h3 className="text-base sm:text-lg font-extrabold text-[#243B35] tracking-tight leading-snug">
+                  <h3 className="text-lg sm:text-xl font-semibold text-[#243B35] tracking-tight leading-snug">
                     Your Future Starts With <br className="hidden sm:inline" />
                     The <span className="text-[#B47A4B]">Right Guidance.</span>
                   </h3>
@@ -123,14 +123,14 @@ function AboutPage() {
               </div>
 
               {/* Subtext */}
-              <p className="text-xs sm:text-sm text-slate-600 max-w-sm">
+              <p className="text-sm sm:text-base text-[#343A36] max-w-sm font-normal">
                 Join EduArc today and take the first step towards a successful career.
               </p>
 
               {/* Action Button */}
               <Button
                 asChild
-                className="rounded-full bg-[#243B35] hover:bg-[#1A2C27] text-white text-xs font-semibold px-6 py-2.5 h-10 shadow-xs shrink-0 gap-2 cursor-pointer"
+                className="rounded-full bg-[#243B35] hover:bg-[#1A2C27] text-white text-sm font-semibold px-6 py-2.5 h-10 shadow-xs shrink-0 gap-2 cursor-pointer"
               >
                 <Link to="/partner">
                   <span>Get Started</span>

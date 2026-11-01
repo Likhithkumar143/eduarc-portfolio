@@ -242,12 +242,12 @@ export function TestimonialsContent() {
 
               return (
                 <Reveal key={t.name + idx} delay={idx * 60}>
-                  <div className="group h-full rounded-2xl border border-slate-200/70 bg-white p-6 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_32px_-6px_rgba(37,99,235,0.09)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
+                  <div className="group h-full rounded-2xl border border-hairline bg-white p-6 shadow-xs hover:shadow-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
                     <div>
                       {/* Top Header: Avatar + Info + Quote Icon */}
                       <div className="flex items-center justify-between gap-3">
                         <div className="flex items-center gap-3">
-                          <div className="h-11 w-11 rounded-full overflow-hidden bg-slate-100 border border-slate-200/80 shrink-0 shadow-2xs flex items-center justify-center">
+                          <div className="h-11 w-11 rounded-full overflow-hidden bg-[#FAF9F5] border border-hairline shrink-0 shadow-2xs flex items-center justify-center">
                             <img
                               src={avatarSrc}
                               alt={t.name}
@@ -263,10 +263,10 @@ export function TestimonialsContent() {
                             />
                           </div>
                           <div>
-                            <h3 className="text-[15px] font-bold text-slate-900 leading-tight">
+                            <h3 className="text-base font-medium text-[#243B35] leading-tight">
                               {t.name}
                             </h3>
-                            <p className="text-xs text-slate-500 font-normal mt-0.5">{t.role}</p>
+                            <p className="text-xs text-[#343A36]/70 font-normal mt-0.5">{t.role}</p>
                           </div>
                         </div>
 
@@ -277,7 +277,7 @@ export function TestimonialsContent() {
                       </div>
 
                       {/* Middle: Testimonial Quote */}
-                      <blockquote className="mt-4 mb-5 text-[13px] sm:text-[13.5px] text-slate-600 leading-relaxed font-normal">
+                      <blockquote className="mt-4 mb-5 text-[15px] sm:text-base text-[#343A36] leading-relaxed font-normal">
                         “{t.quote}”
                       </blockquote>
                     </div>
@@ -313,30 +313,30 @@ export function TestimonialsContent() {
                   <div className="flex-1 min-w-0 grid grid-cols-2 sm:grid-cols-4 items-center">
                     {/* Stat 1: Programs Conducted */}
                     <div className="min-w-0 pr-3 sm:pr-4 lg:pr-5">
-                      <p className="text-lg sm:text-xl lg:text-[22px] xl:text-2xl font-black text-[#243B35] tracking-tight tabular-nums whitespace-nowrap">
+                      <p className="text-lg sm:text-xl lg:text-[22px] xl:text-2xl font-semibold text-[#243B35] tracking-tight tabular-nums whitespace-nowrap">
                         {stats.programsConducted}
                       </p>
-                      <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5 leading-snug line-clamp-2">
+                      <p className="text-[11px] sm:text-xs text-[#343A36]/70 font-medium mt-0.5 leading-snug line-clamp-2">
                         {stats.programsLabel}
                       </p>
                     </div>
 
                     {/* Stat 2: Institutions Partnered */}
                     <div className="min-w-0 pl-3 sm:px-4 lg:px-5 border-l border-hairline">
-                      <p className="text-lg sm:text-xl lg:text-[22px] xl:text-2xl font-black text-[#243B35] tracking-tight tabular-nums whitespace-nowrap">
+                      <p className="text-lg sm:text-xl lg:text-[22px] xl:text-2xl font-semibold text-[#243B35] tracking-tight tabular-nums whitespace-nowrap">
                         {stats.institutionsPartnered}
                       </p>
-                      <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5 leading-snug line-clamp-2">
+                      <p className="text-[11px] sm:text-xs text-[#343A36]/70 font-medium mt-0.5 leading-snug line-clamp-2">
                         {stats.institutionsLabel}
                       </p>
                     </div>
 
                     {/* Stat 3: Students Reached */}
                     <div className="min-w-0 pt-3 sm:pt-0 pr-3 sm:px-4 lg:px-5 sm:border-l sm:border-hairline">
-                      <p className="text-lg sm:text-xl lg:text-[22px] xl:text-2xl font-black text-[#243B35] tracking-tight tabular-nums whitespace-nowrap">
+                      <p className="text-lg sm:text-xl lg:text-[22px] xl:text-2xl font-semibold text-[#243B35] tracking-tight tabular-nums whitespace-nowrap">
                         {stats.studentsReached}
                       </p>
-                      <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5 leading-snug line-clamp-2">
+                      <p className="text-[11px] sm:text-xs text-[#343A36]/70 font-medium mt-0.5 leading-snug line-clamp-2">
                         {stats.studentsLabel}
                       </p>
                     </div>

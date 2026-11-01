@@ -66,16 +66,16 @@ function TestimonialsPage() {
         <div className="container-apple relative z-10 w-full">
           <div className="pt-10 pb-8 sm:pt-12 sm:pb-10 lg:py-0 max-w-xl lg:max-w-lg xl:max-w-xl text-center sm:text-left">
             <Reveal>
-              <span className="text-xs font-bold tracking-wider text-[#B47A4B] uppercase mb-3 block">
+              <span className="text-xs font-semibold tracking-wider text-[#B47A4B] uppercase mb-3 block">
                 {pageContent.badge || "TESTIMONIALS"}
               </span>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-[42px] xl:text-[46px] font-extrabold text-[#243B35] tracking-tight leading-[1.15]">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] xl:text-[58px] font-semibold text-[#243B35] tracking-tight leading-[1.15]">
                 {pageContent.title} <br className="hidden sm:inline" />
                 <span className="text-[#B47A4B]">{pageContent.titleHighlight}</span>
               </h1>
 
-              <p className="mt-4 text-sm sm:text-base text-slate-600 max-w-lg mx-auto sm:mx-0 leading-relaxed">
+              <p className="mt-4 text-base sm:text-lg text-[#343A36] max-w-lg mx-auto sm:mx-0 font-normal leading-relaxed">
                 {pageContent.lead}
               </p>
             </Reveal>

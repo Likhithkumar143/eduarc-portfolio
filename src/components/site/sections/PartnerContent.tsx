@@ -50,11 +50,11 @@ export function PartnerContent() {
                 {c.partnerPage?.badge || "Student & Institutional Enquiries"}
               </span>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-[46px] font-extrabold tracking-tight text-brand-navy leading-[1.12]">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] xl:text-[58px] font-semibold tracking-tight text-brand-navy leading-[1.15]">
                 {c.partnerPage?.title || "Start your guidance journey with EDUARC."}
               </h1>
 
-              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl">
+              <p className="text-base sm:text-lg text-muted-foreground font-normal leading-relaxed max-w-xl">
                 {c.partnerPage?.lead ||
                   "Whether you are a student evaluating streams after Class 10 or 12, a parent seeking objective higher-education advice, or a school administrator planning a student guidance cohort."}
               </p>
@@ -62,7 +62,7 @@ export function PartnerContent() {
 
             {/* What to Expect After Submitting */}
             <div className="space-y-4 pt-2">
-              <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-brand-navy/70">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-navy/80">
                 What to Expect After Submitting:
               </p>
 
@@ -75,8 +75,8 @@ export function PartnerContent() {
                         <Icon className="h-5 w-5" />
                       </div>
                       <div className="space-y-0.5">
-                        <h3 className="text-sm font-bold text-brand-navy">{item.title}</h3>
-                        <p className="text-xs text-muted-foreground leading-relaxed">{item.body}</p>
+                        <h3 className="text-base font-medium text-brand-navy">{item.title}</h3>
+                        <p className="text-sm text-muted-foreground font-normal leading-relaxed">{item.body}</p>
                       </div>
                     </div>
                   );

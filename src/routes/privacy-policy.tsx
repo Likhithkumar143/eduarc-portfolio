@@ -92,7 +92,7 @@ function PrivacyPolicyPage() {
           <section className="space-y-3">
             <div className="flex items-center gap-2">
               <Badge variant="navy">Section A</Badge>
-              <h2 className="text-lg font-bold text-brand-navy">Introduction &amp; Purpose</h2>
+              <h2 className="text-lg sm:text-xl font-semibold text-brand-navy">Introduction &amp; Purpose</h2>
             </div>
             <p>
               EDUARC Connect (&ldquo;EDUARC&rdquo;, &ldquo;we&rdquo;, &ldquo;our&rdquo;, or
@@ -114,7 +114,7 @@ function PrivacyPolicyPage() {
           <section className="space-y-3">
             <div className="flex items-center gap-2">
               <Badge variant="navy">Section B</Badge>
-              <h2 className="text-lg font-bold text-brand-navy">Information We Collect</h2>
+              <h2 className="text-lg sm:text-xl font-semibold text-brand-navy">Information We Collect</h2>
             </div>
             <p>
               We only collect personal information that is reasonably necessary to provide
@@ -162,7 +162,7 @@ function PrivacyPolicyPage() {
           <section className="space-y-3">
             <div className="flex items-center gap-2">
               <Badge variant="navy">Section C</Badge>
-              <h2 className="text-lg font-bold text-brand-navy">How We Use Information</h2>
+              <h2 className="text-lg sm:text-xl font-semibold text-brand-navy">How We Use Information</h2>
             </div>
             <p>
               We use submitted personal information solely for legitimate educational purposes,
@@ -186,7 +186,7 @@ function PrivacyPolicyPage() {
           <section className="space-y-3 rounded-2xl border border-brand-gold/30 bg-brand-gold-soft/50 p-5 md:p-6">
             <div className="flex items-center gap-2">
               <Badge variant="gold">Section D</Badge>
-              <h2 className="text-lg font-bold text-brand-navy">
+              <h2 className="text-lg sm:text-xl font-semibold text-brand-navy">
                 Children &amp; Parental Consent (DPDPA 2023)
               </h2>
             </div>
@@ -219,7 +219,7 @@ function PrivacyPolicyPage() {
           <section className="space-y-3">
             <div className="flex items-center gap-2">
               <Badge variant="navy">Section E</Badge>
-              <h2 className="text-lg font-bold text-brand-navy">Sharing of Information</h2>
+              <h2 className="text-lg sm:text-xl font-semibold text-brand-navy">Sharing of Information</h2>
             </div>
             <p className="font-semibold text-brand-navy">
               EDUARC Connect does not sell, rent, trade, or monetize your personal information under
@@ -250,7 +250,7 @@ function PrivacyPolicyPage() {
           <section className="space-y-3">
             <div className="flex items-center gap-2">
               <Badge variant="navy">Section F</Badge>
-              <h2 className="text-lg font-bold text-brand-navy">Data Security &amp; Retention</h2>
+              <h2 className="text-lg sm:text-xl font-semibold text-brand-navy">Data Security &amp; Retention</h2>
             </div>
             <p>
               We implement industry-standard administrative, physical, and technical safeguards. All
@@ -270,7 +270,7 @@ function PrivacyPolicyPage() {
           <section className="space-y-3">
             <div className="flex items-center gap-2">
               <Badge variant="navy">Section G</Badge>
-              <h2 className="text-lg font-bold text-brand-navy">Your Rights &amp; Choices</h2>
+              <h2 className="text-lg sm:text-xl font-semibold text-brand-navy">Your Rights &amp; Choices</h2>
             </div>
             <p>Under the DPDPA 2023 and applicable privacy principles, you have the right to:</p>
             <ul className="list-disc pl-5 space-y-2 text-foreground/80">
@@ -307,7 +307,7 @@ function PrivacyPolicyPage() {
           <section className="space-y-3">
             <div className="flex items-center gap-2">
               <Badge variant="navy">Section H</Badge>
-              <h2 className="text-lg font-bold text-brand-navy">
+              <h2 className="text-lg sm:text-xl font-semibold text-brand-navy">
                 Cookies &amp; Tracking Technologies
               </h2>
             </div>
@@ -323,7 +323,7 @@ function PrivacyPolicyPage() {
           <section className="space-y-3">
             <div className="flex items-center gap-2">
               <Badge variant="navy">Section I</Badge>
-              <h2 className="text-lg font-bold text-brand-navy">
+              <h2 className="text-lg sm:text-xl font-semibold text-brand-navy">
                 Third-Party Links &amp; Services
               </h2>
             </div>
@@ -340,7 +340,7 @@ function PrivacyPolicyPage() {
           <section className="space-y-3">
             <div className="flex items-center gap-2">
               <Badge variant="navy">Section J</Badge>
-              <h2 className="text-lg font-bold text-brand-navy">Policy Updates</h2>
+              <h2 className="text-lg sm:text-xl font-semibold text-brand-navy">Policy Updates</h2>
             </div>
             <p>
               We may periodically revise this Privacy Policy to reflect updates in our guidance
@@ -353,7 +353,7 @@ function PrivacyPolicyPage() {
           <section className="space-y-3 rounded-2xl border border-hairline bg-surface/60 p-6">
             <div className="flex items-center gap-2">
               <Badge variant="navy">Section K</Badge>
-              <h2 className="text-lg font-bold text-brand-navy">
+              <h2 className="text-lg sm:text-xl font-semibold text-brand-navy">
                 Contact Information &amp; Grievance Redressal
               </h2>
             </div>

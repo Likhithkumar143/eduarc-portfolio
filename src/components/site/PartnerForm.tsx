@@ -288,7 +288,7 @@ export function PartnerForm() {
         <div className="space-y-4 pt-1">
           <div className="flex items-center gap-2 border-b border-hairline/60 pb-2.5">
             <UserCheck className="h-4 w-4 text-[#243B35] shrink-0" />
-            <h3 className="text-sm font-bold text-brand-navy">
+            <h3 className="text-sm font-semibold text-brand-navy">
               2. {roleLabels[form.role]} Details
             </h3>
           </div>
@@ -823,7 +823,7 @@ export function PartnerForm() {
             <button
               type="submit"
               disabled={busy}
-              className="w-full h-12 rounded-xl bg-[#243B35] hover:bg-[#1A2C27] text-white font-bold text-sm shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full h-12 rounded-xl bg-[#243B35] hover:bg-[#1A2C27] text-white font-semibold text-[15px] shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {busy ? (
                 <>

@@ -175,12 +175,12 @@ function Index() {
               <span>{c.home.eyebrow || "Ambitious to Achievement"}</span>
             </div>
 
-            <h1 className="type-hero mx-auto max-w-4xl text-brand-navy font-bold tracking-tight">
+            <h1 className="type-hero mx-auto max-w-4xl text-brand-navy font-semibold tracking-tight">
               {c.home.title}{" "}
               <GradientText>{c.home.titleHighlight || "brighter future."}</GradientText>
             </h1>
 
-            <p className="type-lead mx-auto mt-6 max-w-2xl text-muted-foreground leading-relaxed">
+            <p className="type-lead mx-auto mt-6 max-w-2xl text-muted-foreground font-normal leading-relaxed">
               {c.home.lead}
             </p>
 
@@ -275,13 +275,13 @@ function Index() {
                           <Icon className="h-5 w-5" />
                         </div>
                       </div>
-                      <h3 className="mt-5 text-xl font-bold tracking-tight text-brand-navy">
+                      <h3 className="mt-5 text-xl sm:text-2xl font-medium tracking-tight text-brand-navy">
                         {stepItem.title}
                       </h3>
-                      <p className="mt-1 text-xs font-semibold text-brand-gold">
+                      <p className="mt-1 text-xs sm:text-sm font-medium text-brand-gold">
                         {stepItem.subtitle}
                       </p>
-                      <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                      <p className="mt-3 text-sm sm:text-base text-muted-foreground font-normal leading-relaxed">
                         {stepItem.description}
                       </p>
                     </div>
@@ -312,10 +312,10 @@ function Index() {
                           {path.highlight}
                         </span>
                       </div>
-                      <h3 className="text-xl font-bold text-brand-navy tracking-tight">
+                      <h3 className="text-xl sm:text-2xl font-medium text-brand-navy tracking-tight">
                         {path.title}
                       </h3>
-                      <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                      <p className="mt-3 text-sm sm:text-base text-muted-foreground font-normal leading-relaxed">
                         {path.description}
                       </p>
                     </div>

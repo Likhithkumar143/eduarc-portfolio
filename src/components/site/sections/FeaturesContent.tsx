@@ -66,13 +66,13 @@ export function FeaturesContent() {
           {/* Section Heading with paper plane doodle */}
           <div className="relative max-w-2xl mb-12">
             <Reveal>
-              <span className="text-xs font-bold tracking-wider text-[#B47A4B] uppercase mb-2 block">
+              <span className="text-xs font-semibold tracking-wider text-[#B47A4B] uppercase mb-2 block">
                 {c.featuresPage?.levelsEyebrow || "FEATURE LEVELS"}
               </span>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#243B35] tracking-tight">
+              <h2 className="text-3xl sm:text-4xl lg:text-[38px] font-semibold text-[#243B35] tracking-tight leading-snug">
                 {c.featuresPage?.levelsTitle || "Designed for every critical academic transition."}
               </h2>
-              <p className="mt-3 text-sm text-slate-600 leading-relaxed">
+              <p className="mt-3 text-base sm:text-lg text-[#343A36] font-normal leading-relaxed">
                 {c.featuresPage?.levelsLead ||
                   "Our features are calibrated to the exact developmental and academic stage of your student body."}
               </p>
@@ -282,13 +282,13 @@ export function FeaturesContent() {
             {/* Left Content */}
             <div className="lg:col-span-6 space-y-4">
               <Reveal>
-                <span className="text-xs font-bold tracking-wider text-[#B47A4B] uppercase mb-2 block">
+                <span className="text-xs font-semibold tracking-wider text-[#B47A4B] uppercase mb-2 block">
                   DELIVERY FORMAT
                 </span>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-[#243B35] tracking-tight">
+                <h2 className="text-3xl sm:text-4xl lg:text-[38px] font-semibold text-[#243B35] tracking-tight leading-snug">
                   Flexible on-campus and hybrid formats.
                 </h2>
-                <p className="text-sm text-slate-600 leading-relaxed max-w-lg">
+                <p className="text-base sm:text-lg text-[#343A36] font-normal leading-relaxed max-w-lg">
                   Whether you prefer in-person auditorium seminars, classroom workshops, or structured hybrid sessions with parent participation, EDUARC seamlessly adapts to your institutional timetable.
                 </p>
 
@@ -298,8 +298,8 @@ export function FeaturesContent() {
                       <Calendar className="h-5 w-5" />
                     </div>
                     <div>
-                      <h4 className="text-xs font-bold text-[#243B35]">On-Campus Seminars</h4>
-                      <p className="text-[11px] text-slate-500">Direct mentor engagement</p>
+                      <h4 className="text-sm sm:text-base font-medium text-[#243B35]">On-Campus Seminars</h4>
+                      <p className="text-xs text-[#343A36]/80 font-normal">Direct mentor engagement</p>
                     </div>
                   </div>
 
@@ -308,8 +308,8 @@ export function FeaturesContent() {
                       <Users className="h-5 w-5" />
                     </div>
                     <div>
-                      <h4 className="text-xs font-bold text-[#243B35]">Parent Orientations</h4>
-                      <p className="text-[11px] text-slate-500">Joint guidance clarity</p>
+                      <h4 className="text-sm sm:text-base font-medium text-[#243B35]">Parent Orientations</h4>
+                      <p className="text-xs text-[#343A36]/80 font-normal">Joint guidance clarity</p>
                     </div>
                   </div>
                 </div>
@@ -375,13 +375,13 @@ export function FeaturesContent() {
         <div className="container-apple">
           <div className="max-w-2xl mb-12">
             <Reveal>
-              <span className="text-xs font-bold tracking-wider text-[#B47A4B] uppercase mb-2 block">
+              <span className="text-xs font-semibold tracking-wider text-[#B47A4B] uppercase mb-2 block">
                 {c.featuresPage?.onboardingEyebrow || "SMOOTH IMPLEMENTATION"}
               </span>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#243B35] tracking-tight">
+              <h2 className="text-3xl sm:text-4xl lg:text-[38px] font-semibold text-[#243B35] tracking-tight leading-snug">
                 {c.featuresPage?.onboardingTitle || "Four simple steps from consultation to roadmap delivery."}
               </h2>
-              <p className="mt-3 text-sm text-slate-600 leading-relaxed">
+              <p className="mt-3 text-base sm:text-lg text-[#343A36] font-normal leading-relaxed">
                 {c.featuresPage?.onboardingLead ||
                   "We handle session logistics and guidance materials so your school administration can focus on supporting your students."}
               </p>
@@ -430,13 +430,13 @@ export function FeaturesContent() {
               {/* Left Side: Impact Stats & Heading */}
               <div className="lg:col-span-5 space-y-4">
                 <Reveal>
-                  <span className="text-xs font-bold tracking-wider text-[#B47A4B] uppercase mb-2 block">
+                  <span className="text-xs font-semibold tracking-wider text-[#B47A4B] uppercase mb-2 block">
                     {c.featuresPage?.suiteEyebrow || "WHY PARTNER WITH EDUARC"}
                   </span>
-                  <h2 className="text-2xl sm:text-3xl font-extrabold text-[#243B35] tracking-tight">
+                  <h2 className="text-3xl sm:text-4xl lg:text-[38px] font-semibold text-[#243B35] tracking-tight leading-snug">
                     {c.featuresPage?.suiteTitle || "Real impact for your institution."}
                   </h2>
-                  <p className="text-sm text-slate-600 leading-relaxed">
+                  <p className="text-base sm:text-lg text-[#343A36] font-normal leading-relaxed">
                     {c.featuresPage?.suiteLead ||
                       "Partner with EDUARC to provide structured career guidance and create measurable outcomes for your students."}
                   </p>

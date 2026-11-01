@@ -132,11 +132,11 @@ function ProgramSessionDetailPage() {
                   </div>
                 </div>
 
-                <h1 className="text-2xl sm:text-3xl lg:text-[34px] font-bold text-brand-navy tracking-tight leading-tight">
+                <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold text-brand-navy tracking-tight leading-[1.15]">
                   {session.title}
                 </h1>
 
-                <p className="mt-4 text-sm sm:text-base text-muted-foreground leading-relaxed max-w-2xl">
+                <p className="mt-4 text-base sm:text-lg text-muted-foreground font-normal leading-relaxed max-w-2xl">
                   {session.description}
                 </p>
 

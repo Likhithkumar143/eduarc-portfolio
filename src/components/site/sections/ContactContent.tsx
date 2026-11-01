@@ -284,15 +284,15 @@ export function ContactContent() {
             {/* Left Box: We're Here for What's Next */}
             <div className="lg:col-span-5 bg-[#F5F1E8] p-6 sm:p-8 lg:p-10 flex flex-col justify-between relative overflow-hidden">
               <div className="space-y-4 relative z-10">
-                <span className="text-[11px] font-bold text-[#B47A4B] uppercase tracking-wider block">
+                <span className="text-xs font-semibold text-[#B47A4B] uppercase tracking-wider block">
                   {contactPage.connectEyebrow || "— Ready to Connect?"}
                 </span>
 
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-[#243B35] tracking-tight leading-snug">
+                <h3 className="text-2xl sm:text-3xl lg:text-[34px] font-semibold text-[#243B35] tracking-tight leading-snug">
                   {contactPage.connectTitle || "We’re Here for What’s Next"}
                 </h3>
 
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-sm">
+                <p className="text-sm sm:text-base text-[#343A36] font-normal leading-relaxed max-w-sm">
                   {contactPage.connectLead}
                 </p>
 
@@ -381,13 +381,13 @@ export function ContactContent() {
             <div className="lg:col-span-7 bg-white p-6 sm:p-8 lg:p-10 flex flex-col justify-between space-y-6">
               <div className="space-y-5">
                 <div>
-                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#F5F1E8] text-[#B47A4B] border border-[#E2DBD0] inline-block mb-2">
+                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-[#F5F1E8] text-[#B47A4B] border border-[#E2DBD0] inline-block mb-2">
                     {contactPage.messageBadge || "Quick Contact"}
                   </span>
-                  <h3 className="text-2xl sm:text-3xl font-extrabold text-[#243B35] tracking-tight">
+                  <h3 className="text-2xl sm:text-3xl lg:text-[34px] font-semibold text-[#243B35] tracking-tight leading-snug">
                     {contactPage.messageTitle || "Send Us a Message"}
                   </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
+                  <p className="text-sm sm:text-base text-[#343A36] font-normal mt-1 leading-relaxed">
                     {contactPage.messageLead ||
                       "Have a specific question or inquiry? Choose a topic and we'll get back to you with the right person from our team."}
                   </p>

@@ -42,10 +42,10 @@ export function ProgramsSection({ id }: { id?: string }) {
       <section className="pt-10 md:pt-16 pb-6 md:pb-8">
         <div className="container-wide">
           <div className="max-w-3xl">
-            <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-bold text-brand-navy tracking-tight leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-semibold text-brand-navy tracking-tight leading-[1.15]">
               {c.programsPage?.title || "Our Programs"}
             </h1>
-            <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
+            <p className="mt-3 sm:mt-4 text-base sm:text-lg text-muted-foreground font-normal leading-relaxed">
               {c.programsPage?.lead ||
                 "Explore the career guidance sessions, workshops and seminars conducted by EDUARC at various schools and colleges."}
             </p>
@@ -55,28 +55,28 @@ export function ProgramsSection({ id }: { id?: string }) {
               <button
                 type="button"
                 onClick={() => setFilter("all")}
-                className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 ${
+                className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
                   filter === "all"
                     ? "bg-brand-navy text-white shadow-xs"
                     : "bg-white text-muted-foreground border border-hairline hover:text-brand-navy hover:border-brand-navy/30"
                 }`}
               >
                 <span>All Programs</span>
-                <span className="text-[11px] opacity-75">({programsList.length})</span>
+                <span className="text-xs opacity-75">({programsList.length})</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setFilter("school")}
-                className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 ${
+                className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
                   filter === "school"
                     ? "bg-brand-navy text-white shadow-xs"
                     : "bg-white text-muted-foreground border border-hairline hover:text-brand-navy hover:border-brand-navy/30"
                 }`}
               >
-                <School className="h-3.5 w-3.5" />
+                <School className="h-4 w-4" />
                 <span>School Sessions</span>
-                <span className="text-[11px] opacity-75">
+                <span className="text-xs opacity-75">
                   ({programsList.filter((p) => p.type === "school").length})
                 </span>
               </button>
@@ -84,15 +84,15 @@ export function ProgramsSection({ id }: { id?: string }) {
               <button
                 type="button"
                 onClick={() => setFilter("college")}
-                className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 ${
+                className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
                   filter === "college"
                     ? "bg-brand-navy text-white shadow-xs"
                     : "bg-white text-muted-foreground border border-hairline hover:text-brand-navy hover:border-brand-navy/30"
                 }`}
               >
-                <GraduationCap className="h-3.5 w-3.5" />
+                <GraduationCap className="h-4 w-4" />
                 <span>Colleges & Universities</span>
-                <span className="text-[11px] opacity-75">
+                <span className="text-xs opacity-75">
                   ({programsList.filter((p) => p.type === "college").length})
                 </span>
               </button>
@@ -192,10 +192,10 @@ export function ProgramsSection({ id }: { id?: string }) {
                 <Sparkles className="h-3.5 w-3.5 text-brand-gold" />
                 <span>Host an EDUARC Program</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-brand-navy tracking-tight">
+              <h2 className="text-3xl sm:text-4xl lg:text-[38px] font-semibold text-brand-navy tracking-tight leading-snug">
                 Bring authentic career workshops to your campus.
               </h2>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <p className="text-base sm:text-lg text-muted-foreground font-normal leading-relaxed">
                 We design and deliver interactive seminars, 1-on-1 counselor sessions, and structured
                 student roadmaps tailored to your school or college academic schedule.
               </p>

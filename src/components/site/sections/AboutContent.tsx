@@ -244,16 +244,16 @@ export function AboutContent() {
               <Reveal>
                 <div className="inline-flex items-center gap-2 mb-3 justify-center sm:justify-start">
                   <span className="w-6 h-[2.5px] bg-[#B47A4B] inline-block rounded-full" />
-                  <span className="text-xs font-bold tracking-wider text-slate-500 uppercase">
+                  <span className="text-xs font-semibold tracking-wider text-[#343A36]/70 uppercase">
                     {c.about.whoWeAreEyebrow || "WHO WE ARE"}
                   </span>
                 </div>
 
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#243B35] tracking-tight">
+                <h2 className="text-3xl sm:text-4xl lg:text-[38px] font-semibold text-[#243B35] tracking-tight leading-snug">
                   {c.about.whoWeAreTitle || "What is EduArc?"}
                 </h2>
 
-                <p className="mt-4 text-sm sm:text-base text-slate-600 leading-relaxed max-w-xl mx-auto sm:mx-0">
+                <p className="mt-4 text-base sm:text-lg text-[#343A36] font-normal leading-relaxed max-w-xl mx-auto sm:mx-0">
                   {c.about.whoWeAreLead ||
                     "EduArc is a modern career guidance platform that connects students with expert mentors, learning programs and industry insights. We help you explore career options, build essential skills and take confident steps towards your dream career."}
                 </p>
@@ -325,16 +325,16 @@ export function AboutContent() {
               <Reveal>
                 <div className="inline-flex items-center gap-2 mb-3 justify-center sm:justify-start">
                   <span className="w-6 h-[2.5px] bg-[#B47A4B] inline-block rounded-full" />
-                  <span className="text-xs font-bold tracking-wider text-slate-500 uppercase">
+                  <span className="text-xs font-semibold tracking-wider text-[#343A36]/70 uppercase">
                     {c.about.problemsEyebrow || "THE PROBLEM WE SOLVE"}
                   </span>
                 </div>
 
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#243B35] tracking-tight leading-tight">
+                <h2 className="text-3xl sm:text-4xl lg:text-[38px] font-semibold text-[#243B35] tracking-tight leading-snug">
                   {c.about.problemsTitle || "Common Challenges Students Face"}
                 </h2>
 
-                <p className="mt-4 text-sm sm:text-base text-slate-600 leading-relaxed max-w-md mx-auto sm:mx-0">
+                <p className="mt-4 text-base sm:text-lg text-[#343A36] font-normal leading-relaxed max-w-md mx-auto sm:mx-0">
                   {c.about.problemsLead ||
                     "We understand the struggles. Here are some of the key problems students face today:"}
                 </p>
@@ -353,10 +353,10 @@ export function AboutContent() {
                           <Icon className="w-5 h-5" />
                         </div>
                         <div>
-                          <h3 className="text-sm sm:text-base font-bold text-[#243B35] leading-snug">
+                          <h3 className="text-base sm:text-lg font-medium text-[#243B35] leading-snug">
                             {item.title}
                           </h3>
-                          <p className="mt-1 text-xs sm:text-sm text-slate-500 leading-relaxed">
+                          <p className="mt-1 text-sm text-[#343A36]/80 font-normal leading-relaxed">
                             {item.description}
                           </p>
                         </div>
@@ -380,11 +380,11 @@ export function AboutContent() {
             <div className="text-center sm:text-left mb-12">
               <div className="inline-flex items-center gap-2 mb-3 justify-center sm:justify-start">
                 <span className="w-6 h-[2.5px] bg-[#B47A4B] inline-block rounded-full" />
-                <span className="text-xs font-bold tracking-wider text-slate-500 uppercase">
+                <span className="text-xs font-semibold tracking-wider text-[#343A36]/70 uppercase">
                   {c.about.solutionsEyebrow || "OUR SOLUTIONS"}
                 </span>
               </div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#243B35] tracking-tight">
+              <h2 className="text-3xl sm:text-4xl lg:text-[38px] font-semibold text-[#243B35] tracking-tight leading-snug">
                 {c.about.solutionsTitle || "How We Help You"}
               </h2>
             </div>
@@ -403,10 +403,10 @@ export function AboutContent() {
                       >
                         <Icon className="w-5 h-5" />
                       </div>
-                      <h3 className="text-base sm:text-lg font-bold text-[#243B35] leading-snug">
+                      <h3 className="text-lg sm:text-xl font-medium text-[#243B35] leading-snug">
                         {item.title}
                       </h3>
-                      <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                      <p className="mt-2.5 text-sm sm:text-base text-[#343A36]/80 font-normal leading-relaxed">
                         {item.description}
                       </p>
                     </div>
@@ -430,12 +430,12 @@ export function AboutContent() {
               <Reveal>
                 <div className="inline-flex items-center gap-2 mb-3 justify-center sm:justify-start">
                   <span className="w-6 h-[2.5px] bg-[#B47A4B] inline-block rounded-full" />
-                  <span className="text-xs font-bold tracking-wider text-slate-500 uppercase">
+                  <span className="text-xs font-semibold tracking-wider text-[#343A36]/70 uppercase">
                     OUR MISSION &amp; VISION
                   </span>
                 </div>
 
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#243B35] tracking-tight">
+                <h2 className="text-3xl sm:text-4xl lg:text-[38px] font-semibold text-[#243B35] tracking-tight leading-snug">
                   {c.about.missionTitle || "Building a Brighter Future"}
                 </h2>
 
@@ -446,9 +446,9 @@ export function AboutContent() {
                       <div className="w-8 h-8 rounded-full bg-[#FAF9F5] text-[#B47A4B] border border-[#E2DBD0] flex items-center justify-center">
                         <Target className="w-4 h-4" />
                       </div>
-                      <h3 className="text-base font-bold text-[#243B35]">Mission</h3>
+                      <h3 className="text-lg font-medium text-[#243B35]">Mission</h3>
                     </div>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    <p className="text-sm sm:text-base text-[#343A36]/85 font-normal leading-relaxed">
                       {c.about.missionText ||
                         "To help every student make informed career decisions with the right guidance, resources and support."}
                     </p>
@@ -460,9 +460,9 @@ export function AboutContent() {
                       <div className="w-8 h-8 rounded-full bg-[#FAF9F5] text-[#9AAB94] border border-[#E2DBD0] flex items-center justify-center">
                         <Eye className="w-4 h-4" />
                       </div>
-                      <h3 className="text-base font-bold text-[#243B35]">Vision</h3>
+                      <h3 className="text-lg font-medium text-[#243B35]">Vision</h3>
                     </div>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    <p className="text-sm sm:text-base text-[#343A36]/85 font-normal leading-relaxed">
                       {c.about.visionText ||
                         "To build a future where every student has access to the right guidance, mentorship and opportunities to achieve their dreams."}
                     </p>
@@ -499,14 +499,14 @@ export function AboutContent() {
               <div>
                 <div className="inline-flex items-center gap-2 mb-3 justify-center sm:justify-start">
                   <span className="w-6 h-[2.5px] bg-brand-gold inline-block rounded-full" />
-                  <span className="text-xs font-bold tracking-wider text-muted-foreground uppercase font-mono">
+                  <span className="text-xs font-semibold tracking-wider text-muted-foreground uppercase font-mono">
                     {c.about.mentorsEyebrow || "MEET OUR MENTORS"}
                   </span>
                 </div>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand-navy tracking-tight">
+                <h2 className="text-3xl sm:text-4xl lg:text-[38px] font-semibold text-brand-navy tracking-tight leading-snug">
                   {c.about.mentorsTitle || "Learn From The Best"}
                 </h2>
-                <p className="mt-2 text-sm sm:text-base text-muted-foreground max-w-xl">
+                <p className="mt-3 text-base sm:text-lg text-muted-foreground font-normal leading-relaxed max-w-xl">
                   {c.about.mentorsLead ||
                     "Our mentors are experienced university educators and research scholars dedicated to giving students clarity, direction, and structured academic roadmaps."}
                 </p>
