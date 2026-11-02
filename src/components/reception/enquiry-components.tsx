@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import {
@@ -15,6 +16,9 @@ import {
   Clock,
   Briefcase,
   Trash2,
+  Settings2,
+  Edit3,
+  RotateCcw,
 } from "lucide-react";
 import { toast } from "sonner";
 import { updateEnquiryStatus, type EnquiryRow } from "@/lib/enquiry.functions";
@@ -27,6 +31,8 @@ import {
   type CounsellingStatus,
   type EnquiryRole,
 } from "@/lib/enquiry";
+import { useWhatsAppTemplate } from "@/lib/whatsapp";
+import { WhatsAppTemplateModal } from "./WhatsAppTemplateModal";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
@@ -109,6 +115,7 @@ export function EnquiryCard({
 }) {
   const queryClient = useQueryClient();
   const update = useServerFn(updateEnquiryStatus);
+  const { formatGreeting } = useWhatsAppTemplate();
 
   async function setStatus(newStatus: CounsellingStatus | null) {
     const previous = queryClient.getQueryData(enquiriesQuery.queryKey);
@@ -245,11 +252,14 @@ export function EnquiryCard({
             </a>
 
             <a
-              href={whatsappHref(sameNumber ? row.phone : row.whatsapp)}
+              href={whatsappHref(
+                sameNumber ? row.phone : row.whatsapp,
+                formatGreeting(row.full_name),
+              )}
               target="_blank"
               rel="noreferrer"
               className="flex items-center gap-1.5 font-medium text-success hover:underline"
-              title="Open WhatsApp chat"
+              title={`Open WhatsApp chat with ${row.full_name}`}
             >
               <MessageCircle className="h-3.5 w-3.5" />
               <span>WA: {formatMobile(sameNumber ? row.phone : row.whatsapp)}</span>
@@ -349,6 +359,12 @@ export function EnquiryDetailModal({
 }) {
   const queryClient = useQueryClient();
   const update = useServerFn(updateEnquiryStatus);
+  const { formatGreeting } = useWhatsAppTemplate();
+  const [customWaMsg, setCustomWaMsg] = useState<string | null>(null);
+  const [showWaSettings, setShowWaSettings] = useState(false);
+  const [isEditingMsg, setIsEditingMsg] = useState(false);
+
+  const activeGreeting = customWaMsg !== null ? customWaMsg : formatGreeting(row.full_name);
 
   async function setStatus(newStatus: CounsellingStatus | null) {
     const previous = queryClient.getQueryData(enquiriesQuery.queryKey);
@@ -413,10 +429,11 @@ export function EnquiryDetailModal({
         </a>
 
         <a
-          href={whatsappHref(row.whatsapp || row.phone)}
+          href={whatsappHref(row.whatsapp || row.phone, activeGreeting)}
           target="_blank"
           rel="noreferrer"
           className="flex items-center justify-center gap-2 rounded-xl border border-success/30 bg-success/5 p-3 text-xs font-bold text-success hover:bg-success/10 transition-colors"
+          title={`Open WhatsApp chat with ${row.full_name}`}
         >
           <MessageCircle className="h-4 w-4" />
           <span>WhatsApp Chat</span>
@@ -429,6 +446,86 @@ export function EnquiryDetailModal({
           <Mail className="h-4 w-4 text-brand-gold" />
           <span>Email Lead</span>
         </a>
+      </div>
+
+      {/* WhatsApp Greeting Message Preview & Customizer */}
+      <div className="rounded-2xl border border-emerald-500/25 bg-emerald-50/20 p-3.5 space-y-2.5">
+        <div className="flex items-center justify-between gap-2 flex-wrap">
+          <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-800">
+            <MessageCircle className="h-4 w-4 text-emerald-600 shrink-0" />
+            <span>WhatsApp Greeting Message</span>
+          </div>
+          <div className="flex items-center gap-2 text-[11px]">
+            {!isEditingMsg ? (
+              <button
+                type="button"
+                onClick={() => {
+                  if (customWaMsg === null) setCustomWaMsg(activeGreeting);
+                  setIsEditingMsg(true);
+                }}
+                className="inline-flex items-center gap-1 font-semibold text-emerald-700 hover:text-emerald-900 hover:underline cursor-pointer"
+                title="Edit message specifically for this student"
+              >
+                <Edit3 className="h-3 w-3" />
+                <span>Customize for {row.full_name.split(" ")[0]}</span>
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => {
+                  setCustomWaMsg(null);
+                  setIsEditingMsg(false);
+                }}
+                className="inline-flex items-center gap-1 font-semibold text-muted-foreground hover:text-brand-navy cursor-pointer"
+              >
+                <RotateCcw className="h-3 w-3" />
+                <span>Reset to Default Template</span>
+              </button>
+            )}
+            <span className="text-muted-foreground/30">•</span>
+            <button
+              type="button"
+              onClick={() => setShowWaSettings(true)}
+              className="inline-flex items-center gap-1 font-semibold text-[#B47A4B] hover:text-[#9A6438] hover:underline cursor-pointer"
+              title="Change default greeting for all enquiries"
+            >
+              <Settings2 className="h-3 w-3" />
+              <span>Template Settings</span>
+            </button>
+          </div>
+        </div>
+
+        {isEditingMsg ? (
+          <div className="space-y-2">
+            <textarea
+              rows={3}
+              value={customWaMsg ?? ""}
+              onChange={(e) => setCustomWaMsg(e.target.value)}
+              className="w-full rounded-xl border border-emerald-300 bg-white p-2.5 text-xs text-foreground focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              placeholder={`Type personalized greeting for ${row.full_name}...`}
+            />
+            <div className="flex items-center justify-between text-[11px]">
+              <span className="text-muted-foreground text-[10px]">Applies to this enquiry only</span>
+              <button
+                type="button"
+                onClick={() => setIsEditingMsg(false)}
+                className="rounded-lg bg-emerald-600 px-2.5 py-1 font-bold text-white hover:bg-emerald-700 text-[11px] cursor-pointer"
+              >
+                Done
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="rounded-xl border border-emerald-200/70 bg-[#E7FFDB] p-2.5 text-xs leading-relaxed text-slate-800 shadow-xs">
+            <p className="whitespace-pre-wrap">{activeGreeting}</p>
+            <div className="flex items-center justify-between mt-1 pt-1 border-t border-emerald-200/40 text-[10px] text-emerald-800/70">
+              <span className="italic">
+                {customWaMsg !== null ? "Custom message for this lead" : "Default greeting template"}
+              </span>
+              <span className="font-semibold">Ready to send ✓✓</span>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Profile Details List */}
@@ -622,6 +719,12 @@ export function EnquiryDetailModal({
           )}
         </div>
       </div>
+
+      <WhatsAppTemplateModal
+        open={showWaSettings}
+        onOpenChange={setShowWaSettings}
+        sampleStudentName={row.full_name}
+      />
     </div>
   );
 }

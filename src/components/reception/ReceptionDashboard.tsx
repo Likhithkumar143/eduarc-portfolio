@@ -33,6 +33,7 @@ import { enquiriesQuery, receptionStatusQuery } from "@/lib/reception-queries";
 import { type EnquiryRole } from "@/lib/enquiry";
 import { exportStudentsToExcel } from "@/lib/export-excel";
 import { BrandLogo } from "@/components/site/BrandLogo";
+import { WhatsAppTemplateModal } from "./WhatsAppTemplateModal";
 import { PasswordPanel } from "@/components/admin/PasswordPanel";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -87,6 +88,7 @@ export function ReceptionDashboard() {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [query, setQuery] = useState("");
   const [passwordOpen, setPasswordOpen] = useState(false);
+  const [waModalOpen, setWaModalOpen] = useState(false);
   const [activeDetail, setActiveDetail] = useState<EnquiryRow | null>(null);
 
   // Accurate real-time summary counts by role
@@ -220,6 +222,16 @@ export function ReceptionDashboard() {
             >
               <FileSpreadsheet className="h-4 w-4 mr-1.5" />
               <span className="hidden sm:inline">Export Excel</span>
+            </Button>
+            <Button
+              variant="pill-outline"
+              size="sm"
+              className="bg-white/80 border-emerald-500/30 text-emerald-700 hover:bg-emerald-50 hover:text-emerald-800"
+              onClick={() => setWaModalOpen(true)}
+              title="Customize WhatsApp greeting message template"
+            >
+              <MessageCircle className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline ml-1.5">WhatsApp Msg</span>
             </Button>
             <Button
               variant="pill-outline"
@@ -575,6 +587,9 @@ export function ReceptionDashboard() {
           <PasswordPanel title="Change Reception Password" action={changeReceptionPassword} />
         </DialogContent>
       </Dialog>
+
+      {/* WhatsApp Greeting Template Dialog */}
+      <WhatsAppTemplateModal open={waModalOpen} onOpenChange={setWaModalOpen} />
     </div>
   );
 }

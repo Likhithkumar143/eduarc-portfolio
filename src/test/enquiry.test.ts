@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { enquirySchema, normalizeIndianMobile, statusUpdateSchema } from "@/lib/enquiry";
+import {
+  DEFAULT_WHATSAPP_GREETING,
+  enquirySchema,
+  formatWhatsAppGreeting,
+  normalizeIndianMobile,
+  statusUpdateSchema,
+  whatsappHref,
+} from "@/lib/enquiry";
 
 const validStudent = {
   role: "student" as const,
@@ -198,5 +205,42 @@ describe("Admin-only Enquiry Deletion", () => {
     await expect(
       deleteEnquiry({ data: { id: "00000000-0000-0000-0000-000000000000" } }),
     ).rejects.toThrow();
+  });
+});
+
+describe("WhatsApp URL Generation and Greeting Formatter", () => {
+  it("generates direct link to student without message when none is provided", () => {
+    expect(whatsappHref("9876543210")).toBe("https://wa.me/919876543210");
+    expect(whatsappHref("+91 98765 43210")).toBe("https://wa.me/919876543210");
+  });
+
+  it("appends URI-encoded custom greeting message", () => {
+    const msg = "Hello Ananya Rao, thank you for contacting EDUARC!";
+    const href = whatsappHref("9876543210", msg);
+    expect(href).toBe(
+      `https://wa.me/919876543210?text=${encodeURIComponent(msg)}`,
+    );
+  });
+
+  it("formats template by replacing {name} placeholders dynamically", () => {
+    const formatted = formatWhatsAppGreeting(
+      "Hello {name}, thank you for contacting EDUARC!",
+      "Ananya Rao",
+    );
+    expect(formatted).toBe("Hello Ananya Rao, thank you for contacting EDUARC!");
+
+    // Case insensitivity & {student_name}
+    expect(
+      formatWhatsAppGreeting("Hi {NAME}! Welcome to EDUARC.", "Rahul"),
+    ).toBe("Hi Rahul! Welcome to EDUARC.");
+    expect(
+      formatWhatsAppGreeting("Hi {student_name}! Welcome to EDUARC.", "Rahul"),
+    ).toBe("Hi Rahul! Welcome to EDUARC.");
+  });
+
+  it("falls back to DEFAULT_WHATSAPP_GREETING when template is empty", () => {
+    const res = formatWhatsAppGreeting("", "Vikram");
+    expect(res).toContain("Hello Vikram");
+    expect(res).toContain("thank you for contacting EDUARC");
   });
 });

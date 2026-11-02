@@ -152,4 +152,24 @@ export const statusUpdateSchema = z.object({
 });
 
 export const formatMobile = (digits: string) => `+91 ${digits.slice(0, 5)} ${digits.slice(5)}`;
-export const whatsappHref = (digits: string) => `https://wa.me/91${digits}`;
+
+export const DEFAULT_WHATSAPP_GREETING =
+  "Hello {name}, thank you for contacting EDUARC! We are delighted to connect with you regarding your education and career counselling enquiry. How can we assist you today? - EDUARC Team";
+
+export const formatWhatsAppGreeting = (template: string, name?: string): string => {
+  const cleanName = (name ?? "").trim() || "Student";
+  const raw = template && template.trim().length > 0 ? template : DEFAULT_WHATSAPP_GREETING;
+  return raw
+    .replace(/\{name\}/gi, cleanName)
+    .replace(/\{student_name\}/gi, cleanName)
+    .replace(/\{student\}/gi, cleanName);
+};
+
+export const whatsappHref = (digits: string, message?: string) => {
+  const clean = digits.replace(/\D/g, "").replace(/^91/, "");
+  const base = `https://wa.me/91${clean}`;
+  if (message && message.trim().length > 0) {
+    return `${base}?text=${encodeURIComponent(message.trim())}`;
+  }
+  return base;
+};

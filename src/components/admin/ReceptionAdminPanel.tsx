@@ -23,6 +23,7 @@ import {
   X,
   AlertTriangle,
   Trash2,
+  MessageCircle,
 } from "lucide-react";
 import { toast } from "sonner";
 import { enquiriesQuery } from "@/lib/reception-queries";
@@ -39,6 +40,7 @@ import {
   EnquiryCard,
   EnquiryDetailModal,
 } from "@/components/reception/enquiry-components";
+import { WhatsAppTemplateModal } from "@/components/reception/WhatsAppTemplateModal";
 import { Panel, TextField } from "./fields";
 import type { EnquiryRole } from "@/lib/enquiry";
 
@@ -82,6 +84,7 @@ export function ReceptionAdminPanel() {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [query, setQuery] = useState("");
   const [activeDetail, setActiveDetail] = useState<EnquiryRow | null>(null);
+  const [waModalOpen, setWaModalOpen] = useState(false);
   const [deletingEnquiry, setDeletingEnquiry] = useState<EnquiryRow | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -336,6 +339,17 @@ export function ReceptionAdminPanel() {
           >
             <FileSpreadsheet className="h-3.5 w-3.5 mr-1" />
             <span>Export Excel</span>
+          </Button>
+
+          <Button
+            variant="pill-outline"
+            size="sm"
+            className="bg-white/80 border-emerald-500/30 text-emerald-700 hover:bg-emerald-50 hover:text-emerald-800"
+            onClick={() => setWaModalOpen(true)}
+            title="Configure WhatsApp greeting message template"
+          >
+            <MessageCircle className="h-3.5 w-3.5 mr-1" />
+            <span>WhatsApp Msg</span>
           </Button>
 
           <Button
@@ -1062,6 +1076,9 @@ export function ReceptionAdminPanel() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* WhatsApp Greeting Template Dialog */}
+      <WhatsAppTemplateModal open={waModalOpen} onOpenChange={setWaModalOpen} />
     </div>
   );
 }
