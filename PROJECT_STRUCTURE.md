@@ -335,3 +335,4 @@ All core visual media assets are organized in [`src/assets/`](file:///c:/Users/H
    - 9 verified partner campus visuals (`program-vit-vellore.jpg`, `program-psg-college.jpg`, `program-bishop-heber.jpg`, `program-st-marys.jpg`, etc.).
 4. **Verified Student Avatars** (`src/assets/testimonials/`):
    - Authenticated student and parent profile photos for high-trust testimonials.
+

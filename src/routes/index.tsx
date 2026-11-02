@@ -23,6 +23,9 @@ import { FeaturesContent } from "@/components/site/sections/FeaturesContent";
 import { TestimonialsContent } from "@/components/site/sections/TestimonialsContent";
 import { ContactContent } from "@/components/site/sections/ContactContent";
 
+const HERO_LQIP =
+  "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCAANABQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDrmkCDcxUKBkkjpxXPXOsy+a19bPM0e/yI4sAozfxEj6ZP4YrX1C3a40+eMSbC8XDYzjjPSualeSbTIH8wrsvIwgAGF7H880MaOu0e++3WZkcBJEkaN1x3H+Iwfxoqvpdn5lu7SSEtvIyox0Aoo1Q/dezP/9k=";
+
 export const Route = createFileRoute("/")({
   loader: async ({ context }) => {
     await context.queryClient.fetchQuery({ ...siteContentQuery, staleTime: 0 });
@@ -58,7 +61,16 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:image", content: "https://eduarc-connect.in/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://eduarc-connect.in" }],
+    links: [
+      { rel: "canonical", href: "https://eduarc-connect.in" },
+      {
+        rel: "preload",
+        as: "image",
+        href: heroImg,
+        fetchPriority: "high",
+        type: "image/jpeg",
+      },
+    ],
   }),
   component: Index,
 });
@@ -217,6 +229,7 @@ function Index() {
                 width={1264}
                 height={848}
                 priority={true}
+                placeholderSrc={HERO_LQIP}
                 className="w-full max-w-full rounded-2xl"
                 imgClassName="block h-auto w-auto max-w-full max-h-[min(540px,68vh)] rounded-2xl object-contain mx-auto"
               />

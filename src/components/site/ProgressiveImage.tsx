@@ -104,13 +104,14 @@ export function ProgressiveImage({
         height={height}
         loading={priority ? "eager" : "lazy"}
         fetchPriority={priority ? "high" : "auto"}
-        decoding="async"
+        decoding={priority ? "sync" : "async"}
         sizes={sizes}
         srcSet={srcSet}
         onLoad={handleLoad}
         onError={handleError}
         className={cn(
           "progressive-img block h-full w-full object-cover",
+          priority && "progressive-img-priority",
           isLoaded ? "progressive-img-loaded" : "progressive-img-loading",
           imgClassName,
         )}
