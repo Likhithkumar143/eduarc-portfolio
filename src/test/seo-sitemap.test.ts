@@ -174,4 +174,28 @@ describe("SEO, Sitemap & AI Search Readiness", () => {
       expect(content).toContain("googlee87f8b26b8c2d2b8");
     });
   });
+
+  describe("Google Search Favicons & Official Brand Assets", () => {
+    it("provides root /favicon.ico and multi-resolution Google search icons", () => {
+      const icoPath = path.join(rootDir, "public", "favicon.ico");
+      const icon192Path = path.join(rootDir, "public", "icon-192.png");
+      const icon48Path = path.join(rootDir, "public", "favicon-48x48.png");
+      const manifestPath = path.join(rootDir, "public", "site.webmanifest");
+
+      expect(fs.existsSync(icoPath)).toBe(true);
+      expect(fs.existsSync(icon192Path)).toBe(true);
+      expect(fs.existsSync(icon48Path)).toBe(true);
+      expect(fs.existsSync(manifestPath)).toBe(true);
+    });
+
+    it("declares standard 48px multiple icons and WebSite structured data in __root.tsx", () => {
+      const rootPath = path.join(rootDir, "src", "routes", "__root.tsx");
+      const content = fs.readFileSync(rootPath, "utf-8");
+      expect(content).toContain('rel: "icon", href: "/favicon.ico"');
+      expect(content).toContain('sizes: "192x192"');
+      expect(content).toContain('sizes: "48x48"');
+      expect(content).toContain('name: "EduArc"');
+      expect(content).toContain("alternateName:");
+    });
+  });
 });

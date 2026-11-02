@@ -92,16 +92,16 @@ const structuredData = {
     {
       "@type": "EducationalOrganization",
       "@id": "https://eduarc-connect.in/#organization",
-      name: "EDUARC",
-      alternateName: "EduArc Education Guidance Platform",
+      name: "EduArc",
+      alternateName: ["EDUARC", "EduArc Connect", "EduArc Education Guidance Platform"],
       url: "https://eduarc-connect.in",
-      logo: "https://eduarc-connect.in/og-logo.png",
+      logo: "https://eduarc-connect.in/icon-512.png",
       image: "https://eduarc-connect.in/og-image.jpg",
       description:
         "Career guidance & education support platform for schools, colleges, and students. Structured career roadmaps, verified academic mentorship, and future-ready planning.",
       slogan: "Ambitious to Achievement",
       email: "partnerships@eduarc.in",
-      telephone: "+91-98765-43210",
+      telephone: "+91-95357-21089",
       address: {
         "@type": "PostalAddress",
         addressLocality: "Bengaluru",
@@ -118,7 +118,7 @@ const structuredData = {
       contactPoint: [
         {
           "@type": "ContactPoint",
-          telephone: "+91-98765-43210",
+          telephone: "+91-95357-21089",
           contactType: "student counseling",
           areaServed: "IN",
           availableLanguage: ["English", "Hindi", "Kannada"],
@@ -128,8 +128,14 @@ const structuredData = {
     {
       "@type": "WebSite",
       "@id": "https://eduarc-connect.in/#website",
-      url: "https://eduarc-connect.in",
-      name: "EDUARC",
+      url: "https://eduarc-connect.in/",
+      name: "EduArc",
+      alternateName: [
+        "EDUARC",
+        "EduArc Connect",
+        "eduarc-connect.in",
+        "www.eduarc-connect.in",
+      ],
       description:
         "Empowering Students for a Brighter Future with Structured Career Roadmaps and Mentorship.",
       publisher: {
@@ -224,8 +230,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", type: "image/png", href: "/favicon.png" },
-      { rel: "apple-touch-icon", href: "/favicon.png" },
+      { rel: "icon", href: "/favicon.ico", sizes: "any" },
+      { rel: "icon", type: "image/png", sizes: "192x192", href: "/icon-192.png" },
+      { rel: "icon", type: "image/png", sizes: "96x96", href: "/favicon-96x96.png" },
+      { rel: "icon", type: "image/png", sizes: "48x48", href: "/favicon-48x48.png" },
+      { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
+      { rel: "manifest", href: "/site.webmanifest" },
     ],
     scripts: [
       {
