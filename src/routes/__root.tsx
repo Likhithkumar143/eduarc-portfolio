@@ -171,27 +171,27 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "apple-mobile-web-app-title", content: "EDUARC" },
 
       // Open Graph (WhatsApp, Facebook, LinkedIn, iMessage)
-      { property: "og:site_name", content: "EDUARC" },
+      { property: "og:site_name", content: "EduArc" },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "en_IN" },
       {
         property: "og:title",
-        content: "EDUARC — Career Guidance & Education Support Platform",
+        content: "EduArc – Your Career Guide",
       },
       {
         property: "og:description",
         content:
-          "Structured career roadmaps, verified academic mentorship, and future-ready guidance for students, schools, and colleges across India.",
+          "Get expert guidance, explore courses, and build the right career path.",
       },
-      { property: "og:url", content: "https://eduarc-connect.in" },
+      { property: "og:url", content: "https://eduarc-connect.in/" },
       { property: "og:image", content: "https://eduarc-connect.in/og-image.jpg" },
       { property: "og:image:secure_url", content: "https://eduarc-connect.in/og-image.jpg" },
       { property: "og:image:type", content: "image/jpeg" },
-      { property: "og:image:width", content: "1600" },
-      { property: "og:image:height", content: "1008" },
+      { property: "og:image:width", content: "1024" },
+      { property: "og:image:height", content: "1024" },
       {
         property: "og:image:alt",
-        content: "EDUARC — Career Guidance & Education Support Platform",
+        content: "EduArc – Your Career Guide",
       },
 
       // Twitter / X Card
@@ -200,12 +200,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:creator", content: "@eduarc_official" },
       {
         name: "twitter:title",
-        content: "EDUARC — Career Guidance & Education Support Platform",
+        content: "EduArc – Your Career Guide",
       },
       {
         name: "twitter:description",
         content:
-          "Structured career roadmaps, verified academic mentorship, and future-ready guidance for schools and students.",
+          "Get expert guidance, explore courses, and build the right career path.",
       },
       { name: "twitter:image", content: "https://eduarc-connect.in/og-image.jpg" },
     ],

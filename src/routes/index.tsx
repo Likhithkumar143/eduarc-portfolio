@@ -47,18 +47,25 @@ export const Route = createFileRoute("/")({
       },
       {
         property: "og:title",
-        content: "EDUARC — Career Guidance & Education Support Platform",
+        content: "EduArc – Your Career Guide",
       },
       {
         property: "og:description",
-        content:
-          "Structured career roadmaps, verified academic mentorship, and education support for schools, colleges, and students across India.",
+        content: "Get expert guidance, explore courses, and build the right career path.",
       },
-      { property: "og:url", content: "https://eduarc-connect.in" },
+      { property: "og:url", content: "https://eduarc-connect.in/" },
       { property: "og:image", content: "https://eduarc-connect.in/og-image.jpg" },
-      { property: "og:image:width", content: "1600" },
-      { property: "og:image:height", content: "1008" },
+      { property: "og:image:width", content: "1024" },
+      { property: "og:image:height", content: "1024" },
       { name: "twitter:card", content: "summary_large_image" },
+      {
+        name: "twitter:title",
+        content: "EduArc – Your Career Guide",
+      },
+      {
+        name: "twitter:description",
+        content: "Get expert guidance, explore courses, and build the right career path.",
+      },
       { name: "twitter:image", content: "https://eduarc-connect.in/og-image.jpg" },
     ],
     links: [
